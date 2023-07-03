@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/03 20:38:26 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:53:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/history.h>
 #include <readline/readline.h>
 
 int	main()
@@ -22,6 +23,7 @@ int	main()
 	while (1)
 	{
 		input = readline("minishell>");
+		add_history(input);
 		free(input);
 	}
 	return (0);
