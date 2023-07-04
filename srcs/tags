@@ -9,4 +9,6 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	//
+handle_env	parsing_env.c	/^int	handle_env(char **env, t_env *envcpy)$/;"	f	typeref:typename:int
 main	main.c	/^int	main(int ac, char **av, char **env)$/;"	f	typeref:typename:int
+msg	handle_error.c	/^int	msg(char *msg)$/;"	f	typeref:typename:int

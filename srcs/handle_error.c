@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 13:39:25 by ajeannin         ###   ########.fr       */
+/*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
+/*   Updated: 2023/07/04 13:41:16 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+/*
+ * Permet d'afficher un message d'erreur specifique,
+ * fourni lors de l'appel de la fonction
+ * renvoie -1
+ * (possibilite d'utiliser exit() au lieu de return)
+*/
+int	msg(char *msg)
 {
-	char	*input;
-	t_env	envcpy;
-
-	(void)ac;
-	(void)av;
-	input = NULL;
-	if (handle_env(env, &envcpy) == -1)
-		return (-1);
-	while (1)
-	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
-	}
-	return (0);
+	perror(msg);
+	return (ERROR);
 }
