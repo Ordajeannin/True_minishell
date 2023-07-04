@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:30:21 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/11/24 19:09:36 by ajeannin          #+#    #+#             */
+/*   Updated: 2022/03/27 16:22:20 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char	*input;
+	unsigned char	*ptr;
+	unsigned char	c2;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
+	ptr = (unsigned char *)s;
+	c2 = (unsigned char)c;
+	while (n--)
 	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
+		if (*ptr == c2)
+			return (ptr);
+		else
+			ptr++;
 	}
-	return (0);
+	return (NULL);
 }

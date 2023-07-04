@@ -6,14 +6,15 @@
 #    By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/03 20:40:18 by ajeannin         ###   ########.fr        #
+#    Updated: 2023/07/04 12:20:22 by ajeannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ########## V A R I A B L E S ###########
 
 NAME			= minishell
-INCLUDES		= -Iincludes
+INCLUDES		= -Iincludes -Ilibft
+LIBFT			= -Llibft -lft
 SRC_DIR			= srcs/
 OBJ_DIR			= obj/
 CC				= gcc
@@ -35,7 +36,8 @@ OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 all				:		$(NAME)
 
 $(NAME)			:		$(OBJ)
-					@$(CC) $(OBJ) $(INCLUDES) -o $(NAME) $(READLINE)
+					@make -s -C libft/
+					@$(CC) $(OBJ) $(INCLUDES) $(LIBFT) -o $(NAME) $(READLINE)
 					@echo "Compilation Minishell: done"
 					@cd srcs && ctags -R
 					@echo "tags are available"
@@ -45,10 +47,12 @@ $(OBJ_DIR)%.o 	:		$(SRC_DIR)%.c
 					@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean			:
+					@make clean -s -C libft/
 					@rm -rf $(OBJ_DIR)
 					@echo "Clean obj_dir: done"
 
 fclean			:		clean
+					@make fclean -s -C libft/
 					@rm -rf $(NAME)
 					@echo "Fclean minishell: done"
 
