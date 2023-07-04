@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 15:01:32 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:27:47 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define ERROR_NOENV 	"env is not found"
 # define ERROR			-1
 
-typedef struct s_env
+typedef struct s_shell
 {
 	char	*home;
 	char	*pwd;
@@ -35,10 +35,12 @@ typedef struct s_env
 	char	*lang;
 	char	*term;
 	char	*hostname;
-}	t_env;
+	char	**cmd_paths;
+	char	**input;
+}	t_shell;
 
 int		msg(char *msg);
-int		handle_env(char **env, t_env *envcpy);
+int		handle_env(char **env, t_shell *envcpy);
 
 //Buldins
 void	ft_echo(char *args);

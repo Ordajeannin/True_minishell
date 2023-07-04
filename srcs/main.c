@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 14:55:46 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/04 16:26:57 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,17 @@ void	args_handle(char *input)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	t_env	envcpy;
+	t_shell	shell;
 
 	(void)ac;
 	(void)av;
 	input = NULL;
-	if (handle_env(env, &envcpy) == -1)
+	if (handle_env(env, &shell) == -1)
 		return (-1);
 	while (1)
 	{
 		input = readline("minishell>");
+		shell.input = ft_split(input, ' ');
 		args_handle(input);
 		add_history(input);
 		free(input);

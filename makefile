@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/04 15:00:50 by asalic           ###   ########.fr        #
+#    Updated: 2023/07/04 15:25:48 by ajeannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ $(NAME)			:		$(OBJ)
 					@make -s -C libft/
 					@$(CC) $(OBJ) $(INCLUDES) $(LIBFT) -o $(NAME) $(READLINE)
 					@echo "Compilation Minishell: done"
-					@cd srcs && ctags -R
+					@ctags -R
 					@echo "tags are available"
 
 $(OBJ_DIR)%.o 	:		$(SRC_DIR)%.c
