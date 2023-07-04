@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/04 15:25:48 by ajeannin         ###   ########.fr        #
+#    Updated: 2023/07/04 17:56:40 by ajeannin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC_FILES		= main			\
 				  parsing_env	\
 				  utils			\
 				  builtins		\
+				  list_of_args	\
 				  
 SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
