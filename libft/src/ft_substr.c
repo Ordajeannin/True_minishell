@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/12/08 18:17:15 by ajeannin          #+#    #+#             */
+/*   Updated: 2022/11/04 19:51:18 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*input;
+	char	*new;
+	size_t	i;
+	size_t	j;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
+	new = (char *)malloc(sizeof(*s) * (len + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
 	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
+		if (i >= start && j < len)
+		{
+			new[j] = s[i];
+			j++;
+		}
+		i++;
 	}
-	return (0);
+	new[j] = 0;
+	return (new);
 }

@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/11/29 18:15:56 by ajeannin          #+#    #+#             */
+/*   Updated: 2022/03/27 16:08:06 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	char	*input;
+	size_t	srclen;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
+	srclen = ft_strlen(src);
+	if (srclen + 1 < size)
+		ft_memcpy(dst, src, srclen + 1);
+	else if (size != 0)
 	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
+		ft_memcpy(dst, src, size - 1);
+		dst[size - 1] = '\0';
 	}
-	return (0);
+	return (srclen);
 }

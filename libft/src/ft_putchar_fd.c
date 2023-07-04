@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/12/09 07:12:01 by ajeannin          #+#    #+#             */
+/*   Updated: 2021/12/09 07:14:16 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_putchar_fd(char c, int fd)
 {
-	char	*input;
-
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
-	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
-	}
-	return (0);
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
 }

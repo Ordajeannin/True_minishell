@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/11/25 18:11:01 by ajeannin          #+#    #+#             */
+/*   Updated: 2021/11/26 15:24:32 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char	*input;
+	char	*d;
+	char	*s;
+	size_t	i;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
-	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
+	if (!dest && !src)
+		return (NULL);
+	d = (char *)dest;
+	s = (char *)src;
+	i = 0;
+	if (s < d)
+		while (n-- > 0)
+			d[n] = s[n];
+	else
+	{	
+		while (i < n)
+		{
+			d[i] = s[i];
+			i++;
+		}
 	}
-	return (0);
+	return (dest);
 }

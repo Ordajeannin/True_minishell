@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/11/26 15:24:56 by ajeannin          #+#    #+#             */
+/*   Updated: 2021/11/26 15:33:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*input;
+	unsigned char	*zero;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
-	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
-	}
-	return (0);
+	zero = (unsigned char *)s;
+	while (n--)
+		*(zero++) = '\0';
 }

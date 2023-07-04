@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/12/09 06:40:45 by ajeannin          #+#    #+#             */
+/*   Updated: 2021/12/09 07:10:52 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*input;
+	size_t	i;
+	char	*new;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
+	if (!s || !f)
+		return (NULL);
+	i = ft_strlen(s);
+	new = ft_strdup(s);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (new[i])
 	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
+		new[i] = f(i, new[i]);
+		i++;
 	}
-	return (0);
+	return (new);
 }

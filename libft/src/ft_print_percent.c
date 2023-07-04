@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_print_percent.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2022/10/03 16:41:16 by ajeannin          #+#    #+#             */
+/*   Updated: 2022/11/07 18:21:42 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+int	ft_print_percent(void)
 {
-	char	*input;
-
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
-	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
-	}
-	return (0);
+	write(1, "%", 1);
+	return (1);
 }

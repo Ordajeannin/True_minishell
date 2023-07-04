@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 12:22:59 by ajeannin         ###   ########.fr       */
+/*   Created: 2021/11/26 16:15:18 by ajeannin          #+#    #+#             */
+/*   Updated: 2021/11/26 16:42:26 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **env)
+char	*ft_strnstr(const char *ocean, const char *pearl, size_t len)
 {
-	char	*input;
+	size_t	i;
+	size_t	j;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	input = NULL;
-	while (1)
+	i = 0;
+	j = 0;
+	if (!pearl[0])
+		return ((char *)ocean);
+	while (ocean[i] && i < len)
 	{
-		input = readline("minishell>");
-		add_history(input);
-		free(input);
+		while (ocean[i + j] && pearl[j]
+			&& i + j < len && ocean[i + j] == pearl[j])
+			j++;
+		if (!pearl[j])
+			return ((char *)ocean + i);
+		i++;
+		j = 0;
 	}
-	return (0);
+	return (NULL);
 }
