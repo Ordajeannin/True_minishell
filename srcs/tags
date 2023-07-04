@@ -4,9 +4,12 @@
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/mnt/nfs/homes/ajeannin/github/minishell/srcs/	//
+!_TAG_PROC_CWD	/mnt/nfs/homes/asalic/Documents/Cursus42/minishell/Minishell/srcs/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	//
+args_handle	main.c	/^void	args_handle(char *input)$/;"	f	typeref:typename:void
+ft_echo	buildins.c	/^void	ft_echo(char *args)$/;"	f	typeref:typename:void
 main	main.c	/^int	main(int ac, char **av, char **env)$/;"	f	typeref:typename:int
+until_char	utils.c	/^char	*until_char(char *str, int c)$/;"	f	typeref:typename:char *

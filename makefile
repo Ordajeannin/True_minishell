@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/04 12:20:22 by ajeannin         ###   ########.fr        #
+#    Updated: 2023/07/04 13:33:50 by asalic           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ READLINE		= -lreadline
 ############# S O U R C E S ############
 
 SRC_FILES		= main	\
+				  buildins	\
+				  utils	\
 				  
 SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
