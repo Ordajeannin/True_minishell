@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 13:40:25 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:01:32 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,16 @@ typedef struct s_env
 	char	*hostname;
 }	t_env;
 
-int	msg(char *msg);
-int	handle_env(char **env, t_env *envcpy);
+int		msg(char *msg);
+int		handle_env(char **env, t_env *envcpy);
+
+//Buldins
+void	ft_echo(char *args);
+
+//Main core
+void	args_handle(char *input);
+
+//Helpful function
+char	*until_char(char *str, int c);
 
 #endif
