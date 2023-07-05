@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 12:37:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:55:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <limits.h>
 # include <stdlib.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -65,6 +66,8 @@ void	clear_args_list(t_args **list);
 //Buldins
 int		find_opt(char *s1, char *s2);
 void	ft_echo(t_args *list);
+void	ft_cd(t_args *list);
+void	ft_pwd(void);
 
 //Main core
 void	args_handle(t_args **list);

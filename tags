@@ -114,13 +114,14 @@ externalConsole	libft/src/.vscode/launch.json	/^      "externalConsole": false,$
 extract_cmd_path	srcs/parsing_env.c	/^char	*extract_cmd_path(char **paths, char *cmd)$/;"	f	typeref:typename:char *
 fclean	libft/Makefile	/^fclean 			: clean$/;"	t
 fclean	makefile	/^fclean			:		clean$/;"	t
-find_opt	srcs/builtins.c	/^int	find_opt(char *s1, char *s2)$/;"	f	typeref:typename:int
+find_opt	srcs/echo.c	/^int	find_opt(char *s1, char *s2)$/;"	f	typeref:typename:int
 from_input_to_list_of_args	srcs/list_of_args.c	/^void	from_input_to_list_of_args(char **input, t_args **list)$/;"	f	typeref:typename:void
 ft_atoi	libft/src/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f	typeref:typename:int
 ft_bzero	libft/src/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void
 ft_calloc	libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
+ft_cd	srcs/local_cmd.c	/^void	ft_cd(t_args *list)$/;"	f	typeref:typename:void
 ft_char_in_set	libft/src/ft_strtrim.c	/^static	int	ft_char_in_set(char c, char const *set)$/;"	f	typeref:typename:int	file:
-ft_echo	srcs/builtins.c	/^void	ft_echo(t_args *list)$/;"	f	typeref:typename:void
+ft_echo	srcs/echo.c	/^void	ft_echo(t_args *list)$/;"	f	typeref:typename:void
 ft_formats	libft/src/ft_printf.c	/^int	ft_formats(va_list args, const char conv)$/;"	f	typeref:typename:int
 ft_get_line	libft/src/get_next_line_bonus.c	/^char	*ft_get_line(char *stash)$/;"	f	typeref:typename:char *
 ft_is_newline	libft/src/get_next_line_utils_bonus.c	/^char	*ft_is_newline(char *str)$/;"	f	typeref:typename:char *
@@ -160,6 +161,7 @@ ft_putchar_fd	libft/src/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"
 ft_putendl_fd	libft/src/ft_putendl_fd.c	/^void	ft_putendl_fd(char *s, int fd)$/;"	f	typeref:typename:void
 ft_putnbr_fd	libft/src/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f	typeref:typename:void
 ft_putstr_fd	libft/src/ft_putstr_fd.c	/^void	ft_putstr_fd(char *s, int fd)$/;"	f	typeref:typename:void
+ft_pwd	srcs/local_cmd.c	/^void	ft_pwd(void)$/;"	f	typeref:typename:void
 ft_read	libft/src/get_next_line_bonus.c	/^char	*ft_read(int fd, char *stash)$/;"	f	typeref:typename:char *
 ft_reput_ptrvalue_in_hexa	libft/src/ft_print_ptr.c	/^int	ft_reput_ptrvalue_in_hexa(unsigned long int nbr)$/;"	f	typeref:typename:int
 ft_split	libft/src/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f	typeref:typename:char **
@@ -192,7 +194,7 @@ ignoreFailures	libft/src/.vscode/launch.json	/^          "ignoreFailures": true$
 includePath	libft/src/.vscode/c_cpp_properties.json	/^      "includePath": [$/;"	a	object:configurations.0
 input	includes/minishell.h	/^	char	**input;$/;"	m	struct:s_shell	typeref:typename:char **
 intelliSenseMode	libft/src/.vscode/c_cpp_properties.json	/^      "intelliSenseMode": "linux-gcc-x64",$/;"	s	object:configurations.0
-iter_echo	srcs/builtins.c	/^void	iter_echo(t_args *list)$/;"	f	typeref:typename:void
+iter_echo	srcs/echo.c	/^void	iter_echo(t_args *list)$/;"	f	typeref:typename:void
 lang	includes/minishell.h	/^	char	*lang;$/;"	m	struct:s_shell	typeref:typename:char *
 main	srcs/main.c	/^int	main(int ac, char **av, char **env)$/;"	f	typeref:typename:int
 miDebuggerPath	libft/src/.vscode/launch.json	/^      "miDebuggerPath": "gdb",$/;"	s	object:configurations.0

@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/04 17:56:40 by ajeannin         ###   ########.fr        #
+#    Updated: 2023/07/05 13:46:34 by asalic           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC_FILES		= main			\
 				  handle_error	\
 				  parsing_env	\
 				  utils			\
-				  builtins		\
+				  echo			\
+				  local_cmd		\
 				  list_of_args	\
 				  
 SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
