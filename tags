@@ -1,0 +1,233 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/mnt/nfs/homes/asalic/Documents/Cursus42/minishell/Minishell/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+$(NAME)	libft/Makefile	/^$(NAME) 		: $(OBJ)$/;"	t
+$(NAME)	makefile	/^$(NAME)			:		$(OBJ)$/;"	t
+$(OBJF)	libft/Makefile	/^$(OBJF)			:$/;"	t
+$(OBJ_DIR)%.o	libft/Makefile	/^$(OBJ_DIR)%.o 		: $(SRC_DIR)%.c | $(OBJF)$/;"	t
+$(OBJ_DIR)%.o	makefile	/^$(OBJ_DIR)%.o 	:		$(SRC_DIR)%.c$/;"	t
+0	libft/src/.vscode/c_cpp_properties.json	/^        ""$/;"	s	array:configurations.0.compilerArgs
+0	libft/src/.vscode/c_cpp_properties.json	/^        "${workspaceFolder}\/**"$/;"	s	array:configurations.0.includePath
+0	libft/src/.vscode/c_cpp_properties.json	/^    {$/;"	o	array:configurations
+0	libft/src/.vscode/launch.json	/^        {$/;"	o	array:configurations.0.setupCommands
+0	libft/src/.vscode/launch.json	/^    {$/;"	o	array:configurations
+0	libft/src/.vscode/settings.json	/^    "*",$/;"	s	array:C_Cpp_Runner.includeSearch
+0	libft/src/.vscode/settings.json	/^    "**\/build",$/;"	s	array:C_Cpp_Runner.excludeSearch
+0	libft/src/.vscode/settings.json	/^    "-Wall",$/;"	s	array:C_Cpp_Runner.warnings
+1	libft/src/.vscode/settings.json	/^    "**\/*"$/;"	s	array:C_Cpp_Runner.includeSearch
+1	libft/src/.vscode/settings.json	/^    "**\/build\/**",$/;"	s	array:C_Cpp_Runner.excludeSearch
+1	libft/src/.vscode/settings.json	/^    "-Wextra",$/;"	s	array:C_Cpp_Runner.warnings
+2	libft/src/.vscode/settings.json	/^    "**\/.*",$/;"	s	array:C_Cpp_Runner.excludeSearch
+2	libft/src/.vscode/settings.json	/^    "-Wpedantic",$/;"	s	array:C_Cpp_Runner.warnings
+3	libft/src/.vscode/settings.json	/^    "**\/.*\/**",$/;"	s	array:C_Cpp_Runner.excludeSearch
+3	libft/src/.vscode/settings.json	/^    "-Wshadow",$/;"	s	array:C_Cpp_Runner.warnings
+4	libft/src/.vscode/settings.json	/^    "**\/.vscode",$/;"	s	array:C_Cpp_Runner.excludeSearch
+4	libft/src/.vscode/settings.json	/^    "-Wformat=2",$/;"	s	array:C_Cpp_Runner.warnings
+5	libft/src/.vscode/settings.json	/^    "**\/.vscode\/**"$/;"	s	array:C_Cpp_Runner.excludeSearch
+5	libft/src/.vscode/settings.json	/^    "-Wconversion",$/;"	s	array:C_Cpp_Runner.warnings
+6	libft/src/.vscode/settings.json	/^    "-Wnull-dereference",$/;"	s	array:C_Cpp_Runner.warnings
+7	libft/src/.vscode/settings.json	/^    "-Wsign-conversion"$/;"	s	array:C_Cpp_Runner.warnings
+BUFFER_SIZE	includes/libft.h	/^#  define BUFFER_SIZE /;"	d
+BUFFER_SIZE	libft/includes/libft.h	/^#  define BUFFER_SIZE /;"	d
+CC	libft/Makefile	/^CC			= gcc$/;"	m
+CC	makefile	/^CC				= gcc$/;"	m
+CFLAGS	libft/Makefile	/^CFLAGS 			= -Werror -Wextra -Wall -I$/;"	m
+CFLAGS	makefile	/^CFLAGS			= -Wall -Werror -Wextra$/;"	m
+C_Cpp_Runner.cCompilerPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cCompilerPath": "gcc",$/;"	s
+C_Cpp_Runner.cStandard	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cStandard": "",$/;"	s
+C_Cpp_Runner.compilerArgs	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.compilerArgs": [],$/;"	a
+C_Cpp_Runner.cppCompilerPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cppCompilerPath": "g++",$/;"	s
+C_Cpp_Runner.cppStandard	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cppStandard": "",$/;"	s
+C_Cpp_Runner.debuggerPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.debuggerPath": "gdb",$/;"	s
+C_Cpp_Runner.enableWarnings	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.enableWarnings": true,$/;"	b
+C_Cpp_Runner.excludeSearch	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.excludeSearch": [$/;"	a
+C_Cpp_Runner.includePaths	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.includePaths": [],$/;"	a
+C_Cpp_Runner.includeSearch	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.includeSearch": [$/;"	a
+C_Cpp_Runner.linkerArgs	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.linkerArgs": [],$/;"	a
+C_Cpp_Runner.msvcBatchPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.msvcBatchPath": "",$/;"	s
+C_Cpp_Runner.useMsvc	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.useMsvc": false,$/;"	b
+C_Cpp_Runner.warnings	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.warnings": [$/;"	a
+C_Cpp_Runner.warningsAsError	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.warningsAsError": false,$/;"	b
+ERROR	includes/minishell.h	/^# define ERROR	/;"	d
+ERROR_NOENV	includes/minishell.h	/^# define ERROR_NOENV /;"	d
+INCLUDES	libft/Makefile	/^INCLUDES		= includes$/;"	m
+INCLUDES	makefile	/^INCLUDES		= -Iincludes -Ilibft$/;"	m
+LIBFT	makefile	/^LIBFT			= -Llibft -lft$/;"	m
+LIBFT_H	includes/libft.h	/^# define LIBFT_H$/;"	d
+LIBFT_H	libft/includes/libft.h	/^# define LIBFT_H$/;"	d
+MIMode	libft/src/.vscode/launch.json	/^      "MIMode": "gdb",$/;"	s	object:configurations.0
+MINISHELL_H	includes/minishell.h	/^# define MINISHELL_H$/;"	d
+NAME	libft/Makefile	/^NAME 			= libft.a $/;"	m
+NAME	makefile	/^NAME			= minishell$/;"	m
+OBJ	libft/Makefile	/^OBJ			= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))$/;"	m
+OBJ	makefile	/^OBJ				= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))$/;"	m
+OBJF	libft/Makefile	/^OBJF			= .cache_exists$/;"	m
+OBJ_DIR	libft/Makefile	/^OBJ_DIR			= obj\/$/;"	m
+OBJ_DIR	makefile	/^OBJ_DIR			= obj\/$/;"	m
+READLINE	makefile	/^READLINE		= -lreadline$/;"	m
+SRC	libft/Makefile	/^SRC			= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))$/;"	m
+SRC	makefile	/^SRC				= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))$/;"	m
+SRC_DIR	libft/Makefile	/^SRC_DIR			= src\/$/;"	m
+SRC_DIR	makefile	/^SRC_DIR			= srcs\/$/;"	m
+SRC_FILES	libft/Makefile	/^SRC_FILES 		= ft_atoi			\\$/;"	m
+SRC_FILES	makefile	/^SRC_FILES		= main			\\$/;"	m
+TOKEN_AND	includes/minishell.h	/^# define TOKEN_AND	/;"	d
+TOKEN_APPEND	includes/minishell.h	/^# define TOKEN_APPEND	/;"	d
+TOKEN_CMD	includes/minishell.h	/^# define TOKEN_CMD	/;"	d
+TOKEN_DELIM	includes/minishell.h	/^# define TOKEN_DELIM	/;"	d
+TOKEN_FPATH	includes/minishell.h	/^# define TOKEN_FPATH	/;"	d
+TOKEN_INFILE	includes/minishell.h	/^# define TOKEN_INFILE	/;"	d
+TOKEN_OPTION	includes/minishell.h	/^# define TOKEN_OPTION	/;"	d
+TOKEN_OUTFILE	includes/minishell.h	/^# define TOKEN_OUTFILE	/;"	d
+TOKEN_PIPE	includes/minishell.h	/^# define TOKEN_PIPE	/;"	d
+TOKEN_RPATH	includes/minishell.h	/^# define TOKEN_RPATH	/;"	d
+add_arg	srcs/list_of_args.c	/^static void	add_arg(t_args **list, char *str, int token)$/;"	f	typeref:typename:void	file:
+all	libft/Makefile	/^all 			: $(NAME)$/;"	t
+all	makefile	/^all				:		$(NAME)$/;"	t
+args	libft/src/.vscode/launch.json	/^      "args": [],$/;"	a	object:configurations.0
+args_handle	srcs/main.c	/^void	args_handle(t_args **list)$/;"	f	typeref:typename:void
+cStandard	libft/src/.vscode/c_cpp_properties.json	/^      "cStandard": "${default}",$/;"	s	object:configurations.0
+clean	libft/Makefile	/^clean 			: $/;"	t
+clean	makefile	/^clean			:$/;"	t
+clear_args_list	srcs/list_of_args.c	/^void	clear_args_list(t_args **list)$/;"	f	typeref:typename:void
+cmd_paths	includes/minishell.h	/^	char	**cmd_paths;$/;"	m	struct:s_shell	typeref:typename:char **
+compilerArgs	libft/src/.vscode/c_cpp_properties.json	/^      "compilerArgs": [$/;"	a	object:configurations.0
+compilerPath	libft/src/.vscode/c_cpp_properties.json	/^      "compilerPath": "\/usr\/bin\/gcc",$/;"	s	object:configurations.0
+configurations	libft/src/.vscode/c_cpp_properties.json	/^  "configurations": [$/;"	a
+configurations	libft/src/.vscode/launch.json	/^  "configurations": [$/;"	a
+content	includes/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
+content	libft/includes/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
+count_words	libft/src/ft_split.c	/^static	int	count_words(const char *str, char c)$/;"	f	typeref:typename:int	file:
+cppStandard	libft/src/.vscode/c_cpp_properties.json	/^      "cppStandard": "${default}",$/;"	s	object:configurations.0
+create_arg	srcs/list_of_args.c	/^static t_args	*create_arg(char *str, int token)$/;"	f	typeref:typename:t_args *	file:
+cwd	libft/src/.vscode/launch.json	/^      "cwd": "\/mnt\/nfs\/homes\/ajeannin\/github\/libft\/src",$/;"	s	object:configurations.0
+description	libft/src/.vscode/launch.json	/^          "description": "Enable pretty-printing for gdb",$/;"	s	object:configurations.0.setupCommands.0
+externalConsole	libft/src/.vscode/launch.json	/^      "externalConsole": false,$/;"	b	object:configurations.0
+extract_cmd_path	srcs/parsing_env.c	/^char	*extract_cmd_path(char **paths, char *cmd)$/;"	f	typeref:typename:char *
+fclean	libft/Makefile	/^fclean 			: clean$/;"	t
+fclean	makefile	/^fclean			:		clean$/;"	t
+find_opt	srcs/builtins.c	/^int	find_opt(char *s1, char *s2)$/;"	f	typeref:typename:int
+from_input_to_list_of_args	srcs/list_of_args.c	/^void	from_input_to_list_of_args(char **input, t_args **list)$/;"	f	typeref:typename:void
+ft_atoi	libft/src/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f	typeref:typename:int
+ft_bzero	libft/src/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void
+ft_calloc	libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
+ft_char_in_set	libft/src/ft_strtrim.c	/^static	int	ft_char_in_set(char c, char const *set)$/;"	f	typeref:typename:int	file:
+ft_echo	srcs/builtins.c	/^void	ft_echo(t_args *list)$/;"	f	typeref:typename:void
+ft_formats	libft/src/ft_printf.c	/^int	ft_formats(va_list args, const char conv)$/;"	f	typeref:typename:int
+ft_get_line	libft/src/get_next_line_bonus.c	/^char	*ft_get_line(char *stash)$/;"	f	typeref:typename:char *
+ft_is_newline	libft/src/get_next_line_utils_bonus.c	/^char	*ft_is_newline(char *str)$/;"	f	typeref:typename:char *
+ft_isalnum	libft/src/ft_isalnum.c	/^int	ft_isalnum(int a)$/;"	f	typeref:typename:int
+ft_isalpha	libft/src/ft_isalpha.c	/^int	ft_isalpha(int a)$/;"	f	typeref:typename:int
+ft_isascii	libft/src/ft_isascii.c	/^int	ft_isascii(int a)$/;"	f	typeref:typename:int
+ft_isdigit	libft/src/ft_isdigit.c	/^int	ft_isdigit(int a)$/;"	f	typeref:typename:int
+ft_isprint	libft/src/ft_isprint.c	/^int	ft_isprint(int a)$/;"	f	typeref:typename:int
+ft_itoa	libft/src/ft_itoa.c	/^char	*ft_itoa(int n)$/;"	f	typeref:typename:char *
+ft_len	libft/src/ft_itoa.c	/^static	int	ft_len(int n)$/;"	f	typeref:typename:int	file:
+ft_lstadd_back	libft/src/ft_lstadd_back.c	/^void	ft_lstadd_back(t_list **lst, t_list *new)$/;"	f	typeref:typename:void
+ft_lstadd_front	libft/src/ft_lstadd_front.c	/^void	ft_lstadd_front(t_list **lst, t_list *new)$/;"	f	typeref:typename:void
+ft_lstclear	libft/src/ft_lstclear.c	/^void	ft_lstclear(t_list **lst, void (*del)(void*))$/;"	f	typeref:typename:void
+ft_lstdelone	libft/src/ft_lstdelone.c	/^void	ft_lstdelone(t_list *lst, void (*del)(void*))$/;"	f	typeref:typename:void
+ft_lstiter	libft/src/ft_lstiter.c	/^void	ft_lstiter(t_list *lst, void (*f)(void*))$/;"	f	typeref:typename:void
+ft_lstlast	libft/src/ft_lstlast.c	/^t_list	*ft_lstlast(t_list *lst)$/;"	f	typeref:typename:t_list *
+ft_lstmap	libft/src/ft_lstmap.c	/^t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))$/;"	f	typeref:typename:t_list *
+ft_lstnew	libft/src/ft_lstnew.c	/^t_list	*ft_lstnew(void *content)$/;"	f	typeref:typename:t_list *
+ft_lstsize	libft/src/ft_lstsize.c	/^int	ft_lstsize(t_list *lst)$/;"	f	typeref:typename:int
+ft_memchr	libft/src/ft_memchr.c	/^void	*ft_memchr(const void *s, int c, size_t n)$/;"	f	typeref:typename:void *
+ft_memcmp	libft/src/ft_memcmp.c	/^int	ft_memcmp(const void *s1, const void *s2, size_t n)$/;"	f	typeref:typename:int
+ft_memcpy	libft/src/ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src, size_t n)$/;"	f	typeref:typename:void *
+ft_memmove	libft/src/ft_memmove.c	/^void	*ft_memmove(void *dest, const void *src, size_t n)$/;"	f	typeref:typename:void *
+ft_memset	libft/src/ft_memset.c	/^void	*ft_memset(void *s, int c, size_t n)$/;"	f	typeref:typename:void *
+ft_minitoa	libft/src/ft_itoa.c	/^static	char	*ft_minitoa(int n)$/;"	f	typeref:typename:char *	file:
+ft_nbr_len	libft/src/ft_print_unsigned.c	/^int	ft_nbr_len(unsigned int nbr)$/;"	f	typeref:typename:int
+ft_print_char	libft/src/ft_printf.c	/^int	ft_print_char(int c)$/;"	f	typeref:typename:int
+ft_print_hexa	libft/src/ft_print_hexa.c	/^int	ft_print_hexa(unsigned long int nbr, const char conv)$/;"	f	typeref:typename:int
+ft_print_nbr	libft/src/ft_print_str_nbr.c	/^int	ft_print_nbr(int n)$/;"	f	typeref:typename:int
+ft_print_percent	libft/src/ft_print_percent.c	/^int	ft_print_percent(void)$/;"	f	typeref:typename:int
+ft_print_ptr	libft/src/ft_print_ptr.c	/^int	ft_print_ptr(unsigned long int ptr)$/;"	f	typeref:typename:int
+ft_print_str	libft/src/ft_print_str_nbr.c	/^int	ft_print_str(char *str)$/;"	f	typeref:typename:int
+ft_print_unsigned	libft/src/ft_print_unsigned.c	/^int	ft_print_unsigned(unsigned int n)$/;"	f	typeref:typename:int
+ft_printf	libft/src/ft_printf.c	/^int	ft_printf(const char *str, ...)$/;"	f	typeref:typename:int
+ft_put_in_hexa	libft/src/ft_print_hexa.c	/^int	ft_put_in_hexa(unsigned long int nbr, char *hexa)$/;"	f	typeref:typename:int
+ft_putchar_fd	libft/src/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f	typeref:typename:void
+ft_putendl_fd	libft/src/ft_putendl_fd.c	/^void	ft_putendl_fd(char *s, int fd)$/;"	f	typeref:typename:void
+ft_putnbr_fd	libft/src/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f	typeref:typename:void
+ft_putstr_fd	libft/src/ft_putstr_fd.c	/^void	ft_putstr_fd(char *s, int fd)$/;"	f	typeref:typename:void
+ft_read	libft/src/get_next_line_bonus.c	/^char	*ft_read(int fd, char *stash)$/;"	f	typeref:typename:char *
+ft_reput_ptrvalue_in_hexa	libft/src/ft_print_ptr.c	/^int	ft_reput_ptrvalue_in_hexa(unsigned long int nbr)$/;"	f	typeref:typename:int
+ft_split	libft/src/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f	typeref:typename:char **
+ft_strchr	libft/src/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f	typeref:typename:char *
+ft_strdup	libft/src/ft_strdup.c	/^char	*ft_strdup(const char *s)$/;"	f	typeref:typename:char *
+ft_striteri	libft/src/ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char *d))$/;"	f	typeref:typename:void
+ft_strjoin	libft/src/ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f	typeref:typename:char *
+ft_strjoin2	libft/src/get_next_line_utils_bonus.c	/^char	*ft_strjoin2(char *stash, char *buffer)$/;"	f	typeref:typename:char *
+ft_strlcat	libft/src/ft_strlcat.c	/^size_t	ft_strlcat(char *dst, const char *src, size_t size)$/;"	f	typeref:typename:size_t
+ft_strlcpy	libft/src/ft_strlcpy.c	/^size_t	ft_strlcpy(char *dst, const char *src, size_t size)$/;"	f	typeref:typename:size_t
+ft_strlen	libft/src/ft_strlen.c	/^size_t	ft_strlen(const char *s)$/;"	f	typeref:typename:size_t
+ft_strlen2	libft/src/get_next_line_utils_bonus.c	/^int	ft_strlen2(char *str)$/;"	f	typeref:typename:int
+ft_strmapi	libft/src/ft_strmapi.c	/^char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))$/;"	f	typeref:typename:char *
+ft_strncmp	libft/src/ft_strncmp.c	/^int	ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f	typeref:typename:int
+ft_strnstr	libft/src/ft_strnstr.c	/^char	*ft_strnstr(const char *ocean, const char *pearl, size_t len)$/;"	f	typeref:typename:char *
+ft_strrchr	libft/src/ft_strrchr.c	/^char	*ft_strrchr(const char *s, int c)$/;"	f	typeref:typename:char *
+ft_strtrim	libft/src/ft_strtrim.c	/^char	*ft_strtrim(char const *s1, char const *set)$/;"	f	typeref:typename:char *
+ft_substr	libft/src/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
+ft_tolower	libft/src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
+ft_toupper	libft/src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
+ft_uitoa	libft/src/ft_print_unsigned.c	/^char	*ft_uitoa(unsigned int n)$/;"	f	typeref:typename:char *
+ft_update_stash	libft/src/get_next_line_bonus.c	/^char	*ft_update_stash(char *stash)$/;"	f	typeref:typename:char *
+ft_write_number	libft/src/ft_itoa.c	/^static	char	*ft_write_number(int len, int n, char *a)$/;"	f	typeref:typename:char *	file:
+get_next_line	libft/src/get_next_line_bonus.c	/^char	*get_next_line(int fd)$/;"	f	typeref:typename:char *
+handle_env	srcs/parsing_env.c	/^int	handle_env(char **env, t_shell *shell)$/;"	f	typeref:typename:int
+helpsplit	libft/src/ft_split.c	/^static	char	**helpsplit(int index, char const *s, char c)$/;"	f	typeref:typename:char **	file:
+home	includes/minishell.h	/^	char	*home;$/;"	m	struct:s_shell	typeref:typename:char *
+hostname	includes/minishell.h	/^	char	*hostname;$/;"	m	struct:s_shell	typeref:typename:char *
+ignoreFailures	libft/src/.vscode/launch.json	/^          "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
+includePath	libft/src/.vscode/c_cpp_properties.json	/^      "includePath": [$/;"	a	object:configurations.0
+input	includes/minishell.h	/^	char	**input;$/;"	m	struct:s_shell	typeref:typename:char **
+intelliSenseMode	libft/src/.vscode/c_cpp_properties.json	/^      "intelliSenseMode": "linux-gcc-x64",$/;"	s	object:configurations.0
+iter_echo	srcs/builtins.c	/^void	iter_echo(t_args *list)$/;"	f	typeref:typename:void
+lang	includes/minishell.h	/^	char	*lang;$/;"	m	struct:s_shell	typeref:typename:char *
+main	srcs/main.c	/^int	main(int ac, char **av, char **env)$/;"	f	typeref:typename:int
+miDebuggerPath	libft/src/.vscode/launch.json	/^      "miDebuggerPath": "gdb",$/;"	s	object:configurations.0
+msg	srcs/handle_error.c	/^int	msg(char *msg)$/;"	f	typeref:typename:int
+name	libft/src/.vscode/c_cpp_properties.json	/^      "name": "linux-gcc-x64",$/;"	s	object:configurations.0
+name	libft/src/.vscode/launch.json	/^      "name": "C\/C++ Runner: Debug Session",$/;"	s	object:configurations.0
+next	includes/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
+next	includes/minishell.h	/^	struct s_args	*next;$/;"	m	struct:s_args	typeref:struct:s_args *
+next	libft/includes/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
+norme	makefile	/^norme			:$/;"	t
+path	includes/minishell.h	/^	char	*path;$/;"	m	struct:s_shell	typeref:typename:char *
+print_args_list	srcs/main.c	/^static void	print_args_list(t_args **list)$/;"	f	typeref:typename:void	file:
+program	libft/src/.vscode/launch.json	/^      "program": "\/mnt\/nfs\/homes\/ajeannin\/github\/libft\/src\/build\/Debug\/outDebug",$/;"	s	object:configurations.0
+pwd	includes/minishell.h	/^	char	*pwd;$/;"	m	struct:s_shell	typeref:typename:char *
+re	libft/Makefile	/^re			: fclean all$/;"	t
+re	makefile	/^re 				: 		fclean all$/;"	t
+request	libft/src/.vscode/launch.json	/^      "request": "launch",$/;"	s	object:configurations.0
+s_args	includes/minishell.h	/^typedef struct s_args$/;"	s
+s_list	includes/libft.h	/^typedef struct s_list$/;"	s
+s_list	libft/includes/libft.h	/^typedef struct s_list$/;"	s
+s_shell	includes/minishell.h	/^typedef struct s_shell$/;"	s
+setupCommands	libft/src/.vscode/launch.json	/^      "setupCommands": [$/;"	a	object:configurations.0
+shell	includes/minishell.h	/^	char	*shell;$/;"	m	struct:s_shell	typeref:typename:char *
+stopAtEntry	libft/src/.vscode/launch.json	/^      "stopAtEntry": false,$/;"	b	object:configurations.0
+str	includes/minishell.h	/^	char			*str;$/;"	m	struct:s_args	typeref:typename:char *
+t_args	includes/minishell.h	/^}	t_args;$/;"	t	typeref:struct:s_args
+t_list	includes/libft.h	/^}			t_list;$/;"	t	typeref:struct:s_list
+t_list	libft/includes/libft.h	/^}			t_list;$/;"	t	typeref:struct:s_list
+t_shell	includes/minishell.h	/^}	t_shell;$/;"	t	typeref:struct:s_shell
+term	includes/minishell.h	/^	char	*term;$/;"	m	struct:s_shell	typeref:typename:char *
+text	libft/src/.vscode/launch.json	/^          "text": "-enable-pretty-printing",$/;"	s	object:configurations.0.setupCommands.0
+token	includes/minishell.h	/^	int				token;$/;"	m	struct:s_args	typeref:typename:int
+type	libft/src/.vscode/launch.json	/^      "type": "cppdbg",$/;"	s	object:configurations.0
+until_char	srcs/utils.c	/^char	*until_char(char *str, int c)$/;"	f	typeref:typename:char *
+user	includes/minishell.h	/^	char	*user;$/;"	m	struct:s_shell	typeref:typename:char *
+version	libft/src/.vscode/c_cpp_properties.json	/^  "version": 4$/;"	n
+version	libft/src/.vscode/launch.json	/^  "version": "0.2.0",$/;"	s
+word_dup	libft/src/ft_split.c	/^static	char	*word_dup(const char *str, int start, int finish)$/;"	f	typeref:typename:char *	file:

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 11:00:36 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:02:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,16 @@
 /* 
  *Gestionnaire de commandes.
  *Recupere l'arguments et la commande separement.
- *(A revoir : enlever les details lies a 'echo' et les ajouter 
- *aux fonctions faites pour echo)
- *(i.e, faire de ce gestionnaire de commandes un reel gestionnaire de 
- *commandes globales, pas au cas par cas)
+ *Traite en fonction de la commande enregistree
 */
-void	args_handle(char *input)
+void	args_handle(t_args **list)
 {
-	char	**tab_args;
+	t_args	*current_list;
 
-	tab_args = malloc(2 * sizeof(char));
-	tab_args[0] = until_char(input, ' ');
-	if (ft_strncmp(tab_args[0], "echo", ft_strlen(tab_args[0])) == 0)
-		args_echo(input);
+	current_list = *list;
+	if (ft_strncmp(current_list->str, "echo", ft_strlen(current_list->str))
+		== 0)
+		ft_echo(current_list);
 }
 
 /*
@@ -85,7 +82,7 @@ int	main(int ac, char **av, char **env)
 		shell.input = ft_split(input, ' ');
 		from_input_to_list_of_args(shell.input, &list);
 		print_args_list(&list);
-		args_handle(input);
+		args_handle(&list);
 		add_history(input);
 		free(input);
 		clear_args_list(&list);

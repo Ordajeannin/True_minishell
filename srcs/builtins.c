@@ -6,95 +6,77 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/05 10:55:28 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 13:02:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_echo(char *args)
+/* 
+ * Cherche s2 dans s1.
+ * Parcours s1 jusqu'a trouver s2 a la suite.
+*/
+int	find_opt(char *s1, char *s2)
 {
-	int		len_tab;
-	int		i;
-	int		codon;
+	size_t	i;
+	size_t	j;
 
-	i = 5;
-	len_tab = 0;
-	codon = 0;
-	while (args[i++])
+	i = 0;
+	j = 0;
+	while (s1[i])
 	{
-		if (args[i] == 34 && codon == 0)
-			codon = 1;
-		if (args[i] == 39 && codon == 0)
-			codon = 2;
-		if ((args[i] == 39 && codon == 2) || (args[i] == 34 && codon == 1))
+		if (s1[i] == s2[j])
 		{
-			len_tab ++;
-			codon = 0;
-		}
-	}
-	if (codon == 1 || codon == 2)
-		return (-1);
-	return (len_tab);
-}
-
-int	send_toecho(int len_tab, char *args, int i)
-{
-	char	**new_tab;
-	int		i_tab;
-
-	i_tab = 0;
-	new_tab = malloc(1 * sizeof(char *));
-	if (!new_tab)
-		exit (EXIT_FAILURE);
-	new_tab[0] = malloc((len_tab +1) * sizeof(char));
-	if (!new_tab[0])
-		exit (EXIT_FAILURE);
-	i ++;
-	while (args[i] && args[i] != 34 && args[i] != 39)
-	{
-		new_tab[0][i_tab] = args[i];
-		i ++;
-		i_tab++;
-	}
-	new_tab[0][i_tab++] = '\0';
-	ft_echo(new_tab[0]);
-	free(new_tab[0]);
-	free(new_tab);
-	i ++;
-	return (i);
-}
-
-void	args_echo(char *args)
-{
-	int		len_tab;
-	int		i;
-
-	if (!args[5])
-	{
-		write (1, "\n", 1);
-		return ;
-	}
-	if (parse_echo(args) == -1)
-		return ;
-	len_tab = parse_echo(args);
-	i = 5;
-	while (args[i])
-	{
-		if (args[i] == 34 || args[i] == 39)
-		{
-			i += send_toecho(len_tab, args, i);
+			j ++;
+			if (j == ft_strlen(s2) - 1)
+				return (1);
 		}
 		i ++;
 	}
-	write (1, "\n", 1);
+	return (0);
 }
 
-void	ft_echo(char *args)
+/* 
+ * Affiche caractere par caractere la liste.
+ * Suite de ft_echo.
+*/
+void	iter_echo(t_args *list)
 {
 	int	i;
 
 	i = 0;
-	while (args[i])
-		write (1, &args[i++], 1);
+	while (list->str[i])
+	{
+		if (list->str[i] == 34 || list->str[i] == 39)
+			i ++;
+		write (1, &list->str[i], 1);
+		i ++;
+	}
+}
+
+/*
+ * Fonction a l'image de 'echo'.
+ * Affiche caractere par caractere les arguments en ignorant les quotes.
+ * (Attention: cas particuliers, quotes a l'interieur de d'autres).
+*/
+void	ft_echo(t_args *list)
+{
+	int	bools;
+
+	bools = 0;
+	list = list->next;
+	if (list == NULL)
+		return ;
+	if (find_opt(list->str, "-n"))
+	{
+		list = list->next;
+		bools = 1;
+	}
+	while (list)
+	{
+		iter_echo(list);
+		list = list->next;
+	}
+	if (bools == 0)
+		write (1, "\n", 1);
 }

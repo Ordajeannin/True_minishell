@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 11:05:19 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 12:37:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	from_input_to_list_of_args(char **input, t_args **list);
 void	clear_args_list(t_args **list);
 
 //Buldins
-void	args_echo(char *args);
-void	ft_echo(char *args);
+int		find_opt(char *s1, char *s2);
+void	ft_echo(t_args *list);
 
 //Main core
-void	args_handle(char *input);
+void	args_handle(t_args **list);
 
 //Helpful function
 char	*until_char(char *str, int c);
