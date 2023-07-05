@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 14:29:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 17:03:01 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
 void	from_input_to_list_of_args(char **input, t_args **list);
 void	clear_args_list(t_args **list);
+int		parsing_input(char **input);
 
 //Buldins
 int		find_opt(char *s1, char *s2);
