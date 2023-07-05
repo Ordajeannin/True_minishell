@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 19:50:45 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:00:36 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ void	args_handle(char *input)
 {
 	char	**tab_args;
 
-	tab_args = malloc(3 * sizeof(char));
+	tab_args = malloc(2 * sizeof(char));
 	tab_args[0] = until_char(input, ' ');
-	tab_args[1] = ft_strchr(input, '"');
-	if (tab_args[1] == NULL)
-		tab_args[1] = ft_strchr(input, 39);
 	if (ft_strncmp(tab_args[0], "echo", ft_strlen(tab_args[0])) == 0)
-		ft_echo(tab_args[1]);
+		args_echo(input);
 }
 
 /*
