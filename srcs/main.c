@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 13:55:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 14:29:27 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	args_handle(t_args **list)
 	else if (ft_strncmp(current_list->str, "pwd", ft_strlen(current_list->str))
 		== 0)
 		ft_pwd();
+	else if (ft_strncmp(current_list->str, "env", ft_strlen(current_list->str))
+		== 0)
+		ft_env();
 }
 
 /*

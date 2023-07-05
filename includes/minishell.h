@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 13:55:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 14:29:11 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		find_opt(char *s1, char *s2);
 void	ft_echo(t_args *list);
 void	ft_cd(t_args *list);
 void	ft_pwd(void);
+void	ft_env(void);
 
 //Main core
 void	args_handle(t_args **list);

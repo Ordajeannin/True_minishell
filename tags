@@ -122,6 +122,7 @@ ft_calloc	libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"
 ft_cd	srcs/local_cmd.c	/^void	ft_cd(t_args *list)$/;"	f	typeref:typename:void
 ft_char_in_set	libft/src/ft_strtrim.c	/^static	int	ft_char_in_set(char c, char const *set)$/;"	f	typeref:typename:int	file:
 ft_echo	srcs/echo.c	/^void	ft_echo(t_args *list)$/;"	f	typeref:typename:void
+ft_env	srcs/local_cmd.c	/^void	ft_env(void)$/;"	f	typeref:typename:void
 ft_formats	libft/src/ft_printf.c	/^int	ft_formats(va_list args, const char conv)$/;"	f	typeref:typename:int
 ft_get_line	libft/src/get_next_line_bonus.c	/^char	*ft_get_line(char *stash)$/;"	f	typeref:typename:char *
 ft_is_newline	libft/src/get_next_line_utils_bonus.c	/^char	*ft_is_newline(char *str)$/;"	f	typeref:typename:char *
