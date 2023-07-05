@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 13:55:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 15:22:41 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av, char **env)
 		print_args_list(&list);
 		args_handle(&list);
 		add_history(input);
+		parsing_input(&input);
 		free(input);
 		clear_args_list(&list);
 	}
