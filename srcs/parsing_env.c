@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 16:04:38 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:42:34 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	handle_env(char **env, t_shell *shell)
 		return (msg(ERROR_NOENV));
 	shell->home = getenv("HOME");
 	shell->pwd = getenv("PWD");
+	shell->oldpwd = getenv("OLDPWD");
 	shell->user = getenv("USER");
 	shell->shell = "minishell";
 	shell->path = getenv("PATH");
@@ -59,5 +60,6 @@ char	*extract_cmd_path(char **paths, char *cmd)
 		free(command);
 		paths++;
 	}
+	strerror(errno);
 	return (NULL);
 }

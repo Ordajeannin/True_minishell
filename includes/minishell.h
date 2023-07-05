@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 14:29:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 20:03:32 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -41,6 +43,7 @@ typedef struct s_shell
 {
 	char	*home;
 	char	*pwd;
+	char	*oldpwd;
 	char	*user;
 	char	*shell;
 	char	*path;
@@ -63,17 +66,20 @@ int		handle_env(char **env, t_shell *envcpy);
 void	from_input_to_list_of_args(char **input, t_args **list);
 void	clear_args_list(t_args **list);
 
-//Buldins
+//Bultins
 int		find_opt(char *s1, char *s2);
 void	ft_echo(t_args *list);
-void	ft_cd(t_args *list);
+void	ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 void	ft_pwd(void);
-void	ft_env(void);
+void	ft_env(t_args *list, t_args *env_list);
+char	*extract_cmd_path(char **paths, char *cmd);
+void	change_env(t_args **env_list, char *new_str, char *change_value);
 
-//Main core
-void	args_handle(t_args **list);
+//Other commands
+void	all_cmd(t_args *list, t_shell *shell);
 
 //Helpful function
 char	*until_char(char *str, int c);
+// void	add_arg(t_args **list, char *str, int token);
 
 #endif

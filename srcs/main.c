@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 14:29:27 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/05 20:06:09 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  *Recupere l'arguments et la commande separement.
  *Traite en fonction de la commande enregistree
 */
-void	args_handle(t_args **list)
+static void	args_handle(t_args **list, t_shell *shell, t_args *env_list)
 {
 	t_args	*current_list;
 
@@ -27,13 +27,15 @@ void	args_handle(t_args **list)
 		ft_echo(current_list);
 	else if (ft_strncmp(current_list->str, "cd", ft_strlen(current_list->str))
 		== 0)
-		ft_cd(current_list);
+		ft_cd(current_list, shell, env_list);
 	else if (ft_strncmp(current_list->str, "pwd", ft_strlen(current_list->str))
 		== 0)
 		ft_pwd();
 	else if (ft_strncmp(current_list->str, "env", ft_strlen(current_list->str))
 		== 0)
-		ft_env();
+		ft_env(current_list, env_list);
+	else
+		all_cmd(current_list, shell);
 }
 
 /*
@@ -61,6 +63,24 @@ static void	print_args_list(t_args **list)
 	}
 }
 
+/* 
+ * Initialise liste d'env 
+*/
+static void	set_env(t_args **env_list, char **env)
+{
+	int			i;
+	t_args		*current;
+
+	i = 0;
+	from_input_to_list_of_args(env, env_list);
+	current = *env_list;
+	while (env[i])
+	{
+		current->str = env[i++];
+		current = current->next;
+	}
+}
+
 /*
  * Actions de la boucle ATM
  *
@@ -68,7 +88,7 @@ static void	print_args_list(t_args **list)
  * 2) splitage de l'input en tableau de chaine
  * 3) analyse de chaque chaine, attribution des tokens
  * 4) affichage de l'analyse (temporaire)
- * 5) ?
+ * 5) gestionnaire de commandes
  * 6) gere l'historique de commande
  * 7) free le precedent input avant de reproposer le prompt
  * 8) vide la liste d'arguments, mais conserve le pointeur
@@ -77,21 +97,24 @@ int	main(int ac, char **av, char **env)
 {
 	char	*input;
 	t_args	*list;
+	t_args	*env_list;
 	t_shell	shell;
 
 	(void)ac;
 	(void)av;
 	list = NULL;
 	input = NULL;
+	env_list = NULL;
 	if (handle_env(env, &shell) == -1)
 		return (-1);
+	set_env(&env_list, env);
 	while (1)
 	{
 		input = readline("minishell>");
 		shell.input = ft_split(input, ' ');
 		from_input_to_list_of_args(shell.input, &list);
 		print_args_list(&list);
-		args_handle(&list);
+		args_handle(&list, &shell, env_list);
 		add_history(input);
 		free(input);
 		clear_args_list(&list);
