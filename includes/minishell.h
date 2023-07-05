@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 15:01:32 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/04 17:26:56 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		msg(char *msg);
 int		handle_env(char **env, t_env *envcpy);
 
 //Buldins
+void	args_echo(char *args);
 void	ft_echo(char *args);
 
 //Main core
