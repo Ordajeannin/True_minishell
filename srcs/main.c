@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/06 17:36:42 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:11:17 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ static void	set_env(t_args **env_list, char **env)
 	}
 }
 
+/*
+ * Permet a main d'etre a moins de 25 lines
+ * 
+ * Fonction purement tilitaire, ne pas garder dans le rendu final
+*/
 static void	ft_gain_place(char **av, t_args **list, char **input,
 		t_args **env_list)
 {
