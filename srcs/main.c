@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 20:09:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/06 17:36:42 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,15 @@ static void	set_env(t_args **env_list, char **env)
 	}
 }
 
+static void	ft_gain_place(char **av, t_args **list, char **input,
+		t_args **env_list)
+{
+	*list = NULL;
+	*input = NULL;
+	*env_list = NULL;
+	(void)av;
+}
+
 /*
  * Actions de la boucle ATM
  *
@@ -101,10 +110,7 @@ int	main(int ac, char **av, char **env)
 	t_shell	shell;
 
 	(void)ac;
-	(void)av;
-	list = NULL;
-	input = NULL;
-	env_list = NULL;
+	ft_gain_place(av, &list, &input, &env_list);
 	if (handle_env(env, &shell) == -1)
 		return (-1);
 	set_env(&env_list, env);
@@ -116,7 +122,6 @@ int	main(int ac, char **av, char **env)
 		print_args_list(&list);
 		args_handle(&list, &shell, env_list);
 		add_history(input);
-		parsing_input(&input);
 		free(input);
 		clear_args_list(&list);
 	}

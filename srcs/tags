@@ -92,11 +92,9 @@ TOKEN_RPATH	includes/minishell.h	/^# define TOKEN_RPATH	/;"	d
 add_arg	srcs/parsing/list_of_args.c	/^static void	add_arg(t_args **list, char *str, int token)$/;"	f	typeref:typename:void	file:
 all	libft/Makefile	/^all 			: $(NAME)$/;"	t
 all	makefile	/^all				: $(NAME)$/;"	t
-all_cmd	srcs/local_cmd.c	/^void	all_cmd(t_args *list, t_shell *shell)$/;"	f	typeref:typename:void
 args	libft/src/.vscode/launch.json	/^      "args": [],$/;"	a	object:configurations.0
-args_handle	srcs/main.c	/^static void	args_handle(t_args **list, t_shell *shell, t_args *env_list)$/;"	f	typeref:typename:void	file:
+args_handle	srcs/main.c	/^void	args_handle(t_args **list)$/;"	f	typeref:typename:void
 cStandard	libft/src/.vscode/c_cpp_properties.json	/^      "cStandard": "${default}",$/;"	s	object:configurations.0
-change_env	srcs/local_cmd.c	/^void	change_env(t_args **env_list, char *new_str, char *change_value)$/;"	f	typeref:typename:void
 clean	libft/Makefile	/^clean 			: $/;"	t
 clean	makefile	/^clean			:$/;"	t
 clear_args_list	srcs/parsing/list_of_args.c	/^void	clear_args_list(t_args **list)$/;"	f	typeref:typename:void
@@ -121,12 +119,10 @@ from_input_to_list_of_args	srcs/parsing/list_of_args.c	/^void	from_input_to_list
 ft_atoi	libft/src/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f	typeref:typename:int
 ft_bzero	libft/src/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void
 ft_calloc	libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
-ft_cd	srcs/local_cmd.c	/^void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)$/;"	f	typeref:typename:void
+ft_cd	srcs/local_cmd.c	/^void	ft_cd(t_args *list)$/;"	f	typeref:typename:void
 ft_char_in_set	libft/src/ft_strtrim.c	/^static	int	ft_char_in_set(char c, char const *set)$/;"	f	typeref:typename:int	file:
 ft_echo	srcs/echo.c	/^void	ft_echo(t_args *list)$/;"	f	typeref:typename:void
-ft_env	srcs/local_cmd.c	/^void	ft_env(t_args *list, t_args *env_list)$/;"	f	typeref:typename:void
 ft_formats	libft/src/ft_printf.c	/^int	ft_formats(va_list args, const char conv)$/;"	f	typeref:typename:int
-ft_gain_place	srcs/main.c	/^static void	ft_gain_place(char **av, t_args **list, char **input,$/;"	f	typeref:typename:void	file:
 ft_get_line	libft/src/get_next_line_bonus.c	/^char	*ft_get_line(char *stash)$/;"	f	typeref:typename:char *
 ft_is_newline	libft/src/get_next_line_utils_bonus.c	/^char	*ft_is_newline(char *str)$/;"	f	typeref:typename:char *
 ft_isalnum	libft/src/ft_isalnum.c	/^int	ft_isalnum(int a)$/;"	f	typeref:typename:int
@@ -209,7 +205,7 @@ next	includes/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct
 next	includes/minishell.h	/^	struct s_args	*next;$/;"	m	struct:s_args	typeref:struct:s_args *
 next	libft/includes/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
 norme	makefile	/^norme			:$/;"	t
-oldpwd	includes/minishell.h	/^	char	*oldpwd;$/;"	m	struct:s_shell	typeref:typename:char *
+parsing_input	srcs/parsing/parsing_input.c	/^int	parsing_input(char **input)$/;"	f	typeref:typename:int
 path	includes/minishell.h	/^	char	*path;$/;"	m	struct:s_shell	typeref:typename:char *
 print_args_list	srcs/main.c	/^static void	print_args_list(t_args **list)$/;"	f	typeref:typename:void	file:
 program	libft/src/.vscode/launch.json	/^      "program": "\/mnt\/nfs\/homes\/ajeannin\/github\/libft\/src\/build\/Debug\/outDebug",$/;"	s	object:configurations.0
@@ -221,7 +217,6 @@ s_args	includes/minishell.h	/^typedef struct s_args$/;"	s
 s_list	includes/libft.h	/^typedef struct s_list$/;"	s
 s_list	libft/includes/libft.h	/^typedef struct s_list$/;"	s
 s_shell	includes/minishell.h	/^typedef struct s_shell$/;"	s
-set_env	srcs/main.c	/^static void	set_env(t_args **env_list, char **env)$/;"	f	typeref:typename:void	file:
 setupCommands	libft/src/.vscode/launch.json	/^      "setupCommands": [$/;"	a	object:configurations.0
 shell	includes/minishell.h	/^	char	*shell;$/;"	m	struct:s_shell	typeref:typename:char *
 stopAtEntry	libft/src/.vscode/launch.json	/^      "stopAtEntry": false,$/;"	b	object:configurations.0
