@@ -111,6 +111,7 @@ count_words	libft/src/ft_split.c	/^static	int	count_words(const char *str, char 
 cppStandard	libft/src/.vscode/c_cpp_properties.json	/^      "cppStandard": "${default}",$/;"	s	object:configurations.0
 create_arg	srcs/parsing/list_of_args.c	/^static t_args	*create_arg(char *str, int token)$/;"	f	typeref:typename:t_args *	file:
 cwd	libft/src/.vscode/launch.json	/^      "cwd": "\/mnt\/nfs\/homes\/ajeannin\/github\/libft\/src",$/;"	s	object:configurations.0
+delimit_to_token	srcs/parsing/parsing_input.c	/^static void	delimit_to_token(char *str, int i)$/;"	f	typeref:typename:void	file:
 description	libft/src/.vscode/launch.json	/^          "description": "Enable pretty-printing for gdb",$/;"	s	object:configurations.0.setupCommands.0
 externalConsole	libft/src/.vscode/launch.json	/^      "externalConsole": false,$/;"	b	object:configurations.0
 extract_cmd_path	srcs/parsing/parsing_env.c	/^char	*extract_cmd_path(char **paths, char *cmd)$/;"	f	typeref:typename:char *
@@ -170,6 +171,7 @@ ft_read	libft/src/get_next_line_bonus.c	/^char	*ft_read(int fd, char *stash)$/;"
 ft_reput_ptrvalue_in_hexa	libft/src/ft_print_ptr.c	/^int	ft_reput_ptrvalue_in_hexa(unsigned long int nbr)$/;"	f	typeref:typename:int
 ft_split	libft/src/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f	typeref:typename:char **
 ft_strchr	libft/src/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f	typeref:typename:char *
+ft_strcspn	srcs/parsing/parsing_input.c	/^static size_t	ft_strcspn(const char *input, char **reject)$/;"	f	typeref:typename:size_t	file:
 ft_strdup	libft/src/ft_strdup.c	/^char	*ft_strdup(const char *s)$/;"	f	typeref:typename:char *
 ft_striteri	libft/src/ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char *d))$/;"	f	typeref:typename:void
 ft_strjoin	libft/src/ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f	typeref:typename:char *
@@ -182,6 +184,8 @@ ft_strmapi	libft/src/ft_strmapi.c	/^char	*ft_strmapi(char const *s, char (*f)(un
 ft_strncmp	libft/src/ft_strncmp.c	/^int	ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f	typeref:typename:int
 ft_strnstr	libft/src/ft_strnstr.c	/^char	*ft_strnstr(const char *ocean, const char *pearl, size_t len)$/;"	f	typeref:typename:char *
 ft_strrchr	libft/src/ft_strrchr.c	/^char	*ft_strrchr(const char *s, int c)$/;"	f	typeref:typename:char *
+ft_strspn	srcs/parsing/parsing_input.c	/^static size_t	ft_strspn(const char *input, char **accept)$/;"	f	typeref:typename:size_t	file:
+ft_strtok	srcs/parsing/parsing_input.c	/^char	*ft_strtok(char *input, char **delim)$/;"	f	typeref:typename:char *
 ft_strtrim	libft/src/ft_strtrim.c	/^char	*ft_strtrim(char const *s1, char const *set)$/;"	f	typeref:typename:char *
 ft_substr	libft/src/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
 ft_tolower	libft/src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
@@ -191,6 +195,7 @@ ft_update_stash	libft/src/get_next_line_bonus.c	/^char	*ft_update_stash(char *st
 ft_write_number	libft/src/ft_itoa.c	/^static	char	*ft_write_number(int len, int n, char *a)$/;"	f	typeref:typename:char *	file:
 get_next_line	libft/src/get_next_line_bonus.c	/^char	*get_next_line(int fd)$/;"	f	typeref:typename:char *
 handle_env	srcs/parsing/parsing_env.c	/^int	handle_env(char **env, t_shell *shell)$/;"	f	typeref:typename:int
+help_strtok	srcs/parsing/parsing_input.c	/^static void	help_strtok(char *token_end, char **last_token)$/;"	f	typeref:typename:void	file:
 helpsplit	libft/src/ft_split.c	/^static	char	**helpsplit(int index, char const *s, char c)$/;"	f	typeref:typename:char **	file:
 home	includes/minishell.h	/^	char	*home;$/;"	m	struct:s_shell	typeref:typename:char *
 hostname	includes/minishell.h	/^	char	*hostname;$/;"	m	struct:s_shell	typeref:typename:char *

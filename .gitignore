@@ -2,3 +2,6 @@
 *.swp
 tags
 ./minishell
+minishell
+./a.out
+a.out
