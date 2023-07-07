@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 19:49:42 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:40:10 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_args	*create_arg(char *str, int token)
  * Fonction utilitaire, ajoute un maillon a la fin de la chaine
  * appel a create_arg pour creer le maillon
 */
-static void	add_arg(t_args **list, char *str, int token)
+void	add_arg(t_args **list, char *str, int token)
 {
 	t_args	*new_arg;
 	t_args	*current;
@@ -72,33 +72,23 @@ static void	add_arg(t_args **list, char *str, int token)
 }
 
 /*
- * Analyse une chaine de caractere issue d'input
- * puis creer un maillon pour l'argument, avec contenu et token
- * :warning: CMD, OPTION, FPATH et RPATH ne sont pas encore traites (cf 12910)
+ * Permet d'extraire les tokens de input sur base des delimitateurs
+ * Puis identifie ces tokens
 */
-void	from_input_to_list_of_args(char **input, t_args **list)
+void	from_input_to_list_of_args(char *input, t_args **list)
 {
-	int	i;
+	char	*delim[7];
+	char	*token;
 
-	i = 0;
-	while (input[i])
-	{
-		if (input[i][0] == '&' && input[i][1] == '&' && input[i][2] == '\0')
-			add_arg(list, input[i], TOKEN_AND);
-		else if (input[i][0] == '|' && input[i][1] == '\0')
-			add_arg(list, input[i], TOKEN_PIPE);
-		else if (input[i][0] == '<' && input[i][1] == '\0')
-			add_arg(list, input[i], TOKEN_INFILE);
-		else if (input[i][0] == '<' && input[i][1] == '<'
-				&& input[i][2] == '\0')
-			add_arg(list, input[i], TOKEN_DELIM);
-		else if (input[i][0] == '>' && input[i][1] == '\0')
-			add_arg(list, input[i], TOKEN_OUTFILE);
-		else if (input[i][0] == '>' && input[i][1] == '>'
-				&& input[i][2] == '\0')
-			add_arg(list, input[i], TOKEN_APPEND);
-		else
-			add_arg(list, input[i], 12910);
-		i++;
-	}
+	delim[0] = " ";
+	delim[1] = "\t";
+	delim[2] = "<<";
+	delim[3] = "<";
+	delim[4] = ">>";
+	delim[5] = ">";
+	delim[6] = NULL;
+	token = ft_strtok(input, delim, list);
+	while (token != NULL)
+		token = ft_strtok(NULL, delim, list);
+	update_args(list);
 }

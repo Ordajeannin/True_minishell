@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 20:09:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/07 18:26:51 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,13 @@ typedef struct s_args
 
 int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
-void	from_input_to_list_of_args(char **input, t_args **list);
+void	from_input_to_list_of_args(char *input, t_args **list);
 void	clear_args_list(t_args **list);
 int		parsing_input(char **input);
+char	*ft_strtok(char *input, char **delim, t_args **list);
+void	add_arg(t_args **list, char *str, int token);
+void	update_args(t_args **list);
+int		tokenize_args(char *input);
 
 //Bultins
 int		find_opt(char *s1, char *s2);

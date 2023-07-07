@@ -6,11 +6,11 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/06 20:14:29 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/07 18:31:07 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minishell.h"
+#include "minishell.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -21,10 +21,12 @@
  * Et n'est pas implemente au programme.
  * Work In Progress, test en local, ne pas effacer le main
 */
-static void	delimit_to_token(char *str, int i)
+static void	delimit_to_token(char *str, t_args **list)
 {
 	if (strcmp(str, " ") != 0)
-		printf("%d delimitateur: %s\n", i, str);
+	{
+		add_arg(list, str, 0);
+	}
 	else
 		return ;
 }
@@ -32,7 +34,7 @@ static void	delimit_to_token(char *str, int i)
 /*
  * Permet de calculer la partie de input composee uniquement de delimitateurs
 */
-static size_t	ft_strspn(const char *input, char **accept)
+static size_t	ft_strspn(const char *input, char **accept, t_args **list)
 {
 	char		**a;
 	size_t		count;
@@ -47,7 +49,7 @@ static size_t	ft_strspn(const char *input, char **accept)
 		{
 			if (strncmp(input, *a, strlen(*a)) == 0)
 			{
-				delimit_to_token(*a, 1);
+				delimit_to_token(*a, list);
 				accepted = 1;
 				break ;
 			}
@@ -65,7 +67,7 @@ static size_t	ft_strspn(const char *input, char **accept)
  * A l'inverse, renvoie la longueur de la partie de input qui ne contient
  * aucun delimitateur
 */
-static size_t	ft_strcspn(const char *input, char **reject)
+static size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 {
 	char		**r;
 	size_t		count;
@@ -80,6 +82,7 @@ static size_t	ft_strcspn(const char *input, char **reject)
 		{
 			if (strncmp(input, *r, strlen(*r)) == 0)
 			{
+				delimit_to_token(*r, list);
 				rejected = 1;
 				break ;
 			}
@@ -110,7 +113,7 @@ static void	help_strtok(char *token_end, char **last_token)
  * Si tous les tokens ont ete extraits, retourne NULL
  * Sinon, renvoie un pointeur vers le debut du token extrait
 */
-char	*ft_strtok(char *input, char **delim)
+char	*ft_strtok(char *input, char **delim, t_args **list)
 {
 	static char	*last_token = NULL;
 	char		*token_end;
@@ -123,34 +126,17 @@ char	*ft_strtok(char *input, char **delim)
 			return (NULL);
 		input = last_token;
 	}
-	input += ft_strspn(input, delim);
+	input += ft_strspn(input, delim, list);
 	if (*input == '\0')
 	{
 		last_token = NULL;
 		return (NULL);
 	}
-	token_end = input + ft_strcspn(input, delim);
+	add_arg(list, input, 0);
+	token_end = input + ft_strcspn(input, delim, list);
 	if (*token_end != '\0')
 		help_strtok(token_end, &last_token);
 	else
 		last_token = NULL;
 	return (input);
 }
-
-/*
-int main()
-{
-    char *delim[] = {" ", "\t", "<<", "<", ">>", ">", NULL};
-    char input[] = "echo     <hello |  <world>output";
-
-	printf("input : %s\n", input);
-    char *token = ft_strtok(input, delim);
-    while (token != NULL)
-    {
-        printf("Token: %s\n", token);
-        token = ft_strtok(NULL, delim);
-    }
-
-    return 0;
-}
-*/

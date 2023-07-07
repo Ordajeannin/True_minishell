@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/06 18:11:17 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/07 17:39:11 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ static void	set_env(t_args **env_list, char **env)
 	t_args		*current;
 
 	i = 0;
-	from_input_to_list_of_args(env, env_list);
+	while (env[i])
+	{
+		add_arg(env_list, env[i], 0);
+		i++;
+	}
+	i = 0;
 	current = *env_list;
 	while (env[i])
 	{
@@ -122,11 +127,10 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		input = readline("minishell>");
-		shell.input = ft_split(input, ' ');
-		from_input_to_list_of_args(shell.input, &list);
+		add_history(input);
+		from_input_to_list_of_args(input, &list);
 		print_args_list(&list);
 		args_handle(&list, &shell, env_list);
-		add_history(input);
 		free(input);
 		clear_args_list(&list);
 	}
