@@ -71,6 +71,9 @@ char	*ft_strtok(char *input, char **delim, t_args **list);
 void	add_arg(t_args **list, char *str, int token);
 void	update_args(t_args **list);
 int		tokenize_args(char *input);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strpbrk(const char *s, const char *charset);
 
 //Bultins
 int		find_opt(char *s1, char *s2);
