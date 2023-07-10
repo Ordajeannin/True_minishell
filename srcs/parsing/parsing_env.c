@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/05 17:42:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/07 17:56:15 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ int	handle_env(char **env, t_shell *shell)
 	shell->pwd = getenv("PWD");
 	shell->oldpwd = getenv("OLDPWD");
 	shell->user = getenv("USER");
-	shell->shell = "minishell";
+	shell->shell = getenv("SHELL");
 	shell->path = getenv("PATH");
 	shell->lang = getenv("LANG");
 	shell->term = getenv("TERM");
 	shell->hostname = getenv("HOSTNAME");
+	shell->shlvl = getenv("SHLVL");
 	if (shell->path != NULL && shell->path[0] != '\0')
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
 	return (0);
