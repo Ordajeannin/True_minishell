@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/10 12:07:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:25:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,20 @@ int		find_opt(char *s1, char *s2);
 void	ft_echo(t_args *list);
 void	ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 void	ft_pwd(void);
-void	ft_env(t_args *list, t_args *env_list);
+void	ft_env(t_args *list, t_args **env_list);
 void	ft_unset(t_args *list, t_shell *shell, t_args *env_list);
+void	ft_export(t_args *list, t_shell *shell, t_args **env_list);
 
 //Other commands
 void	all_cmd(t_args *arg, t_shell *shell, t_args **list);
-void	change_env(t_args **env_list, char *new_str, char *change_value);
+int		change_env(t_args **env_list, char *new_str, char *change_value);
 char	*extract_cmd_path(char **paths, char *cmd);
-void	shell_change(t_shell *shell, t_args *list);
+void	shell_change(t_shell *shell, char *str, char *value);
 
 //Helpful function
-char	*until_char(char *str, int c);
+// char	*until_char(char *str, int c);
+char	*ft_strdupto_n(char *str, char c);
+char	*ft_strdup_from(char *str, char c);
 
 //Print Things
 void	shell_style(t_shell *shell);

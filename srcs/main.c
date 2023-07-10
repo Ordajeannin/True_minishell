@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/10 12:10:57 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:26:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
  *Recupere l'arguments et la commande separement.
  *Traite en fonction de la commande enregistree
 */
-static void	args_handle(t_args **list, t_shell *shell, t_args *env_list)
+static void	args_handle(t_args **list, t_shell *shell, t_args **env_list)
 {
 	t_args	*current_list;
+	t_args	*current_env;
 
+	current_env = *env_list;
 	current_list = *list;
 	if (current_list == NULL)
 		return ;
@@ -29,7 +31,7 @@ static void	args_handle(t_args **list, t_shell *shell, t_args *env_list)
 		ft_echo(current_list);
 	else if (ft_strncmp(current_list->str, "cd", ft_strlen(current_list->str))
 		== 0)
-		ft_cd(current_list, shell, env_list);
+		ft_cd(current_list, shell, current_env);
 	else if (ft_strncmp(current_list->str, "pwd", ft_strlen(current_list->str))
 		== 0)
 		ft_pwd();
@@ -38,9 +40,13 @@ static void	args_handle(t_args **list, t_shell *shell, t_args *env_list)
 		ft_env(current_list, env_list);
 	else if (ft_strncmp(current_list->str, "unset",
 			ft_strlen(current_list->str)) == 0)
-		ft_unset(current_list, shell, env_list);
+		ft_unset(current_list, shell, current_env);
+	else if (ft_strncmp(current_list->str, "export",
+			ft_strlen(current_list->str)) == 0)
+		ft_export(current_list, shell, env_list);
 	else
 		all_cmd(current_list, shell, list);
+	ft_env(current_list, env_list);
 }
 
 /* 
@@ -114,7 +120,7 @@ int	main(int ac, char **av, char **env)
 		if (list)
 		{
 			print_args_list(&list);
-			args_handle(&list, &shell, env_list);
+			args_handle(&list, &shell, &env_list);
 		}
 		free(input);
 		clear_args_list(&list);

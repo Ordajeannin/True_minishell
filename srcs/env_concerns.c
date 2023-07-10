@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/10 12:11:53 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:27:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * Parcourt env_list jusqu'a l'element que l'on veut changer.
  * Puis, modifier cette valeur avec new_str
 */
-void	change_env(t_args **env_list, char *new_str, char *change_value)
+int	change_env(t_args **env_list, char *new_str, char *change_value)
 {
 	t_args	*current;
 
@@ -27,12 +27,13 @@ void	change_env(t_args **env_list, char *new_str, char *change_value)
 		if (ft_strncmp(current->str, change_value, ft_strlen(current->str))
 			== 0)
 		{
+			current->str = NULL;
 			current->str = new_str;
-			return ;
+			return (1);
 		}
 		current = current->next;
 	}
-	return ;
+	return (0);
 }
 
 /* 
@@ -40,19 +41,23 @@ void	change_env(t_args **env_list, char *new_str, char *change_value)
  * Affiche l'environnement du shell en entier
  * (Attention : env -i ./minishell doit afficher PWD, SHLVL et _)
 */
-void	ft_env(t_args *list, t_args *env_list)
+void	ft_env(t_args *list, t_args **env_list)
 {
+	t_args *current;
+
+	current = *env_list;
 	if (list->next != NULL)
 		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
-	while (env_list != NULL)
+	while (current != NULL)
 	{
-		ft_printf("%s\n", env_list->str);
-		env_list = env_list->next;
+		ft_printf("%s\n", current->str);
+		current = current->next;
 	}
 }
 
-/* PROTECTION DE MALLOC! 
+/* 
+ * PROTECTION DE MALLOC! 
  * Adaptation de list pour execve
  * Boucle qui remplit shell->input
 */
@@ -111,30 +116,30 @@ void	all_cmd(t_args *arg, t_shell *shell, t_args **list)
  * Changement des valeurs de la structure t_shell.
  * S'effectue apres unset (et export aussi !!)
 */
-void	shell_change(t_shell *shell, t_args *list)
+void	shell_change(t_shell *shell, char *str, char *value)
 {
 	int		len;
 
-	len = ft_strlen(list->next->str);
-	if (ft_strncmp(list->next->str, "HOME", len) == 0)
-		shell->home = NULL;
-	else if (ft_strncmp(list->next->str, "PWD", len) == 0)
-		shell->pwd = NULL;
-	else if (ft_strncmp(list->next->str, "OLDPWD", len) == 0)
-		shell->oldpwd = NULL;
-	else if (ft_strncmp(list->next->str, "USER", len) == 0)
-		shell->user = NULL;
-	else if (ft_strncmp(list->next->str, "SHELL", len) == 0)
-		shell->shell = NULL;
-	else if (ft_strncmp(list->next->str, "PATH", len) == 0)
-		shell->path = NULL;
-	else if (ft_strncmp(list->next->str, "LANG", len) == 0)
-		shell->lang = NULL;
-	else if (ft_strncmp(list->next->str, "TERM", len) == 0)
-		shell->term = NULL;
-	else if (ft_strncmp(list->next->str, "HOSTNAME", len) == 0)
-		shell->hostname = NULL;
-	else if (ft_strncmp(list->next->str, "SHLVL", len) == 0)
-		shell->shlvl = NULL;
+	len = ft_strlen(str);
+	if (ft_strncmp(str, "HOME", len) == 0)
+		shell->home = value;
+	else if (ft_strncmp(str, "PWD", len) == 0)
+		shell->pwd = value;
+	else if (ft_strncmp(str, "OLDPWD", len) == 0)
+		shell->oldpwd = value;
+	else if (ft_strncmp(str, "USER", len) == 0)
+		shell->user = value;
+	else if (ft_strncmp(str, "SHELL", len) == 0)
+		shell->shell = value;
+	else if (ft_strncmp(str, "PATH", len) == 0)
+		shell->path = value;
+	else if (ft_strncmp(str, "LANG", len) == 0)
+		shell->lang = value;
+	else if (ft_strncmp(str, "TERM", len) == 0)
+		shell->term = value;
+	else if (ft_strncmp(str, "HOSTNAME", len) == 0)
+		shell->hostname = value;
+	else if (ft_strncmp(str, "SHLVL", len) == 0)
+		shell->shlvl = value;
 	return ;
 }
