@@ -6,27 +6,41 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/05 20:05:36 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/10 10:41:09 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* 
- * Change de repertoire.
- * Fonction a l'image de cd.
- * Change aussi PWD dans l'env.
- * (Attention: voir cas cd ~)
+ * Cas speciaux de cd.
+ * Check si pas d'arguments apres cd --> prends la valeur de $HOME.
+ * Sinon, check si il y a ~ et renvoie donc a la racine $USER.
+ * Sinon, tout va bien buf prends simplement la valeur du repertoire donne.
 */
-void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
+static char	*cd_specialcase(t_args *list, t_shell *shell)
 {
 	char	*buf;
 
 	if (!list->next)
 		buf = getenv("HOME");
 	else
+	{
+		if (ft_strncmp(list->next->str, "~", ft_strlen(list->next->str)) == 0)
+			list->next->str = ft_strjoin("/mnt/nfs/homes/", shell->user);
 		buf = list->next->str;
-	if (chdir(buf) == -1)
+	}
+	return (buf);
+}
+
+/* 
+ * Change de repertoire.
+ * Fonction a l'image de cd.
+ * Change aussi PWD dans l'env.
+*/
+void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
+{
+	if (chdir(cd_specialcase(list, shell)) == -1)
 	{
 		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
@@ -34,15 +48,12 @@ void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	}
 	else
 	{
-		printf("%s\n", shell->pwd);
 		change_env(&env_list, ft_strjoin("OLDPWD=", shell->pwd),
 			ft_strjoin("OLDPWD=", shell->oldpwd));
 		change_env(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
 			ft_strjoin("PWD=", shell->pwd));
 		shell->oldpwd = shell->pwd;
-		ft_printf("OLDPWD%s\n", shell->oldpwd);
 		shell->pwd = getcwd(NULL, 0);
-		ft_printf("%s\n", getcwd(NULL, 0));
 	}
 }
 
@@ -60,62 +71,40 @@ void	ft_pwd(void)
 		ft_printf("%s\n", getcwd(NULL, 0));
 }
 
-/* 
- * Modification de l'env
- * Parcourt env_list jusqu'a l'element que l'on veut changer.
- * Puis, modifier cette valeur avec new_str
-*/
-void	change_env(t_args **env_list, char *new_str, char *change_value)
+static int	searchin_env(t_args **env_list, t_args *list)
 {
 	t_args	*current;
+	t_args	*temp;
 
 	current = *env_list;
 	while (current)
 	{
-		if (ft_strncmp(current->str, change_value, ft_strlen(current->str))
-			== 0)
+		if (ft_strncmp(list->next->str, current->next->str,
+				ft_strlen(list->next->str)) == 0)
 		{
-			current->str = new_str;
-			return ;
+			temp = current->next->next;
+			free(current->next);
+			current->next = temp;
+			return (1);
 		}
 		current = current->next;
 	}
+	return (0);
 }
 
 /* 
- * Fonction a l'image de 'env'
- * Affiche l'environnement du shell en entier
- * (Attention : env -i ./minishell doit afficher PWD, SHLVL et _)
+ * Fonction usent.
+ * Supprime une variable d'environnement appele.
+ * Si elle est vide ou n'existe pas, renvoie juste l'invite de commande.
 */
-void	ft_env(t_args *list, t_args *env_list)
-{
-	if (list->next != NULL)
-		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
-			strerror(errno));
-	while (env_list != NULL)
-	{
-		ft_printf("%s\n", env_list->str);
-		env_list = env_list->next;
-	}
-}
 
-/* 
- * Execution des commandes dependantes de PATH 
- * Creation d'un sous-processus pour execve
-*/
-void	all_cmd(t_args *list, t_shell *shell)
+void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 {
-	char	*command;
-	pid_t	pid_child;
-	int		status;
-
-	command = extract_cmd_path(shell->cmd_paths, list->str);
-	pid_child = fork();
-	if (pid_child == 0)
-	{
-		execve(command, shell->input, NULL);
+	if (!list)
 		return ;
-	}
+	if (!searchin_env(&env_list, list))
+		return ;
 	else
-		waitpid(pid_child, &status, 0);
+		shell_change(shell, list);
+	return ;
 }

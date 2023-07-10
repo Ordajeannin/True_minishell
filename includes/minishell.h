@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/07 18:26:51 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:12:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_shell
 	char	*lang;
 	char	*term;
 	char	*hostname;
+	char	*shlvl;
 	char	**cmd_paths;
 	char	**input;
 }	t_shell;
@@ -77,14 +78,19 @@ void	ft_echo(t_args *list);
 void	ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 void	ft_pwd(void);
 void	ft_env(t_args *list, t_args *env_list);
-char	*extract_cmd_path(char **paths, char *cmd);
-void	change_env(t_args **env_list, char *new_str, char *change_value);
+void	ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 
 //Other commands
 void	all_cmd(t_args *list, t_shell *shell);
+void	change_env(t_args **env_list, char *new_str, char *change_value);
+char	*extract_cmd_path(char **paths, char *cmd);
+void	shell_change(t_shell *shell, t_args *list);
 
 //Helpful function
 char	*until_char(char *str, int c);
-// void	add_arg(t_args **list, char *str, int token);
+
+//Print Things
+void	shell_style(t_shell *shell);
+void	print_args_list(t_args **list);
 
 #endif

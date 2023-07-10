@@ -1,70 +1,23 @@
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
-!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
-!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
-!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
-!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/mnt/nfs/homes/ajeannin/github/minishell/	//
-!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
-!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
-!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	5.9.0	//
-$(NAME)	libft/Makefile	/^$(NAME) 		: $(OBJ)$/;"	t
-$(NAME)	makefile	/^$(NAME)			: $(OBJS)$/;"	t
-$(OBJF)	libft/Makefile	/^$(OBJF)			:$/;"	t
-$(OBJ_DIR)%.o	libft/Makefile	/^$(OBJ_DIR)%.o 		: $(SRC_DIR)%.c | $(OBJF)$/;"	t
-$(OBJ_DIR)/%.o	makefile	/^$(OBJ_DIR)\/%.o	: $(SRC_DIR)\/%.c$/;"	t
-0	libft/src/.vscode/c_cpp_properties.json	/^        ""$/;"	s	array:configurations.0.compilerArgs
-0	libft/src/.vscode/c_cpp_properties.json	/^        "${workspaceFolder}\/**"$/;"	s	array:configurations.0.includePath
-0	libft/src/.vscode/c_cpp_properties.json	/^    {$/;"	o	array:configurations
-0	libft/src/.vscode/launch.json	/^        {$/;"	o	array:configurations.0.setupCommands
-0	libft/src/.vscode/launch.json	/^    {$/;"	o	array:configurations
-0	libft/src/.vscode/settings.json	/^    "*",$/;"	s	array:C_Cpp_Runner.includeSearch
-0	libft/src/.vscode/settings.json	/^    "**\/build",$/;"	s	array:C_Cpp_Runner.excludeSearch
-0	libft/src/.vscode/settings.json	/^    "-Wall",$/;"	s	array:C_Cpp_Runner.warnings
-1	libft/src/.vscode/settings.json	/^    "**\/*"$/;"	s	array:C_Cpp_Runner.includeSearch
-1	libft/src/.vscode/settings.json	/^    "**\/build\/**",$/;"	s	array:C_Cpp_Runner.excludeSearch
-1	libft/src/.vscode/settings.json	/^    "-Wextra",$/;"	s	array:C_Cpp_Runner.warnings
-2	libft/src/.vscode/settings.json	/^    "**\/.*",$/;"	s	array:C_Cpp_Runner.excludeSearch
-2	libft/src/.vscode/settings.json	/^    "-Wpedantic",$/;"	s	array:C_Cpp_Runner.warnings
-3	libft/src/.vscode/settings.json	/^    "**\/.*\/**",$/;"	s	array:C_Cpp_Runner.excludeSearch
-3	libft/src/.vscode/settings.json	/^    "-Wshadow",$/;"	s	array:C_Cpp_Runner.warnings
-4	libft/src/.vscode/settings.json	/^    "**\/.vscode",$/;"	s	array:C_Cpp_Runner.excludeSearch
-4	libft/src/.vscode/settings.json	/^    "-Wformat=2",$/;"	s	array:C_Cpp_Runner.warnings
-5	libft/src/.vscode/settings.json	/^    "**\/.vscode\/**"$/;"	s	array:C_Cpp_Runner.excludeSearch
-5	libft/src/.vscode/settings.json	/^    "-Wconversion",$/;"	s	array:C_Cpp_Runner.warnings
-6	libft/src/.vscode/settings.json	/^    "-Wnull-dereference",$/;"	s	array:C_Cpp_Runner.warnings
-7	libft/src/.vscode/settings.json	/^    "-Wsign-conversion"$/;"	s	array:C_Cpp_Runner.warnings
-BUFFER_SIZE	includes/libft.h	/^#  define BUFFER_SIZE /;"	d
-BUFFER_SIZE	libft/includes/libft.h	/^#  define BUFFER_SIZE /;"	d
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUFFER_SIZE	includes/libft.h	24;"	d
+BUFFER_SIZE	libft/includes/libft.h	24;"	d
 CC	libft/Makefile	/^CC			= gcc$/;"	m
 CC	makefile	/^CC				= gcc$/;"	m
 CFLAGS	libft/Makefile	/^CFLAGS 			= -Werror -Wextra -Wall -I$/;"	m
 CFLAGS	makefile	/^CFLAGS			= -Wall -Werror -Wextra$/;"	m
-C_Cpp_Runner.cCompilerPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cCompilerPath": "gcc",$/;"	s
-C_Cpp_Runner.cStandard	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cStandard": "",$/;"	s
-C_Cpp_Runner.compilerArgs	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.compilerArgs": [],$/;"	a
-C_Cpp_Runner.cppCompilerPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cppCompilerPath": "g++",$/;"	s
-C_Cpp_Runner.cppStandard	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.cppStandard": "",$/;"	s
-C_Cpp_Runner.debuggerPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.debuggerPath": "gdb",$/;"	s
-C_Cpp_Runner.enableWarnings	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.enableWarnings": true,$/;"	b
-C_Cpp_Runner.excludeSearch	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.excludeSearch": [$/;"	a
-C_Cpp_Runner.includePaths	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.includePaths": [],$/;"	a
-C_Cpp_Runner.includeSearch	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.includeSearch": [$/;"	a
-C_Cpp_Runner.linkerArgs	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.linkerArgs": [],$/;"	a
-C_Cpp_Runner.msvcBatchPath	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.msvcBatchPath": "",$/;"	s
-C_Cpp_Runner.useMsvc	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.useMsvc": false,$/;"	b
-C_Cpp_Runner.warnings	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.warnings": [$/;"	a
-C_Cpp_Runner.warningsAsError	libft/src/.vscode/settings.json	/^  "C_Cpp_Runner.warningsAsError": false,$/;"	b
-ERROR	includes/minishell.h	/^# define ERROR	/;"	d
-ERROR_NOENV	includes/minishell.h	/^# define ERROR_NOENV /;"	d
+ERROR	includes/minishell.h	29;"	d
+ERROR_NOENV	includes/minishell.h	28;"	d
 INCLUDES	libft/Makefile	/^INCLUDES		= includes$/;"	m
 INCLUDES	makefile	/^INCLUDES		= -Iincludes -Ilibft$/;"	m
 LIBFT	makefile	/^LIBFT			= -Llibft -lft$/;"	m
-LIBFT_H	includes/libft.h	/^# define LIBFT_H$/;"	d
-LIBFT_H	libft/includes/libft.h	/^# define LIBFT_H$/;"	d
-MIMode	libft/src/.vscode/launch.json	/^      "MIMode": "gdb",$/;"	s	object:configurations.0
-MINISHELL_H	includes/minishell.h	/^# define MINISHELL_H$/;"	d
+LIBFT_H	includes/libft.h	13;"	d
+LIBFT_H	libft/includes/libft.h	13;"	d
+MINISHELL_H	includes/minishell.h	15;"	d
 NAME	libft/Makefile	/^NAME 			= libft.a $/;"	m
 NAME	makefile	/^NAME			= minishell$/;"	m
 OBJ	libft/Makefile	/^OBJ			= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))$/;"	m
@@ -226,11 +179,13 @@ s_args	includes/minishell.h	/^typedef struct s_args$/;"	s
 s_list	includes/libft.h	/^typedef struct s_list$/;"	s
 s_list	libft/includes/libft.h	/^typedef struct s_list$/;"	s
 s_shell	includes/minishell.h	/^typedef struct s_shell$/;"	s
-set_env	srcs/main.c	/^static void	set_env(t_args **env_list, char **env)$/;"	f	typeref:typename:void	file:
-setupCommands	libft/src/.vscode/launch.json	/^      "setupCommands": [$/;"	a	object:configurations.0
-shell	includes/minishell.h	/^	char	*shell;$/;"	m	struct:s_shell	typeref:typename:char *
-stopAtEntry	libft/src/.vscode/launch.json	/^      "stopAtEntry": false,$/;"	b	object:configurations.0
-str	includes/minishell.h	/^	char			*str;$/;"	m	struct:s_args	typeref:typename:char *
+searchin_env	srcs/local_cmd.c	/^static int	searchin_env(t_args **env_list, t_args *list)$/;"	f	file:
+set_env	srcs/main.c	/^static int	set_env(t_args **env_list, char **env, t_shell shell)$/;"	f	file:
+shell	includes/minishell.h	/^	char	*shell;$/;"	m	struct:s_shell
+shell_change	srcs/env_concerns.c	/^void	shell_change(t_shell *shell, t_args *list)$/;"	f
+shell_style	srcs/print_things.c	/^void	shell_style(t_shell *shell)$/;"	f
+shlvl	includes/minishell.h	/^	char	*shlvl;$/;"	m	struct:s_shell
+str	includes/minishell.h	/^	char			*str;$/;"	m	struct:s_args
 t_args	includes/minishell.h	/^}	t_args;$/;"	t	typeref:struct:s_args
 t_list	includes/libft.h	/^}			t_list;$/;"	t	typeref:struct:s_list
 t_list	libft/includes/libft.h	/^}			t_list;$/;"	t	typeref:struct:s_list
