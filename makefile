@@ -46,7 +46,8 @@ $(NAME)			: $(OBJS)
 wof			: $(OBJSWOF)
 	@make -s -C libft/
 	@$(CC) $(OBJSWOF) $(INCLUDES) $(LIBFT) -o $(NAME) $(READLINE)
-	@echo "Compilation Minishell: done"
+	@echo ":WARNING:"
+	@echo "Compilation Minishell w/o flag: done"
 	@ctags -R
 	@echo "Tags are available"
 
