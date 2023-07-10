@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/10 11:14:22 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/10 12:10:57 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,26 @@ static void	args_handle(t_args **list, t_shell *shell, t_args *env_list)
 			ft_strlen(current_list->str)) == 0)
 		ft_unset(current_list, shell, env_list);
 	else
-		all_cmd(current_list, shell);
+		all_cmd(current_list, shell, list);
 }
 
 /* 
  * Initialise liste d'env 
 */
-static int	set_env(t_args **env_list, char **env, t_shell shell)
+static int	set_env(t_args **env_list, char **env, t_shell *shell)
 {
 	int			i;
 	t_args		*current;
 
-	i = 0;
-	if (handle_env(env, &shell) == -1)
+	if (handle_env(env, shell) == -1)
 		return (-1);
-	from_input_to_list_of_args(env, env_list);
+	i = 0;
+	while (env[i])
+	{
+		add_arg(env_list, env[i], 0);
+		i++;
+	}
+	i = 0;
 	current = *env_list;
 	while (env[i])
 	{
@@ -66,7 +71,6 @@ static int	set_env(t_args **env_list, char **env, t_shell shell)
 
 /*
  * Permet a main d'etre a moins de 25 lines
- * 
  * Fonction purement tilitaire, ne pas garder dans le rendu final
 */
 static void	ft_gain_place(char **av, t_args **list, char **input,
@@ -99,16 +103,16 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	ft_gain_place(av, &list, &input, &env_list);
-	if (set_env(&env_list, env, shell) == -1)
+	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	while (1)
 	{
 		shell_style(&shell);
 		input = readline("minishell>");
 		add_history(input);
+		from_input_to_list_of_args(input, &list);
 		if (list)
 		{
-			from_input_to_list_of_args(input, &list);
 			print_args_list(&list);
 			args_handle(&list, &shell, env_list);
 		}

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/10 10:48:35 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/10 12:11:53 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,65 @@ void	ft_env(t_args *list, t_args *env_list)
 	}
 }
 
+/* PROTECTION DE MALLOC! 
+ * Adaptation de list pour execve
+ * Boucle qui remplit shell->input
+*/
+void	loop_args(t_shell *shell, t_args **list)
+{
+	t_args	*current;
+	int		len;
+	int		len_list;
+	int		i;
+
+	len = 0;
+	len_list = 0;
+	current = *list;
+	while (current)
+	{
+		len_list ++;
+		current = current->next;
+	}
+	shell->input = malloc((len_list +1) * sizeof(char *));
+	current = *list;
+	i = 0;
+	while (current)
+	{
+		len = ft_strlen(current->str);
+		shell->input[i] = malloc((len +1) * sizeof(char));
+		shell->input[i++] = current->str;
+		current = current->next;
+	}
+	shell->input[i] = NULL;
+}
+
 /* 
  * Execution des commandes dependantes de PATH 
  * Creation d'un sous-processus pour execve
 */
-void	all_cmd(t_args *list, t_shell *shell)
+void	all_cmd(t_args *arg, t_shell *shell, t_args **list)
 {
 	char	*command;
 	pid_t	pid_child;
 	int		status;
 
-	command = extract_cmd_path(shell->cmd_paths, list->str);
+	command = extract_cmd_path(shell->cmd_paths, arg->str);
+	loop_args(shell, list);
 	pid_child = fork();
 	if (pid_child == 0)
 	{
+		ft_printf("\n");
 		execve(command, shell->input, NULL);
 		return ;
 	}
 	else
-	{
-		ft_printf("%s: command not found\n", list->str);
 		waitpid(pid_child, &status, 0);
-	}
 }
 
 /* 
  * Changement des valeurs de la structure t_shell.
  * S'effectue apres unset (et export aussi !!)
 */
-
 void	shell_change(t_shell *shell, t_args *list)
 {
 	int		len;
