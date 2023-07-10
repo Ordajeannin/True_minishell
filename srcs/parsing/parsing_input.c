@@ -47,7 +47,7 @@ static size_t	ft_strspn(const char *input, char **accept, t_args **list)
 		accepted = 0;
 		while (*a != NULL)
 		{
-			if (strncmp(input, *a, strlen(*a)) == 0)
+			if (ft_strncmp(input, *a, ft_strlen(*a)) == 0)
 			{
 				delimit_to_token(*a, list);
 				accepted = 1;
@@ -80,7 +80,7 @@ static size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 		rejected = 0;
 		while (*r != NULL)
 		{
-			if (strncmp(input, *r, strlen(*r)) == 0)
+			if (ft_strncmp(input, *r, ft_strlen(*r)) == 0)
 			{
 				delimit_to_token(*r, list);
 				rejected = 1;

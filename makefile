@@ -17,6 +17,7 @@ INCLUDES		= -Iincludes -Ilibft
 LIBFT			= -Llibft -lft
 SRC_DIR			= srcs
 OBJ_DIR			= obj
+OBJ_DIR_WOF		= obj
 CC				= gcc
 CFLAGS			= -Wall -Werror -Wextra
 READLINE		= -lreadline
@@ -28,7 +29,7 @@ READLINE		= -lreadline
 SRC_FILES		:= $(shell find $(SRC_DIR) -type f -name "*.c")
 SRCS			:= $(SRC_FILES)
 OBJS			:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-
+OBJSWOF			:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR_WOF)/%.o, $(SRCS))
 
 
 ################ R U L E S #############
@@ -42,9 +43,20 @@ $(NAME)			: $(OBJS)
 	@ctags -R
 	@echo "Tags are available"
 
+wof			: $(OBJSWOF)
+	@make -s -C libft/
+	@$(CC) $(OBJSWOF) $(INCLUDES) $(LIBFT) -o $(NAME) $(READLINE)
+	@echo "Compilation Minishell: done"
+	@ctags -R
+	@echo "Tags are available"
+
 $(OBJ_DIR)/%.o	: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR_WOF)/%.o : $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(INCLUDES) -c $< -o $@
 
 clean			:
 	@make clean -s -C libft/
@@ -57,6 +69,8 @@ fclean			: clean
 	@echo "Fclean minishell: done"
 
 re				: fclean all
+
+rewof			: fclean wof
 
 norme			:
 	@echo "\n\nNorme Includes\n"
