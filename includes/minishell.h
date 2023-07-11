@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/11 12:17:44 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 18:20:28 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <errno.h>
+# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
@@ -101,6 +102,7 @@ int		change_env_exp(t_args **env_list, char *name_env, char *value);
 int		searchin_env(t_args **env_list, t_args *list);
 char	*extract_cmd_path(char **paths, char *cmd);
 void	shell_change(t_shell *shell, char *str, char *value);
+int		set_env(t_args **env_list, char **env, t_shell *shell);
 
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);
@@ -109,5 +111,6 @@ char	*ft_strdup_from(char *str, char c);
 //Print Things
 void	shell_style(t_shell *shell);
 void	print_args_list(t_args **list);
+char	*prompt_cmd(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/10 11:39:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 17:36:36 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,22 @@ static void	bf_prd(char *str, int d, char *color)
  * Style et couleur du prompt.
  * Ajout de couleurs a l'invite de commande.
 */
-void	shell_style(t_shell *shell)
+// void	shell_style(t_shell *shell)
+// {
+// 	if (shell->user != NULL)
+// 	{
+// 		bf_prd(shell->user, 0, "\033[1;32m");
+// 		ft_printf(":");
+// 	}
+// }
+
+char	*prompt_cmd(t_shell *shell)
 {
-	bf_prd(shell->user, 0, "\033[1;32m");
-	ft_printf(":");
+	char	*prompt;
+
+	prompt = NULL;
+	if (shell->user != NULL)
+		prompt = ft_strjoin(shell->user, ":");
+	prompt = ft_strjoin(prompt, "minishell>");
+	return (prompt);
 }

@@ -6,11 +6,43 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/11 12:24:23 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 18:20:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+ * Changement des valeurs de la structure t_shell.
+ * S'effectue apres unset (et export aussi !!)
+*/
+void	shell_change(t_shell *shell, char *str, char *value)
+{
+	int		len;
+
+	len = ft_strlen(str);
+	if (ft_strncmp(str, "HOME", len) == 0)
+		shell->home = value;
+	else if (ft_strncmp(str, "PWD", len) == 0)
+		shell->pwd = value;
+	else if (ft_strncmp(str, "OLDPWD", len) == 0)
+		shell->oldpwd = value;
+	else if (ft_strncmp(str, "USER", len) == 0)
+		shell->user = value;
+	else if (ft_strncmp(str, "SHELL", len) == 0)
+		shell->shell = value;
+	else if (ft_strncmp(str, "PATH", len) == 0)
+		shell->path = value;
+	else if (ft_strncmp(str, "LANG", len) == 0)
+		shell->lang = value;
+	else if (ft_strncmp(str, "TERM", len) == 0)
+		shell->term = value;
+	else if (ft_strncmp(str, "HOSTNAME", len) == 0)
+		shell->hostname = value;
+	else if (ft_strncmp(str, "SHLVL", len) == 0)
+		shell->shlvl = value;
+	return ;
+}
 
 /*
  * Ajout nouveau maillon dans env.
@@ -50,9 +82,11 @@ void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 
 	v_env = ft_strdupto_n(list->next->str, '=');
 	value = ft_strdup_from(list->next->str, '=');
-	ft_printf("NAME: %s\nVALUE: %s\n", v_env, value);
 	if (change_env_exp(env_list, v_env, value) == 1)
 		shell_change(shell, v_env, value);
 	else
+	{
 		add_env(env_list, list);
+		shell_change(shell, v_env, value);
+	}
 }

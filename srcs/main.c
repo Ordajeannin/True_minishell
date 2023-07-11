@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/11 12:23:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 18:19:31 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,6 @@ static void	args_handle(t_args *list, t_shell *shell, t_args **env_list)
 		all_cmd(list, shell, &list);
 }
 
-/* 
- * Initialise liste d'env 
-*/
-static int	set_env(t_args **env_list, char **env, t_shell *shell)
-{
-	int			i;
-	t_args		*current;
-
-	if (handle_env(env, shell) == -1)
-		return (-1);
-	i = 0;
-	while (env[i])
-	{
-		add_arg(env_list, env[i], 0);
-		i++;
-	}
-	i = 0;
-	current = *env_list;
-	while (env[i])
-	{
-		current->str = env[i++];
-		current = current->next;
-	}
-	return (0);
-}
-
 /*
  * Permet a main d'etre a moins de 25 lines
  * Fonction purement tilitaire, ne pas garder dans le rendu final
@@ -83,6 +57,37 @@ static void	ft_gain_place(char **av, t_args **list, char **input,
 	*input = NULL;
 	*env_list = NULL;
 	(void)av;
+}
+
+/* 
+ * Gestionnaire de signaux
+ * Renvoie l'invite de commande lorsque sig == CTRL-C
+ */
+void	signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	return ;
+}
+
+/* 
+ * Suite du main.
+*/
+static void	main_bis(char *input, t_args *list, t_args *env_list, t_shell shell)
+{
+	add_history(input);
+	from_input_to_list_of_args(input, &list);
+	if (list)
+	{
+		print_args_list(&list);
+		args_handle(list, &shell, &env_list);
+	}
+	free(input);
+	clear_args_list(&list);
 }
 
 /*
@@ -105,22 +110,20 @@ int	main(int ac, char **av, char **env)
 	t_shell	shell;
 
 	(void)ac;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_handler);
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	while (1)
 	{
-		shell_style(&shell);
-		input = readline("minishell>");
-		add_history(input);
-		from_input_to_list_of_args(input, &list);
-		if (list)
+		input = readline(prompt_cmd(&shell));
+		if (input == NULL)
 		{
-			print_args_list(&list);
-			args_handle(list, &shell, &env_list);
+			ft_printf("exit\n");
+			exit(EXIT_FAILURE);
 		}
-		free(input);
-		clear_args_list(&list);
+		main_bis(input, list, env_list, shell);
 	}
 	return (0);
 }

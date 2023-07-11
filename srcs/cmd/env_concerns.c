@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/11 12:24:36 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 18:20:15 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,16 @@ int	searchin_env(t_args **env_list, t_args *list)
 {
 	t_args	*current;
 	t_args	*temp;
+	char	*name_env;
+	int		len;
 
 	current = *env_list;
-	while (current)
+	len = ft_strlen(list->next->str);
+	while (current && current->next)
 	{
-		if (ft_strncmp(list->next->str, current->next->str,
-				ft_strlen(list->next->str)) == 0)
+		name_env = ft_strdupto_n(current->next->str, '=');
+		if (ft_strncmp(list->next->str, ft_strdupto_n(current->next->str, \
+			'='), len) == 0 && len == ft_strlen(name_env))
 		{
 			temp = current->next->next;
 			free(current->next);
@@ -111,33 +115,27 @@ void	ft_env(t_args *list, t_args **env_list)
 }
 
 /* 
- * Changement des valeurs de la structure t_shell.
- * S'effectue apres unset (et export aussi !!)
+ * Initialise liste d'env 
 */
-void	shell_change(t_shell *shell, char *str, char *value)
+int	set_env(t_args **env_list, char **env, t_shell *shell)
 {
-	int		len;
+	int			i;
+	t_args		*current;
 
-	len = ft_strlen(str);
-	if (ft_strncmp(str, "HOME", len) == 0)
-		shell->home = value;
-	else if (ft_strncmp(str, "PWD", len) == 0)
-		shell->pwd = value;
-	else if (ft_strncmp(str, "OLDPWD", len) == 0)
-		shell->oldpwd = value;
-	else if (ft_strncmp(str, "USER", len) == 0)
-		shell->user = value;
-	else if (ft_strncmp(str, "SHELL", len) == 0)
-		shell->shell = value;
-	else if (ft_strncmp(str, "PATH", len) == 0)
-		shell->path = value;
-	else if (ft_strncmp(str, "LANG", len) == 0)
-		shell->lang = value;
-	else if (ft_strncmp(str, "TERM", len) == 0)
-		shell->term = value;
-	else if (ft_strncmp(str, "HOSTNAME", len) == 0)
-		shell->hostname = value;
-	else if (ft_strncmp(str, "SHLVL", len) == 0)
-		shell->shlvl = value;
-	return ;
+	if (handle_env(env, shell) == -1)
+		return (-1);
+	i = 0;
+	while (env[i])
+	{
+		add_arg(env_list, env[i], 0);
+		i++;
+	}
+	i = 0;
+	current = *env_list;
+	while (env[i])
+	{
+		current->str = env[i++];
+		current = current->next;
+	}
+	return (0);
 }

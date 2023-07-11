@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/11 12:15:13 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 15:12:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*cd_specialcase(t_args *list, t_shell *shell)
 	else
 	{
 		if (ft_strncmp(list->next->str, "~", ft_strlen(list->next->str)) == 0)
-			list->next->str = ft_strjoin("/mnt/nfs/homes/", shell->user);
+			list->next->str = ft_strjoin("/home/", shell->user);
 		buf = list->next->str;
 	}
 	return (buf);
