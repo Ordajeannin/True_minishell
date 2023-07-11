@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/10 12:07:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:17:44 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ typedef struct s_args
 
 int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
-void	from_input_to_list_of_args(char *input, t_args **list);
-void	clear_args_list(t_args **list);
 int		parsing_input(char **input);
+
+//Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
-void	add_arg(t_args **list, char *str, int token);
 void	update_args(t_args **list);
 int		tokenize_args(char *input);
 void	delimit_to_token(char *s, t_args **list);
@@ -80,22 +79,32 @@ char	*ft_strpbrk(const char *s, const char *charset);
 size_t	ft_strspn(const char *s, char **accept, t_args **list);
 size_t	ft_strcspn(const char *s, char **reject, t_args **list);
 
+//List concerns
+void	from_input_to_list_of_args(char *input, t_args **list);
+void	loop_args(t_shell *shell, t_args **list);
+void	clear_args_list(t_args **list);
+void	add_arg(t_args **list, char *str, int token);
+
 //Bultins
 int		find_opt(char *s1, char *s2);
 void	ft_echo(t_args *list);
 void	ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 void	ft_pwd(void);
-void	ft_env(t_args *list, t_args *env_list);
+void	ft_env(t_args *list, t_args **env_list);
 void	ft_unset(t_args *list, t_shell *shell, t_args *env_list);
+void	ft_export(t_args *list, t_shell *shell, t_args **env_list);
 
 //Other commands
 void	all_cmd(t_args *arg, t_shell *shell, t_args **list);
-void	change_env(t_args **env_list, char *new_str, char *change_value);
+void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
+int		change_env_exp(t_args **env_list, char *name_env, char *value);
+int		searchin_env(t_args **env_list, t_args *list);
 char	*extract_cmd_path(char **paths, char *cmd);
-void	shell_change(t_shell *shell, t_args *list);
+void	shell_change(t_shell *shell, char *str, char *value);
 
 //Helpful function
-char	*until_char(char *str, int c);
+char	*ft_strdupto_n(char *str, char c);
+char	*ft_strdup_from(char *str, char c);
 
 //Print Things
 void	shell_style(t_shell *shell);
