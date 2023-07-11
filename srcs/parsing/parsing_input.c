@@ -18,8 +18,6 @@
 /*
  * :WARNING:
  * Cet ensemble de fonctions ne gere pas encore les "str", 'str', et les "<<>>"
- * Et n'est pas implemente au programme.
- * Work In Progress, test en local, ne pas effacer le main
 */
 void	delimit_to_token(char *str, t_args **list)
 {

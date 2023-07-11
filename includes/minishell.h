@@ -23,6 +23,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <string.h>
+# include <ctype.h>
 # include "libft.h"
 
 # define ERROR_NOENV 	"env is not found"
@@ -68,9 +70,10 @@ int		parsing_input(char **input);
 
 //Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
-void	update_args(t_args **list);
+void	update_args(t_args **list, t_args **env_list);
 int		tokenize_args(char *input);
 void	delimit_to_token(char *s, t_args **list);
+char	*is_env_var(char *str, t_args **env_list);
 
 //libc parsing
 int		ft_strcmp(const char *s1, const char *s2);
@@ -80,7 +83,7 @@ size_t	ft_strspn(const char *s, char **accept, t_args **list);
 size_t	ft_strcspn(const char *s, char **reject, t_args **list);
 
 //List concerns
-void	from_input_to_list_of_args(char *input, t_args **list);
+void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
 void	loop_args(t_shell *shell, t_args **list);
 void	clear_args_list(t_args **list);
 void	add_arg(t_args **list, char *str, int token);

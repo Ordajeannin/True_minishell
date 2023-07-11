@@ -113,7 +113,7 @@ int	main(int ac, char **av, char **env)
 		shell_style(&shell);
 		input = readline("minishell>");
 		add_history(input);
-		from_input_to_list_of_args(input, &list);
+		from_input_to_list_of_args(input, &list, &env_list);
 		if (list)
 		{
 			print_args_list(&list);

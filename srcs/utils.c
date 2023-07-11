@@ -13,12 +13,11 @@
 #include "minishell.h"
 
 /*
- *Recupere str jusqu'a c.
- *Creation d'un tableau a partir de str jusqu'a atteindre le caractere c.
- *Compter d'abord le nombre de caractere a ajouter a tab.
- *Puis, ajout a tab.
+ * Recupere str jusqu'a c.
+ * Creation d'un tableau a partir de str jusqu'a atteindre le caractere c.
+ * Compter d'abord le nombre de caractere a ajouter a tab.
+ * Puis, ajout a tab.
 */
-
 char	*ft_strdupto_n(char *str, char c)
 {
 	char	*tab;
@@ -46,8 +45,8 @@ char	*ft_strdupto_n(char *str, char c)
 }
 
 /* 
- *Recupere str a partir de c. */
-
+ * Recupere str a partir de c.
+*/
 char	*ft_strdup_from(char *str, char c)
 {
 	char	*tab;

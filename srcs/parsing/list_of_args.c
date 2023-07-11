@@ -75,7 +75,7 @@ void	add_arg(t_args **list, char *str, int token)
  * Permet d'extraire les tokens de input sur base des delimitateurs
  * Puis identifie ces tokens
 */
-void	from_input_to_list_of_args(char *input, t_args **list)
+void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 {
 	char	*delim[7];
 	char	*token;
@@ -91,7 +91,7 @@ void	from_input_to_list_of_args(char *input, t_args **list)
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
-	update_args(list);
+	update_args(list, e_list);
 }
 
 /* 

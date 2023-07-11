@@ -30,8 +30,12 @@ void	print_args_list(t_args **list)
 	i = 0;
 	while (current != NULL)
 	{
-		ft_printf("\nargument %d\nstring: %s\ntoken: %d\n\n",
-			i, current->str, current->token);
+		if (current->str != NULL)
+			ft_printf("\nargument %d\nstring: %s\ntoken: %d\n\n",
+				i, current->str, current->token);
+		else
+			ft_printf("\nargument %d\nstring: NULL\ntoken: %d\n\n",
+				i, current->token);
 		i++;
 		current = current->next;
 	}
