@@ -82,6 +82,8 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strpbrk(const char *s, const char *charset);
 size_t	ft_strspn(const char *s, char **accept, t_args **list);
 size_t	ft_strcspn(const char *s, char **reject, t_args **list);
+char	*ft_strncpy(char *dst, const char *src, int n);
+char	*ft_strrchr(const char *str, int ch);
 
 //List concerns
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);

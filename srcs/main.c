@@ -80,7 +80,7 @@ void	signal_handler(int sig)
 static void	main_bis(char *input, t_args *list, t_args *env_list, t_shell shell)
 {
 	add_history(input);
-	from_input_to_list_of_args(input, &list);
+	from_input_to_list_of_args(input, &list, &env_list);
 	if (list)
 	{
 		print_args_list(&list);
