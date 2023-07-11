@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/10 18:32:56 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:15:13 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	}
 	else
 	{
-		change_env(&env_list, ft_strjoin("OLDPWD=", shell->pwd),
+		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->pwd),
 			ft_strjoin("OLDPWD=", shell->oldpwd));
-		change_env(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
+		change_env_cd(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
 			ft_strjoin("PWD=", shell->pwd));
 		shell->oldpwd = shell->pwd;
 		shell->pwd = getcwd(NULL, 0);
@@ -72,37 +72,11 @@ void	ft_pwd(void)
 }
 
 /* 
- * Boucle principale d'unset
- * Cherche une VE et la supprime s'il la trouve
-*/
-static int	searchin_env(t_args **env_list, t_args *list)
-{
-	t_args	*current;
-	t_args	*temp;
-
-	current = *env_list;
-	while (current)
-	{
-		if (ft_strncmp(list->next->str, current->next->str,
-				ft_strlen(list->next->str)) == 0)
-		{
-			temp = current->next->next;
-			free(current->next);
-			current->next = temp;
-			return (1);
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
-/* 
  * Fonction usent.
  * Supprime une variable d'environnement appele.
  * Change aussi les VE saved dans struct t_shell a NULL.
  * Si elle est vide ou n'existe pas, renvoie juste l'invite de commande.
 */
-
 void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 {
 	if (!list)
@@ -114,30 +88,25 @@ void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 	return ;
 }
 
-/* Fonction export.
- * Cherche d'abord si la VE existe deja.
- * Si oui, la modifie, dans env_list et dans shell.
- * Si non, la creee dans env_list seulement.
- * (Erreurs: appel a export+env direct == OK
- * 			 appel a export puis appel a env == KO
- * 			 change_env probleme)
+/* 
+ * Execution des commandes dependantes de PATH 
+ * Creation d'un sous-processus pour execve
 */
-void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
+void	all_cmd(t_args *arg, t_shell *shell, t_args **list)
 {
-	char	*value;
-	char	*v_env;
-	char	*string;
+	char	*command;
+	pid_t	pid_child;
+	int		status;
 
-	string = malloc((ft_strlen(list->next->str) +1) * sizeof(char));
-	string = list->next->str;
-	v_env = ft_strdupto_n(list->next->str, '=');
-	ft_printf("V_ENV = %s\n", v_env);
-	value = ft_strdup_from(list->next->str, '=');
-	ft_printf("V_ENV = %s\nVALUE = %s\n", v_env, value);
-	if (!change_env(env_list, value, v_env))
+	command = extract_cmd_path(shell->cmd_paths, arg->str);
+	loop_args(shell, list);
+	pid_child = fork();
+	if (pid_child == 0)
 	{
-		add_arg(env_list, string, 0);
+		ft_printf("\n");
+		execve(command, shell->input, NULL);
+		return ;
 	}
 	else
-		shell_change(shell, v_env, value);
+		waitpid(pid_child, &status, 0);
 }

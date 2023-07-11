@@ -6,18 +6,18 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/10 18:27:39 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:24:36 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* 
- * Modification de l'env
+ * Modif de l'env pour cd
  * Parcourt env_list jusqu'a l'element que l'on veut changer.
  * Puis, modifier cette valeur avec new_str
 */
-int	change_env(t_args **env_list, char *new_str, char *change_value)
+void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 {
 	t_args	*current;
 
@@ -29,6 +29,60 @@ int	change_env(t_args **env_list, char *new_str, char *change_value)
 		{
 			current->str = NULL;
 			current->str = new_str;
+		}
+		current = current->next;
+	}
+}
+
+/* 
+ * Modif de env pour export.
+ * Recherche de name_env dans env et modifs.
+ * Boucle jusqu'a trouver name_env dans l'env.
+ * Puis, modifie sa valeur avec value.
+*/
+int	change_env_exp(t_args **env_list, char *name_env, char *value)
+{
+	char	*result;
+	char	*current_name;
+	t_args	*current;
+
+	result = ft_strjoin(name_env, "=");
+	result = ft_strjoin(result, value);
+	current_name = NULL;
+	current = *env_list;
+	while (current)
+	{
+		current_name = ft_strdupto_n(current->str, '=');
+		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
+			&& ft_strlen(current_name) == ft_strlen(name_env))
+		{
+			current->str = NULL;
+			current->str = result;
+			return (1);
+		}
+		current = current->next;
+	}
+	return (0);
+}
+
+/* 
+ * Boucle principale d'unset.
+ * Cherche une VE et la supprime s'il la trouve.
+*/
+int	searchin_env(t_args **env_list, t_args *list)
+{
+	t_args	*current;
+	t_args	*temp;
+
+	current = *env_list;
+	while (current)
+	{
+		if (ft_strncmp(list->next->str, current->next->str,
+				ft_strlen(list->next->str)) == 0)
+		{
+			temp = current->next->next;
+			free(current->next);
+			current->next = temp;
 			return (1);
 		}
 		current = current->next;
@@ -43,7 +97,7 @@ int	change_env(t_args **env_list, char *new_str, char *change_value)
 */
 void	ft_env(t_args *list, t_args **env_list)
 {
-	t_args *current;
+	t_args	*current;
 
 	current = *env_list;
 	if (list->next != NULL)
@@ -54,62 +108,6 @@ void	ft_env(t_args *list, t_args **env_list)
 		ft_printf("%s\n", current->str);
 		current = current->next;
 	}
-}
-
-/* 
- * PROTECTION DE MALLOC! 
- * Adaptation de list pour execve
- * Boucle qui remplit shell->input
-*/
-void	loop_args(t_shell *shell, t_args **list)
-{
-	t_args	*current;
-	int		len;
-	int		len_list;
-	int		i;
-
-	len = 0;
-	len_list = 0;
-	current = *list;
-	while (current)
-	{
-		len_list ++;
-		current = current->next;
-	}
-	shell->input = malloc((len_list +1) * sizeof(char *));
-	current = *list;
-	i = 0;
-	while (current)
-	{
-		len = ft_strlen(current->str);
-		shell->input[i] = malloc((len +1) * sizeof(char));
-		shell->input[i++] = current->str;
-		current = current->next;
-	}
-	shell->input[i] = NULL;
-}
-
-/* 
- * Execution des commandes dependantes de PATH 
- * Creation d'un sous-processus pour execve
-*/
-void	all_cmd(t_args *arg, t_shell *shell, t_args **list)
-{
-	char	*command;
-	pid_t	pid_child;
-	int		status;
-
-	command = extract_cmd_path(shell->cmd_paths, arg->str);
-	loop_args(shell, list);
-	pid_child = fork();
-	if (pid_child == 0)
-	{
-		ft_printf("\n");
-		execve(command, shell->input, NULL);
-		return ;
-	}
-	else
-		waitpid(pid_child, &status, 0);
 }
 
 /* 
