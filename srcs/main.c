@@ -6,49 +6,15 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/11 18:19:31 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:44:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
- *Gestionnaire de commandes.
- *Recupere l'arguments et la commande separement.
- *Traite en fonction de la commande enregistree
-*/
-static void	args_handle(t_args *list, t_shell *shell, t_args **env_list)
-{
-	t_args	*current_env;
-
-	current_env = *env_list;
-	if (list == NULL)
-		return ;
-	else if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
-		== 0)
-		ft_echo(list);
-	else if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
-		== 0)
-		ft_cd(list, shell, current_env);
-	else if (ft_strncmp(list->str, "pwd", ft_strlen(list->str))
-		== 0)
-		ft_pwd();
-	else if (ft_strncmp(list->str, "env", ft_strlen(list->str))
-		== 0)
-		ft_env(list, env_list);
-	else if (ft_strncmp(list->str, "unset",
-			ft_strlen(list->str)) == 0)
-		ft_unset(list, shell, current_env);
-	else if (ft_strncmp(list->str, "export",
-			ft_strlen(list->str)) == 0)
-		ft_export(list, shell, env_list);
-	else
-		all_cmd(list, shell, &list);
-}
-
 /*
  * Permet a main d'etre a moins de 25 lines
- * Fonction purement tilitaire, ne pas garder dans le rendu final
+ * Fonction purement utilitaire, ne pas garder dans le rendu final
 */
 static void	ft_gain_place(char **av, t_args **list, char **input,
 		t_args **env_list)
@@ -84,7 +50,7 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, t_shell shell)
 	if (list)
 	{
 		print_args_list(&list);
-		args_handle(list, &shell, &env_list);
+		args_handle(list, &shell, &env_list, input);
 	}
 	free(input);
 	clear_args_list(&list);
@@ -120,8 +86,7 @@ int	main(int ac, char **av, char **env)
 		input = readline(prompt_cmd(&shell));
 		if (input == NULL)
 		{
-			ft_printf("exit\n");
-			exit(EXIT_FAILURE);
+			ft_exit(input, list, env_list);
 		}
 		main_bis(input, list, env_list, shell);
 	}

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/11 18:20:28 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:44:37 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ typedef struct s_args
 
 int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
+void	init_shell(t_shell *shell);
 int		parsing_input(char **input);
+void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
+	char *input);
 
 //Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
@@ -99,6 +102,7 @@ void	ft_pwd(void);
 void	ft_env(t_args *list, t_args **env_list);
 void	ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 void	ft_export(t_args *list, t_shell *shell, t_args **env_list);
+void	ft_exit(char *input, t_args *list, t_args *env_list);
 
 //Other commands
 void	all_cmd(t_args *arg, t_shell *shell, t_args **list);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/11 18:20:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/12 12:44:57 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,18 @@ void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 		add_env(env_list, list);
 		shell_change(shell, v_env, value);
 	}
+}
+
+/*
+ * Program stop.
+ * Fonction a l'image de 'exit' 
+ * Quitte le programme proprement avec free.
+*/
+void	ft_exit(char *input, t_args *list, t_args *env_list)
+{
+	free(input);
+	clear_args_list(&list);
+	clear_args_list(&env_list);
+	ft_printf("exit\n");
+	exit(EXIT_FAILURE);
 }
