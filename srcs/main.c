@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/12 12:44:46 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 12:09:43 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_printf("\n");
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -43,14 +44,15 @@ void	signal_handler(int sig)
 /* 
  * Suite du main.
 */
-static void	main_bis(char *input, t_args *list, t_args *env_list, t_shell shell)
+static void	main_bis(char *input, t_args *list, t_args *env_list, \
+	t_shell *shell)
 {
 	add_history(input);
 	from_input_to_list_of_args(input, &list, &env_list);
 	if (list)
 	{
 		print_args_list(&list);
-		args_handle(list, &shell, &env_list, input);
+		args_handle(list, shell, &env_list, input);
 	}
 	free(input);
 	clear_args_list(&list);
@@ -88,7 +90,7 @@ int	main(int ac, char **av, char **env)
 		{
 			ft_exit(input, list, env_list);
 		}
-		main_bis(input, list, env_list, shell);
+		main_bis(input, list, env_list, &shell);
 	}
 	return (0);
 }

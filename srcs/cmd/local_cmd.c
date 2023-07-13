@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/12 12:41:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 12:05:26 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,7 @@ void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 	if (!searchin_env(&env_list, list))
 		return ;
 	else
-	{
-		ft_printf("Je suis ici !\n");
 		shell_change(shell, list->next->str, NULL);
-		ft_printf("SHELL = %s\n", shell->user);
-	}
 	return ;
 }
 

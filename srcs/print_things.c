@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/12 12:20:15 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 12:02:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ char	*prompt_cmd(t_shell *shell)
 
 	prompt = NULL;
 	if (shell->user != NULL)
+	{
 		prompt = ft_strjoin(shell->user, ":");
-	prompt = ft_strjoin(prompt, "minishell>");
+		prompt = ft_strjoin(prompt, "minishell>");
+	}
+	else
+		prompt = "minishell>";
 	return (prompt);
 }

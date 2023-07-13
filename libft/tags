@@ -5,7 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 BUFFER_SIZE	includes/libft.h	24;"	d
-CC	Makefile	/^CC			= gcc$/;"	m
+CC	Makefile	/^CC				= gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS 			= -Werror -Wextra -Wall -I$/;"	m
 INCLUDES	Makefile	/^INCLUDES		= includes$/;"	m
 LIBFT_H	includes/libft.h	13;"	d
