@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/12 12:44:57 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:28:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 		add_env(env_list, list);
 		shell_change(shell, v_env, value);
 	}
+	shell->error = 0;
 }
 
 /*
@@ -98,6 +99,7 @@ void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 */
 void	ft_exit(char *input, t_args *list, t_args *env_list)
 {
+	// wait(100);
 	free(input);
 	clear_args_list(&list);
 	clear_args_list(&env_list);

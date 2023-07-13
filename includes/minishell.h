@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/13 11:13:16 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:05:09 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_shell
 	char	*shlvl;
 	char	**cmd_paths;
 	char	**input;
+	int		error;
 }	t_shell;
 
 typedef struct s_args
@@ -96,20 +97,20 @@ void	add_arg(t_args **list, char *str, int token);
 
 //Bultins
 int		find_opt(char *s1, char *s2);
-void	ft_echo(t_args *list);
+void	ft_echo(t_args *list, t_shell *shell);
 void	ft_cd(t_args *list, t_shell *shell, t_args *env_list);
-void	ft_pwd(void);
-void	ft_env(t_args *list, t_args **env_list);
+void	ft_pwd(t_shell *shell);
+void	ft_env(t_args *list, t_args **env_list, t_shell *shell);
 void	ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 void	ft_export(t_args *list, t_shell *shell, t_args **env_list);
 void	ft_exit(char *input, t_args *list, t_args *env_list);
 
 //Other commands
-void	all_cmd(t_args *arg, t_shell *shell, t_args **list);
+int		all_cmd(t_args *arg, t_shell *shell, t_args **list);
 void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
 int		change_env_exp(t_args **env_list, char *name_env, char *value);
 int		searchin_env(t_args **env_list, t_args *list);
-char	*extract_cmd_path(char **paths, char *cmd);
+char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell);
 void	shell_change(t_shell *shell, char *str, char *value);
 int		set_env(t_args **env_list, char **env, t_shell *shell);
 

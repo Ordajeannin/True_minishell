@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/12 12:32:01 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:57:56 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	handle_env(char **env, t_shell *shell)
 	shell->term = getenv("TERM");
 	shell->hostname = getenv("HOSTNAME");
 	shell->shlvl = getenv("SHLVL");
+	shell->error = 0;
 	if (shell->path != NULL && shell->path[0] != '\0')
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
 	return (0);
@@ -46,7 +47,7 @@ int	handle_env(char **env, t_shell *shell)
  * Au premier concluant, on renvoie le path complet
  * Sinon, renvoie NULL
 */
-char	*extract_cmd_path(char **paths, char *cmd)
+char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 {
 	char	*temp;
 	char	*command;
@@ -62,5 +63,6 @@ char	*extract_cmd_path(char **paths, char *cmd)
 		paths++;
 	}
 	strerror(errno);
+	shell->error = errno;
 	return (NULL);
 }

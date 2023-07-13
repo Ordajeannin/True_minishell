@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/04 13:41:16 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:28:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,16 @@ int	msg(char *msg)
 {
 	perror(msg);
 	return (ERROR);
+}
+
+/* Appel a $?.
+ * Renvoie la derniere erreur enregistree.
+ * S'il y a erreur, elle renvoit 0(= pas d'erreurs)
+ * Sinon, elle renvoit le numero de l'erreur.
+*/
+int	var_error(t_shell *shell)
+{
+	ft_printf("%d\n", shell->error);
+	shell->error = 0;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 12:44:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:07:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
 {
 	if (ft_strncmp(list->str, "env", ft_strlen(list->str))
 		== 0)
-		ft_env(list, env_list);
+		ft_env(list, env_list, shell);
 	else if (ft_strncmp(list->str, "export",
 			ft_strlen(list->str)) == 0)
 		ft_export(list, shell, env_list);
@@ -66,13 +66,13 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 		return ;
 	else if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
 		== 0)
-		ft_echo(list);
+		ft_echo(list, shell);
 	else if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
 		== 0)
 		ft_cd(list, shell, current_env);
 	else if (ft_strncmp(list->str, "pwd", ft_strlen(list->str))
 		== 0)
-		ft_pwd();
+		ft_pwd(shell);
 	else if (ft_strncmp(list->str, "unset",
 			ft_strlen(list->str)) == 0)
 		ft_unset(list, shell, current_env);

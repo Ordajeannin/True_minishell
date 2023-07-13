@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 12:05:26 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:55:12 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	{
 		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
+		shell->error = errno;
 		return ;
 	}
 	else
@@ -61,14 +62,16 @@ void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
  * Affiche le repertoire courrant 
  * Fonction a l'image de 'pwd'
 */
-void	ft_pwd(void)
+void	ft_pwd(t_shell *shell)
 {
 	if (getcwd(NULL, 0) == NULL)
 	{
+		shell->error = errno;
 		return ;
 	}
 	else
 		ft_printf("%s\n", getcwd(NULL, 0));
+	shell->error = 0;
 }
 
 /* 
@@ -85,6 +88,7 @@ void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		return ;
 	else
 		shell_change(shell, list->next->str, NULL);
+	shell->error = 0;
 	return ;
 }
 
@@ -92,21 +96,27 @@ void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
  * Execution des commandes dependantes de PATH 
  * Creation d'un sous-processus pour execve
 */
-void	all_cmd(t_args *arg, t_shell *shell, t_args **list)
+int	all_cmd(t_args *arg, t_shell *shell, t_args **list)
 {
 	char	*command;
 	pid_t	pid_child;
 	int		status;
 
-	command = extract_cmd_path(shell->cmd_paths, arg->str);
+	command = extract_cmd_path(shell->cmd_paths, arg->str, shell);
+	if (command == NULL)
+	{
+		ft_printf("%d\n", shell->error);
+		return (0);
+	}
 	loop_args(shell, list);
 	pid_child = fork();
 	if (pid_child == 0)
 	{
 		ft_printf("\n");
 		execve(command, shell->input, NULL);
-		return ;
+		return (0);
 	}
 	else
 		waitpid(pid_child, &status, 0);
+	return (0);
 }

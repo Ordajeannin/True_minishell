@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 12:40:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:18:09 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	find_opt(char *s1, char *s2)
 		if (s1[i] == s2[j])
 		{
 			j ++;
-			if (j == ft_strlen(s2) - 1)
+			if (j == ft_strlen(s2))
 				return (1);
 		}
 		i ++;
@@ -59,7 +59,7 @@ void	iter_echo(t_args *list)
  * Affiche caractere par caractere les arguments en ignorant les quotes.
  * (Attention: cas particuliers, quotes a l'interieur de d'autres).
 */
-void	ft_echo(t_args *list)
+void	ft_echo(t_args *list, t_shell *shell)
 {
 	int	bools;
 
@@ -69,6 +69,7 @@ void	ft_echo(t_args *list)
 		return ;
 	if (find_opt(list->str, "-n"))
 	{
+		ft_printf("HOLA\n");
 		list = list->next;
 		bools = 1;
 	}
@@ -79,4 +80,5 @@ void	ft_echo(t_args *list)
 	}
 	if (bools == 0)
 		write (1, "\n", 1);
+	shell->error = 0;
 }
