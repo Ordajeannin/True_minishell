@@ -6,11 +6,34 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 11:04:36 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 12:44:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+ * Gestionnaire tokens && et |.
+ * Parcours list d'arg pour chercher une separation: && ou |.
+ * A faire: implementer token 4 |.
+ * Token 3 && fonctionnel.
+*/
+void	check_args(t_args **list, t_shell *shell, t_args **env_list, \
+	char *input)
+{
+	t_args	*current;
+
+	current = *list;
+	while (current)
+	{
+		if (current->token == 3)
+		{
+			args_handle(current->next, shell, env_list, input);
+			return ;
+		}
+		current = current->next;
+	}
+}
 
 /* 
  * Gestionnaire de commandes 2.
@@ -58,4 +81,5 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 		ft_exit(input, list, current_env);
 	else
 		args_two(list, shell, env_list);
+	check_args(&list, shell, env_list, input);
 }

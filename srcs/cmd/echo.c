@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/11 12:14:13 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/13 12:40:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_echo(t_args *list)
 		list = list->next;
 		bools = 1;
 	}
-	while (list)
+	while (list && list->token != 3)
 	{
 		iter_echo(list);
 		list = list->next;
