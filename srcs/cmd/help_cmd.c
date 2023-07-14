@@ -96,10 +96,11 @@ void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
  * Program stop.
  * Fonction a l'image de 'exit' 
  * Quitte le programme proprement avec free.
+ * :warning:
+ * wait(100) supprime de la premiere ligne pour la norme
 */
 void	ft_exit(char *input, t_args *list, t_args *env_list)
 {
-	// wait(100);
 	free(input);
 	clear_args_list(&list);
 	clear_args_list(&env_list);

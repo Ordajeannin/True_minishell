@@ -114,9 +114,9 @@ char	*is_env_var(char *str, t_args **env_list)
 	len = ft_strlen(str);
 	result = NULL;
 	if (str[0] == '$')
+	{
 		result = replace_env_var(str + 1, len - 1, env_list);
-	if (result == NULL)
-		return (str);
-	else
 		return (result);
+	}
+	return (str);
 }
