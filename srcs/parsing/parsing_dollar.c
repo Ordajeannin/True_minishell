@@ -32,7 +32,7 @@ static char	*replace_env_var(char *str, int n, t_args **env_list)
 	while (current)
 	{
 		env = ft_strdupto_n(current->str, '=');
-		if (ft_strcmp(env, result) == 0)
+		if (ft_strcmp(env, str) == 0)
 		{
 			result = ft_strdup_from(current->str, '=');
 			return (result);
@@ -71,6 +71,7 @@ static char	*no_env_var(char *str)
  * la nouvelle chaine
  * Si non, envoie un pointeur vers la chaine d'origine
 */
+/*
 char	*is_env_var(char *str, t_args **env_list)
 {
 	char	*result;
@@ -96,4 +97,26 @@ char	*is_env_var(char *str, t_args **env_list)
 		return (result);
 	}
 	return (str);
+}
+*/
+
+/*
+ * Permet de traiter une sous-chaine, d'analyser si elle a le format
+ * d'une variable d environnement, et si oui tente de la remplacer par sa
+ * valeur
+ * renvoie la sous-chaine sinon
+ */
+char	*is_env_var(char *str, t_args **env_list)
+{
+	char	*result;
+	int		len;
+
+	len = ft_strlen(str);
+	result = NULL;
+	if (str[0] == '$')
+		result = replace_env_var(str + 1, len - 1, env_list);
+	if (result == NULL)
+		return (str);
+	else
+		return (result);
 }

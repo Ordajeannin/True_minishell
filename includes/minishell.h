@@ -78,6 +78,7 @@ void	update_args(t_args **list, t_args **env_list);
 int		tokenize_args(char *input);
 void	delimit_to_token(char *s, t_args **list);
 char	*is_env_var(char *str, t_args **env_list);
+char	**ft_split_arg(char *str);
 
 //libc parsing
 int		ft_strcmp(const char *s1, const char *s2);

@@ -13,6 +13,25 @@
 #include "minishell.h"
 
 /*
+ * Fonction permettant de rajouter un espace a la fin d'un argument
+ * (update en verifiant le token?)
+static char	*add_space(char	*str)
+{
+	char	*result;
+	int		len;
+
+	len = ft_strlen(str);
+	result = malloc(sizeof(char) * len + 1);
+	if (!result)
+		return (NULL);
+	ft_strncpy(result, str, len);
+	result[len] = ' ';
+	result[len + 1] = '\0';
+	return (result);
+}
+*/
+
+/*
  * Analyse une chaine de caractere issue d'input
  * Pour y associer un token
  * :warning: CMD, OPTION, FPATH et RPATH ne sont pas encore traites (cf 12910)
@@ -36,22 +55,32 @@ int	tokenize_args(char *input)
 }
 
 /*
- * Permet d'associer un token a une string pour chaque maillon
+ * Permet de verifier si un argument contient une variable d'environnement
+ * correctement formatee, et de la remplacer
+ * Permet egalement d'associer un token a une string pour chaque maillon
  * de la liste chainee input
 */
 void	update_args(t_args **list, t_args **env_list)
 {
 	t_args	*current;
-	char	*tmp;
+	char	**tmp;
+	int		i;
 
 	current = *list;
 	tmp = NULL;
 	while (current != NULL)
 	{
-		while (tmp != current->str)
+		i = 0;
+		tmp = ft_split_arg(current->str);
+		current->str = NULL;
+		while (tmp[i])
 		{
-			tmp = current->str;
-			current->str = is_env_var(current->str, env_list);
+			tmp[i] = is_env_var(tmp[i], env_list);
+			if (tmp[i] != NULL && current->str != NULL)
+				current->str = ft_strjoin(current->str, tmp[i]);
+			if (tmp[i] != NULL && current->str == NULL)
+				current->str = tmp[i];
+			i++;
 		}
 		current->token = tokenize_args(current->str);
 		current = current->next;
