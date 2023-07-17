@@ -32,6 +32,46 @@ static char	*add_space(char	*str)
 */
 
 /*
+ * Permet de... gagner de la place
+*/
+static void	help_delete(t_args **prev, t_args **current)
+{
+	*prev = *current;
+	*current = (*current)->next;
+}
+
+/*
+ * Permet de supprimer les arguments qui se voulaient etre des
+ * variables d'environnement, mais mal formatee
+*/
+static void	delete_null_nodes(t_args **list)
+{
+	t_args	*current;
+	t_args	*prev;
+	t_args	*temp;
+
+	if (*list == NULL)
+		return ;
+	current = *list;
+	prev = NULL;
+	while (current != NULL)
+	{
+		if (current->str == NULL)
+		{
+			temp = current;
+			if (prev == NULL)
+				*list = current->next;
+			else
+				prev->next = current->next;
+			current = current->next;
+			free(temp);
+		}
+		else
+			help_delete(&prev, &current);
+	}
+}
+
+/*
  * Analyse une chaine de caractere issue d'input
  * Pour y associer un token
  * :warning: CMD, OPTION, FPATH et RPATH ne sont pas encore traites (cf 12910)
@@ -82,7 +122,9 @@ void	update_args(t_args **list, t_args **env_list)
 				current->str = tmp[i];
 			i++;
 		}
-		current->token = tokenize_args(current->str);
+		if (current->str != NULL)
+			current->token = tokenize_args(current->str);
 		current = current->next;
 	}
+	delete_null_nodes(list);
 }
