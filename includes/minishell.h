@@ -42,6 +42,9 @@
 # define TOKEN_FPATH	9
 # define TOKEN_RPATH	10
 # define TOKEN_OR		11
+# define TOKEN_S_QUOTES 22
+# define TOKEN_D_QUOTES 23
+# define ABORT_MISSION	42
 
 typedef struct s_shell
 {
@@ -73,12 +76,14 @@ void	init_shell(t_shell *shell);
 int		parsing_input(char **input);
 void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	char *input);
+void	was_unclosed_quotes(t_args **list);
+size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
 
 //Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
 void	update_args(t_args **list, t_args **env_list);
 int		tokenize_args(char *input);
-void	delimit_to_token(char *s, t_args **list);
+size_t	delimit_to_token(char *s, t_args **list, const char **input);
 char	*is_env_var(char *str, t_args **env_list);
 char	**ft_split_arg(char *str);
 

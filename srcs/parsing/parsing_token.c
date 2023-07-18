@@ -97,11 +97,57 @@ int	tokenize_args(char *input)
 }
 
 /*
+ * Permet de gerer le remplacement des variables d'environnement,
+ * si correctement formate
+*/
+static void	process_not_s_quotes(t_args *node, t_args **env_list)
+{
+	char	**tmp;
+	int		i;
+
+	tmp = ft_split_arg(node->str);
+	node->str = NULL;
+	i = 0;
+	while (tmp[i])
+	{
+		tmp[i] = is_env_var(tmp[i], env_list);
+		if (tmp[i] != NULL && node->str != NULL)
+			node->str = ft_strjoin(node->str, tmp[i]);
+		if (tmp[i] != NULL && node->str == NULL)
+			node->str = tmp[i];
+		i++;
+	}
+}
+
+/*
+ * Permet de remplacer les variables d'environnement par leurs valeurs.
+ * :warning: uniquement celles existantes / qui ne sont pas entre single quotes!
+ * ensuite, tokenize les arguments
+*/
+void	update_args(t_args **list, t_args **env_list)
+{
+	t_args	*current;
+
+	current = *list;
+	while (current != NULL)
+	{
+		if (current->token != TOKEN_S_QUOTES)
+			process_not_s_quotes(current, env_list);
+		if (current->str != NULL && current->token < 20)
+			current->token = tokenize_args(current->str);
+		current = current->next;
+	}
+	delete_null_nodes(list);
+}
+
+/*
  * Permet de verifier si un argument contient une variable d'environnement
  * correctement formatee, et de la remplacer
  * Permet egalement d'associer un token a une string pour chaque maillon
  * de la liste chainee input
+ * A CONSERVER TEMPORAIREMENT, si probleme avec le raccourcissement
 */
+/*
 void	update_args(t_args **list, t_args **env_list)
 {
 	t_args	*current;
@@ -113,20 +159,24 @@ void	update_args(t_args **list, t_args **env_list)
 	while (current != NULL)
 	{
 		i = 0;
-		tmp = ft_split_arg(current->str);
-		current->str = NULL;
-		while (tmp[i])
+		if (current->token != TOKEN_S_QUOTES)
 		{
-			tmp[i] = is_env_var(tmp[i], env_list);
-			if (tmp[i] != NULL && current->str != NULL)
-				current->str = ft_strjoin(current->str, tmp[i]);
-			if (tmp[i] != NULL && current->str == NULL)
-				current->str = tmp[i];
-			i++;
+			tmp = ft_split_arg(current->str);
+			current->str = NULL;
+			while (tmp[i])
+			{
+				tmp[i] = is_env_var(tmp[i], env_list);
+				if (tmp[i] != NULL && current->str != NULL)
+					current->str = ft_strjoin(current->str, tmp[i]);
+				if (tmp[i] != NULL && current->str == NULL)
+					current->str = tmp[i];
+				i++;
+			}
 		}
-		if (current->str != NULL)
+		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str);
 		current = current->next;
 	}
 	delete_null_nodes(list);
 }
+*/

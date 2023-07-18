@@ -11,20 +11,20 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
 /*
  * :WARNING:
  * Cet ensemble de fonctions ne gere pas encore les "str" et 'str'
 */
-void	delimit_to_token(char *str, t_args **list)
+size_t	delimit_to_token(char *str, t_args **list, const char **input)
 {
-	if (ft_strcmp(str, " ") != 0)
+	if (ft_strcmp(str, "\'") == 0)
+		return (is_quotes(str, list, *input, 1));
+	else if (ft_strcmp(str, "\"") == 0)
+		return (is_quotes(str, list, *input, 2));
+	else if (ft_strcmp(str, " ") != 0)
 		add_arg(list, str, 0);
-	else
-		return ;
+	return (0);
 }
 
 /*

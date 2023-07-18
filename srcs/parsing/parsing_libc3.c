@@ -15,9 +15,9 @@
 /*
  * Permet de... gagner de la place pour ft_strcspn
 */
-static void	ft_help2(char **r, t_args **list, size_t *count)
+static void	ft_help2(char **r, t_args **list, size_t *count, const char **input)
 {
-	delimit_to_token(*r, list);
+	(*count) += delimit_to_token(*r, list, input);
 	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
 		(*count)++;
 }
@@ -27,12 +27,16 @@ static void	ft_help2(char **r, t_args **list, size_t *count)
 */
 static void	ft_help1(char **a, t_args **list, size_t *count, const char **input)
 {
-	delimit_to_token(*a, list);
+	size_t	i;
+
+	i = delimit_to_token(*a, list, input);
 	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
 	{
 		(*count)++;
 		(*input)++;
 	}
+	(*count) += i;
+	(*input) += i;
 }
 
 /*
@@ -86,7 +90,7 @@ size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 		{
 			if (ft_strncmp(input, *r, ft_strlen(*r)) == 0)
 			{
-				ft_help2(r, list, &count);
+				ft_help2(r, list, &count, &input);
 				rejected = 1;
 				break ;
 			}

@@ -77,7 +77,7 @@ void	add_arg(t_args **list, char *str, int token)
 */
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 {
-	char	*delim[8];
+	char	*delim[10];
 	char	*token;
 
 	delim[0] = " ";
@@ -87,12 +87,15 @@ void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	delim[4] = ">>";
 	delim[5] = ">";
 	delim[6] = "|";
-	delim[7] = NULL;
+	delim[7] = "\'";
+	delim[8] = "\"";
+	delim[9] = NULL;
 	ft_printf("Input : %s\n", input);
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
 	update_args(list, e_list);
+	was_unclosed_quotes(list);
 }
 
 /* 
