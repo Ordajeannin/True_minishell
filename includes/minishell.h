@@ -41,6 +41,7 @@
 # define TOKEN_APPEND	8
 # define TOKEN_FPATH	9
 # define TOKEN_RPATH	10
+# define TOKEN_OR		11
 
 typedef struct s_shell
 {

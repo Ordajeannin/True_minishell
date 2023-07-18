@@ -80,6 +80,8 @@ int	tokenize_args(char *input)
 {
 	if (input[0] == '&' && input[1] == '&' && input[2] == '\0')
 		return (TOKEN_AND);
+	else if (input[0] == '|' && input[1] == '|' && input[2] == '\0')
+		return (TOKEN_OR);
 	else if (input[0] == '|' && input[1] == '\0')
 		return (TOKEN_PIPE);
 	else if (input[0] == '<' && input[1] == '\0')

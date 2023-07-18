@@ -17,14 +17,12 @@
 
 /*
  * :WARNING:
- * Cet ensemble de fonctions ne gere pas encore les "str", 'str', et les "<<>>"
+ * Cet ensemble de fonctions ne gere pas encore les "str" et 'str'
 */
 void	delimit_to_token(char *str, t_args **list)
 {
 	if (ft_strcmp(str, " ") != 0)
-	{
 		add_arg(list, str, 0);
-	}
 	else
 		return ;
 }
@@ -34,6 +32,8 @@ void	delimit_to_token(char *str, t_args **list)
 */
 static void	help_strtok(char *token_end, char **last_token)
 {
+	if (*(token_end - 1) == '<' || *(token_end - 1) == '>')
+		*(token_end - 1) = '\0';
 	*token_end = '\0';
 	*last_token = token_end + 1;
 }

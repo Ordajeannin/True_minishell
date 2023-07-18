@@ -1,63 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_libc.c                                     :+:      :+:    :+:   */
+/*   parsing_libc3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/07 18:31:07 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:31:07 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- * Compare 2 string
+ * Permet de... gagner de la place pour ft_strcspn
 */
-int	ft_strcmp(const char *s1, const char *s2)
+static void	ft_help2(char **r, t_args **list, size_t *count)
 {
-	while (*s1 && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+	delimit_to_token(*r, list);
+	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
+		(*count)++;
 }
 
 /*
- * Recherche la premiere occurence d'un caractere c
- * Renvoie un pointeur vers le caractere si rencontre, NULL sinon
+ * Permet de... gagner de la place pour ft_strspn
 */
-char	*ft_strchr(const char *s, int c)
+static void	ft_help1(char **a, t_args **list, size_t *count, const char **input)
 {
-	while (*s && *s != (char)c)
-		s++;
-	if (*s == (char)c)
-		return ((char *)s);
-	else
-		return (NULL);
-}
-
-/*
- * Recherche la premiere occurence d'un caractere parmis une liste
- * Renvoie un pointeur vers le premier caractere rencontre, NULL sinon
-*/
-char	*ft_strpbrk(const char *s, const char *charset)
-{
-	while (*s)
+	delimit_to_token(*a, list);
+	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
 	{
-		if (ft_strchr(charset, *s) != NULL)
-			return ((char *)s);
-		s++;
+		(*count)++;
+		(*input)++;
 	}
-	return (NULL);
 }
 
 /*
  * Permet de calculer la partie de input composee uniquement de delimitateurs
 */
-/*
 size_t	ft_strspn(const char *input, char **accept, t_args **list)
 {
 	char		**a;
@@ -73,13 +53,8 @@ size_t	ft_strspn(const char *input, char **accept, t_args **list)
 		{
 			if (ft_strncmp(input, *a, ft_strlen(*a)) == 0)
 			{
-				delimit_to_token(*a, list);
+				ft_help1(a, list, &count, &input);
 				accepted = 1;
-				if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
-				{
-					count++;
-					input++;
-				}
 				break ;
 			}
 			a++;
@@ -91,13 +66,11 @@ size_t	ft_strspn(const char *input, char **accept, t_args **list)
 	}
 	return (count);
 }
-*/
 
 /*
  * A l'inverse, renvoie la longueur de la partie de input qui ne contient
  * aucun delimitateur
 */
-/*
 size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 {
 	char		**r;
@@ -113,10 +86,8 @@ size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 		{
 			if (ft_strncmp(input, *r, ft_strlen(*r)) == 0)
 			{
-				delimit_to_token(*r, list);
+				ft_help2(r, list, &count);
 				rejected = 1;
-				if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
-					count++;
 				break ;
 			}
 			r++;
@@ -128,4 +99,3 @@ size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 	}
 	return (count);
 }
-*/
