@@ -18,8 +18,9 @@
 static void	ft_help2(char **r, t_args **list, size_t *count, const char **input)
 {
 	(*count) += delimit_to_token(*r, list, input);
-	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0
-		|| ft_strcmp("||", *r) == 0)
+	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
+		(*count)++;
+	if (ft_strcmp("||", *r) == 0)
 		(*count)++;
 }
 
@@ -31,8 +32,12 @@ static void	ft_help1(char **a, t_args **list, size_t *count, const char **input)
 	size_t	i;
 
 	i = delimit_to_token(*a, list, input);
-	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0
-		|| ft_strcmp("||", *a) == 0)
+	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
+	{
+		(*count)++;
+		(*input)++;
+	}
+	if (ft_strcmp("||", *a) == 0)
 	{
 		(*count)++;
 		(*input)++;

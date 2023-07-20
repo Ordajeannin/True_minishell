@@ -32,7 +32,8 @@ size_t	delimit_to_token(char *str, t_args **list, const char **input)
 */
 static void	help_strtok(char *token_end, char **last_token)
 {
-	if (*(token_end - 1) == '<' || *(token_end - 1) == '>')
+	if (*(token_end - 1) == '<' || *(token_end - 1) == '>'
+		|| *(token_end - 1) == '|')
 		*(token_end - 1) = '\0';
 	*token_end = '\0';
 	*last_token = token_end + 1;
