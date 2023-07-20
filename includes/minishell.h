@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/20 12:10:40 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 15:28:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_shell
 	char	**cmd_paths;
 	char	**input;
 	int		error;
+	int		is_work;
 }	t_shell;
 
 typedef struct s_args

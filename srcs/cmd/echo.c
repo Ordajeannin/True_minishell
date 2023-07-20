@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 12:08:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 15:39:54 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_echo(t_args *list, t_shell *shell)
 		list = list->next;
 		bools = 1;
 	}
-	while (list && list->token != 3)
+	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 	{
 		iter_echo(list);
 		list = list->next;
