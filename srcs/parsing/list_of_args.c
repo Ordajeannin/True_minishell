@@ -77,7 +77,7 @@ void	add_arg(t_args **list, char *str, int token)
 */
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 {
-	char	*delim[10];
+	char	*delim[11];
 	char	*token;
 
 	delim[0] = " ";
@@ -86,10 +86,11 @@ void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	delim[3] = "<";
 	delim[4] = ">>";
 	delim[5] = ">";
-	delim[6] = "|";
-	delim[7] = "\'";
-	delim[8] = "\"";
-	delim[9] = NULL;
+	delim[6] = "||";
+	delim[7] = "|";
+	delim[8] = "\'";
+	delim[9] = "\"";
+	delim[10] = NULL;
 	ft_printf("Input : %s\n", input);
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
