@@ -7,3 +7,4 @@ minishell
 a.out
 .vscode
 *.json
+*.a
