@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 17:28:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:08:35 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	shell_change(t_shell *shell, char *str, char *value)
  * Puis ajoute la string.
  * (BUG: sauf qu'il l'ajoute de maniere random ou il veut dans l'env ;-;)
 */
-static void	add_env(t_args **env_list, t_args *list)
+void	add_env(t_args **env_list, t_args *list)
 {
 	t_args	*new_var;
 	t_args	*current;
@@ -68,42 +68,4 @@ static void	add_env(t_args **env_list, t_args *list)
 	}
 	else
 		*env_list = new_var;
-}
-
-/* Fonction export.
- * Cherche d'abord si la VE existe deja.
- * Si oui, la modifie, dans env_list et dans shell.
- * Si non, la creee dans env_list seulement.
-*/
-void	ft_export(t_args *list, t_shell *shell, t_args **env_list)
-{
-	char	*value;
-	char	*v_env;
-
-	v_env = ft_strdupto_n(list->next->str, '=');
-	value = ft_strdup_from(list->next->str, '=');
-	if (change_env_exp(env_list, v_env, value) == 1)
-		shell_change(shell, v_env, value);
-	else
-	{
-		add_env(env_list, list);
-		shell_change(shell, v_env, value);
-	}
-	shell->error = 0;
-}
-
-/*
- * Program stop.
- * Fonction a l'image de 'exit' 
- * Quitte le programme proprement avec free.
- * :warning:
- * wait(100) supprime de la premiere ligne pour la norme
-*/
-void	ft_exit(char *input, t_args *list, t_args *env_list)
-{
-	free(input);
-	clear_args_list(&list);
-	clear_args_list(&env_list);
-	ft_printf("exit\n");
-	exit(EXIT_FAILURE);
 }

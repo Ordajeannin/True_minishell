@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 17:18:09 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:08:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void	iter_echo(t_args *list)
  * Affiche caractere par caractere les arguments en ignorant les quotes.
  * (Attention: cas particuliers, quotes a l'interieur de d'autres).
 */
-void	ft_echo(t_args *list, t_shell *shell)
+int	ft_echo(t_args *list, t_shell *shell)
 {
 	int	bools;
 
 	bools = 0;
 	list = list->next;
 	if (list == NULL)
-		return ;
+		return (1);
 	if (find_opt(list->str, "-n"))
 	{
 		ft_printf("HOLA\n");
@@ -81,4 +81,5 @@ void	ft_echo(t_args *list, t_shell *shell)
 	if (bools == 0)
 		write (1, "\n", 1);
 	shell->error = 0;
+	return (0);
 }

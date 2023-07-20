@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/13 17:05:09 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:10:40 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
@@ -104,13 +105,13 @@ void	add_arg(t_args **list, char *str, int token);
 
 //Bultins
 int		find_opt(char *s1, char *s2);
-void	ft_echo(t_args *list, t_shell *shell);
-void	ft_cd(t_args *list, t_shell *shell, t_args *env_list);
-void	ft_pwd(t_shell *shell);
-void	ft_env(t_args *list, t_args **env_list, t_shell *shell);
-void	ft_unset(t_args *list, t_shell *shell, t_args *env_list);
-void	ft_export(t_args *list, t_shell *shell, t_args **env_list);
-void	ft_exit(char *input, t_args *list, t_args *env_list);
+int		ft_echo(t_args *list, t_shell *shell);
+int		ft_cd(t_args *list, t_shell *shell, t_args *env_list);
+int		ft_pwd(t_shell *shell);
+int		ft_env(t_args *list, t_args **env_list, t_shell *shell);
+int		ft_unset(t_args *list, t_shell *shell, t_args *env_list);
+int		ft_export(t_args *list, t_shell *shell, t_args **env_list);
+int		ft_exit(char *input, t_args *list, t_args *env_list);
 
 //Other commands
 int		all_cmd(t_args *arg, t_shell *shell, t_args **list);
@@ -120,10 +121,16 @@ int		searchin_env(t_args **env_list, t_args *list);
 char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell);
 void	shell_change(t_shell *shell, char *str, char *value);
 int		set_env(t_args **env_list, char **env, t_shell *shell);
+void	add_env(t_args **env_list, t_args *list);
 
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);
 char	*ft_strdup_from(char *str, char c);
+char	*from_end_to_char(char *str, char c);
+
+int		ft_strlen_double(char **str);
+int		count_back(char	*str);
+int		count_dir(t_shell *shell);
 
 //Print Things
 void	shell_style(t_shell *shell);

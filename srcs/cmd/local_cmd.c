@@ -6,117 +6,83 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 16:55:12 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:09:03 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* 
- * Cas speciaux de cd.
- * Check si pas d'arguments apres cd --> prends la valeur de $HOME.
- * Sinon, check si il y a ~ et renvoie donc a la racine $USER.
- * Sinon, tout va bien buf prends simplement la valeur du repertoire donne.
-*/
-static char	*cd_specialcase(t_args *list, t_shell *shell)
-{
-	char	*buf;
-
-	if (!list->next)
-		buf = getenv("HOME");
-	else
-	{
-		if (ft_strncmp(list->next->str, "~", ft_strlen(list->next->str)) == 0)
-			list->next->str = ft_strjoin("/home/", shell->user);
-		buf = list->next->str;
-	}
-	return (buf);
-}
-
-/* 
- * Change de repertoire.
- * Fonction a l'image de cd.
- * Change aussi PWD dans l'env.
-*/
-void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
-{
-	if (chdir(cd_specialcase(list, shell)) == -1)
-	{
-		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
-			strerror(errno));
-		shell->error = errno;
-		return ;
-	}
-	else
-	{
-		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->pwd),
-			ft_strjoin("OLDPWD=", shell->oldpwd));
-		change_env_cd(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
-			ft_strjoin("PWD=", shell->pwd));
-		shell->oldpwd = shell->pwd;
-		shell->pwd = getcwd(NULL, 0);
-	}
-}
-
-/* 
  * Affiche le repertoire courrant 
  * Fonction a l'image de 'pwd'
 */
-void	ft_pwd(t_shell *shell)
+int	ft_pwd(t_shell *shell)
 {
-	if (getcwd(NULL, 0) == NULL)
+	if (shell->pwd == NULL)
 	{
 		shell->error = errno;
-		return ;
+		return (1);
 	}
 	else
-		ft_printf("%s\n", getcwd(NULL, 0));
+		ft_printf("%s\n", shell->pwd);
 	shell->error = 0;
+	return (0);
 }
 
 /* 
- * Fonction usent.
+ * Fonction unset.
  * Supprime une variable d'environnement appele.
  * Change aussi les VE saved dans struct t_shell a NULL.
  * Si elle est vide ou n'existe pas, renvoie juste l'invite de commande.
 */
-void	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
+int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 {
 	if (!list)
-		return ;
+		return (1);
 	if (!searchin_env(&env_list, list))
-		return ;
+		return (1);
 	else
 		shell_change(shell, list->next->str, NULL);
 	shell->error = 0;
-	return ;
+	return (0);
 }
 
-/* 
- * Execution des commandes dependantes de PATH 
- * Creation d'un sous-processus pour execve
+/* Fonction export.
+ * Cherche d'abord si la VE existe deja.
+ * Si oui, la modifie, dans env_list et dans shell.
+ * Si non, la creee dans env_list seulement.
 */
-int	all_cmd(t_args *arg, t_shell *shell, t_args **list)
+int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 {
-	char	*command;
-	pid_t	pid_child;
-	int		status;
+	char	*value;
+	char	*v_env;
 
-	command = extract_cmd_path(shell->cmd_paths, arg->str, shell);
-	if (command == NULL)
-	{
-		ft_printf("%d\n", shell->error);
-		return (0);
-	}
-	loop_args(shell, list);
-	pid_child = fork();
-	if (pid_child == 0)
-	{
-		ft_printf("\n");
-		execve(command, shell->input, NULL);
-		return (0);
-	}
+	v_env = ft_strdupto_n(list->next->str, '=');
+	value = ft_strdup_from(list->next->str, '=');
+	if (change_env_exp(env_list, v_env, value) == 1)
+		shell_change(shell, v_env, value);
 	else
-		waitpid(pid_child, &status, 0);
+	{
+		add_env(env_list, list);
+		shell_change(shell, v_env, value);
+	}
+	shell->error = 0;
 	return (0);
+}
+
+/*
+ * Program stop.
+ * Fonction a l'image de 'exit' 
+ * Quitte le programme proprement avec free.
+ * :warning:
+ * wait(100) supprime de la premiere ligne pour la norme
+*/
+int	ft_exit(char *input, t_args *list, t_args *env_list)
+{
+	free(input);
+	clear_args_list(&list);
+	clear_args_list(&env_list);
+	rl_clear_history();
+	ft_printf("exit\n");
+	exit(EXIT_FAILURE);
 }

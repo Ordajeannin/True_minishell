@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:30:00 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/10 18:17:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:10:33 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,70 @@ char	*ft_strdup_from(char *str, char c)
 		tab[len++] = str[i++];
 	tab[len] = '\0';
 	return (tab);
+}
+
+/* 
+ * Part de la fin de str et recule jusqu'a c.
+ * Puis copie du debut de la chaine jusqu'a ce c marque
+*/
+char	*from_end_to_char(char *str, char c)
+{
+	int		i;
+	int		max;
+	char	*tab;
+
+	i = ft_strlen(str) -1;
+	while (i >= 0 && str[i] != c)
+		i --;
+	max = i;
+	tab = malloc((max +1) * sizeof(char));
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (i < max)
+	{
+		tab[i] = str[i];
+		i ++;
+	}
+	tab[i] = '\0';
+	return (tab);
+}
+
+/* 
+ * Strlen pour un char **.
+*/
+int	ft_strlen_double(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (*str)
+	{
+		str ++;
+		i ++;
+	}
+	return (i);
+}
+
+/*
+ * Compte le nombre de /.. apres les directory.
+*/
+int	count_back(char	*str)
+{
+	int		len;
+	int		i;
+	char	**tab;
+
+	tab = ft_split(str, '/');
+	i = ft_strlen_double(tab) - 1;
+	len = 0;
+	while (i >= 0)
+	{
+		if (ft_strncmp(tab[i], "..", ft_strlen(tab[i])) == 0)
+			len ++;
+		else
+			return (len);
+		i --;
+	}
+	return (len);
 }

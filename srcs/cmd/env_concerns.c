@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/13 17:04:48 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 12:06:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	searchin_env(t_args **env_list, t_args *list)
  * Affiche l'environnement du shell en entier
  * (Attention : env -i ./minishell doit afficher PWD, SHLVL et _)
 */
-void	ft_env(t_args *list, t_args **env_list, t_shell *shell)
+int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 {
 	t_args	*current;
 
@@ -110,6 +110,7 @@ void	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
 		shell->error = errno;
+		return (1);
 	}
 	while (current != NULL)
 	{
@@ -117,6 +118,7 @@ void	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 		current = current->next;
 	}
 	shell->error = 0;
+	return (0);
 }
 
 /* 
