@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/18 17:05:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:21:23 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*error_cmd(t_args *arg, t_shell *shell, t_args *list)
 	command = extract_cmd_path(shell->cmd_paths, arg->str, shell);
 	if (command == NULL)
 	{
-		if (access(list->str, 0) == 0)
+		if (access(list->str, F_OK) == 0)
 			return (list->str);
 		ft_printf("%d\n", shell->error);
 		return (NULL);
@@ -38,7 +38,7 @@ char	*error_cmd(t_args *arg, t_shell *shell, t_args *list)
  * Check si ses arguments sont valides.
  * Si non, return (1) et arret de l'execution de l'invite de commandes.
 */
-int	all_cmd(t_args *arg, t_shell *shell, t_args **list)
+int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 {
 	pid_t	pid_child;
 	char	*command;

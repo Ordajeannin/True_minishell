@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/20 15:28:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 16:55:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		ft_export(t_args *list, t_shell *shell, t_args **env_list);
 int		ft_exit(char *input, t_args *list, t_args *env_list);
 
 //Other commands
-int		all_cmd(t_args *arg, t_shell *shell, t_args **list);
+int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
 void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
 int		change_env_exp(t_args **env_list, char *name_env, char *value);
 int		searchin_env(t_args **env_list, t_args *list);

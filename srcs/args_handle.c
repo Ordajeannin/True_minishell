@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 15:40:14 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 16:55:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
 		== 0)
 		shell->is_work = ft_pwd(shell);
 	else
-		shell->is_work = all_cmd(list, shell, &list);
+		shell->is_work = all_cmd(list, shell, &list, env_list);
 }
 
 /* 
