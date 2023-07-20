@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 15:39:54 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 16:15:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	iter_echo(t_args *list)
 	i = 0;
 	while (list->str[i])
 	{
-		if (list->str[i] == 34 || list->str[i] == 39)
-			i ++;
 		write (1, &list->str[i], 1);
 		i ++;
 	}

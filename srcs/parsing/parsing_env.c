@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/13 16:57:56 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:16:11 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 	char	*temp;
 	char	*command;
 
+	if (shell->path == NULL)
+		return (NULL);
 	while (*paths)
 	{
 		temp = ft_strjoin(*paths, "/");
