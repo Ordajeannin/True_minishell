@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 17:21:23 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:56:48 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
  * Debut de all_cmd.
  * Cherche si la commande existe ou non a partir de PATH.
 */
-char	*error_cmd(t_args *arg, t_shell *shell, t_args *list)
+static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
+	t_args **env_list)
 {
 	char	*command;
 
-	command = extract_cmd_path(shell->cmd_paths, arg->str, shell);
+	command = is_path_or_cmd(shell->cmd_paths, arg->str, shell);
 	if (command == NULL)
 	{
 		if (access(list->str, F_OK) == 0)
@@ -28,6 +29,8 @@ char	*error_cmd(t_args *arg, t_shell *shell, t_args *list)
 		ft_printf("%d\n", shell->error);
 		return (NULL);
 	}
+	else if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
+		ft_env(list, env_list, shell);
 	return (command);
 }
 
@@ -44,9 +47,11 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	char	*command;
 	int		status;
 
-	command = error_cmd(arg, shell, *list);
+	command = error_cmd(arg, shell, *list, env_list);
 	if (command == NULL)
 		return (1);
+	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
+		return (0);
 	loop_args(shell, list);
 	pid_child = fork();
 	if (pid_child == 0)

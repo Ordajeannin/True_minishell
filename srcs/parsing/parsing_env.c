@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/20 17:16:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:56:22 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	handle_env(char **env, t_shell *shell)
  * Au premier concluant, on renvoie le path complet
  * Sinon, renvoie NULL
 */
-char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
+static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 {
 	char	*temp;
 	char	*command;
@@ -59,12 +59,38 @@ char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 		temp = ft_strjoin(*paths, "/");
 		command = ft_strjoin(temp, cmd);
 		free(temp);
-		if (access(command, 0) == 0)
+		if (access(command, X_OK) == 0)
 			return (command);
 		free(command);
 		paths++;
 	}
 	strerror(errno);
 	shell->error = errno;
+	return (NULL);
+}
+
+/*Deux possibilites:
+	-> Soit cmd est un path (avec des /) et on teste directement le path
+	-> Soit cmd n'est pas un path mais juste une commande, on boucke sur
+	tous les paths possibles et on regarde si l'executable existe ou non. 
+*/
+
+char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell)
+{
+	char	*command;
+
+	if (strchr(cmd, '/') == NULL)
+	{
+		command = extract_cmd_path(paths, cmd, shell);
+		return (command);
+	}
+	else if (access(cmd, X_OK) == 0)
+	{
+		if (cmd[ft_strlen(cmd) - 1] == 'v' && \
+			cmd[ft_strlen(cmd) - 2] == 'n' && \
+			cmd[ft_strlen(cmd) - 3] == 'e')
+			return ("It's env");
+		return (cmd);
+	}
 	return (NULL);
 }

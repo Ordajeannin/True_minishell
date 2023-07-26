@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 16:34:09 by asalic           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:59:03 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 	t_args	*current;
 
 	current = *env_list;
-	if (shell->path == NULL)
+	if (shell->path == NULL && ft_strchr(list->str, '/') == NULL)
 		return (1);
 	if (list->next != NULL)
 	{
