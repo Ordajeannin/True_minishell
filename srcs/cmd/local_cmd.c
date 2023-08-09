@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 12:09:03 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/09 11:54:40 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 */
 int	ft_pwd(t_shell *shell)
 {
-	if (shell->pwd == NULL)
+	if (shell->is_pwd == NULL)
 	{
 		shell->error = errno;
 		return (1);
 	}
 	else
-		ft_printf("%s\n", shell->pwd);
+		ft_printf("%s\n", shell->is_pwd);
 	shell->error = 0;
 	return (0);
 }
@@ -44,6 +44,8 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 	else
 		shell_change(shell, list->next->str, NULL);
 	shell->error = 0;
+	if (list->next->next != NULL)
+		ft_unset(list->next, shell, env_list);
 	return (0);
 }
 
@@ -60,11 +62,21 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	v_env = ft_strdupto_n(list->next->str, '=');
 	value = ft_strdup_from(list->next->str, '=');
 	if (change_env_exp(env_list, v_env, value) == 1)
+	{
 		shell_change(shell, v_env, value);
+		if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
+			shell->is_pwd = value;
+		else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
+			shell->is_oldpwd = value;
+	}
 	else
 	{
 		add_env(env_list, list);
 		shell_change(shell, v_env, value);
+		if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
+			shell->is_pwd = value;
+		else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
+			shell->is_oldpwd = value;
 	}
 	shell->error = 0;
 	return (0);

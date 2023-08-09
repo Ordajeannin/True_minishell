@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/20 16:33:56 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/09 15:40:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,14 @@ int	big_problem_cd(t_shell *shell, t_args *list, t_args *env_list)
 	len_back = count_back(shell->pwd);
 	if (len_dir > len_back)
 	{
-		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->pwd),
+		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
 			ft_strjoin("OLDPWD=", shell->oldpwd));
 		change_env_cd(&env_list, ft_strjoin("PWD=", \
-			ft_strjoin(shell->pwd, "/..")), ft_strjoin("PWD=", \
+			ft_strjoin(shell->is_pwd, "/..")), ft_strjoin("PWD=", \
 			shell->pwd));
 		shell->oldpwd = shell->pwd;
-		shell->pwd = ft_strjoin(shell->pwd, "/..");
+		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
+		shell->pwd = ft_strjoin(shell->is_pwd, "/..");
 		return (1);
 	}
 	else if (len_dir == len_back)
@@ -96,12 +97,17 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 	}
 	else
 	{
-		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->pwd),
-			ft_strjoin("OLDPWD=", shell->oldpwd));
-		change_env_cd(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
-			ft_strjoin("PWD=", shell->pwd));
-		shell->oldpwd = shell->pwd;
-		shell->pwd = getcwd(NULL, 0);
+		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
+			ft_strjoin("OLDPWD=", shell->is_oldpwd));
+		shell->oldpwd = shell->is_pwd;
+		shell->is_oldpwd = shell->is_pwd;
+		if (getcwd(NULL, 0) != NULL)
+		{
+			change_env_cd(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
+				ft_strjoin("PWD=", shell->is_pwd));
+			shell->is_pwd = getcwd(NULL, 0);
+			shell->pwd = getcwd(NULL, 0);
+		}
 	}
 	return (0);
 }
@@ -123,11 +129,10 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 		buf = ft_strjoin("/home/", shell->user);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 	{
-		temp = from_end_to_char(shell->pwd, '/');
+		temp = from_end_to_char(shell->is_pwd, '/');
 		dir = opendir(temp);
 		if (!dir)
 		{
-			ft_printf("Le directory n'existe pas\n");
 			buf = NULL;
 			if (big_problem_cd(shell, list, env_list) == 1)
 				return (1);

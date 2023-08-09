@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/07/26 12:56:48 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/09 15:38:59 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	if (pid_child == 0)
 	{
 		execve(command, shell->input, NULL);
-		perror("Problem:");
+		perror("Problem");
 		exit(EXIT_FAILURE);
 	}
 	else

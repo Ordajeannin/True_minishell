@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/26 12:42:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/08 17:03:32 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct s_shell
 {
 	char	*home;
 	char	*pwd;
+	char	*is_pwd;
+	char	*is_oldpwd;
 	char	*oldpwd;
 	char	*user;
 	char	*shell;

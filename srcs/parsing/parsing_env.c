@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/26 12:56:22 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/09 15:39:35 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	handle_env(char **env, t_shell *shell)
 		return (msg(ERROR_NOENV));
 	shell->home = getenv("HOME");
 	shell->pwd = getenv("PWD");
+	shell->is_pwd = getenv("PWD");
+	shell->is_oldpwd = getenv("OLDPWD");
 	shell->oldpwd = getenv("OLDPWD");
 	shell->user = getenv("USER");
 	shell->shell = getenv("SHELL");
