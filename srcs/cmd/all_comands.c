@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/09 15:38:59 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:38:29 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 	{
 		if (access(list->str, F_OK) == 0)
 			return (list->str);
-		ft_printf("%d\n", shell->error);
-		return (NULL);
 	}
 	else if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		ft_env(list, env_list, shell);
@@ -48,8 +46,12 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	int		status;
 
 	command = error_cmd(arg, shell, *list, env_list);
-	if (command == NULL)
-		return (1);
+	ft_printf("%s\n", command);
+	// if (command == NULL)
+	// {
+	// 	execve(command, shell->input, NULL);
+	// 	return (1);
+	// }
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		return (0);
 	loop_args(shell, list);
@@ -57,12 +59,17 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	if (pid_child == 0)
 	{
 		execve(command, shell->input, NULL);
-		perror("Problem");
-		exit(EXIT_FAILURE);
+		shell->error = errno;
+		exit(shell->error);
 	}
 	else
 	{
 		waitpid(pid_child, &status, 0);
+		// if (errno != 0)
+		// {
+		// 	strerror(errno);
+		// 	shell->error = errno;
+		// }
 		if (WEXITSTATUS(status) != 0)
 			return (1);
 	}

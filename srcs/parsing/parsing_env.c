@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/09 15:39:35 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/10 15:27:44 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 		free(command);
 		paths++;
 	}
-	strerror(errno);
-	shell->error = errno;
-	return (NULL);
+	return (cmd);
 }
 
 /*Deux possibilites:
 	-> Soit cmd est un path (avec des /) et on teste directement le path
-	-> Soit cmd n'est pas un path mais juste une commande, on boucke sur
+	-> Soit cmd n'est pas un path mais juste une commande, on boucle sur
 	tous les paths possibles et on regarde si l'executable existe ou non. 
 */
 
@@ -84,6 +82,8 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell)
 	if (strchr(cmd, '/') == NULL)
 	{
 		command = extract_cmd_path(paths, cmd, shell);
+		// if (command == NULL)
+		// 	return (NULL);
 		return (command);
 	}
 	else if (access(cmd, X_OK) == 0)
@@ -94,5 +94,5 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell)
 			return ("It's env");
 		return (cmd);
 	}
-	return (NULL);
+	return (cmd);
 }

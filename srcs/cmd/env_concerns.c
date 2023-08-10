@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/09 11:57:14 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/10 17:32:28 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,12 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 
 	current = *env_list;
 	if (shell->path == NULL && ft_strchr(list->str, '/') == NULL)
-		return (1);
-	if (list->next != NULL)
 	{
-		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
-			strerror(errno));
 		shell->error = errno;
 		return (1);
 	}
+	if (list->next != NULL)
+		return (1);
 	while (current != NULL)
 	{
 		ft_printf("%s\n", current->str);

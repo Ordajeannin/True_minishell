@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/08 11:53:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/10 17:28:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	ft_echo(t_args *list, t_shell *shell)
 	bools = 0;
 	list = list->next;
 	if (list == NULL)
+	{
+		shell->error = errno;
 		return (1);
+	}
 	if (find_opt(list->str, "-n"))
 	{
 		list = list->next;

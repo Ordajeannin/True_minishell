@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/09 11:54:40 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/10 17:33:22 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		return (1);
 	else
 		shell_change(shell, list->next->str, NULL);
-	shell->error = 0;
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
+	shell->error = 0;
 	return (0);
 }
 
