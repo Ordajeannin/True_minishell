@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/09 11:54:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/12 15:18:08 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,44 @@ void	add_env(t_args **env_list, t_args *list)
 	}
 	else
 		*env_list = new_var;
+}
+
+int	len_targs(t_args *list)
+{
+	int	len;
+
+	len = 0;
+	while (list)
+	{
+		len ++;
+		list = list->next;
+	}
+	return (len);
+}
+
+char	**dup_double_string(t_args **e_list)
+{
+	char	**result;
+	t_args	*current;
+	int		i;
+
+	current = *e_list;
+	result = ft_calloc(len_targs(current), sizeof(char *));
+	if (result == NULL)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (current)
+	{
+		result[i] = ft_strdup(current->str);
+		if (result[i] == NULL)
+		{
+			while (i >= 0)
+				free(result[i--]);
+			free(result);
+			exit(EXIT_FAILURE);
+		}
+		i ++;
+		current = current->next;
+	}
+	return (result);
 }

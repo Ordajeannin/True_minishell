@@ -6,20 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/09 15:24:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/12 15:12:59 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 
- * Variable globale codon stop.
- * Detecte un CTRL-C dans une boucle infinie.
- * Une fois fois CTRL-C detecte, renvoit la suite de la boucle main.
- * ATTENTION: a utiliser while(g_stop), mais apres ne pas oublier de
- * la reset a 0!
-*/
-int	g_stop;
 
 /*
  * Permet a main d'etre a moins de 25 lines
@@ -46,8 +37,6 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		if (g_stop == 0)
-			g_stop == -1;
 	}
 	return ;
 }
@@ -89,7 +78,6 @@ int	main(int ac, char **av, char **env)
 	t_shell	shell;
 
 	(void)ac;
-	g_stop = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
 	ft_gain_place(av, &list, &input, &env_list);
