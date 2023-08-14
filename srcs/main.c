@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/14 18:03:39 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 20:34:14 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 
 /*
  * Actions de la boucle ATM
- *
  * 1) readline ("prompt")
  * 2) splitage de l'input en tableau de chaine
  * 3) analyse de chaque chaine, attribution des tokens
@@ -75,12 +74,12 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	t_args	*list;
 	t_args	*env_list;
-	t_shell	shell;
 	char	*user;
+	t_shell	shell;
 
 	(void)ac;
-	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
@@ -89,9 +88,7 @@ int	main(int ac, char **av, char **env)
 	{
 		input = readline(prompt_cmd(&shell, user));
 		if (input == NULL)
-		{
 			ft_exit(input, list, env_list, &shell);
-		}
 		main_bis(input, list, env_list, &shell);
 	}
 	return (0);

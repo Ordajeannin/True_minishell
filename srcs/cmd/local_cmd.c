@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/14 17:48:03 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 22:29:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,25 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 	return (0);
 }
 
+/* 
+ * Gere les boucles de export pour changer les VE et sinon les creer
+*/
+static void	ft_more_export(t_shell *shell, char *v_env, char *value)
+{
+	shell_change(shell, v_env, value);
+	if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
+		shell->is_pwd = value;
+	else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
+		shell->is_oldpwd = value;
+}
+
 /* Fonction export.
  * Cherche d'abord si la VE existe deja.
  * Si oui, la modifie, dans env_list et dans shell.
  * Si non, la creee dans env_list seulement.
+ * Gere le cas ou il y a plusieurs creation/remplacement de VE
+ * ATTENTION: if (list->next == NULL) : cas special
+ * 			-->affiche declare -x et VE avec toutes les VE
 */
 int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 {
@@ -62,22 +77,14 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	v_env = ft_strdupto_n(list->next->str, '=');
 	value = ft_strdup_from(list->next->str, '=');
 	if (change_env_exp(env_list, v_env, value) == 1)
-	{
-		shell_change(shell, v_env, value);
-		if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
-			shell->is_pwd = value;
-		else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
-			shell->is_oldpwd = value;
-	}
+		ft_more_export(shell, v_env, value);
 	else
 	{
 		add_env(env_list, list);
-		shell_change(shell, v_env, value);
-		if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
-			shell->is_pwd = value;
-		else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
-			shell->is_oldpwd = value;
+		ft_more_export(shell, v_env, value);
 	}
+	if (list->next->next != NULL)
+		ft_export(list->next, shell, env_list);
 	shell->error = 0;
 	return (0);
 }

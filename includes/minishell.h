@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/14 17:40:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 20:34:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@
 # define TOKEN_D_QUOTES 23
 # define ABORT_MISSION	42
 
+struct s_test
+{
+	int	var_c;
+	int	var_d;
+};
+
 typedef struct s_shell
 {
 	char	*home;
@@ -66,6 +72,8 @@ typedef struct s_shell
 	int		error;
 	int		is_work;
 }	t_shell;
+
+// extern struct t_shell	shell;
 
 typedef struct s_args
 {
