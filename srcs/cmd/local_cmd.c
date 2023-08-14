@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/10 17:33:22 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 17:48:03 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
  * :warning:
  * wait(100) supprime de la premiere ligne pour la norme
 */
-int	ft_exit(char *input, t_args *list, t_args *env_list)
+int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
 {
 	free(input);
 	clear_args_list(&list);

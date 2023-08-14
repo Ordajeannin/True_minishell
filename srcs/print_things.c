@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/08 17:09:44 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 10:28:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,15 @@ static void	bf_prd(char *str, int d, char *color)
 // 	}
 // }
 
-char	*prompt_cmd(t_shell *shell)
+char	*prompt_cmd(t_shell *shell, char *user)
 {
 	char	*prompt;
 
 	prompt = NULL;
-	if (shell->user != NULL)
-	{
-		prompt = ft_strjoin(shell->user, ":");
-		if (shell->is_pwd != NULL)
-			prompt = ft_strjoin(prompt, shell->is_pwd);
-		prompt = ft_strjoin(prompt, ">");
-	}
-	else
-		prompt = ">";
+	if (user != NULL)
+		prompt = ft_strjoin(user, ":");
+	if (shell->is_pwd != NULL)
+		prompt = ft_strjoin(prompt, shell->is_pwd);
+	prompt = ft_strjoin(prompt, ">");
 	return (prompt);
 }

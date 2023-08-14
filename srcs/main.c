@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/12 15:12:59 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 18:03:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int ac, char **av, char **env)
 	t_args	*list;
 	t_args	*env_list;
 	t_shell	shell;
+	char	*user;
 
 	(void)ac;
 	signal(SIGQUIT, SIG_IGN);
@@ -83,11 +84,14 @@ int	main(int ac, char **av, char **env)
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
+	user = shell.user;
 	while (1)
 	{
-		input = readline(prompt_cmd(&shell));
+		input = readline(prompt_cmd(&shell, user));
 		if (input == NULL)
-			ft_exit(input, list, env_list);
+		{
+			ft_exit(input, list, env_list, &shell);
+		}
 		main_bis(input, list, env_list, &shell);
 	}
 	return (0);

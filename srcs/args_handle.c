@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/12 15:19:39 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 18:10:05 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	current_env = *env_list;
 	if (list == NULL)
 		return ;
-	else if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
+	if (ft_strncmp(list->str, "./minishell", ft_strlen(list->str))
+		== 0 && ft_strlen(list->str) == 11)
+		ft_plus_shell(shell, env_list);
+	if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 4)
 		shell->is_work = ft_echo(list, shell);
 	else if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
@@ -86,7 +89,7 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 		shell->is_work = ft_unset(list, shell, current_env);
 	else if (ft_strncmp(list->str, "exit",
 			ft_strlen(list->str)) == 0 && ft_strlen(list->str) == 4)
-		ft_exit(input, list, current_env);
+		ft_exit(input, list, current_env, shell);
 	else
 		args_two(list, shell, env_list);
 	check_args(&list, shell, env_list, input);

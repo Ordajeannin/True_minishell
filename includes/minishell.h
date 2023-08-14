@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/12 15:12:42 by asalic           ###   ########.fr       */
+/*   Updated: 2023/08/14 17:40:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		ft_pwd(t_shell *shell);
 int		ft_env(t_args *list, t_args **env_list, t_shell *shell);
 int		ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int		ft_export(t_args *list, t_shell *shell, t_args **env_list);
-int		ft_exit(char *input, t_args *list, t_args *env_list);
+int		ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell);
 
 //Other commands
 int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
@@ -125,6 +125,8 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell);
 void	shell_change(t_shell *shell, char *str, char *value);
 int		set_env(t_args **env_list, char **env, t_shell *shell);
 void	add_env(t_args **env_list, t_args *list);
+void	ft_plus_shell(t_shell *shell, t_args **env_list);
+void	ft_less_shell(t_shell *shell, t_args **env_list);
 
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);
@@ -139,6 +141,5 @@ char	**dup_double_string(t_args **e_list);
 //Print Things
 void	shell_style(t_shell *shell);
 void	print_args_list(t_args **list);
-char	*prompt_cmd(t_shell *shell);
-
+char	*prompt_cmd(t_shell *shell, char *user);
 #endif
