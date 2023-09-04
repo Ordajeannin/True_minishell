@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/14 22:29:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/04 11:25:01 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 
 	v_env = ft_strdupto_n(list->next->str, '=');
 	value = ft_strdup_from(list->next->str, '=');
+	ft_printf("V_ENV = %s.\n", v_env);
+	if (is_only_equal(value, '=') == 1 && (is_only_equal(v_env, ' ') == 1
+			|| v_env == NULL))
+		return (1);
 	if (change_env_exp(env_list, v_env, value) == 1)
 		ft_more_export(shell, v_env, value);
 	else
@@ -98,10 +102,15 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 */
 int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
 {
+	int	code_err;
+
+	code_err = 0;
 	free(input);
+	if (list->next != NULL)
+		code_err = ft_atoi(list->next->str) % 256;
 	clear_args_list(&list);
 	clear_args_list(&env_list);
 	rl_clear_history();
 	ft_printf("exit\n");
-	exit(EXIT_FAILURE);
+	exit(code_err);
 }

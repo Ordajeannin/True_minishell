@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/08/14 20:34:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/04 09:32:22 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	ft_less_shell(t_shell *shell, t_args **env_list);
 char	*ft_strdupto_n(char *str, char c);
 char	*ft_strdup_from(char *str, char c);
 char	*from_end_to_char(char *str, char c);
+int		is_only_equal(char *str, char c);
 
 int		ft_strlen_double(char **str);
 int		count_back(char	*str);
