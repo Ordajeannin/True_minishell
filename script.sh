@@ -15,6 +15,9 @@ commands=(
     "echo 'Hello, world!'" # single quotes, single arg
 	"echo \"Hello, world!\"" # double quotes, single arg
 	"echo 'Hello, \"world!\"' I love u" # mix args and quotes
+    "echo -nnnnn -n" #no '\n', no args
+    "echo -n \$PWD" #no return and VE 
+    "echo -n coucou le sang" #no return
 #	"echo Hello\"World\"" # str"str" bug connu, test de sensibilite du script
 )
 
@@ -26,6 +29,9 @@ expected_output=(
 	"$(echo 'Hello, world!')"
 	"$(echo \"Hello, world!\")"
 	"$(echo 'Hello, "world!"' I love u)"
+    "$(echo -n)"
+    "$(echo -n $PWD)"
+    "$(echo -n coucou le sang)"
 #	"$(echo Hello"World")"
 )
 
