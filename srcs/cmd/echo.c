@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/04 11:46:53 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/05 09:20:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	ft_echo(t_args *list, t_shell *shell)
 	list = list->next;
 	if (list == NULL)
 		return (1);
-	while (ft_strcmp(list->str, "\t") == 0)
+	while (list && ft_strcmp(list->str, "\t") == 0)
 		list = list->next;
-	while (find_opt(list->str, "-n"))
+	while (list && find_opt(list->str, "-n"))
 	{
 		list = list->next;
 		bools = 1;

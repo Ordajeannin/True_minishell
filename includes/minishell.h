@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/04 09:32:22 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:29:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <signal.h>
+# include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
@@ -46,6 +47,8 @@
 # define TOKEN_S_QUOTES 22
 # define TOKEN_D_QUOTES 23
 # define ABORT_MISSION	42
+
+extern int	g_error;
 
 struct s_test
 {
@@ -135,6 +138,9 @@ int		set_env(t_args **env_list, char **env, t_shell *shell);
 void	add_env(t_args **env_list, t_args *list);
 void	ft_plus_shell(t_shell *shell, t_args **env_list);
 void	ft_less_shell(t_shell *shell, t_args **env_list);
+void	signal_handler(int sig);
+
+void	code_error(int code);
 
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);
@@ -146,6 +152,7 @@ int		ft_strlen_double(char **str);
 int		count_back(char	*str);
 int		count_dir(t_shell *shell);
 char	**dup_double_string(t_args **e_list);
+int		is_numeric(char *str);
 
 //Print Things
 void	shell_style(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/04 10:22:18 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/05 11:02:03 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,16 @@ void	loop_args(t_shell *shell, t_args **list)
 		len_list ++;
 		current = current->next;
 	}
+	i = 0;
 	shell->input = ft_calloc(len_list, sizeof(char *));
 	current = *list;
-	i = 0;
 	while (current)
 	{
 		len = ft_strlen(current->str);
 		shell->input[i] = ft_calloc(len, sizeof(char));
-		shell->input[i++] = current->str;
+		shell->input[i] = current->str;
 		current = current->next;
+		i ++;
 	}
 	shell->input[i] = NULL;
 }

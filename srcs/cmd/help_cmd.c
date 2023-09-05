@@ -6,42 +6,28 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/12 15:18:08 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/05 11:02:44 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
- * Changement des valeurs de la structure t_shell.
- * S'effectue apres unset (et export aussi !!)
+/*
+ * Check si la chaine de caractere est bien remplie de nombre
+ * Que des caracteres numeriques
 */
-void	shell_change(t_shell *shell, char *str, char *value)
+int	is_numeric(char *str)
 {
-	int		len;
+	int	i;
 
-	len = ft_strlen(str);
-	if (ft_strncmp(str, "HOME", len) == 0)
-		shell->home = value;
-	else if (ft_strncmp(str, "OLDPWD", len) == 0)
-		shell->oldpwd = value;
-	else if (ft_strncmp(str, "PWD", len) == 0)
-		shell->pwd = value;
-	else if (ft_strncmp(str, "USER", len) == 0)
-		shell->user = value;
-	else if (ft_strncmp(str, "SHELL", len) == 0)
-		shell->shell = value;
-	else if (ft_strncmp(str, "PATH", len) == 0)
-		shell->path = value;
-	else if (ft_strncmp(str, "LANG", len) == 0)
-		shell->lang = value;
-	else if (ft_strncmp(str, "TERM", len) == 0)
-		shell->term = value;
-	else if (ft_strncmp(str, "HOSTNAME", len) == 0)
-		shell->hostname = value;
-	else if (ft_strncmp(str, "SHLVL", len) == 0)
-		shell->shlvl = value;
-	return ;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 /*
@@ -70,6 +56,7 @@ void	add_env(t_args **env_list, t_args *list)
 		*env_list = new_var;
 }
 
+/* Compte nombre de maillon dans une liste */
 int	len_targs(t_args *list)
 {
 	int	len;
@@ -83,6 +70,7 @@ int	len_targs(t_args *list)
 	return (len);
 }
 
+/* Dupplique un (char **) */
 char	**dup_double_string(t_args **e_list)
 {
 	char	**result;
@@ -107,5 +95,6 @@ char	**dup_double_string(t_args **e_list)
 		i ++;
 		current = current->next;
 	}
+	result[i] = NULL;
 	return (result);
 }

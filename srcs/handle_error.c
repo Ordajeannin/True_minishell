@@ -6,11 +6,18 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/13 17:28:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/04 15:02:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_error;
+
+void	code_error(int code)
+{
+	g_error = code;
+}
 
 /*
  * Permet d'afficher un message d'erreur specifique,

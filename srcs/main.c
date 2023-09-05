@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/04 09:51:25 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/04 15:05:40 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,18 @@ static void	ft_gain_place(char **av, t_args **list, char **input,
  */
 void	signal_handler(int sig)
 {
-	if (sig == SIGINT)
+	if (sig == 2)
 	{
 		ft_printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		code_error(130);
+	}
+	else if (sig == 3)
+	{
+		ft_printf("Quit (core dumped)\n");
+		code_error(131);
 	}
 	return ;
 }

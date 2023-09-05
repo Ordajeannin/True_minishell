@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/10 17:29:28 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/05 10:05:03 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	{
 		temp = from_end_to_char(shell->is_pwd, '/');
 		dir = opendir(temp);
-		if (!dir)
+		if (dir == NULL)
 		{
 			buf = NULL;
 			if (big_problem_cd(shell, list, env_list) == 1)
