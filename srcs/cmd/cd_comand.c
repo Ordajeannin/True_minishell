@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/05 10:05:03 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/05 11:29:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ int	big_problem_cd(t_shell *shell, t_args *list, t_args *env_list)
 			ft_strjoin(shell->is_pwd, "/..")), ft_strjoin("PWD=", \
 			shell->pwd));
 		shell->oldpwd = shell->pwd;
-		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
 		shell->pwd = ft_strjoin(shell->is_pwd, "/..");
-		shell->error = errno;
+		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
+		ft_printf("cd : No such file or directory\n");
+		shell->error = 0;
 		return (1);
 	}
 	else if (len_dir == len_back)
