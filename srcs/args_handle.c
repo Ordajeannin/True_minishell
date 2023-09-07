@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/08/14 18:10:05 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:32:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,5 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	else
 		args_two(list, shell, env_list);
 	check_args(&list, shell, env_list, input);
+	ft_printf("ERROR = %d\n", shell->error);
 }

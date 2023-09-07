@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/04 09:01:35 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:36:26 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
-	while (current != NULL)
+	while (current != NULL && current->next != NULL)
 	{
 		ft_printf("%s\n", current->str);
 		current = current->next;
@@ -132,6 +132,7 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 		add_arg(env_list, env[i], 0);
 		i++;
 	}
+	add_arg(env_list, "?=0", 0);
 	i = 0;
 	current = *env_list;
 	while (env[i])
@@ -139,5 +140,6 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 		current->str = env[i++];
 		current = current->next;
 	}
+	current->str = "?=0";
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:30:00 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/05 11:27:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:19:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,24 +118,16 @@ int	ft_strlen_double(char **str)
 }
 
 /*
- * Compte le nombre de /.. apres les directory.
+ * Check si une chaine de caractere contient d'autres caracteres que char c.
 */
-int	count_back(char	*str)
+int	is_only_equal(char *str, char c)
 {
-	int		len;
-	int		i;
-	char	**tab;
+	int	i;
 
-	tab = ft_split(str, '/');
-	i = ft_strlen_double(tab) - 1;
-	len = 0;
-	while (i >= 0)
-	{
-		if (ft_strncmp(tab[i], "..", ft_strlen(tab[i])) == 0)
-			len ++;
-		else
-			return (len);
-		i --;
-	}
-	return (len);
+	i = 0;
+	while (str[i] && str[i] == c)
+		i ++;
+	if (str[i] != c && str[i] != '\0')
+		return (0);
+	return (1);
 }

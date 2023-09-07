@@ -6,37 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/05 11:29:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:57:14 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 
- * Compte le nombre de directory qui n'existe plus depuis rm -rf.
- * Ignore les /..
-*/
-int	count_dir(t_shell *shell)
-{
-	int		len;
-	char	*temp;
-	DIR		*dir;
-
-	len = 0;
-	temp = shell->pwd;
-	dir = opendir(temp);
-	while (!dir)
-	{
-		if (temp[ft_strlen(temp) - 1] != '.' && temp[ft_strlen(temp) - 2] \
-			!= '.' && temp[ft_strlen(temp) - 3] != '/')
-			len ++;
-		temp = from_end_to_char(temp, '/');
-		closedir(dir);
-		dir = opendir(temp);
-	}
-	closedir(dir);
-	return (len -1);
-}
 
 /* 
  * Renvoie vers le dernier repertoire existant.
@@ -64,15 +38,15 @@ int	big_problem_cd(t_shell *shell, t_args *list, t_args *env_list)
 	int		len_back;
 
 	len_dir = count_dir(shell);
-	len_back = count_back(shell->pwd);
+	len_back = count_back(shell->is_pwd);
 	if (len_dir > len_back)
 	{
 		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
 			ft_strjoin("OLDPWD=", shell->oldpwd));
 		change_env_cd(&env_list, ft_strjoin("PWD=", \
 			ft_strjoin(shell->is_pwd, "/..")), ft_strjoin("PWD=", \
-			shell->pwd));
-		shell->oldpwd = shell->pwd;
+			shell->is_pwd));
+		shell->oldpwd = shell->is_pwd;
 		shell->pwd = ft_strjoin(shell->is_pwd, "/..");
 		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
 		ft_printf("cd : No such file or directory\n");
@@ -92,9 +66,9 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 {
 	if (chdir(buf) == -1)
 	{
-		ft_printf("bash: %s: %s: %s\n", list->str, list->next->str, \
+		ft_printf("%s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
-		shell->error = errno;
+		shell->error = errno -1;
 		return (1);
 	}
 	else
@@ -114,6 +88,31 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 	return (0);
 }
 
+/*
+ * Cas ou cd.., suite de la commande cd principale
+*/
+static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
+{
+	DIR		*dir;
+	char	*temp;
+	char	*buf;
+
+	temp = from_end_to_char(shell->is_pwd, '/');
+	dir = opendir(temp);
+	if (dir == NULL)
+	{
+		buf = NULL;
+		if (big_problem_cd(shell, list, env_list) == 1)
+		{
+			closedir(dir);
+			return (NULL);
+		}
+		closedir(dir);
+	}
+	buf = list->next->str;
+	return (buf);
+}
+
 /* 
  * Check si cd .. || cd ~ || autre cd
  * Agit en fonction des cas speciaux, un peu comme une gestionnaire
@@ -122,26 +121,18 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
 	char	*buf;
-	char	*temp;
-	DIR		*dir;
 
-	buf = list->next->str;
-	temp = NULL;
-	if (ft_strncmp(list->next->str, "~", ft_strlen(list->next->str)) == 0)
+	if (list->next == NULL || ft_strncmp(list->next->str, "~",
+			ft_strlen(list->next->str)) == 0)
 		buf = ft_strjoin("/home/", shell->user);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 	{
-		temp = from_end_to_char(shell->is_pwd, '/');
-		dir = opendir(temp);
-		if (dir == NULL)
-		{
-			buf = NULL;
-			if (big_problem_cd(shell, list, env_list) == 1)
-				return (1);
-			buf = list->next->str;
-			closedir(dir);
-		}
+		buf = is_two_points(shell, list, env_list);
+		if (buf == NULL)
+			return (1);
 	}
+	else
+		buf = list->next->str;
 	if (cd_real_version(buf, shell, env_list, list) == 1)
 		return (1);
 	shell->error = 0;

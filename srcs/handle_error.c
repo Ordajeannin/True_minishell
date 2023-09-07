@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/04 15:02:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/05 17:40:18 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ int	g_error;
 void	code_error(int code)
 {
 	g_error = code;
+}
+
+/* 
+ * Gestionnaire d'erreurs
+*/
+int	handle_error(int code_err)
+{
+	int	final_error;
+
+	final_error = 0;
+	if (code_err == 13)
+		final_error = 126;
+	else
+		final_error = code_err;
+	return (final_error);
 }
 
 /*

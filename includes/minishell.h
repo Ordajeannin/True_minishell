@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/04 17:29:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:34:00 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ typedef struct s_shell
 	int		is_work;
 }	t_shell;
 
-// extern struct t_shell	shell;
-
 typedef struct s_args
 {
 	char			*str;
@@ -141,6 +139,7 @@ void	ft_less_shell(t_shell *shell, t_args **env_list);
 void	signal_handler(int sig);
 
 void	code_error(int code);
+int		handle_error(int code_err);
 
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);

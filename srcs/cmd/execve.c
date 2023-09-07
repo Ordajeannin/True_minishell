@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/05 10:59:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:33:29 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 	{
 		if (access(list->str, F_OK) == 0)
 			return (list->str);
+		return (NULL);
 	}
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		ft_env(list, env_list, shell);
@@ -45,6 +46,8 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 	char	*command;
 
 	command = error_cmd(arg, shell, *list, env_list);
+	if (command == NULL)
+		return (NULL);
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		return (NULL);
 	loop_args(shell, list);
@@ -70,8 +73,7 @@ static int	next_execution(pid_t pid_child, char *command, t_shell *shell,
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
-		ft_printf("ERRNO : %d\n", errno);
-		shell->error = errno;
+		shell->error = handle_error(errno);
 		return (1);
 	}
 	return (0);
@@ -102,12 +104,13 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	{
 		execve(command, shell->input, dup_double_string(env_list));
 		ft_printf("%s : %s\n", command, strerror(errno));
-		exit(errno);
+		exit(handle_error(errno));
 	}
 	else
 	{
 		if (next_execution(pid_child, command, shell, env_list) == 1)
 			return (1);
 	}
+	shell->error = 0;
 	return (0);
 }

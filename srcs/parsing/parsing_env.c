@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/05 10:59:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/07 15:33:43 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 		free(command);
 		paths++;
 	}
-	return (cmd);
+	ft_printf("%s : Command not found\n", cmd);
+	shell->error = 127;
+	return (NULL);
 }
 
 /*Deux possibilites:
