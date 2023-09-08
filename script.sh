@@ -11,6 +11,8 @@ commands=(
     "ls"
 	"pwd"
 	"cat makefile"
+	"cd srcs && pwd" # test cd/ET
+	"cd srcd && pwd" # !test cd/ET
 	"echo Hello, world!" # w/o quote, multiples arg
     "echo 'Hello, world!'" # single quotes, single arg
 	"echo \"Hello, world!\"" # double quotes, single arg
@@ -25,6 +27,8 @@ expected_output=(
 	"$(ls)"
 	"$(pwd)"
 	"$(cat makefile)"
+	"$(cd srcs && pwd)"
+	"$(cd srcd && pwd)"
 	"$(echo Hello, world!)"
 	"$(echo 'Hello, world!')"
 	"$(echo \"Hello, world!\")"

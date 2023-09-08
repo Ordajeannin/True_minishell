@@ -32,12 +32,33 @@ static char	*add_space(char	*str)
 */
 
 /*
- * Permet de... gagner de la place
+ * Permet de gagner de la place pour delete_null_nodes (input == NULL)
+ * Soutien tokenize_args, pour reperer un $? / "$?" (input != NULL)
+ * (seul, ou dans une string)
 */
-static void	help_delete(t_args **prev, t_args **current)
+static int	help_delete_or_token(t_args **prev, t_args **current, char	*input)
 {
-	*prev = *current;
-	*current = (*current)->next;
+	int	i;
+
+	i = 0;
+	if (input == NULL)
+	{
+		*prev = *current;
+		*current = (*current)->next;
+	}
+	else
+	{
+		while (input[i] != '\0')
+		{
+			if (input[i] == '$')
+			{
+				if (input[i + 1] == '?')
+					return (1);
+			}
+			i++;
+		}
+	}
+	return (0);
 }
 
 /*
@@ -56,7 +77,7 @@ static void	delete_null_nodes(t_args **list)
 	prev = NULL;
 	while (current != NULL)
 	{
-		if (current->str == NULL)
+		if (current->str == NULL && current->token != 23)
 		{
 			temp = current;
 			if (prev == NULL)
@@ -67,7 +88,7 @@ static void	delete_null_nodes(t_args **list)
 			free(temp);
 		}
 		else
-			help_delete(&prev, &current);
+			help_delete_or_token(&prev, &current, NULL);
 	}
 }
 
@@ -76,9 +97,13 @@ static void	delete_null_nodes(t_args **list)
  * Pour y associer un token
  * :warning: CMD, OPTION, FPATH et RPATH ne sont pas encore traites (cf 12910)
 */
-int	tokenize_args(char *input)
+int	tokenize_args(char *input, int flag)
 {
-	if (input[0] == '&' && input[1] == '&' && input[2] == '\0')
+	if (help_delete_or_token(NULL, NULL, input) == 1 && flag == 23)
+		return (TOKEN_INTERDOT_D_QUOTES);
+	else if (flag == 23)
+		return (flag);
+	else if (input[0] == '&' && input[1] == '&' && input[2] == '\0')
 		return (TOKEN_AND);
 	else if (input[0] == '|' && input[1] == '|' && input[2] == '\0')
 		return (TOKEN_OR);
@@ -92,6 +117,8 @@ int	tokenize_args(char *input)
 		return (TOKEN_OUTFILE);
 	else if (input[0] == '>' && input[1] == '>' && input[2] == '\0')
 		return (TOKEN_APPEND);
+	else if (help_delete_or_token(NULL, NULL, input) == 1)
+		return (TOKEN_INTERDOT);
 	else
 		return (12910);
 }
@@ -127,14 +154,21 @@ static void	process_not_s_quotes(t_args *node, t_args **env_list)
 void	update_args(t_args **list, t_args **env_list)
 {
 	t_args	*current;
+	char	help[2];
 
 	current = *list;
+	help[0] = '\0';
+	help[1] = '\0';
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
 			process_not_s_quotes(current, env_list);
 		if (current->str != NULL && current->token < 20)
-			current->token = tokenize_args(current->str);
+			current->token = tokenize_args(current->str, 0);
+		if (current->str != NULL && current->token == 23)
+			current->token = tokenize_args(current->str, 23);
+		if (current->str == NULL && current->token == 23)
+			current->str = help;
 		current = current->next;
 	}
 	delete_null_nodes(list);

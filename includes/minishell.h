@@ -46,6 +46,8 @@
 # define TOKEN_OR		11
 # define TOKEN_S_QUOTES 22
 # define TOKEN_D_QUOTES 23
+# define TOKEN_INTERDOT 0
+# define TOKEN_INTERDOT_D_QUOTES 230
 # define ABORT_MISSION	42
 
 extern int	g_error;
@@ -97,7 +99,7 @@ size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
 //Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
 void	update_args(t_args **list, t_args **env_list);
-int		tokenize_args(char *input);
+int		tokenize_args(char *input, int flag);
 size_t	delimit_to_token(char *s, t_args **list, const char **input);
 char	*is_env_var(char *str, t_args **env_list);
 char	**ft_split_arg(char *str);
@@ -110,6 +112,7 @@ size_t	ft_strspn(const char *s, char **accept, t_args **list);
 size_t	ft_strcspn(const char *s, char **reject, t_args **list);
 char	*ft_strncpy(char *dst, const char *src, int n);
 char	*ft_strrchr(const char *str, int ch);
+int		is_alphanum(char c);
 
 //List concerns
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
