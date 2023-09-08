@@ -56,7 +56,7 @@ static char	*word_dup(char *str, int start, int finish)
  * -> %
  *  ect...
 */
-static int	is_alphanum(char c)
+int	is_alphanum(char c)
 {
 	if (c >= 'A' && c <= 'Z')
 		return (0);

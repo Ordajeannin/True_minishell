@@ -104,7 +104,7 @@ char	*is_env_var(char *str, t_args **env_list)
  * Permet de traiter une sous-chaine, d'analyser si elle a le format
  * d'une variable d environnement, et si oui tente de la remplacer par sa
  * valeur
- * renvoie la sous-chaine sinon
+ * renvoie la sous-chaine sinon, ou si $?
  */
 char	*is_env_var(char *str, t_args **env_list)
 {
@@ -113,7 +113,7 @@ char	*is_env_var(char *str, t_args **env_list)
 
 	len = ft_strlen(str);
 	result = NULL;
-	if (str[0] == '$' && str[1] != '$')
+	if (str[0] == '$' && is_alphanum(str[1]) == 0)
 	{
 		result = replace_env_var(str + 1, len - 1, env_list);
 		return (result);
