@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/05 17:40:18 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 10:19:52 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,4 @@ int	msg(char *msg)
 {
 	perror(msg);
 	return (ERROR);
-}
-
-/* Appel a $?.
- * Renvoie la derniere erreur enregistree.
- * S'il y a erreur, elle renvoit 0(= pas d'erreurs)
- * Sinon, elle renvoit le numero de l'erreur.
-*/
-int	var_error(t_shell *shell)
-{
-	ft_printf("%d\n", shell->error);
-	shell->error = 0;
-	return (0);
 }

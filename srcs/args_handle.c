@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:32:50 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:35:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
 		shell->is_work = ft_export(list, shell, env_list);
 	else if (ft_strncmp(list->str, "pwd", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 3)
-		shell->is_work = ft_pwd(shell);
+		shell->is_work = ft_pwd(shell, env_list);
 	else
 		shell->is_work = all_cmd(list, shell, &list, env_list);
 }
@@ -80,7 +80,7 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 		ft_plus_shell(shell, env_list);
 	if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 4)
-		shell->is_work = ft_echo(list, shell);
+		shell->is_work = ft_echo(list, shell, env_list);
 	else if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 2)
 		shell->is_work = ft_cd(list, shell, current_env);
@@ -93,5 +93,4 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	else
 		args_two(list, shell, env_list);
 	check_args(&list, shell, env_list, input);
-	ft_printf("ERROR = %d\n", shell->error);
 }

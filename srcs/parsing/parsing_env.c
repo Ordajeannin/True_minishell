@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/07 15:33:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:34:12 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	handle_env(char **env, t_shell *shell)
 	shell->term = getenv("TERM");
 	shell->hostname = getenv("HOSTNAME");
 	shell->shlvl = getenv("SHLVL");
-	shell->error = 0;
 	if (shell->path != NULL && shell->path[0] != '\0')
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
 	return (0);
@@ -49,7 +48,8 @@ int	handle_env(char **env, t_shell *shell)
  * Au premier concluant, on renvoie le path complet
  * Sinon, renvoie NULL
 */
-static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
+static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
+	t_args **env_list)
 {
 	char	*temp;
 	char	*command;
@@ -67,7 +67,7 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 		paths++;
 	}
 	ft_printf("%s : Command not found\n", cmd);
-	shell->error = 127;
+	change_error(env_list, 127);
 	return (NULL);
 }
 
@@ -77,13 +77,14 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell)
 	tous les paths possibles et on regarde si l'executable existe ou non. 
 */
 
-char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell)
+char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
+	t_args **env_list)
 {
 	char	*command;
 
 	if (strchr(cmd, '/') == NULL)
 	{
-		command = extract_cmd_path(paths, cmd, shell);
+		command = extract_cmd_path(paths, cmd, shell, env_list);
 		return (command);
 	}
 	else if (access(cmd, X_OK) == 0)

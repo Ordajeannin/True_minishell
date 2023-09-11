@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:57:14 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:25:27 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	big_problem_cd(t_shell *shell, t_args *list, t_args *env_list)
 		shell->pwd = ft_strjoin(shell->is_pwd, "/..");
 		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
 		ft_printf("cd : No such file or directory\n");
-		shell->error = 0;
+		change_error(&env_list, 0);
 		return (1);
 	}
 	else if (len_dir == len_back)
@@ -68,7 +68,7 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 	{
 		ft_printf("%s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
-		shell->error = errno -1;
+		change_error(&env_list, errno -1);
 		return (1);
 	}
 	else
@@ -135,6 +135,6 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 		buf = list->next->str;
 	if (cd_real_version(buf, shell, env_list, list) == 1)
 		return (1);
-	shell->error = 0;
+	change_error(&env_list, 0);
 	return (0);
 }

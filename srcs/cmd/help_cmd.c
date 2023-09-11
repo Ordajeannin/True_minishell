@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/05 11:02:44 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:08:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,22 @@ char	**dup_double_string(t_args **e_list)
 	}
 	result[i] = NULL;
 	return (result);
+}
+
+/*
+ * Gere export sans args
+ * Affiche: declare -x VE env
+*/
+int	export_out_args(t_args **env_list)
+{
+	t_args	*current;
+
+	current = *env_list;
+	while (current != NULL && current->next != NULL
+		&& current->next->next != NULL)
+	{
+		ft_printf("declare -x %s\n", current->str);
+		current = current->next;
+	}
+	change_error(env_list, 0);
 }

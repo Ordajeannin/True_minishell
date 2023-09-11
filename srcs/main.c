@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/04 15:05:40 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:15:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	signal_handler(int sig)
 static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
+	if (g_error != 0)
+	{
+		change_error(&env_list, g_error);
+		g_error = 0;
+	}
 	add_history(input);
 	from_input_to_list_of_args(input, &list, &env_list);
 	if (list)
@@ -84,6 +89,7 @@ int	main(int ac, char **av, char **env)
 	t_shell	shell;
 
 	(void)ac;
+	g_error = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	ft_gain_place(av, &list, &input, &env_list);

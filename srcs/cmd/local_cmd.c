@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:33:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:02:01 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,28 @@
  * Affiche le repertoire courrant 
  * Fonction a l'image de 'pwd'
 */
-int	ft_pwd(t_shell *shell)
+int	ft_pwd(t_shell *shell, t_args **env_list)
 {
 	if (shell->is_pwd == NULL)
 	{
-		shell->error = errno;
+		change_error(env_list, errno);
 		return (1);
 	}
 	else
 		ft_printf("%s\n", shell->is_pwd);
-	shell->error = 0;
+	change_error(env_list, 0);
 	return (0);
 }
 
 /* 
  * Fonction unset.
- * Supprime une variable d'environnement appele.
+ * Supprime une variable d'environnement appelee.
  * Change aussi les VE saved dans struct t_shell a NULL.
  * Si elle est vide ou n'existe pas, renvoie juste l'invite de commande.
 */
 int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 {
-	if (!list)
+	if (!list->next)
 		return (1);
 	if (!searchin_env(&env_list, list))
 		return (1);
@@ -45,7 +45,7 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
-	shell->error = 0;
+	change_error(&env_list, 0);
 	return (0);
 }
 
@@ -74,9 +74,13 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	char	*value;
 	char	*v_env;
 
+	if (!list->next)
+	{
+		export_out_args(env_list);
+		return (0);
+	}
 	v_env = ft_strdupto_n(list->next->str, '=');
 	value = ft_strdup_from(list->next->str, '=');
-	ft_printf("V_ENV = %s.\n", v_env);
 	if (is_only_equal(value, '=') == 1 && (is_only_equal(v_env, ' ') == 1
 			|| v_env == NULL))
 		return (1);
@@ -89,7 +93,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	}
 	if (list->next->next != NULL)
 		ft_export(list->next, shell, env_list);
-	shell->error = 0;
+	change_error(env_list, 0);
 	return (0);
 }
 

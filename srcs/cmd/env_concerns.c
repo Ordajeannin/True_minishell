@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:36:26 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:31:00 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 }
 
 /* 
- * Modif de env pour export.
+ * Modif de env pour export
  * Recherche de name_env dans env et modifs.
  * Boucle jusqu'a trouver name_env dans l'env.
  * Puis, modifie sa valeur avec value.
@@ -112,7 +112,7 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 		ft_printf("%s\n", current->str);
 		current = current->next;
 	}
-	shell->error = 0;
+	change_error(env_list, 0);
 	return (0);
 }
 

@@ -6,11 +6,40 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:33:29 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:34:59 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* 
+ * Change env pour $?.
+ * Mets a jour les cas d'erreurs de $?
+*/
+int	change_error(t_args **env_list, int value)
+{
+	t_args	*current;
+	char	*current_name;
+	char	*result;
+
+	result = ft_strjoin("?", "=");
+	result = ft_strjoin(result, ft_itoa(value));
+	current_name = NULL;
+	current = *env_list;
+	while (current)
+	{
+		current_name = ft_strdupto_n(current->str, '=');
+		if (ft_strncmp(current_name, "?", ft_strlen(current_name)) == 0
+			&& ft_strlen(current_name) == 1)
+		{
+			current->str = NULL;
+			current->str = result;
+			return (1);
+		}
+		current = current->next;
+	}
+	return (0);
+}
 
 /* 
  * Debut de all_cmd.
@@ -22,7 +51,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 {
 	char	*command;
 
-	command = is_path_or_cmd(shell->cmd_paths, arg->str, shell);
+	command = is_path_or_cmd(shell->cmd_paths, arg->str, shell, env_list);
 	if (command == NULL)
 	{
 		if (access(list->str, F_OK) == 0)
@@ -73,7 +102,7 @@ static int	next_execution(pid_t pid_child, char *command, t_shell *shell,
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
-		shell->error = handle_error(errno);
+		change_error(env_list, handle_error(errno));
 		return (1);
 	}
 	return (0);
@@ -111,6 +140,6 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		if (next_execution(pid_child, command, shell, env_list) == 1)
 			return (1);
 	}
-	shell->error = 0;
+	change_error(env_list, 0);
 	return (0);
 }

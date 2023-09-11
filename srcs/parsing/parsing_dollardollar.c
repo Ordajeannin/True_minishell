@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_dollardollar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/14 20:42:06 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/11 09:20:57 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	is_alphanum(char c)
 	if (c >= '0' && c <= '9')
 		return (0);
 	if (c == '_')
+		return (0);
+	if (c == '?')
 		return (0);
 	else
 		return (-1);
