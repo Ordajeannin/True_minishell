@@ -11,6 +11,11 @@ commands=(
     "ls"
 	"pwd"
 	"cat makefile"
+	"cat tests/files/file.txt" # test cat *NORMAL* file
+	"cat tests/files/big_file.txt" # test cat *BIG* file
+	"cat tests/files/empty.txt" # test cat *EMPTY* file
+	"cat tests/files/file\ name\ with\ space.txt" # test cat tricky name
+	"cat tests/files/file_without_permission.txt" # test cat chmod 000
 	"cd srcs && pwd" # test cd/ET
 	"cd srcd && pwd" # !test cd/ET
 	"echo Hello, world!" # w/o quote, multiples arg
@@ -21,12 +26,24 @@ commands=(
     "echo -n \$PWD" #no return and VE 
     "echo -n coucou le sang" #no return
 #	"echo Hello\"World\"" # str"str" bug connu, test de sensibilite du script
+	"export a"
+	"export hello world"
+	"export hello=world && echo \$hello && unset \$hello && echo \$hello"
+	"export HELLO=world && echo \$HELLO && unset \$HELLO && echo \$HELLO"
+	"export HELLA='warld' && echo \$HELLA && unset \$HELLA && echo \$HELLA"
+	"export ="
+	"unset HOME && echo \$HOME"
 )
 
 expected_output=(
 	"$(ls)"
 	"$(pwd)"
 	"$(cat makefile)"
+	"$(cat tests/files/file.txt)"
+	"$(cat tests/files/big_file.txt)"
+	"$(cat tests/files/empty.txt)"
+	"$(cat tests/files/file\ name\ with\ space.txt)"
+	"$(cat tests/files/file_without_permission.txt)"
 	"$(cd srcs && pwd)"
 	"$(cd srcd && pwd)"
 	"$(echo Hello, world!)"
@@ -34,9 +51,16 @@ expected_output=(
 	"$(echo \"Hello, world!\")"
 	"$(echo 'Hello, "world!"' I love u)"
     "$(echo -n)"
-    "$(echo -n $PWD)"
+    "$(echo -n \$PWD)"
     "$(echo -n coucou le sang)"
 #	"$(echo Hello"World")"
+	"$(export a)"
+	"$(export hello world)"
+	"$(export hello=world && echo \$hello && unset \$hello && echo \$hello)"
+	"$(export HELLO=world && echo \$HELLO && unset \$HELLO && echo \$HELLO)"
+	"$(export HELLA='warld' && echo \$HELLA && unset \$HELLA && echo \$HELLA)"
+	"$(export =)"
+	"$(unset HOME && echo \$HOME)"
 )
 
 
