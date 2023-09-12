@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/11 10:19:52 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/12 11:12:53 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int	handle_error(int code_err)
 	int	final_error;
 
 	final_error = 0;
-	if (code_err == 13)
+	if (code_err == 13 || code_err == 12)
 		final_error = 126;
+	else if (code_err == 11)
+		final_error = 127;
 	else
 		final_error = code_err;
 	return (final_error);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/11 11:25:27 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/12 11:12:22 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ int	big_problem_cd(t_shell *shell, t_args *list, t_args *env_list)
 	if (len_dir > len_back)
 	{
 		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
-			ft_strjoin("OLDPWD=", shell->oldpwd));
+			ft_strjoin("OLDPWD=", shell->is_oldpwd));
 		change_env_cd(&env_list, ft_strjoin("PWD=", \
 			ft_strjoin(shell->is_pwd, "/..")), ft_strjoin("PWD=", \
 			shell->is_pwd));
+		shell->is_oldpwd = shell->is_pwd;
 		shell->oldpwd = shell->is_pwd;
 		shell->pwd = ft_strjoin(shell->is_pwd, "/..");
 		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
@@ -68,15 +69,15 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 	{
 		ft_printf("%s: %s: %s\n", list->str, list->next->str, \
 			strerror(errno));
-		change_error(&env_list, errno -1);
+		change_error(&env_list, handle_error(errno -1));
 		return (1);
 	}
 	else
 	{
 		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
 			ft_strjoin("OLDPWD=", shell->is_oldpwd));
-		shell->oldpwd = shell->is_pwd;
 		shell->is_oldpwd = shell->is_pwd;
+		shell->oldpwd = shell->is_pwd;
 		if (getcwd(NULL, 0) != NULL)
 		{
 			change_env_cd(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
@@ -125,6 +126,12 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (list->next == NULL || ft_strncmp(list->next->str, "~",
 			ft_strlen(list->next->str)) == 0)
 		buf = ft_strjoin("/home/", shell->user);
+	else if (list->next->next)
+	{
+		ft_printf("%s: too many arguments\n", list->str);
+		change_error(&env_list, 1);
+		return (1);
+	}
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 	{
 		buf = is_two_points(shell, list, env_list);

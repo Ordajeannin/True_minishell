@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/11 11:31:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/12 11:00:00 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,17 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
-	while (current != NULL && current->next != NULL)
+	while (current != NULL)
 	{
-		ft_printf("%s\n", current->str);
-		current = current->next;
+		if (ft_strncmp(current->str, "OLDPWD=", 7) == 0)
+			ft_printf("COUCOU JE SUIS LA BRO\n");
+		if (ft_strncmp(current->str, "?=", 2) == 0)
+			current = current->next;
+		else
+		{
+			ft_printf("%s\n", current->str);
+			current = current->next;
+		}
 	}
 	change_error(env_list, 0);
 	return (0);

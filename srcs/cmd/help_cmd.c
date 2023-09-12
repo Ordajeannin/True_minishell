@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/11 12:08:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/12 10:30:09 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,25 @@ char	**dup_double_string(t_args **e_list)
 int	export_out_args(t_args **env_list)
 {
 	t_args	*current;
+	char	*bfore;
+	char	*after;
 
 	current = *env_list;
-	while (current != NULL && current->next != NULL
-		&& current->next->next != NULL)
+	bfore = NULL;
+	after = NULL;
+	while (current != NULL)
 	{
-		ft_printf("declare -x %s\n", current->str);
-		current = current->next;
+		bfore = ft_strdupto_n(current->str, '=');
+		after = ft_strdup_from(current->str, '=');
+		if (ft_strncmp(current->str, "?=", 2) == 0)
+			current = current->next;
+		else
+		{
+			ft_printf("declare -x %s=\"%s\"\n", bfore, after);
+			current = current->next;
+		}
+		bfore = NULL;
+		after = NULL;
 	}
 	change_error(env_list, 0);
 }
