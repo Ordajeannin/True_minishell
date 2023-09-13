@@ -12,12 +12,35 @@
 
 #include "minishell.h"
 
+static char	*add_a_dollar_to_str(char *str)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	i = ft_strlen(str);
+	result = malloc(sizeof(char) * i + 2);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 1;
+	result[0] = '$';
+	while (str[i])
+	{
+		result[j] = str[i];
+		i++;
+		j++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+
 /*
  * Remplace une variable d'environnement par sa valeur correspondante
  * retourne un pointeur vers la nouvelle chaine si la variable existe, 
  * NULL sinon
 */
-static char	*replace_env_var(char *str, int n, t_args **env_list)
+static char	*replace_env_var(char *str, int n, t_args **env_list, int flag)
 {
 	char	*result;
 	char	*env;
@@ -39,7 +62,9 @@ static char	*replace_env_var(char *str, int n, t_args **env_list)
 		}
 		current = current->next;
 	}
-	return (NULL);
+	if (flag == 2)
+		return (NULL);
+	return (add_a_dollar_to_str(str));
 }
 
 /*
@@ -106,7 +131,7 @@ char	*is_env_var(char *str, t_args **env_list)
  * valeur
  * renvoie la sous-chaine sinon, ou si $?
  */
-char	*is_env_var(char *str, t_args **env_list)
+char	*is_env_var(char *str, t_args **env_list, int flag)
 {
 	char	*result;
 	int		len;
@@ -115,7 +140,7 @@ char	*is_env_var(char *str, t_args **env_list)
 	result = NULL;
 	if (str[0] == '$' && is_alphanum(str[1]) == 0)
 	{
-		result = replace_env_var(str + 1, len - 1, env_list);
+		result = replace_env_var(str + 1, len - 1, env_list, flag);
 		return (result);
 	}
 	return (str);

@@ -127,17 +127,22 @@ int	tokenize_args(char *input, int flag)
  * Permet de gerer le remplacement des variables d'environnement,
  * si correctement formate
 */
-static void	process_not_s_quotes(t_args *node, t_args **env_list)
+void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 {
 	char	**tmp;
+	char	*verif;
 	int		i;
 
 	tmp = ft_split_arg(node->str);
+	verif = NULL;
 	node->str = NULL;
 	i = 0;
 	while (tmp[i])
 	{
-		tmp[i] = is_env_var(tmp[i], env_list);
+		verif = tmp[i];
+		tmp[i] = is_env_var(tmp[i], env_list, flag);
+		if (tmp[i] != NULL && ft_strcmp(verif, tmp[i]) == 0 && tmp[i][0] == '$')
+			node->token = TOKEN_TEMP_VAR;
 		if (tmp[i] != NULL && node->str != NULL)
 			node->str = ft_strjoin(node->str, tmp[i]);
 		if (tmp[i] != NULL && node->str == NULL)
@@ -162,7 +167,7 @@ void	update_args(t_args **list, t_args **env_list)
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
-			process_not_s_quotes(current, env_list);
+			process_not_s_quotes(current, env_list, 1);
 		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str, 0);
 		if (current->str != NULL && current->token == 23)

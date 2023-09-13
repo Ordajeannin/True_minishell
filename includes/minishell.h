@@ -48,6 +48,7 @@
 # define TOKEN_D_QUOTES 23
 # define TOKEN_INTERDOT 0
 # define TOKEN_INTERDOT_D_QUOTES 230
+# define TOKEN_TEMP_VAR	666
 # define ABORT_MISSION	42
 
 extern int	g_error;
@@ -92,13 +93,14 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	char *input);
 void	was_unclosed_quotes(t_args **list);
 size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
+void	process_not_s_quotes(t_args *node, t_args **env_list, int flag);
 
 //Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
 void	update_args(t_args **list, t_args **env_list);
 int		tokenize_args(char *input, int flag);
 size_t	delimit_to_token(char *s, t_args **list, const char **input);
-char	*is_env_var(char *str, t_args **env_list);
+char	*is_env_var(char *str, t_args **env_list, int flag);
 char	**ft_split_arg(char *str);
 
 //libc parsing

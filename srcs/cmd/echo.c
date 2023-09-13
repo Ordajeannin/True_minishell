@@ -44,11 +44,17 @@ int	find_opt(char *s1, char *s2)
  * Affiche caractere par caractere la liste.
  * Suite de ft_echo.
 */
-void	iter_echo(t_args *list)
+static void	iter_echo(t_args *list, t_args **env_list)
 {
-	int	i;
+	int		i;
+	char	*save;
 
 	i = 0;
+	save = list->str;
+	if (list->token == TOKEN_TEMP_VAR)
+		process_not_s_quotes(list, env_list, 2);
+	if (list->str == NULL)
+		return ;
 	while (list->str[i])
 	{
 		write (1, &list->str[i], 1);
@@ -66,7 +72,6 @@ int	ft_echo(t_args *list, t_shell *shell, t_args **env_list)
 	int	bools;
 
 	bools = 0;
-	ft_printf("%s\n", list->str);
 	list = list->next;
 	if (list == NULL)
 		return (1);
@@ -79,7 +84,7 @@ int	ft_echo(t_args *list, t_shell *shell, t_args **env_list)
 	}
 	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 	{
-		iter_echo(list);
+		iter_echo(list, env_list);
 		list = list->next;
 		if (list != NULL)
 			write (1, " ", 1);
