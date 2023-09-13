@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/12 11:12:22 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/13 10:34:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
 	char	*buf;
 
+	if (list->next->str[0] == '\0')
+		return (0);
 	if (list->next == NULL || ft_strncmp(list->next->str, "~",
 			ft_strlen(list->next->str)) == 0)
 		buf = ft_strjoin("/home/", shell->user);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/11 11:34:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/13 10:49:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ int	find_opt(char *s1, char *s2)
 	j = 0;
 	while (s1[i])
 	{
-		if (s1[i] == s2[j])
+		while (s1[i] == s2[j])
 		{
 			j ++;
 			if (j == ft_strlen(s2))
+			{
 				return (1);
+			}
+			if (s1[i] != s2[j])
+				return (0);
 		}
 		i ++;
 	}
@@ -62,12 +66,13 @@ int	ft_echo(t_args *list, t_shell *shell, t_args **env_list)
 	int	bools;
 
 	bools = 0;
+	ft_printf("%s\n", list->str);
 	list = list->next;
 	if (list == NULL)
 		return (1);
 	while (list && ft_strcmp(list->str, "\t") == 0)
 		list = list->next;
-	while (list && find_opt(list->str, "-n"))
+	while (list && find_opt(list->str, "-n") == 1)
 	{
 		list = list->next;
 		bools = 1;
