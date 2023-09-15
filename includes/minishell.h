@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/11 12:01:30 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/15 16:57:08 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	ft_plus_shell(t_shell *shell, t_args **env_list);
 void	ft_less_shell(t_shell *shell, t_args **env_list);
 void	signal_handler(int sig);
 int		export_out_args(t_args **env_list);
+void	add_back(int len_back, t_args *list);
 
 void	code_error(int code);
 int		handle_error(int code_err);

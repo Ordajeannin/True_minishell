@@ -6,24 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/13 10:34:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/15 17:20:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 
- * Renvoie vers le dernier repertoire existant.
- * Cas ou len_back et len_dir dont egaux.
-*/
-void	add_back(int len_back, t_args *list)
-{
-	while (len_back > 0)
-	{
-		list->next->str = ft_strjoin("../", list->next->str);
-		len_back --;
-	}
-}
 
 /* 
  * Gere le cas ou cd .. et que .. n'existe plus.
@@ -114,6 +101,23 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	return (buf);
 }
 
+int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
+{
+	if (list->next != NULL && list->next->str[0] == '\0')
+		return (1);
+	if (list->next == NULL || ft_strncmp(list->next->str, "~",
+			ft_strlen(list->next->str)) == 0)
+		return (2);
+	else if (list->next->next && list->next->next->token != TOKEN_AND
+		&& list->next->next->token != TOKEN_OR)
+	{
+		ft_printf("%s: too many arguments\n", list->str);
+		change_error(&env_list, 1);
+		return (1);
+	}
+	return (0);
+}
+
 /* 
  * Check si cd .. || cd ~ || autre cd
  * Agit en fonction des cas speciaux, un peu comme une gestionnaire
@@ -122,18 +126,13 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
 	char	*buf;
+	int		cod;
 
-	if (list->next->str[0] == '\0')
-		return (0);
-	if (list->next == NULL || ft_strncmp(list->next->str, "~",
-			ft_strlen(list->next->str)) == 0)
-		buf = ft_strjoin("/home/", shell->user);
-	else if (list->next->next)
-	{
-		ft_printf("%s: too many arguments\n", list->str);
-		change_error(&env_list, 1);
+	cod = check_cd(list, shell, env_list);
+	if (cod == 1)
 		return (1);
-	}
+	if (cod == 2)
+		buf = ft_strjoin("/home/", shell->user);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 	{
 		buf = is_two_points(shell, list, env_list);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/13 10:49:39 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/14 14:22:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	find_opt(char *s1, char *s2)
 /* 
  * Affiche caractere par caractere la liste.
  * Suite de ft_echo.
+ * // if (list->token == TOKEN_TEMP_VAR)
+	// 	process_not_s_quotes(list, env_list, 2);
 */
 static void	iter_echo(t_args *list, t_args **env_list)
 {
@@ -51,8 +53,6 @@ static void	iter_echo(t_args *list, t_args **env_list)
 
 	i = 0;
 	save = list->str;
-	if (list->token == TOKEN_TEMP_VAR)
-		process_not_s_quotes(list, env_list, 2);
 	if (list->str == NULL)
 		return ;
 	while (list->str[i])

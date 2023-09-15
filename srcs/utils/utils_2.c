@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:31:12 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:56:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/15 16:56:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,17 @@ int	count_back(char	*str)
 		i --;
 	}
 	return (len);
+}
+
+/* 
+ * Renvoie vers le dernier repertoire existant.
+ * Cas ou len_back et len_dir dont egaux.
+*/
+void	add_back(int len_back, t_args *list)
+{
+	while (len_back > 0)
+	{
+		list->next->str = ft_strjoin("../", list->next->str);
+		len_back --;
+	}
 }

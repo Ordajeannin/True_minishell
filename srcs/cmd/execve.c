@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/13 10:41:40 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/15 17:28:33 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		return (NULL);
 	loop_args(shell, list);
-	signal(SIGQUIT, signal_handler);
+	if (ft_strcmp("./minishell", command) != 0)
+		signal(SIGQUIT, signal_handler);
 	return (command);
 }
 

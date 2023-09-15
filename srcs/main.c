@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/13 10:44:54 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/15 17:28:59 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	ft_gain_place(char **av, t_args **list, char **input,
  */
 void	signal_handler(int sig)
 {
-	if (sig == 2)
+	if (!rl_done)
 	{
 		ft_printf("\n");
 		rl_replace_line("", 0);
