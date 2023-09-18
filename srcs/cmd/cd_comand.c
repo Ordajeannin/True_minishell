@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/15 17:20:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/18 18:46:32 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,7 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 		return (1);
 	}
 	else
-	{
-		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
-			ft_strjoin("OLDPWD=", shell->is_oldpwd));
-		shell->is_oldpwd = shell->is_pwd;
-		shell->oldpwd = shell->is_pwd;
-		if (getcwd(NULL, 0) != NULL)
-		{
-			change_env_cd(&env_list, ft_strjoin("PWD=", getcwd(NULL, 0)),
-				ft_strjoin("PWD=", shell->is_pwd));
-			shell->is_pwd = getcwd(NULL, 0);
-			shell->pwd = getcwd(NULL, 0);
-		}
-	}
+		cd_move_and_change(env_list, shell);
 	return (0);
 }
 
@@ -98,16 +86,30 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 		closedir(dir);
 	}
 	buf = list->next->str;
+	if (shell->pwd == NULL)
+		cd_move_and_change(env_list, shell);
 	return (buf);
 }
 
+/* 
+ * Check les arguments de cd
+ * Gere cas d'erreurs premiers
+*/
 int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
 	if (list->next != NULL && list->next->str[0] == '\0')
 		return (1);
 	if (list->next == NULL || ft_strncmp(list->next->str, "~",
 			ft_strlen(list->next->str)) == 0)
+	{
+		if (shell->home == NULL)
+		{
+			ft_printf("%s: 'HOME' not defined\n", list->str);
+			change_error(&env_list, 1);
+			return (1);
+		}
 		return (2);
+	}
 	else if (list->next->next && list->next->next->token != TOKEN_AND
 		&& list->next->next->token != TOKEN_OR)
 	{

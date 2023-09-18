@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/15 09:42:44 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/18 18:52:34 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 {
 	if (!list->next)
 		return (1);
-	if (!searchin_env(&env_list, list))
-		return (1);
-	else
+	if (searchin_env(&env_list, list))
 		shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
@@ -61,6 +59,11 @@ int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
 	int	code_err;
 
 	code_err = 0;
+	if (list && list->next && list->next->next)
+	{
+		ft_printf("%s: too many arguments\n", list->str);
+		return (change_error(&env_list, 1));
+	}
 	free(input);
 	clear_args_list(&env_list);
 	rl_clear_history();

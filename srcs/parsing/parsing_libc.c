@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_libc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/07 18:31:07 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:56:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 */
 int	ft_strcmp(const char *s1, const char *s2)
 {
+	if (!s1 || !s2)
+		return (1);
 	while (*s1 && (*s1 == *s2))
 	{
 		s1++;

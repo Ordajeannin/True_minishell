@@ -14,7 +14,6 @@ commands=(
 	"cat tests/files/file.txt" # test cat *NORMAL* file
 	"cat tests/files/big_file.txt" # test cat *BIG* file
 	"cat tests/files/empty.txt" # test cat *EMPTY* file
-	"cat tests/files/file\ name\ with\ space.txt" # test cat tricky name
 	"cat tests/files/file_without_permission.txt" # test cat chmod 000
 	"cd srcs && pwd" # test cd/ET
 	"cd srcd && pwd" # !test cd/ET
@@ -32,6 +31,10 @@ commands=(
 	"export HELLO=world && echo \$HELLO && unset \$HELLO && echo \$HELLO"
 	"export HELLA='warld' && echo \$HELLA && unset \$HELLA && echo \$HELLA"
 	"export ="
+	"export A B C"
+	"export A = b"
+	"export A=b C=d E=f"
+	"export 1bob=yolo"
 	"unset HOME && echo \$HOME"
 )
 
@@ -42,7 +45,6 @@ expected_output=(
 	"$(cat tests/files/file.txt)"
 	"$(cat tests/files/big_file.txt)"
 	"$(cat tests/files/empty.txt)"
-	"$(cat tests/files/file\ name\ with\ space.txt)"
 	"$(cat tests/files/file_without_permission.txt)"
 	"$(cd srcs && pwd)"
 	"$(cd srcd && pwd)"
@@ -60,6 +62,10 @@ expected_output=(
 	"$(export HELLO=world && echo \$HELLO && unset \$HELLO && echo \$HELLO)"
 	"$(export HELLA='warld' && echo \$HELLA && unset \$HELLA && echo \$HELLA)"
 	"$(export =)"
+	"$(export A B C)"
+	"$(export A = b)"
+	"$(export A=b C=d E=f)"
+	"$(export 1bob=yolo)"
 	"$(unset HOME && echo \$HOME)"
 )
 

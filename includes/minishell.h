@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/15 16:57:08 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/18 18:29:33 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_shell
 	char	**cmd_paths;
 	char	**input;
 	int		is_work;
+	char	*input_bis;
 }	t_shell;
 
 typedef struct s_args
@@ -85,6 +86,7 @@ typedef struct s_args
 	struct s_args	*next;
 }	t_args;
 
+int		is_minishell(t_shell shell, t_args *env_list, t_args *list, char *user);
 int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
 void	init_shell(t_shell *shell);
@@ -132,14 +134,16 @@ int		ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell);
 //Other commands
 int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
 void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
+void	cd_move_and_change(t_args *env_list, t_shell *shell);
 int		change_env_exp(t_args **env_list, char *name_env, char *value);
+int		parse_export(t_args *list);
 int		change_error(t_args **env_list, int value);
 int		searchin_env(t_args **env_list, t_args *list);
 char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
 	t_args **env_list);
 void	shell_change(t_shell *shell, char *str, char *value);
 int		set_env(t_args **env_list, char **env, t_shell *shell);
-void	add_env(t_args **env_list, t_args *list);
+void	add_env(t_args **env_list, char *str);
 void	ft_plus_shell(t_shell *shell, t_args **env_list);
 void	ft_less_shell(t_shell *shell, t_args **env_list);
 void	signal_handler(int sig);

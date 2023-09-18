@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/12 11:00:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/18 18:43:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 			return ;
 		}
 		current = current->next;
-	}
+		if (current == NULL)
+			add_env(env_list, new_str);
+	}	
 }
 
 /* 
@@ -109,8 +111,6 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 		return (1);
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->str, "OLDPWD=", 7) == 0)
-			ft_printf("COUCOU JE SUIS LA BRO\n");
 		if (ft_strncmp(current->str, "?=", 2) == 0)
 			current = current->next;
 		else

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/15 17:28:59 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/18 18:38:54 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 		change_error(&env_list, g_error);
 		g_error = 0;
 	}
-	add_history(input);
 	from_input_to_list_of_args(input, &list, &env_list);
 	if (list)
 	{
@@ -96,12 +95,36 @@ int	main(int ac, char **av, char **env)
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	user = shell.user;
+	input = readline(prompt_cmd(&shell, user));
+	if (input == NULL)
+		ft_exit(input, list, env_list, &shell);
+	add_history(input);
+	main_bis(input, list, env_list, &shell);
+	shell.input_bis = input;
+	is_minishell(shell, env_list, list, user);
+	return (0);
+}
+
+/* 
+ * Boucle principale minishell
+ * Affiche le prompt
+ * Ajoute la cmd a l'historique si besoin
+ * Exit si CTRL-D
+*/
+int	is_minishell(t_shell shell, t_args *env_list, t_args *list, char *user)
+{
+	char	*input;
+
+	input = NULL;
 	while (1)
 	{
 		input = readline(prompt_cmd(&shell, user));
 		if (input == NULL)
 			ft_exit(input, list, env_list, &shell);
+		if (!(ft_strcmp(shell.input_bis, input) == 0 \
+			&& ft_strlen(shell.input_bis) == ft_strlen(input)))
+			add_history(input);
+		shell.input_bis = ft_strdup(input);
 		main_bis(input, list, env_list, &shell);
 	}
-	return (0);
 }
