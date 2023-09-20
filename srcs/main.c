@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/18 18:38:54 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/20 22:51:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static void	ft_gain_place(char **av, t_args **list, char **input,
  */
 void	signal_handler(int sig)
 {
+	if (rl_done && g_error == 2)
+	{
+		ft_printf("\n");
+		code_error(130);
+	}
 	if (!rl_done)
 	{
 		ft_printf("\n");
@@ -102,7 +107,7 @@ int	main(int ac, char **av, char **env)
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
-	user = shell.user;
+	user = get_username(&shell, &env_list);
 	input = readline(prompt_cmd(&shell, user));
 	if (input == NULL)
 		ft_exit(input, list, env_list, &shell);
@@ -130,7 +135,8 @@ int	is_minishell(t_shell shell, t_args *env_list, t_args *list, char *user)
 		if (input == NULL)
 			ft_exit(input, list, env_list, &shell);
 		if (!(ft_strcmp(shell.input_bis, input) == 0 \
-			&& ft_strlen(shell.input_bis) == ft_strlen(input)))
+			&& ft_strlen(shell.input_bis) == ft_strlen(input))
+			&& shell.input_bis != NULL)
 			add_history(input);
 		shell.input_bis = ft_strdup(input);
 		main_bis(input, list, env_list, &shell);

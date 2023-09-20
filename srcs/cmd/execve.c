@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/15 17:28:33 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/20 17:10:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 		return (NULL);
 	loop_args(shell, list);
 	if (ft_strcmp("./minishell", command) != 0)
+	{
 		signal(SIGQUIT, signal_handler);
+		g_error = 2;
+	}
 	return (command);
 }
 
@@ -98,12 +101,20 @@ static int	next_execution(pid_t pid_child, char *command, t_shell *shell,
 
 	waitpid(pid_child, &status, 0);
 	signal(SIGQUIT, SIG_IGN);
+	if (g_error == 2)
+		g_error = 0;
 	if (ft_strcmp("./minishell", command) == 0 && ft_strlen(command) == 11)
 		ft_less_shell(shell, env_list);
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
 		change_error(env_list, handle_error(errno));
+		return (1);
+	}
+	else if (WTERMSIG(status) == SIGSEGV)
+	{
+		ft_printf("Segmentation Fault (core dumped)\n");
+		change_error(env_list, 139);
 		return (1);
 	}
 	return (0);

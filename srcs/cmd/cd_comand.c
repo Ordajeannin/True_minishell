@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/18 18:46:32 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/20 14:33:53 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (cod == 1)
 		return (1);
 	if (cod == 2)
-		buf = ft_strjoin("/home/", shell->user);
+		buf = ft_strdup(shell->home);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 	{
 		buf = is_two_points(shell, list, env_list);

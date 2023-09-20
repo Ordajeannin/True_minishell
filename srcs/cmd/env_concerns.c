@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/18 18:43:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/20 14:29:00 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	t_args	*current;
 
 	result = ft_strjoin(name_env, "=");
-	result = ft_strjoin(result, value);
+	if (ft_strcmp(name_env, "SHLVL") == 0 && ft_strlen(name_env) == 5
+		&& ft_atoi(value) < 0)
+		result = ft_strjoin(result, "0");
+	else
+		result = ft_strjoin(result, value);
 	current_name = NULL;
 	current = *env_list;
 	while (current)

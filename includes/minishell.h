@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/18 18:29:33 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/20 17:43:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,6 @@ int		is_numeric(char *str);
 //Print Things
 void	shell_style(t_shell *shell);
 void	print_args_list(t_args **list);
+char	*get_username(t_shell *shell, t_args **env_list);
 char	*prompt_cmd(t_shell *shell, char *user);
 #endif
