@@ -34,7 +34,7 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 		current = current->next;
 		if (current == NULL)
 			add_env(env_list, new_str);
-	}	
+	}
 }
 
 /* 
