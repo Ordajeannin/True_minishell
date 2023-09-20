@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   segfault.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/25 17:02:19 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/20 22:18:11 by asalic           ###   ########.fr       */
+/*   Created: 2023/09/20 16:19:46 by asalic            #+#    #+#             */
+/*   Updated: 2023/09/20 16:20:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+int	main(void)
 {
-	size_t		i;
-	const char	*src2;
-	char		*dst2;
+	int	*i;
 
-	if (!dst && !src)
-		return (NULL);
-	i = 0;
-	src2 = (const char *)src;
-	dst2 = (char *)dst;
-	while (i < n)
-	{
-		dst2[i] = src2[i];
-		i++;
-	}
-	return (dst);
+	*i = NULL;
+	*i = 42;
+	return (0);
 }

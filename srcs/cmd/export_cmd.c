@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/18 12:46:42 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/20 14:29:57 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	export_errors(t_args *list, t_args **env_list)
 */
 static void	ft_more_export(t_shell *shell, char *v_env, char *value)
 {
+	if (ft_strcmp(v_env, "SHLVL") == 0 && ft_strlen(v_env) == 5
+		&& ft_atoi(value) < 0)
+		value = "0";
 	shell_change(shell, v_env, value);
 	if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
 		shell->is_pwd = value;
