@@ -30,7 +30,7 @@ int	is_correct_format(t_args **list)
 				|| (current->next != NULL
 					&& is_alphanum(current->next->str[0]) != 0))
 			{
-				perror("syntax error near unexpected token");
+				perror("syntax error near unexpected token\n");
 				return (-1);
 			}
 		}

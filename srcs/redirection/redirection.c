@@ -67,7 +67,7 @@ void	is_there_a_redirection(t_args **list)
 	t_args	*prev;
 	t_args	*temp;
 
-	current = NULL;
+	current = *list;
 	prev = NULL;
 	temp = NULL;
 	while (current != NULL && current->next != NULL)

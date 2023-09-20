@@ -53,17 +53,25 @@ void	signal_handler(int sig)
 static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
+	int	saved_stdout;
+
 	if (g_error != 0)
 	{
 		change_error(&env_list, g_error);
 		g_error = 0;
 	}
+	saved_stdout = dup(STDOUT_FILENO);
 	from_input_to_list_of_args(input, &list, &env_list);
 	if (list)
 	{
 		print_args_list(&list);
+		is_correct_format(&list);
+		is_there_a_redirection(&list);
 		args_handle(list, shell, &env_list, input);
 	}
+	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+		perror("Failed to restore standard output\n");
+	close(saved_stdout);
 	free(input);
 	clear_args_list(&list);
 }

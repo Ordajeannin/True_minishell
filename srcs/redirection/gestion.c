@@ -23,16 +23,16 @@ static void	j_ai_peter_les_plombs(t_args **list)
 	t_args	*current;
 	int		fd;
 
-	current = *list->next;
+	current = (*list)->next;
 	fd = open(current->str, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Failed to open input file");
+		perror("Failed to open input file\n");
 		return ;
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		perror("Failed to redirect input");
+		perror("Failed to redirect input\n");
 		close(fd);
 		return ;
 	}
@@ -54,12 +54,12 @@ static void	sans_abandonner(t_args **list)
 	fd = open(current->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("Failed to open output file");
+		perror("Failed to open output file\n");
 		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror("Failed to redirect output");
+		perror("Failed to redirect output\n");
 		close(fd);
 		return ;
 	}
@@ -81,12 +81,12 @@ static void	ni_baisser_les_bras(t_args **list)
 	fd = open(current->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("Failed to open output file");
+		perror("Failed to open output file\n");
 		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror("Failed to redirect output");
+		perror("Failed to redirect output\n");
 		close(fd);
 		return ;
 	}

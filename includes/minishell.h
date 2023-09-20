@@ -16,6 +16,7 @@
 
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -97,7 +98,8 @@ void	was_unclosed_quotes(t_args **list);
 size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
 void	process_not_s_quotes(t_args *node, t_args **env_list, int flag);
 void	is_there_a_redirection(t_args **list);
-void	c_est_ma_direction(int token, char **list);
+void	c_est_ma_direction(int token, t_args **list);
+int		is_correct_format(t_args **list);
 
 //Tok
 char	*ft_strtok(char *input, char **delim, t_args **list);
