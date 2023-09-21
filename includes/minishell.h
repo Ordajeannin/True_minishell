@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/20 17:43:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/21 16:46:01 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
 void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
 void	cd_move_and_change(t_args *env_list, t_shell *shell);
 int		change_env_exp(t_args **env_list, char *name_env, char *value);
+int		update_last_ve(t_args **list, t_args **env_list);
 int		parse_export(t_args *list);
 int		change_error(t_args **env_list, int value);
 int		searchin_env(t_args **env_list, t_args *list);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/11 11:35:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/21 17:41:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	check_args(t_args **list, t_shell *shell, t_args **env_list, \
 */
 static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
 {
-	if (ft_strncmp(list->str, "env", ft_strlen(list->str))
+	if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
+		== 0 && ft_strlen(list->str) == 4)
+		shell->is_work = ft_echo(list->next, shell, env_list);
+	else if (ft_strncmp(list->str, "env", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 3)
 		shell->is_work = ft_env(list, env_list, shell);
 	else if (ft_strncmp(list->str, "export",
@@ -78,10 +81,7 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	if (ft_strncmp(list->str, "./minishell", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 11)
 		ft_plus_shell(shell, env_list);
-	if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
-		== 0 && ft_strlen(list->str) == 4)
-		shell->is_work = ft_echo(list, shell, env_list);
-	else if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
+	if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 2)
 		shell->is_work = ft_cd(list, shell, current_env);
 	else if (ft_strncmp(list->str, "unset",
@@ -93,4 +93,7 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	else
 		args_two(list, shell, env_list);
 	check_args(&list, shell, env_list, input);
+	if (!(ft_strncmp(list->str, "env", ft_strlen(list->str))
+			== 0 && ft_strlen(list->str) == 3))
+		update_last_ve(&list, env_list);
 }

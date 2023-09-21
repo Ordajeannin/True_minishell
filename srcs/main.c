@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/20 22:51:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/21 17:34:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
+	clear_args_list(&list);
 	close(saved_stdout);
 	free(input);
-	clear_args_list(&list);
 }
 
 /*

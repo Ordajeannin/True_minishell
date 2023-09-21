@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gestion.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:59:31 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/20 19:59:38 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:00:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	j_ai_peter_les_plombs(t_args **list)
  * Ouvre un fichier du nom de la string de l'argument suivant
  * Efface son contenu (O_TRUNC)
  * Puis redirige la sortie vers ce fichier
-*/ 
+*/
 static void	sans_abandonner(t_args **list)
 {
 	t_args	*current;

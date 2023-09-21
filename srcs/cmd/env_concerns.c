@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/20 14:29:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/21 17:12:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 {
 	t_args	*current;
 
+	update_last_ve(&list, env_list);
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
