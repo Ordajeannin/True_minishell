@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/21 17:34:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/21 18:09:53 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,17 @@ static void	ft_gain_place(char **av, t_args **list, char **input,
 	(void)av;
 }
 
-/* 
- * Gestionnaire de signaux
- * Renvoie l'invite de commande lorsque sig == CTRL-C
- */
-void	signal_handler(int sig)
+/*
+ * Suite du main #2
+*/
+static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
+	char *input)
 {
-	if (rl_done && g_error == 2)
+	if (is_correct_format(&list) == 0)
 	{
-		ft_printf("\n");
-		code_error(130);
+		is_there_a_redirection(&list);
+		args_handle(list, shell, env_list, input);
 	}
-	if (!rl_done)
-	{
-		ft_printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		code_error(130);
-	}
-	else if (sig == 3)
-	{
-		ft_printf("Quit (core dumped)\n");
-		code_error(131);
-	}
-	return ;
 }
 
 /* 
@@ -59,6 +45,7 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
 	int	saved_stdout;
+	int	saved_stdin;
 
 	if (g_error != 0)
 	{
@@ -66,17 +53,15 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 		g_error = 0;
 	}
 	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
 	from_input_to_list_of_args(input, &list, &env_list);
 	if (list)
-	{
-		print_args_list(&list);
-		is_correct_format(&list);
-		is_there_a_redirection(&list);
-		args_handle(list, shell, &env_list, input);
-	}
+		main_ter(list, shell, &env_list, input);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
 	clear_args_list(&list);
+	if (dup2(saved_stdin, STDIN_FILENO) == -1)
+		perror("Failed to restore standard input\n");
 	close(saved_stdout);
 	free(input);
 }

@@ -91,7 +91,6 @@ void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	delim[8] = "\'";
 	delim[9] = "\"";
 	delim[10] = NULL;
-	ft_printf("Input : %s\n", input);
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
