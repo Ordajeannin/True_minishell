@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
 /* 
  * Gestionnaire de signaux
  * Renvoie l'invite de commande lorsque sig == CTRL-C
