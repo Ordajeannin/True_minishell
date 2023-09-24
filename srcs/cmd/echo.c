@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/21 18:00:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/24 13:10:42 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,41 @@ int	find_opt(char *s1, char *s2)
  * // if (list->token == TOKEN_TEMP_VAR)
 	// 	process_not_s_quotes(list, env_list, 2);
 */
-static void	iter_echo(t_args *list, t_args **env_list)
+static int	iter_echo(t_args *list, t_args **env_list)
 {
 	int		i;
 	char	*save;
+	int		flag;
 
 	i = 0;
+	flag = 0;
 	save = list->str;
 	if (list->str == NULL)
-		return ;
+		return (0);
 	while (list->str[i])
 	{
+		if (list->str[i] == '$')
+		{
+			i ++;
+			flag = 1;
+			while (list->str[i] && list->str[i] != ' ')
+				i ++;
+			if (!list->str[i])
+				return (flag);
+		}
 		write (1, &list->str[i], 1);
 		i ++;
 	}
+	return (flag);
 }
 
 void	echo_loop(t_args *list, t_args **env_list)
 {
 	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 	{
-		iter_echo(list, env_list);
-		list = list->next;
-		if (list != NULL)
+		if (iter_echo(list, env_list) == 0)
 			write (1, " ", 1);
+		list = list->next;
 	}
 }
 
@@ -70,7 +81,7 @@ void	echo_loop(t_args *list, t_args **env_list)
  * Affiche caractere par caractere les arguments en ignorant les quotes.
  * (Attention: cas particuliers, quotes a l'interieur de d'autres).
 */
-int	ft_echo(t_args *list, t_shell *shell, t_args **env_list)
+int	ft_echo(t_args *list, t_args **env_list)
 {
 	int	bools;
 

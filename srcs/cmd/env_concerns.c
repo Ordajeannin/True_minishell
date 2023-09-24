@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/21 17:12:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/24 12:45:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,11 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	int			i;
 	t_args		*current;
 
+	if (*env == NULL)
+	{
+		set_empty_env(shell, env_list);
+		return (0);
+	}
 	if (handle_env(env, shell) == -1)
 		return (-1);
 	i = 0;
@@ -145,13 +150,5 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 		i++;
 	}
 	add_arg(env_list, "?=0", 0);
-	i = 0;
-	current = *env_list;
-	while (env[i])
-	{
-		current->str = env[i++];
-		current = current->next;
-	}
-	current->str = "?=0";
 	return (0);
 }

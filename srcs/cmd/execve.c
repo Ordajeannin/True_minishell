@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/20 17:10:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/24 13:01:36 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ int	change_error(t_args **env_list, int value)
 
 	result = ft_strjoin("?", "=");
 	result = ft_strjoin(result, ft_itoa(value));
-	current_name = NULL;
 	current = *env_list;
 	while (current)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
-		if (ft_strncmp(current_name, "?", ft_strlen(current_name)) == 0
+		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
 			current->str = NULL;

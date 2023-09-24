@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/21 17:41:49 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/23 11:11:02 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
 {
 	if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 4)
-		shell->is_work = ft_echo(list->next, shell, env_list);
+		shell->is_work = ft_echo(list->next, env_list);
 	else if (ft_strncmp(list->str, "env", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 3)
 		shell->is_work = ft_env(list, env_list, shell);

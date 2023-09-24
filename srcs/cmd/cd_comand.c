@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/20 14:33:53 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/24 12:56:30 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 {
 	if (chdir(buf) == -1)
 	{
-		ft_printf("%s: %s: %s\n", list->str, list->next->str, \
-			strerror(errno));
+		ft_printf("%s: %s: %s\n", list->str, buf, strerror(errno));
 		change_error(&env_list, handle_error(errno -1));
 		return (1);
 	}
@@ -134,7 +133,9 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (cod == 1)
 		return (1);
 	if (cod == 2)
+	{
 		buf = ft_strdup(shell->home);
+	}
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 	{
 		buf = is_two_points(shell, list, env_list);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/18 18:52:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/24 12:42:34 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		return (1);
 	if (searchin_env(&env_list, list))
 		shell_change(shell, list->next->str, NULL);
+	ft_printf("ENV = %s\n", env_list->str);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
 	change_error(&env_list, 0);

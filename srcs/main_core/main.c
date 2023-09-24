@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/21 18:09:53 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/24 13:13:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	t_args	*list;
 	t_args	*env_list;
-	char	*user;
 	t_shell	shell;
+	char	buf[1024];
 
 	(void)ac;
 	g_error = 0;
@@ -92,14 +92,15 @@ int	main(int ac, char **av, char **env)
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
-	user = get_username(&shell, &env_list);
-	input = readline(prompt_cmd(&shell, user));
+	input = readline(prompt_cmd(&shell, get_username(&env_list)));
 	if (input == NULL)
 		ft_exit(input, list, env_list, &shell);
+	shell.is_pwd = getcwd(buf, sizeof(buf));
+	shell.pwd = shell.is_pwd;
 	add_history(input);
 	main_bis(input, list, env_list, &shell);
 	shell.input_bis = input;
-	is_minishell(shell, env_list, list, user);
+	is_minishell(&shell, env_list, list, get_username(&env_list));
 	return (0);
 }
 
@@ -109,21 +110,21 @@ int	main(int ac, char **av, char **env)
  * Ajoute la cmd a l'historique si besoin
  * Exit si CTRL-D
 */
-int	is_minishell(t_shell shell, t_args *env_list, t_args *list, char *user)
+int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 {
 	char	*input;
 
 	input = NULL;
 	while (1)
 	{
-		input = readline(prompt_cmd(&shell, user));
+		input = readline(prompt_cmd(shell, user));
 		if (input == NULL)
-			ft_exit(input, list, env_list, &shell);
-		if (!(ft_strcmp(shell.input_bis, input) == 0 \
-			&& ft_strlen(shell.input_bis) == ft_strlen(input))
-			&& shell.input_bis != NULL)
+			ft_exit(input, list, env_list, shell);
+		if (!(ft_strcmp(shell->input_bis, input) == 0 \
+			&& ft_strlen(shell->input_bis) == ft_strlen(input))
+			&& shell->input_bis != NULL)
 			add_history(input);
-		shell.input_bis = ft_strdup(input);
-		main_bis(input, list, env_list, &shell);
+		shell->input_bis = ft_strdup(input);
+		main_bis(input, list, env_list, shell);
 	}
 }

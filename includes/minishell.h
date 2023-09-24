@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/21 16:46:01 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/24 13:13:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ typedef struct s_args
 	struct s_args	*next;
 }	t_args;
 
-int		is_minishell(t_shell shell, t_args *env_list, t_args *list, char *user);
+int		is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
+	char *user);
 int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
 void	init_shell(t_shell *shell);
@@ -127,7 +128,7 @@ void	add_arg(t_args **list, char *str, int token);
 
 //Bultins
 int		find_opt(char *s1, char *s2);
-int		ft_echo(t_args *list, t_shell *shell, t_args **env_list);
+int		ft_echo(t_args *list, t_args **env_list);
 int		ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 int		ft_pwd(t_shell *shell, t_args **env_list);
 int		ft_env(t_args *list, t_args **env_list, t_shell *shell);
@@ -173,6 +174,8 @@ int		is_numeric(char *str);
 //Print Things
 void	shell_style(t_shell *shell);
 void	print_args_list(t_args **list);
-char	*get_username(t_shell *shell, t_args **env_list);
+char	*get_username(t_args **env_list);
+char	*get_pwd(void);
+int		set_empty_env(t_shell *shell, t_args **env_list);
 char	*prompt_cmd(t_shell *shell, char *user);
 #endif
