@@ -55,3 +55,23 @@ char	*ft_strrchr(const char *str, int ch)
 		last_occurrence = str;
 	return ((char *)last_occurrence);
 }
+
+/*
+ * Implementation de strcat
+*/
+char	*ft_strcat(char *str1, const char *str2)
+{
+	char	*str;
+
+	str = str1;
+	while (*str)
+		str++;
+	while (*str2)
+	{
+		*str = *str2;
+		str++;
+		str2++;
+	}
+	*str = '\0';
+	return (str);
+}

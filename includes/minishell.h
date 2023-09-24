@@ -119,6 +119,8 @@ size_t	ft_strcspn(const char *s, char **reject, t_args **list);
 char	*ft_strncpy(char *dst, const char *src, int n);
 char	*ft_strrchr(const char *str, int ch);
 int		is_alphanum(char c);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+char	*ft_strcat(char *str1, const char *str2);
 
 //List concerns
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
