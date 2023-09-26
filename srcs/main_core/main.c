@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:22:17 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:51:44 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		args_handle(list, shell, env_list, input);
+		create_sublists(list, shell, env_list, input);
 	}
 }
 
@@ -99,6 +99,7 @@ int	main(int ac, char **av, char **env)
 		ft_exit(input, list, env_list, &shell);
 	shell.is_pwd = getcwd(buf, sizeof(buf));
 	shell.pwd = shell.is_pwd;
+	input = check_if_there_is_a_lost_pipe(input);
 	add_history(input);
 	main_bis(input, list, env_list, &shell);
 	shell.input_bis = input;
