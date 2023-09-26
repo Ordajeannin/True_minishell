@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/24 13:10:42 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 14:41:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Cherche s2 dans s1.
  * Parcours s1 jusqu'a trouver s2 a la suite.
 */
-int	find_opt(char *s1, char *s2)
+int	find_opt(char *s1)
 {
 	size_t	i;
 
@@ -38,15 +38,13 @@ int	find_opt(char *s1, char *s2)
  * // if (list->token == TOKEN_TEMP_VAR)
 	// 	process_not_s_quotes(list, env_list, 2);
 */
-static int	iter_echo(t_args *list, t_args **env_list)
+static int	iter_echo(t_args *list)
 {
 	int		i;
-	char	*save;
 	int		flag;
 
 	i = 0;
 	flag = 0;
-	save = list->str;
 	if (list->str == NULL)
 		return (0);
 	while (list->str[i])
@@ -66,11 +64,11 @@ static int	iter_echo(t_args *list, t_args **env_list)
 	return (flag);
 }
 
-void	echo_loop(t_args *list, t_args **env_list)
+void	echo_loop(t_args *list)
 {
 	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 	{
-		if (iter_echo(list, env_list) == 0)
+		if (iter_echo(list) == 0)
 			write (1, " ", 1);
 		list = list->next;
 	}
@@ -93,12 +91,12 @@ int	ft_echo(t_args *list, t_args **env_list)
 	}
 	while (list && ft_strcmp(list->str, "\t") == 0)
 		list = list->next;
-	while (list && find_opt(list->str, "-n") == 1)
+	while (list && find_opt(list->str) == 1)
 	{
 		list = list->next;
 		bools = 1;
 	}
-	echo_loop(list, env_list);
+	echo_loop(list);
 	if (bools == 0)
 		write (1, "\n", 1);
 	change_error(env_list, 0);

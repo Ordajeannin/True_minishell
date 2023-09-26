@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:03:17 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/04 17:17:14 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:35:02 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,20 @@ void	ft_plus_shell(t_shell *shell, t_args **env_list)
 	change_env_exp(env_list, "SHLVL", ft_itoa(nb_shell));
 }
 
-void	ft_less_shell(t_shell *shell, t_args **env_list)
+static void	shell_change_path(t_shell *shell, char *value)
 {
-	unsigned int		nb_shell;
+	int		i;
 
-	nb_shell = ft_atoi_evolve(shell->shlvl) - 1;
-	shell->shlvl = ft_strjoin("SHLVL=", ft_itoa(nb_shell));
-	change_env_exp(env_list, "SHLVL", ft_itoa(nb_shell));
+	i = 0;
+	shell->path = value;
+	if (shell->path == NULL)
+	{
+		while (shell->cmd_paths[i])
+			shell->cmd_paths[i++] = NULL;
+		shell->cmd_paths = NULL;
+	}
+	else
+		shell->cmd_paths = ft_split(shell->path + 5, ':');
 }
 
 /* 
@@ -72,8 +79,8 @@ void	shell_change(t_shell *shell, char *str, char *value)
 	else if (ft_strncmp(str, "SHELL", len) == 0)
 		shell->shell = value;
 	else if (ft_strncmp(str, "PATH", len) == 0)
-		shell->path = value;
-	else if (ft_strncmp(str, "LANG", len) == 0)
+		shell_change_path(shell, value);
+	if (ft_strncmp(str, "LANG", len) == 0)
 		shell->lang = value;
 	else if (ft_strncmp(str, "TERM", len) == 0)
 		shell->term = value;

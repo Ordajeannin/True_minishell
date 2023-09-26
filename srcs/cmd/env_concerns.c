@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/24 12:45:50 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:40:52 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	searchin_env(t_args **env_list, t_args *list)
 	t_args	*current;
 	t_args	*temp;
 	char	*name_env;
-	int		len;
+	size_t	len;
 
 	current = *env_list;
 	len = ft_strlen(list->next->str);
@@ -106,7 +106,7 @@ int	searchin_env(t_args **env_list, t_args *list)
  * Affiche l'environnement du shell en entier
  * (Attention : env -i ./minishell doit afficher PWD, SHLVL et _)
 */
-int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
+int	ft_env(t_args *list, t_args **env_list)
 {
 	t_args	*current;
 
@@ -114,7 +114,7 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
-	while (current != NULL)
+	while (current != NULL && current->str != NULL)
 	{
 		if (ft_strncmp(current->str, "?=", 2) == 0)
 			current = current->next;
@@ -134,7 +134,6 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 int	set_env(t_args **env_list, char **env, t_shell *shell)
 {
 	int			i;
-	t_args		*current;
 
 	if (*env == NULL)
 	{
@@ -147,6 +146,9 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	while (env[i])
 	{
 		add_arg(env_list, env[i], 0);
+		if (ft_strcmp(ft_strdupto_n(env[i], '='), "SHLVL") == 0
+			&& ft_strlen(ft_strdupto_n(env[i], '=')) == 5)
+			ft_plus_shell(shell, env_list);
 		i++;
 	}
 	add_arg(env_list, "?=0", 0);

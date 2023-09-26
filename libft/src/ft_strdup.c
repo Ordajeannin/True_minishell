@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:51:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/20 22:32:02 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/25 16:33:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strdup(const char *s)
 	if (!s)
 		return (ft_strdup(""));
 	i = ft_strlen(s) + 1;
-	dup = malloc(sizeof(char) * i);
+	dup = ft_calloc(i, sizeof(char));
 	if (dup == NULL)
 		return (NULL);
 	ft_memcpy(dup, s, i);

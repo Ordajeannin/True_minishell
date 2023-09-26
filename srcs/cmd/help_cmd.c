@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/18 08:53:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 11:27:08 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ char	**dup_double_string(t_args **e_list)
 	t_args	*current;
 	int		i;
 
-	current = *e_list;
-	result = ft_calloc(len_targs(current), sizeof(char *));
-	if (result == NULL)
-		exit(EXIT_FAILURE);
 	i = 0;
+	current = *e_list;
+	result = ft_calloc(len_targs(current) + 1, sizeof(char *));
+	if (result == NULL)
+		return (NULL);
 	while (current)
 	{
 		result[i] = ft_strdup(current->str);
@@ -91,8 +91,7 @@ char	**dup_double_string(t_args **e_list)
 		{
 			while (i >= 0)
 				free(result[i--]);
-			free(result);
-			exit(EXIT_FAILURE);
+			return (NULL);
 		}
 		i ++;
 		current = current->next;

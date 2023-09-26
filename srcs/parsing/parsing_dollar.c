@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/24 13:00:31 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 12:59:00 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,24 +71,24 @@ static char	*replace_env_var(char *str, int n, t_args **env_list, int flag)
  * Gere le cas ou aucune variabele d'environnement n'est presente dans la chaine
  * Renvoie une copie de la chaine d'origine, jusqu'a la "fausse" $var
 */
-static char	*no_env_var(char *str)
-{
-	char	*dollar;
-	char	*result;
-	int		len;
+// static char	*no_env_var(char *str)
+// {
+// 	char	*dollar;
+// 	char	*result;
+// 	int		len;
 
-	result = NULL;
-	dollar = ft_strrchr(str, '$');
-	if (dollar != NULL)
-	{
-		len = dollar - str;
-		result = malloc(sizeof(char) * len + 1);
-		ft_strncpy(result, str, len);
-		result[len] = '\0';
-		return (result);
-	}
-	return (ft_strdup(str));
-}
+// 	result = NULL;
+// 	dollar = ft_strrchr(str, '$');
+// 	if (dollar != NULL)
+// 	{
+// 		len = dollar - str;
+// 		result = malloc(sizeof(char) * len + 1);
+// 		ft_strncpy(result, str, len);
+// 		result[len] = '\0';
+// 		return (result);
+// 	}
+// 	return (ft_strdup(str));
+// }
 
 /*
  * Verifie si input contient une variable d'environnement

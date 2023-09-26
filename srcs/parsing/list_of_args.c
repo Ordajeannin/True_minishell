@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/05 11:02:03 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 14:54:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,20 +111,18 @@ void	loop_args(t_shell *shell, t_args **list)
 	int		i;
 
 	len = 0;
-	len_list = 0;
 	current = *list;
-	while (current)
-	{
-		len_list ++;
-		current = current->next;
-	}
+	len_list = len_targs(current);
 	i = 0;
-	shell->input = ft_calloc(len_list, sizeof(char *));
-	current = *list;
+	shell->input = malloc((len_list + 1) * sizeof(char *));
+	if (!shell->input)
+		return ;
 	while (current)
 	{
 		len = ft_strlen(current->str);
-		shell->input[i] = ft_calloc(len, sizeof(char));
+		shell->input[i] = malloc((len + 1) * sizeof(char));
+		if (!shell->input[i])
+			return ;
 		shell->input[i] = current->str;
 		current = current->next;
 		i ++;

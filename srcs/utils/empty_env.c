@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:44:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/24 12:50:42 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:07:16 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ char	*read_bytes_user(int *pipefd, pid_t child, int status,
 	len_bytes = read(pipefd[0], buf, sizeof(buf));
 	if (len_bytes > 0)
 	{
-		username = malloc(len_bytes * sizeof(char));
-		if (!username)
-			return (NULL);
 		username = ft_strdupto_n(buf, '\n');
 	}
 	waitpid(child, &status, 0);
@@ -33,6 +30,7 @@ char	*read_bytes_user(int *pipefd, pid_t child, int status,
 	{
 		errno = WEXITSTATUS(status);
 		change_error(env_list, handle_error(errno));
+		free(username);
 		return (NULL);
 	}
 	return (username);
@@ -60,6 +58,7 @@ char	*get_username(t_args **env_list)
 	int		pipefd[2];
 	int		status;
 
+	status = 0x0;
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe error\n");
@@ -89,11 +88,9 @@ char	*get_username(t_args **env_list)
 */
 int	set_empty_env(t_shell *shell, t_args **env_list)
 {
-	int		i;
 	char	buf[1024];
 	char	*test;
 
-	i = 0;
 	test = getcwd(buf, sizeof(buf));
 	shell->pwd = test;
 	shell->is_pwd = shell->pwd;
@@ -102,7 +99,7 @@ int	set_empty_env(t_shell *shell, t_args **env_list)
 	shell->home = NULL;
 	shell->hostname = NULL;
 	shell->user = NULL;
-	shell->shlvl = "1";
+	shell->shlvl = "2";
 	shell->path = ft_strjoin("/usr/local/sbin:/usr/local/bin:", \
 		"/usr/sbin:/usr/bin:/sbin:/bin");
 	shell->cmd_paths = ft_split(shell->path + 5, ':');

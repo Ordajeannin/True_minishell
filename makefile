@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/05 16:00:15 by ajeannin         ###   ########.fr        #
+#    Updated: 2023/09/26 14:42:13 by asalic           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_DIR			= srcs
 OBJ_DIR			= obj
 OBJ_DIR_WOF		= obj
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra
+CFLAGS			= -Wall -Werror -Wextra -g3
 READLINE		= -lreadline
 
 
@@ -38,7 +38,7 @@ all				: $(NAME)
 
 $(NAME)			: $(OBJS)
 	@make -s -C libft/
-	@$(CC) $(OBJS) $(INCLUDES) $(LIBFT) -o $(NAME) $(READLINE)
+	@$(CC) $(OBJS) $(CFLAGS) $(INCLUDES) $(LIBFT) -o $(NAME) $(READLINE)
 	@echo "Compilation Minishell: done"
 	@ctags -R
 	@echo "Tags are available"
@@ -57,16 +57,16 @@ $(OBJ_DIR)/%.o	: $(SRC_DIR)/%.c
 
 $(OBJ_DIR_WOF)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
-	@$(CC) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean			:
-	@make clean -s -C libft/
-	@rm -rf $(OBJ_DIR)
+	@$(MAKE) clean -s -C libft/
+	@$(RM) -r $(OBJ_DIR)
 	@echo "Clean obj_dir: done"
 
 fclean			: clean
-	@make fclean -s -C libft/
-	@rm -rf $(NAME)
+	@$(MAKE) fclean -s -C libft/
+	@$(RM) -r  $(NAME)
 	@echo "Fclean minishell: done"
 
 re				: fclean all
