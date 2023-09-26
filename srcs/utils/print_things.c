@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/23 11:11:12 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 12:56:16 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,33 @@ void	print_args_list(t_args **list)
  * Fonction Toto
  * Permets de styliser une chaine de caractere
 */
-static void	bf_prd(char *str, int d, char *color)
-{
-	char	*str_cara;
-	char	*color_strdup;
-	int		idx_str;
-	int		idx;
+// static void	bf_prd(char *str, int d, char *color)
+// {
+// 	char	*str_cara;
+// 	char	*color_strdup;
+// 	int		idx_str;
+// 	int		idx;
 
-	color_strdup = ft_strdup(color);
-	idx_str = 0;
-	write(1, color_strdup, ft_strlen(color));
-	free(color_strdup);
-	while (str[idx_str])
-	{
-		idx = 0;
-		while (idx < d)
-			idx++ ;
-		str_cara = (char *)malloc(2 * sizeof(char));
-		str_cara[0] = str[idx_str];
-		str_cara[1] = '\0';
-		write(1, str_cara, 1);
-		free(str_cara);
-		idx_str++ ;
-	}
-	color_strdup = ft_strdup("\033[0m");
-	write(1, color_strdup, ft_strlen(color_strdup));
-	free(color_strdup);
-}
+// 	color_strdup = ft_strdup(color);
+// 	idx_str = 0;
+// 	write(1, color_strdup, ft_strlen(color));
+// 	free(color_strdup);
+// 	while (str[idx_str])
+// 	{
+// 		idx = 0;
+// 		while (idx < d)
+// 			idx++ ;
+// 		str_cara = (char *)malloc(2 * sizeof(char));
+// 		str_cara[0] = str[idx_str];
+// 		str_cara[1] = '\0';
+// 		write(1, str_cara, 1);
+// 		free(str_cara);
+// 		idx_str++ ;
+// 	}
+// 	color_strdup = ft_strdup("\033[0m");
+// 	write(1, color_strdup, ft_strlen(color_strdup));
+// 	free(color_strdup);
+// }
 
 /* 
  * Style et couleur du prompt.

@@ -6,45 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/24 12:56:30 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 15:45:37 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 
- * Gere le cas ou cd .. et que .. n'existe plus.
- * Dans ce cas la, on compte le nombre de sous-dossiers qui n'existent plus.
- * On compte aussi le nombre de /.. apres les dossiers s'il y en a.
- * On rajoute la difference des deux en /..
- * Si les deux sont egaux alors, revenir au dernier dossier existant.
-*/
-int	big_problem_cd(t_shell *shell, t_args *list, t_args *env_list)
-{
-	int		len_dir;
-	int		len_back;
-
-	len_dir = count_dir(shell);
-	len_back = count_back(shell->is_pwd);
-	if (len_dir > len_back)
-	{
-		change_env_cd(&env_list, ft_strjoin("OLDPWD=", shell->is_pwd),
-			ft_strjoin("OLDPWD=", shell->is_oldpwd));
-		change_env_cd(&env_list, ft_strjoin("PWD=", \
-			ft_strjoin(shell->is_pwd, "/..")), ft_strjoin("PWD=", \
-			shell->is_pwd));
-		shell->is_oldpwd = shell->is_pwd;
-		shell->oldpwd = shell->is_pwd;
-		shell->pwd = ft_strjoin(shell->is_pwd, "/..");
-		shell->is_pwd = ft_strjoin(shell->is_pwd, "/..");
-		ft_printf("cd : No such file or directory\n");
-		change_error(&env_list, 0);
-		return (1);
-	}
-	else if (len_dir == len_back)
-		add_back(len_back, list);
-	return (0);
-}
 
 /* 
  * Change de repertoire en fonction du buf envoye.
@@ -77,12 +43,10 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	if (dir == NULL)
 	{
 		buf = NULL;
-		if (big_problem_cd(shell, list, env_list) == 1)
-		{
-			closedir(dir);
-			return (NULL);
-		}
+		ft_printf("cd : No such file or directory\n");
+		change_error(&env_list, 0);
 		closedir(dir);
+		return (NULL);
 	}
 	buf = list->next->str;
 	if (shell->pwd == NULL)

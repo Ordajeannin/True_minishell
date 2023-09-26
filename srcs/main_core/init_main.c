@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   init_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/08 17:51:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/25 16:33:39 by asalic           ###   ########.fr       */
+/*   Created: 2023/09/26 16:44:59 by asalic            #+#    #+#             */
+/*   Updated: 2023/09/26 16:46:19 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+/*
+ * Permet a main d'etre a moins de 25 lines
+ * Fonction purement utilitaire, ne pas garder dans le rendu final
+*/
+void	ft_gain_place(char **av, t_args **list, char **input,
+		t_args **env_list)
 {
-	int		i;
-	char	*dup;
-
-	if (!s)
-		return (ft_strdup(""));
-	i = ft_strlen(s) + 1;
-	dup = ft_calloc(i, sizeof(char));
-	if (dup == NULL)
-		return (NULL);
-	ft_memcpy(dup, s, i);
-	return (dup);
+	g_error = 0;
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	*list = NULL;
+	*input = NULL;
+	*env_list = NULL;
+	(void)av;
 }

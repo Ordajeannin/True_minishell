@@ -4,7 +4,7 @@
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/mnt/nfs/homes/ajeannin/github/minishell/libft/	//
+!_TAG_PROC_CWD	/mnt/nfs/homes/asalic/Documents/Cursus42/minishell/Minishell/libft/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
@@ -35,7 +35,7 @@ $(OBJ_DIR)%.o	Makefile	/^$(OBJ_DIR)%.o 		: $(SRC_DIR)%.c | $(OBJF)$/;"	t
 7	src/.vscode/settings.json	/^    "-Wsign-conversion"$/;"	s	array:C_Cpp_Runner.warnings
 BUFFER_SIZE	includes/libft.h	/^#  define BUFFER_SIZE /;"	d
 CC	Makefile	/^CC				= gcc$/;"	m
-CFLAGS	Makefile	/^CFLAGS 			= -Werror -Wextra -Wall -I$/;"	m
+CFLAGS	Makefile	/^CFLAGS 			= -Werror -Wextra -Wall -g3 -I$/;"	m
 C_Cpp_Runner.cCompilerPath	src/.vscode/settings.json	/^  "C_Cpp_Runner.cCompilerPath": "gcc",$/;"	s
 C_Cpp_Runner.cStandard	src/.vscode/settings.json	/^  "C_Cpp_Runner.cStandard": "",$/;"	s
 C_Cpp_Runner.compilerArgs	src/.vscode/settings.json	/^  "C_Cpp_Runner.compilerArgs": [],$/;"	a
@@ -82,6 +82,7 @@ ft_calloc	src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typ
 ft_char_in_set	src/ft_strtrim.c	/^static	int	ft_char_in_set(char c, char const *set)$/;"	f	typeref:typename:int	file:
 ft_formats	src/ft_printf.c	/^int	ft_formats(va_list args, const char conv)$/;"	f	typeref:typename:int
 ft_get_line	src/get_next_line_bonus.c	/^char	*ft_get_line(char *stash)$/;"	f	typeref:typename:char *
+ft_intlen	src/ft_itoa.c	/^int	ft_intlen(int n)$/;"	f	typeref:typename:int
 ft_is_newline	src/get_next_line_utils_bonus.c	/^char	*ft_is_newline(char *str)$/;"	f	typeref:typename:char *
 ft_isalnum	src/ft_isalnum.c	/^int	ft_isalnum(int a)$/;"	f	typeref:typename:int
 ft_isalpha	src/ft_isalpha.c	/^int	ft_isalpha(int a)$/;"	f	typeref:typename:int
@@ -89,7 +90,6 @@ ft_isascii	src/ft_isascii.c	/^int	ft_isascii(int a)$/;"	f	typeref:typename:int
 ft_isdigit	src/ft_isdigit.c	/^int	ft_isdigit(int a)$/;"	f	typeref:typename:int
 ft_isprint	src/ft_isprint.c	/^int	ft_isprint(int a)$/;"	f	typeref:typename:int
 ft_itoa	src/ft_itoa.c	/^char	*ft_itoa(int n)$/;"	f	typeref:typename:char *
-ft_len	src/ft_itoa.c	/^static	int	ft_len(int n)$/;"	f	typeref:typename:int	file:
 ft_lstadd_back	src/ft_lstadd_back.c	/^void	ft_lstadd_back(t_list **lst, t_list *new)$/;"	f	typeref:typename:void
 ft_lstadd_front	src/ft_lstadd_front.c	/^void	ft_lstadd_front(t_list **lst, t_list *new)$/;"	f	typeref:typename:void
 ft_lstclear	src/ft_lstclear.c	/^void	ft_lstclear(t_list **lst, void (*del)(void*))$/;"	f	typeref:typename:void
@@ -104,7 +104,6 @@ ft_memcmp	src/ft_memcmp.c	/^int	ft_memcmp(const void *s1, const void *s2, size_t
 ft_memcpy	src/ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src, size_t n)$/;"	f	typeref:typename:void *
 ft_memmove	src/ft_memmove.c	/^void	*ft_memmove(void *dest, const void *src, size_t n)$/;"	f	typeref:typename:void *
 ft_memset	src/ft_memset.c	/^void	*ft_memset(void *s, int c, size_t n)$/;"	f	typeref:typename:void *
-ft_minitoa	src/ft_itoa.c	/^static	char	*ft_minitoa(int n)$/;"	f	typeref:typename:char *	file:
 ft_nbr_len	src/ft_print_unsigned.c	/^int	ft_nbr_len(unsigned int nbr)$/;"	f	typeref:typename:int
 ft_print_char	src/ft_printf.c	/^int	ft_print_char(int c)$/;"	f	typeref:typename:int
 ft_print_hexa	src/ft_print_hexa.c	/^int	ft_print_hexa(unsigned long int nbr, const char conv)$/;"	f	typeref:typename:int
@@ -141,7 +140,6 @@ ft_tolower	src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
 ft_toupper	src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
 ft_uitoa	src/ft_print_unsigned.c	/^char	*ft_uitoa(unsigned int n)$/;"	f	typeref:typename:char *
 ft_update_stash	src/get_next_line_bonus.c	/^char	*ft_update_stash(char *stash)$/;"	f	typeref:typename:char *
-ft_write_number	src/ft_itoa.c	/^static	char	*ft_write_number(int len, int n, char *a)$/;"	f	typeref:typename:char *	file:
 get_next_line	src/get_next_line_bonus.c	/^char	*get_next_line(int fd)$/;"	f	typeref:typename:char *
 helpsplit	src/ft_split.c	/^static	char	**helpsplit(int index, char const *s, char c)$/;"	f	typeref:typename:char **	file:
 ignoreFailures	src/.vscode/launch.json	/^          "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0

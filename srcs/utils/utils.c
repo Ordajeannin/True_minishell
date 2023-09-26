@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:30:00 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/07 15:19:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 11:58:53 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strdupto_n(char *str, char c)
 		len ++;
 		i ++;
 	}
-	tab = malloc((len +1) * sizeof(char));
+	tab = ft_calloc((len +1), sizeof(char));
 	if (!tab)
 		return (NULL);
 	i = 0;

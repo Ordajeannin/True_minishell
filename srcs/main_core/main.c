@@ -6,24 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:22:17 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:59:08 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * Permet a main d'etre a moins de 25 lines
- * Fonction purement utilitaire, ne pas garder dans le rendu final
-*/
-static void	ft_gain_place(char **av, t_args **list, char **input,
-		t_args **env_list)
-{
-	*list = NULL;
-	*input = NULL;
-	*env_list = NULL;
-	(void)av;
-}
 
 /*
  * Suite du main #2
@@ -68,6 +55,19 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	free(input);
 }
 
+/* 
+ * Init shell->pwd au debut du main
+ * Ajout de la premiere commande a l'historique
+*/
+static void	little_more_main(t_shell shell, char *input)
+{
+	char	buf[1024];
+
+	shell.is_pwd = getcwd(buf, sizeof(buf));
+	shell.pwd = shell.is_pwd;
+	add_history(input);
+}
+
 /*
  * Actions de la boucle ATM
  * 1) readline ("prompt")
@@ -85,24 +85,24 @@ int	main(int ac, char **av, char **env)
 	t_args	*list;
 	t_args	*env_list;
 	t_shell	shell;
-	char	buf[1024];
+	char	*username;
 
 	(void)ac;
-	g_error = 0;
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
-	input = readline(prompt_cmd(&shell, get_username(&env_list)));
+	username = get_username(&env_list);
+	input = readline(prompt_cmd(&shell, username));
 	if (input == NULL)
-		ft_exit(input, list, env_list, &shell);
-	shell.is_pwd = getcwd(buf, sizeof(buf));
-	shell.pwd = shell.is_pwd;
-	add_history(input);
+	{
+		if (username)
+			free(username);
+		ft_exit(input, list, env_list);
+	}
+	little_more_main(shell, input);
 	main_bis(input, list, env_list, &shell);
 	shell.input_bis = input;
-	is_minishell(&shell, env_list, list, get_username(&env_list));
+	is_minishell(&shell, env_list, list, username);
 	return (0);
 }
 
@@ -121,7 +121,11 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 	{
 		input = readline(prompt_cmd(shell, user));
 		if (input == NULL)
-			ft_exit(input, list, env_list, shell);
+		{
+			if (user)
+				free(user);
+			ft_exit(input, list, env_list);
+		}
 		if (!(ft_strcmp(shell->input_bis, input) == 0 \
 			&& ft_strlen(shell->input_bis) == ft_strlen(input))
 			&& shell->input_bis != NULL)

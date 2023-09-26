@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   segfault.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/08 17:51:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/25 16:33:39 by asalic           ###   ########.fr       */
+/*   Created: 2023/09/20 16:19:46 by asalic            #+#    #+#             */
+/*   Updated: 2023/09/25 13:06:05 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-char	*ft_strdup(const char *s)
+int	main(void)
 {
-	int		i;
-	char	*dup;
+	int	*i = NULL;
 
-	if (!s)
-		return (ft_strdup(""));
-	i = ft_strlen(s) + 1;
-	dup = ft_calloc(i, sizeof(char));
-	if (dup == NULL)
-		return (NULL);
-	ft_memcpy(dup, s, i);
-	return (dup);
+	i[42] = 42;
+	return (0);
 }
+

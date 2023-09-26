@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/24 12:42:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 15:04:16 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		return (1);
 	if (searchin_env(&env_list, list))
 		shell_change(shell, list->next->str, NULL);
-	ft_printf("ENV = %s\n", env_list->str);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
 	change_error(&env_list, 0);
@@ -55,31 +54,29 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
  * :warning:
  * wait(100) supprime de la premiere ligne pour la norme
 */
-int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
+int	ft_exit(char *input, t_args *list, t_args *env_list)
 {
 	int	code_err;
 
 	code_err = 0;
-	if (list && list->next && list->next->next)
+	ft_printf("exit\n");
+	if (list && list->next && is_numeric(list->next->str) == 1)
+	{
+		ft_printf("%s: %s: numeric argument required\n", list->str,
+			list->next->str);
+		code_err = 2;
+	}
+	else if (list && list->next && list->next->next)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
 		return (change_error(&env_list, 1));
 	}
-	free(input);
+	if (input)
+		free(input);
+	if (list && list->next)
+		code_err = ft_atoi(list->next->str) % 256;
 	clear_args_list(&env_list);
 	rl_clear_history();
-	ft_printf("exit\n");
-	if (list && list->next != NULL)
-	{
-		if (is_numeric(list->next->str) == 1)
-		{
-			ft_printf("%s: %s: numeric argument required\n", list->str,
-				list->next->str);
-			code_err = 2;
-		}
-		else
-			code_err = ft_atoi(list->next->str) % 256;
-	}
 	clear_args_list(&list);
 	exit(code_err);
 }

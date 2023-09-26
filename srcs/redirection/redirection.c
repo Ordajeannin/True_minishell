@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:59:47 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:30:32 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:00:43 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,9 @@ void	is_there_a_redirection(t_args **list)
 {
 	t_args	*current;
 	t_args	*prev;
-	t_args	*temp;
 
 	current = *list;
 	prev = NULL;
-	temp = NULL;
 	while (current != NULL && current->next != NULL)
 	{
 		if (yes_there_is_one(current->token) != 0)

@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/15 16:27:15 by ajeannin          #+#    #+#              #
-#    Updated: 2023/07/13 11:23:23 by asalic           ###   ########.fr        #
+#    Updated: 2023/09/26 11:01:56 by asalic           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ INCLUDES		= includes
 SRC_DIR			= src/
 OBJ_DIR			= obj/
 CC				= gcc
-CFLAGS 			= -Werror -Wextra -Wall -I
+CFLAGS 			= -Werror -Wextra -Wall -g3 -I
 
 
 ########### SOURCES ###########

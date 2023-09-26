@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/24 13:01:36 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 16:35:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	change_error(t_args **env_list, int value)
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
-			current->str = NULL;
 			current->str = result;
 			return (1);
 		}
@@ -58,7 +57,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 		return (NULL);
 	}
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
-		ft_env(list, env_list, shell);
+		ft_env(list, env_list);
 	return (command);
 }
 
@@ -93,8 +92,7 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
  * le processus enfant en a detecte une.
  * Exception: pour ./minishell, -1 a la VE de SHLVL
 */
-static int	next_execution(pid_t pid_child, char *command, t_shell *shell,
-	t_args **env_list)
+static int	next_execution(pid_t pid_child, t_args **env_list)
 {
 	int		status;
 
@@ -102,8 +100,6 @@ static int	next_execution(pid_t pid_child, char *command, t_shell *shell,
 	signal(SIGQUIT, SIG_IGN);
 	if (g_error == 2)
 		g_error = 0;
-	if (ft_strcmp("./minishell", command) == 0 && ft_strlen(command) == 11)
-		ft_less_shell(shell, env_list);
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
@@ -146,7 +142,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		ft_printf("%s : %s\n", command, strerror(errno));
 		exit(handle_error(errno));
 	}
-	if (next_execution(pid_child, command, shell, env_list) == 1)
+	if (next_execution(pid_child, env_list) == 1)
 		return (1);
 	change_error(env_list, 0);
 	return (0);

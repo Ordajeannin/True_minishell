@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:29:56 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:59:15 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_args
 
 int		is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
 	char *user);
+void	ft_gain_place(char **av, t_args **list, char **input, \
+	t_args **env_list);
 int		msg(char *msg);
 int		handle_env(char **env, t_shell *envcpy);
 void	init_shell(t_shell *shell);
@@ -131,14 +133,14 @@ void	clear_args_list(t_args **list);
 void	add_arg(t_args **list, char *str, int token);
 
 //Bultins
-int		find_opt(char *s1, char *s2);
+int		find_opt(char *s1);
 int		ft_echo(t_args *list, t_args **env_list);
 int		ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 int		ft_pwd(t_shell *shell, t_args **env_list);
-int		ft_env(t_args *list, t_args **env_list, t_shell *shell);
+int		ft_env(t_args *list, t_args **env_list);
 int		ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int		ft_export(t_args *list, t_shell *shell, t_args **env_list);
-int		ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell);
+int		ft_exit(char *input, t_args *list, t_args *env_list);
 
 //Other commands
 int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
@@ -155,10 +157,8 @@ void	shell_change(t_shell *shell, char *str, char *value);
 int		set_env(t_args **env_list, char **env, t_shell *shell);
 void	add_env(t_args **env_list, char *str);
 void	ft_plus_shell(t_shell *shell, t_args **env_list);
-void	ft_less_shell(t_shell *shell, t_args **env_list);
 void	signal_handler(int sig);
 int		export_out_args(t_args **env_list);
-void	add_back(int len_back, t_args *list);
 
 void	code_error(int code);
 int		handle_error(int code_err);
@@ -168,6 +168,7 @@ char	*ft_strdupto_n(char *str, char c);
 char	*ft_strdup_from(char *str, char c);
 char	*from_end_to_char(char *str, char c);
 int		is_only_equal(char *str, char c);
+int		len_targs(t_args *list);
 
 int		ft_strlen_double(char **str);
 int		count_back(char	*str);
@@ -182,4 +183,5 @@ char	*get_username(t_args **env_list);
 char	*get_pwd(void);
 int		set_empty_env(t_shell *shell, t_args **env_list);
 char	*prompt_cmd(t_shell *shell, char *user);
+
 #endif
