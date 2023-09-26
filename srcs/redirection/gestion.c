@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:59:31 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/21 18:00:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 13:10:57 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,58 +94,6 @@ static void	ni_baisser_les_bras(t_args **list)
 }
 
 /*
- * redirection <<
- * en l'etat, et isole du programme, interagit avec l'utilisateur
- * et recupere son input sous forme de str\nstr\nstr\n
- * jusqu au delim    (*list)->next->str
- * prochaine etape : gerer cet *str pour en faire l'input de la commande
- * (fichier temporaire?)
- * + normer la fonction -> nouveau fichier delim.c, ca va etre sportif
-*/
-/*
-char	*plus_de_nouvelle(const char *str)
-{
-	char	*result;
-	char	*line;
-	int		input_size;
-	int		buffer_lenght;
-
-	result = NULL;
-	line = NULL;
-	input_size = 0;
-	buffer_lenght = 0;
-	while (1)
-	{
-		line = readline("> ");
-		if (line == NULL || ft_strcmp(line, str) == 0)
-			break ;
-		buffer_lenght = ft_strlen(line) + 1;
-		if (result == NULL)
-			result = (char *)malloc(buffer_lenght);
-		else
-			result = (char *)ft_realloc(result, input_size + buffer_lenght);
-		if (result == NULL)
-		{
-			free(line);
-			return (NULL);
-		}
-		if (input_size == 0)
-			ft_strcpy(result, line);
-		else
-		{
-			ft_strcat(result, "\n");
-			ft_strcat(result, line);
-		}
-		input_size += buffer_lenght;
-		free(line);
-	}
-	if (line)
-		free(line);
-	return (result);
-}
-*/
-
-/*
  * Redirection (lol) en fonction du token vers la fonction correspondante
  * < redirection d'entree, fournit l'input de la commande via un fichier
  * > redirection de sortie, redirige la sortie d'une commande dans un fichier
@@ -166,4 +114,6 @@ void	c_est_ma_direction(int token, t_args **list)
 		sans_abandonner(list);
 	if (token == TOKEN_APPEND)
 		ni_baisser_les_bras(list);
+	if (token == TOKEN_DELIM)
+		plus_de_nouvelle((*list)->next->str);
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/24 13:13:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 13:22:17 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
-	int	saved_stdout;
-	int	saved_stdin;
+	int		saved_stdout;
+	int		saved_stdin;
 
 	if (g_error != 0)
 	{
@@ -62,6 +62,8 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	clear_args_list(&list);
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		perror("Failed to restore standard input\n");
+	if (access("tempfile.txt", F_OK != -1))
+		unlink("tempfile.txt");
 	close(saved_stdout);
 	free(input);
 }

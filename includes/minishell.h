@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/24 13:13:49 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/26 13:29:56 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
 void	process_not_s_quotes(t_args *node, t_args **env_list, int flag);
 void	is_there_a_redirection(t_args **list);
 void	c_est_ma_direction(int token, t_args **list);
+void	plus_de_nouvelle(const char *str);
 int		is_correct_format(t_args **list);
 
 //Tok
@@ -121,6 +122,7 @@ char	*ft_strrchr(const char *str, int ch);
 int		is_alphanum(char c);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char	*ft_strcat(char *str1, const char *str2);
+char	*ft_strcpy(char *dest, const char *src);
 
 //List concerns
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
