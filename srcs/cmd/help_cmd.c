@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 11:27:08 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:35:09 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,15 @@ void	add_env(t_args **env_list, char *str)
 	t_args	*new_var;
 	t_args	*current;
 
-	new_var = malloc(sizeof(t_args));
+	new_var = ft_calloc(1, sizeof *new_var);
+	if (! new_var)	
+		return ;
 	new_var->str = ft_strdup(str);
+	if (! new_var->str)
+	{
+		free(new_var);
+		return ;
+	}
 	new_var->token = 0;
 	new_var->next = NULL;
 	if (*env_list)
