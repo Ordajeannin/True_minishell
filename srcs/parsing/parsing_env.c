@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/27 17:10:39 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:23:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
 {
 	char	*command;
 
-	if (strchr(cmd, '/') == NULL)
+	if (ft_strchr(cmd, '/') == NULL)
 	{
 		command = extract_cmd_path(paths, cmd, shell, env_list);
 		return (command);
