@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 00:59:01 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/25 15:25:38 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:51:31 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static	char	*word_dup(const char *str, int start, int finish)
 
 	i = 0;
 	word = malloc((finish - start + 1) * sizeof(char));
+	if (! word)
+		return (NULL);
 	while (start < finish)
 		word[i++] = str[start++];
 	word[i] = '\0';
@@ -55,7 +57,7 @@ static	char	**helpsplit(int index, char const *s, char c)
 	i = 0;
 	j = 0;
 	new = malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!new)
+	if (! new)
 		return (0);
 	while (i <= ft_strlen(s))
 	{
