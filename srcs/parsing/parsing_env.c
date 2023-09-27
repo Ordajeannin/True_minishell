@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 16:40:18 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 16:43:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	while (shell->path && *paths)
 	{
 		temp = ft_strjoin(*paths, "/");
+		if (! temp)
+			return (NULL);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
 		command = ft_strjoin(temp, cmd);
 		free(temp);
+		if (! command)
+			return (NULL);
 		if (access(command, X_OK) == 0)
 			return (command);
 		free(command);
