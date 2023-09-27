@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/09/26 14:42:13 by asalic           ###   ########.fr        #
+#    Updated: 2023/09/27 18:27:50 by asalic           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_DIR			= srcs
 OBJ_DIR			= obj
 OBJ_DIR_WOF		= obj
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -g3
+CFLAGS			= -Wall -Werror -Wextra -g3 #-fsanitize=leak,address,undefined
 READLINE		= -lreadline
 
 

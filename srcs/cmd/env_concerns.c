@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 17:14:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 18:17:51 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 		if (ft_strncmp(current->str, change_value, ft_strlen(current->str))
 			== 0)
 		{
-			current->str = NULL;
 			current->str = new_str;
 			return ;
 		}
