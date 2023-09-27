@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 16:59:08 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 14:22:57 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 /* 
  * Suite du main.
 */
-static void	main_bis(char *input, t_args *list, t_args *env_list, \
+static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
 	int		saved_stdout;
@@ -36,7 +36,11 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 
 	if (g_error != 0)
 	{
-		change_error(&env_list, g_error);
+		if (!change_error(&env_list, g_error))
+		{
+			free(input);
+			return (1);
+		}
 		g_error = 0;
 	}
 	saved_stdout = dup(STDOUT_FILENO);
@@ -53,6 +57,7 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 		unlink("tempfile.txt");
 	close(saved_stdout);
 	free(input);
+	return (0);
 }
 
 /* 
@@ -86,23 +91,34 @@ int	main(int ac, char **av, char **env)
 	t_args	*env_list;
 	t_shell	shell;
 	char	*username;
+	char	*prompt_char;
 
 	(void)ac;
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	username = get_username(&env_list);
-	input = readline(prompt_cmd(&shell, username));
+	prompt_char = prompt_cmd(&shell, username);
+	input = readline(prompt_char);
 	if (input == NULL)
 	{
 		if (username)
 			free(username);
-		ft_exit(input, list, env_list);
+		if (prompt_char)
+			free(prompt_char);
+		ft_exit(input, list, env_list, &shell);
 	}
 	little_more_main(shell, input);
-	main_bis(input, list, env_list, &shell);
+	if (main_bis(input, list, env_list, &shell) == 1)
+	{
+		free(username);
+		free(prompt_char);
+		return (1);
+	}
 	shell.input_bis = input;
+	free(prompt_char);
 	is_minishell(&shell, env_list, list, username);
+	free(username);
 	return (0);
 }
 
@@ -115,16 +131,21 @@ int	main(int ac, char **av, char **env)
 int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 {
 	char	*input;
+	char	*prompt_char;
 
 	input = NULL;
+	prompt_char = NULL;
 	while (1)
 	{
-		input = readline(prompt_cmd(shell, user));
+		prompt_char = prompt_cmd(shell, user);
+		input = readline(prompt_char);
 		if (input == NULL)
 		{
 			if (user)
 				free(user);
-			ft_exit(input, list, env_list);
+			if (prompt_char)
+				free(prompt_char);
+			ft_exit(input, list, env_list, shell);
 		}
 		if (!(ft_strcmp(shell->input_bis, input) == 0 \
 			&& ft_strlen(shell->input_bis) == ft_strlen(input))
@@ -132,5 +153,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			add_history(input);
 		shell->input_bis = ft_strdup(input);
 		main_bis(input, list, env_list, shell);
+		free(prompt_char);
 	}
+	free(user);
 }

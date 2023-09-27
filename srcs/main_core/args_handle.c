@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:40:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 14:22:44 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	check_args(t_args **list, t_shell *shell, t_args **env_list, \
  * Gestionnaire de commandes 2.
  * Suite des conditions de args_handle.
 */
-static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
+static int	args_two(t_args *list, t_shell *shell, t_args **env_list)
 {
 	if (ft_strncmp(list->str, "echo", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 4)
@@ -62,6 +62,7 @@ static void	args_two(t_args *list, t_shell *shell, t_args **env_list)
 		shell->is_work = ft_pwd(shell, env_list);
 	else
 		shell->is_work = all_cmd(list, shell, &list, env_list);
+	return (shell->is_work);
 }
 
 /* 
@@ -86,9 +87,9 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 		shell->is_work = ft_unset(list, shell, current_env);
 	else if (ft_strncmp(list->str, "exit",
 			ft_strlen(list->str)) == 0 && ft_strlen(list->str) == 4)
-		ft_exit(input, list, current_env);
+		ft_exit(input, list, current_env, shell);
 	else
-		args_two(list, shell, env_list);
+		shell->is_work = args_two(list, shell, env_list);
 	check_args(&list, shell, env_list, input);
 	if (!(ft_strncmp(list->str, "env", ft_strlen(list->str))
 			== 0 && ft_strlen(list->str) == 3))

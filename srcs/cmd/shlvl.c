@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:03:17 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:35:02 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 11:01:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,23 @@ static unsigned int	ft_atoi_evolve(char	*str)
  Incremente la VE SHLVL
  Lorsque un ./minishell est lance dans un ./minishell -> SHLVL +1
 */
-void	ft_plus_shell(t_shell *shell, t_args **env_list)
+int	ft_plus_shell(t_shell *shell, t_args **env_list)
 {
-	unsigned int		nb_shell;
+	unsigned int	nb_shell;
+	char			*len_shell;
 
 	nb_shell = ft_atoi_evolve(shell->shlvl) + 1;
-	shell->shlvl = ft_strjoin("SHLVL=", ft_itoa(nb_shell));
-	change_env_exp(env_list, "SHLVL", ft_itoa(nb_shell));
+	len_shell = ft_itoa(nb_shell);
+	if (!len_shell)
+		return (1);
+	shell->shlvl = ft_strjoin("SHLVL=", len_shell);
+	if (change_env_exp(env_list, "SHLVL", len_shell) == 2)
+	{
+		free(len_shell);
+		return (1);
+	}
+	free(len_shell);
+	return (0);
 }
 
 static void	shell_change_path(t_shell *shell, char *value)

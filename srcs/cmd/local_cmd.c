@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 15:04:16 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 14:24:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	ft_pwd(t_shell *shell, t_args **env_list)
 	}
 	else
 		ft_printf("%s\n", shell->is_pwd);
-	change_error(env_list, 0);
+	if (!change_error(env_list, 0))
+		return (1);
 	return (0);
 }
 
@@ -43,7 +44,8 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
-	change_error(&env_list, 0);
+	if (!change_error(&env_list, 0))
+		return (1);
 	return (0);
 }
 
@@ -54,11 +56,12 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
  * :warning:
  * wait(100) supprime de la premiere ligne pour la norme
 */
-int	ft_exit(char *input, t_args *list, t_args *env_list)
+int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
 {
 	int	code_err;
 
 	code_err = 0;
+	(void)shell;
 	ft_printf("exit\n");
 	if (list && list->next && is_numeric(list->next->str) == 1)
 	{
@@ -69,8 +72,14 @@ int	ft_exit(char *input, t_args *list, t_args *env_list)
 	else if (list && list->next && list->next->next)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
-		return (change_error(&env_list, 1));
+		change_error(&env_list, 1);
+		return (1);
 	}
+	// while (*shell->cmd_paths != NULL)
+	// {
+	// 	free(*shell->cmd_paths);
+	// 	(*shell->cmd_paths) ++;
+	// }
 	if (input)
 		free(input);
 	if (list && list->next)

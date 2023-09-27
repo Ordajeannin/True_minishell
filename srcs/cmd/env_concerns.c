@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:40:52 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 12:16:53 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,31 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 		result = ft_strjoin(result, "0");
 	else
 		result = ft_strjoin(result, value);
+	if (!result)
+		return (2);
 	current_name = NULL;
 	current = *env_list;
 	while (current)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
+		if (!current_name)
+		{
+			free(result);
+			return (2);
+		}
 		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
 			&& ft_strlen(current_name) == ft_strlen(name_env))
 		{
-			current->str = NULL;
 			current->str = result;
-			return (1);
+			free(current_name);
+			// free(result);
+			return (0);
 		}
 		current = current->next;
 	}
-	return (0);
+	free(current_name);
+	free(result);
+	return (1);
 }
 
 /* 
@@ -88,17 +98,21 @@ int	searchin_env(t_args **env_list, t_args *list)
 	while (current && current->next)
 	{
 		name_env = ft_strdupto_n(current->next->str, '=');
+		if (!name_env)
+			return (1);
 		if (ft_strncmp(list->next->str, ft_strdupto_n(current->next->str, \
 			'='), len) == 0 && len == ft_strlen(name_env))
 		{
 			temp = current->next->next;
 			free(current->next);
 			current->next = temp;
-			return (1);
+			free(name_env);
+			return (0);
 		}
+		free(name_env);
 		current = current->next;
 	}
-	return (0);
+	return (1);
 }
 
 /* 
@@ -124,7 +138,8 @@ int	ft_env(t_args *list, t_args **env_list)
 			current = current->next;
 		}
 	}
-	change_error(env_list, 0);
+	if (!change_error(env_list, 0))
+		return (1);
 	return (0);
 }
 

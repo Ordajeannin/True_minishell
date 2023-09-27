@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 16:59:15 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 14:22:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,12 +140,12 @@ int		ft_pwd(t_shell *shell, t_args **env_list);
 int		ft_env(t_args *list, t_args **env_list);
 int		ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int		ft_export(t_args *list, t_shell *shell, t_args **env_list);
-int		ft_exit(char *input, t_args *list, t_args *env_list);
+int		ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell);
 
 //Other commands
 int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
 void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
-void	cd_move_and_change(t_args *env_list, t_shell *shell);
+int		cd_move_and_change(t_args *env_list, t_shell *shell);
 int		change_env_exp(t_args **env_list, char *name_env, char *value);
 int		update_last_ve(t_args **list, t_args **env_list);
 int		parse_export(t_args *list);
@@ -156,7 +156,7 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
 void	shell_change(t_shell *shell, char *str, char *value);
 int		set_env(t_args **env_list, char **env, t_shell *shell);
 void	add_env(t_args **env_list, char *str);
-void	ft_plus_shell(t_shell *shell, t_args **env_list);
+int		ft_plus_shell(t_shell *shell, t_args **env_list);
 void	signal_handler(int sig);
 int		export_out_args(t_args **env_list);
 
@@ -166,6 +166,7 @@ int		handle_error(int code_err);
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);
 char	*ft_strdup_from(char *str, char c);
+char	*ft_strjoin_free(char *s1, char *s2);
 char	*from_end_to_char(char *str, char c);
 int		is_only_equal(char *str, char c);
 int		len_targs(t_args *list);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:35:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 12:10:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,40 @@ int	change_error(t_args **env_list, int value)
 	t_args	*current;
 	char	*current_name;
 	char	*result;
+	char 	*nb_char;
 
-	result = ft_strjoin("?", "=");
-	result = ft_strjoin(result, ft_itoa(value));
+	nb_char = ft_itoa(value);
+	if (!nb_char)
+		return (2);
+	result = ft_strjoin("?=", nb_char);
+	if (!result)
+	{
+		free(nb_char);
+		return (2);
+	}
 	current = *env_list;
 	while (current)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
+		if (!current_name)
+		{
+			free(nb_char);
+			free(result);
+			return (2);
+		}
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
 			current->str = result;
+			free(current_name);
+			free(nb_char);
 			return (1);
 		}
 		current = current->next;
 	}
+	free(nb_char);
+	free(current_name);
+	free(result);
 	return (0);
 }
 
@@ -129,7 +148,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 
 	command = bfore_execution(arg, shell, list, env_list);
 	if (command == NULL)
-		return (0);
+		return (1);
 	pid_child = fork();
 	if (pid_child == -1)
 	{
@@ -143,7 +162,15 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		exit(handle_error(errno));
 	}
 	if (next_execution(pid_child, env_list) == 1)
+	{
+		free(command);
 		return (1);
-	change_error(env_list, 0);
+	}
+	if (!change_error(env_list, 0))
+	{
+		free(command);
+		return (1);
+	}
+	free(command);
 	return (0);
 }

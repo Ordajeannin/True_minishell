@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:31:12 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:36:15 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 14:11:26 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,32 @@ int	count_back(char	*str)
 		i --;
 	}
 	return (len);
+}
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	j;
+	size_t	l;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return ((char *)s2);
+	if (!s2)
+		return ((char *)s1);
+	l = ft_strlen(s1) + ft_strlen(s2);
+	new = ft_calloc(l + 1, sizeof(char));
+	if (!new)
+		return (NULL);
+	while (s1[i])
+		new[j++] = s1[i++];
+	i = 0;
+	while (s2[i])
+		new[j++] = s2[i++];
+	new[j] = '\0';
+	return (free(s1), free(s2), new);
 }
