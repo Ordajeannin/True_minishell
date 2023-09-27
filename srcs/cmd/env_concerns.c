@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 17:10:20 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:14:41 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	searchin_env(t_args **env_list, t_args *list)
 		name_env = ft_strdupto_n(current->next->str, '=');
 		if (!name_env)
 			return (1);
-		if (ft_strncmp(list->next->str, ft_strdupto_n(current->next->str, \
-			'='), len) == 0 && len == ft_strlen(name_env))
+		if (ft_strncmp(list->next->str, name_env, len) == 0 && \
+		len == ft_strlen(name_env))
 		{
 			temp = current->next->next;
 			free(current->next);
