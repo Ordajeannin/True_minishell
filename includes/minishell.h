@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 17:50:33 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:27:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,102 +87,115 @@ typedef struct s_args
 	struct s_args	*next;
 }	t_args;
 
-int		is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
+typedef struct s_args_list
+{
+	t_args				*head;
+	struct s_args_list	*next;
+}	t_args_list;
+
+int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
 	char *user);
-int		msg(char *msg);
-int		handle_env(char **env, t_shell *envcpy);
-void	init_shell(t_shell *shell);
-int		parsing_input(char **input);
-void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
+int			msg(char *msg);
+int			handle_env(char **env, t_shell *envcpy);
+void		init_shell(t_shell *shell);
+int			parsing_input(char **input);
+void		args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	char *input);
-void	was_unclosed_quotes(t_args **list);
-size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
-void	process_not_s_quotes(t_args *node, t_args **env_list, int flag);
-void	is_there_a_redirection(t_args **list);
-void	c_est_ma_direction(int token, t_args **list);
-void	plus_de_nouvelle(const char *str);
-int		is_correct_format(t_args **list);
-void	create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
+void		was_unclosed_quotes(t_args **list);
+size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
+void		process_not_s_quotes(t_args *node, t_args **env_list, int flag);
+void		is_there_a_redirection(t_args **list);
+void		c_est_ma_direction(int token, t_args **list);
+void		plus_de_nouvelle(const char *str);
+int			is_correct_format(t_args **list);
+void		create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
 		char *input);
-char	*check_if_there_is_a_lost_pipe(char *input);
+char		*check_if_there_is_a_lost_pipe(char *input);
+t_args_list	*stock_sublist(t_args **list);
+void		print_sublists(t_args_list *stock);
+void		ft2_lstadd_back(t_args_list **lst, t_args_list *new);
+t_args_list	*ft2_lstlast(t_args_list *lst);
 
 //Tok
-char	*ft_strtok(char *input, char **delim, t_args **list);
-void	update_args(t_args **list, t_args **env_list);
-int		tokenize_args(char *input, int flag);
-size_t	delimit_to_token(char *s, t_args **list, const char **input);
-char	*is_env_var(char *str, t_args **env_list, int flag);
-char	**ft_split_arg(char *str);
+char		*ft_strtok(char *input, char **delim, t_args **list);
+void		update_args(t_args **list, t_args **env_list);
+int			tokenize_args(char *input, int flag);
+size_t		delimit_to_token(char *s, t_args **list, const char **input);
+char		*is_env_var(char *str, t_args **env_list, int flag);
+char		**ft_split_arg(char *str);
 
 //libc parsing
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strpbrk(const char *s, const char *charset);
-size_t	ft_strspn(const char *s, char **accept, t_args **list);
-size_t	ft_strcspn(const char *s, char **reject, t_args **list);
-char	*ft_strncpy(char *dst, const char *src, int n);
-char	*ft_strrchr(const char *str, int ch);
-int		is_alphanum(char c);
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-char	*ft_strcat(char *str1, const char *str2);
-char	*ft_strcpy(char *dest, const char *src);
+int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strpbrk(const char *s, const char *charset);
+size_t		ft_strspn(const char *s, char **accept, t_args **list);
+size_t		ft_strcspn(const char *s, char **reject, t_args **list);
+char		*ft_strncpy(char *dst, const char *src, int n);
+char		*ft_strrchr(const char *str, int ch);
+int			is_alphanum(char c);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+char		*ft_strcat(char *str1, const char *str2);
+char		*ft_strcpy(char *dest, const char *src);
 
 //List concerns
-void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
-void	loop_args(t_shell *shell, t_args **list);
-void	clear_args_list(t_args **list);
-void	add_arg(t_args **list, char *str, int token);
+void		from_input_to_list_of_args(char *input, t_args **list, \
+	t_args **e_list);
+void		loop_args(t_shell *shell, t_args **list);
+void		clear_args_list(t_args **list);
+void		add_arg(t_args **list, char *str, int token);
 
 //Bultins
-int		find_opt(char *s1, char *s2);
-int		ft_echo(t_args *list, t_args **env_list);
-int		ft_cd(t_args *list, t_shell *shell, t_args *env_list);
-int		ft_pwd(t_shell *shell, t_args **env_list);
-int		ft_env(t_args *list, t_args **env_list, t_shell *shell);
-int		ft_unset(t_args *list, t_shell *shell, t_args *env_list);
-int		ft_export(t_args *list, t_shell *shell, t_args **env_list);
-int		ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell);
+int			find_opt(char *s1, char *s2);
+int			ft_echo(t_args *list, t_args **env_list);
+int			ft_cd(t_args *list, t_shell *shell, t_args *env_list);
+int			ft_pwd(t_shell *shell, t_args **env_list);
+int			ft_env(t_args *list, t_args **env_list, t_shell *shell);
+int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
+int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
+int			ft_exit(char *input, t_args *list, t_args *env_list, \
+	t_shell *shell);
 
 //Other commands
-int		all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
-void	change_env_cd(t_args **env_list, char *new_str, char *change_value);
-void	cd_move_and_change(t_args *env_list, t_shell *shell);
-int		change_env_exp(t_args **env_list, char *name_env, char *value);
-int		update_last_ve(t_args **list, t_args **env_list);
-int		parse_export(t_args *list);
-int		change_error(t_args **env_list, int value);
-int		searchin_env(t_args **env_list, t_args *list);
-char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
+int			all_cmd(t_args *arg, t_shell *shell, t_args **list, \
 	t_args **env_list);
-void	shell_change(t_shell *shell, char *str, char *value);
-int		set_env(t_args **env_list, char **env, t_shell *shell);
-void	add_env(t_args **env_list, char *str);
-void	ft_plus_shell(t_shell *shell, t_args **env_list);
-void	ft_less_shell(t_shell *shell, t_args **env_list);
-void	signal_handler(int sig);
-int		export_out_args(t_args **env_list);
-void	add_back(int len_back, t_args *list);
+void		change_env_cd(t_args **env_list, char *new_str, char *change_value);
+void		cd_move_and_change(t_args *env_list, t_shell *shell);
+int			change_env_exp(t_args **env_list, char *name_env, char *value);
+int			update_last_ve(t_args **list, t_args **env_list);
+int			parse_export(t_args *list);
+int			change_error(t_args **env_list, int value);
+int			searchin_env(t_args **env_list, t_args *list);
+char		*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
+	t_args **env_list);
+void		shell_change(t_shell *shell, char *str, char *value);
+int			set_env(t_args **env_list, char **env, t_shell *shell);
+void		add_env(t_args **env_list, char *str);
+void		ft_plus_shell(t_shell *shell, t_args **env_list);
+void		ft_less_shell(t_shell *shell, t_args **env_list);
+void		signal_handler(int sig);
+int			export_out_args(t_args **env_list);
+void		add_back(int len_back, t_args *list);
 
-void	code_error(int code);
-int		handle_error(int code_err);
+void		code_error(int code);
+int			handle_error(int code_err);
 
 //Helpful function
-char	*ft_strdupto_n(char *str, char c);
-char	*ft_strdup_from(char *str, char c);
-char	*from_end_to_char(char *str, char c);
-int		is_only_equal(char *str, char c);
+char		*ft_strdupto_n(char *str, char c);
+char		*ft_strdup_from(char *str, char c);
+char		*from_end_to_char(char *str, char c);
+int			is_only_equal(char *str, char c);
 
-int		ft_strlen_double(char **str);
-int		count_back(char	*str);
-int		count_dir(t_shell *shell);
-char	**dup_double_string(t_args **e_list);
-int		is_numeric(char *str);
+int			ft_strlen_double(char **str);
+int			count_back(char	*str);
+int			count_dir(t_shell *shell);
+char		**dup_double_string(t_args **e_list);
+int			is_numeric(char *str);
 
 //Print Things
-void	shell_style(t_shell *shell);
-void	print_args_list(t_args **list);
-char	*get_username(t_args **env_list);
-char	*get_pwd(void);
-int		set_empty_env(t_shell *shell, t_args **env_list);
-char	*prompt_cmd(t_shell *shell, char *user);
+void		shell_style(t_shell *shell);
+void		print_args_list(t_args **list);
+char		*get_username(t_args **env_list);
+char		*get_pwd(void);
+int			set_empty_env(t_shell *shell, t_args **env_list);
+char		*prompt_cmd(t_shell *shell, char *user);
 #endif

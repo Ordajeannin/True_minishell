@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 17:51:44 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:21:04 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		input = readline(prompt_cmd(shell, user));
 		if (input == NULL)
 			ft_exit(input, list, env_list, shell);
+		input = check_if_there_is_a_lost_pipe(input);
 		if (!(ft_strcmp(shell->input_bis, input) == 0 \
 			&& ft_strlen(shell->input_bis) == ft_strlen(input))
 			&& shell->input_bis != NULL)
