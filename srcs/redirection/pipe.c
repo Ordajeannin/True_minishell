@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 17:54:10 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/27 12:29:35 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,20 @@ static void	delete_last_node(t_args **list)
 	t_args	*current;
 	t_args	*prev;
 
-	if (*list == NULL || (*list)->next == NULL)
+//	if (*list == NULL || (*list)->next == NULL)
+//	{
+//		free(*list);
+//		*list = NULL;
+//		return ;
+//	}
+	if ((*list)->token == TOKEN_PIPE && (*list)->next == NULL)
 	{
 		free(*list);
 		*list = NULL;
 		return ;
 	}
+	else if ((*list)->next == NULL)
+		return ;
 	current = *list;
 	prev = NULL;
 	while (current->next != NULL)
@@ -45,9 +53,9 @@ static void	execute_command(t_args *first_cmd, t_args *scd_cmd, int pipefd[2], \
 
 	delete_last_node(&first_cmd);
 	delete_last_node(&scd_cmd);
-	printf("------------LIST-----------------\n");
+	printf("------------LIST 1----------------\n");
 	print_args_list(&first_cmd);
-	printf("------------LIST2----------------\n");
+	printf("------------LIST 2----------------\n");
 	print_args_list(&scd_cmd);
 	pid1 = fork();
 	if (pid1 == 0)
@@ -94,6 +102,8 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
 	start = list;
 	second_list = NULL;
 	flag = 0;
+	printf("------------LIST 0----------------\n");
+	print_args_list(&list);
 	while (current)
 	{
 		if (current->token == TOKEN_PIPE)
@@ -103,6 +113,7 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
 				perror("pipe");
 				exit(EXIT_FAILURE);
 			}
+			printf("debut de la seconde liste : %s\n", current->next->str);
 			second_list = current->next;
 			current->next = NULL;
 			execute_command(start, second_list, pipefd, shell, env_list, input);
@@ -117,6 +128,40 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
 
 char	*check_if_there_is_a_lost_pipe(char *input)
 {
+	char	*new_input;
+	char	*combined;
+	int		lenght;
+	int		i;
+
+	lenght = ft_strlen(input);
+	i = lenght - 1;
+	while (i >= 0 && input[i] == ' ')
+		i--;
+	if (i >= 0 && input[i] == '|')
+	{
+		new_input = readline("> ");
+		if (!new_input)
+			return (NULL);
+		combined = (char *)malloc(lenght + ft_strlen(new_input) + 2);
+		if (!combined)
+		{
+			perror("malloc");
+			free(new_input);
+			return (NULL);
+		}
+		ft_strcpy(combined, input);
+		ft_strcat(combined, " ");
+		ft_strcat(combined, new_input);
+		free(new_input);
+		return (combined);
+	}
+	else
+		return (input);
+}
+
+/*
+char	*check_if_there_is_a_lost_pipe(char *input)
+{
 	char	*result;
 	char	*combined;
 	int		lenght;
@@ -124,6 +169,7 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 	result = NULL;
 	combined = NULL;
 	lenght = ft_strlen(input);
+	printf("input : %s\n", input);
 	if (lenght > 0 && input[lenght - 1] == '|')
 	{
 		result = readline("> ");
@@ -142,3 +188,4 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 	else
 		return (input);
 }
+*/
