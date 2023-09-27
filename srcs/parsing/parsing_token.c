@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/07 18:42:06 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:18:26 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 	int		i;
 
 	tmp = ft_split_arg(node->str);
+	if (! tmp)
+		return ;
 	verif = NULL;
 	node->str = NULL;
 	i = 0;
