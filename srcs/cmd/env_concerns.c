@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 12:16:53 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:10:20 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,8 @@ int	ft_env(t_args *list, t_args **env_list)
 */
 int	set_env(t_args **env_list, char **env, t_shell *shell)
 {
-	int			i;
+	int		i;
+	char	*identifier;
 
 	if (*env == NULL)
 	{
@@ -161,8 +162,11 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	while (env[i])
 	{
 		add_arg(env_list, env[i], 0);
-		if (ft_strcmp(ft_strdupto_n(env[i], '='), "SHLVL") == 0
-			&& ft_strlen(ft_strdupto_n(env[i], '=')) == 5)
+		identifier = ft_strdupto_n(env[i], '=');
+		if (! identifier)
+			return (-1);
+		if (ft_strcmp(identifier, "SHLVL") == 0 && \
+		ft_strlen(identifier) == 5)
 			ft_plus_shell(shell, env_list);
 		i++;
 	}
