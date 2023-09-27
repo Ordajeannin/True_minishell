@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/27 17:23:38 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:28:48 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	handle_env(char **env, t_shell *shell)
 {
 	if (env == NULL)
 		return (msg(ERROR_NOENV));
+	// AWENA PROTECT US !!!!!!!!!
 	shell->home = getenv("HOME");
 	shell->pwd = getenv("PWD");
 	shell->is_pwd = getenv("PWD");
@@ -38,7 +39,11 @@ int	handle_env(char **env, t_shell *shell)
 	shell->hostname = getenv("HOSTNAME");
 	shell->shlvl = getenv("SHLVL");
 	if (shell->path != NULL && shell->path[0] != '\0')
+	{
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
+		if (! shell->cmd_paths)
+			return (1);
+	}
 	return (0);
 }
 
