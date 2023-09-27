@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 12:05:14 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 17:38:40 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,14 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	if (ft_strchr(list->next->str, '='))
 	{
 		v_env = ft_strdupto_n(list->next->str, '=');
+		if (! v_env)
+			return (1);
 		value = ft_strdup_from(list->next->str, '=');
+		if (! value)
+		{
+			free(v_env);
+			return (1);
+		}
 		result_change_env = change_env_exp(env_list, v_env, value);
 		if (result_change_env == 0)
 			ft_more_export(shell, v_env, value);
