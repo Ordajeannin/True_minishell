@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 14:22:44 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 13:58:14 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,5 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 	check_args(&list, shell, env_list, input);
 	if (!(ft_strncmp(list->str, "env", ft_strlen(list->str))
 			== 0 && ft_strlen(list->str) == 3))
-		update_last_ve(&list, env_list);
+		update_last_ve(list, env_list);
 }
