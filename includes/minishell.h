@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/27 17:27:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:28:43 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ typedef struct s_args_list
 }	t_args_list;
 
 int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
-	char *user);
+			char *user);
 int			msg(char *msg);
 int			handle_env(char **env, t_shell *envcpy);
 void		init_shell(t_shell *shell);
 int			parsing_input(char **input);
 void		args_handle(t_args *list, t_shell *shell, t_args **env_list, \
-	char *input);
+			char *input);
 void		was_unclosed_quotes(t_args **list);
 size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
 void		process_not_s_quotes(t_args *node, t_args **env_list, int flag);
@@ -108,13 +108,22 @@ void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str);
 int			is_correct_format(t_args **list);
+
+//Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
-		char *input);
+			char *input);
 char		*check_if_there_is_a_lost_pipe(char *input);
 t_args_list	*stock_sublist(t_args **list);
 void		print_sublists(t_args_list *stock);
 void		ft2_lstadd_back(t_args_list **lst, t_args_list *new);
 t_args_list	*ft2_lstlast(t_args_list *lst);
+void		close_pipe(int pipe_fd[2]);
+void		redirect_input(int prev_pipe_fd[2]);
+void		redirect_output(int next_pipe_fd[2]);
+void		execute_child1(int prev_pipe_fd[2], int next_pipe_fd[2]);
+void		execute_child2(t_args_list *current, t_shell *shell, \
+			t_args **env_list, char *input);
+void		execute_parent(int prev_pipe_fd[2], int next_pipe_fd[2]);
 
 //Tok
 char		*ft_strtok(char *input, char **delim, t_args **list);
@@ -139,7 +148,7 @@ char		*ft_strcpy(char *dest, const char *src);
 
 //List concerns
 void		from_input_to_list_of_args(char *input, t_args **list, \
-	t_args **e_list);
+			t_args **e_list);
 void		loop_args(t_shell *shell, t_args **list);
 void		clear_args_list(t_args **list);
 void		add_arg(t_args **list, char *str, int token);
@@ -153,11 +162,11 @@ int			ft_env(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
 int			ft_exit(char *input, t_args *list, t_args *env_list, \
-	t_shell *shell);
+			t_shell *shell);
 
 //Other commands
 int			all_cmd(t_args *arg, t_shell *shell, t_args **list, \
-	t_args **env_list);
+			t_args **env_list);
 void		change_env_cd(t_args **env_list, char *new_str, char *change_value);
 void		cd_move_and_change(t_args *env_list, t_shell *shell);
 int			change_env_exp(t_args **env_list, char *name_env, char *value);
@@ -166,7 +175,7 @@ int			parse_export(t_args *list);
 int			change_error(t_args **env_list, int value);
 int			searchin_env(t_args **env_list, t_args *list);
 char		*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
-	t_args **env_list);
+			t_args **env_list);
 void		shell_change(t_shell *shell, char *str, char *value);
 int			set_env(t_args **env_list, char **env, t_shell *shell);
 void		add_env(t_args **env_list, char *str);
