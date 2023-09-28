@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 08:42:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/28 11:54:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:10:14 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,32 @@ int	cd_move_and_change(t_args *env_list, t_shell *shell)
  * Mis a jour a chaque tour de boucle prompt
  * Exception pour env
 */
-int	update_last_ve(t_args **list, t_args **env_list)
+int	update_last_ve(t_args *list, t_args **env_list)
 {
-	t_args	*current;
+	char	*last_arg;
 
-	current = *list;
-	if (ft_strcmp("env", current->str) == 0 && ft_strlen(current->str) == 3)
+	if (ft_strcmp("env", list->str) == 0 && ft_strlen(list->str) == 3)
 	{
 		if (change_env_exp(env_list, "_", "/usr/bin/env") == 2)
 			return (1);
 		return (0);
 	}
-	while (current && current->next != NULL)
+	while (list)
 	{
-		current = current->next;
-		if (ft_strcmp(current->str, "\0") == 0)
+		if (list->next == NULL)
+		{
+			last_arg = ft_strdup(list->str);
+			if (!last_arg)
+				return (1);
 			break ;
+		}
+		list = list->next;
 	}
-	if (change_env_exp(env_list, "_", current->str) == 2)
+	if (change_env_exp(env_list, "_", last_arg) == 2)
+	{
+		free(last_arg);
 		return (1);
+	}
+	free(last_arg);
 	return (0);
 }

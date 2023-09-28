@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 11:50:29 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:36:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@
  * (Renvoie un message d'erreur si env est null, a voir si on modifie
  * ca plus tard. Par defaut, fin de minishell)
 */
+
+/*
+static char *get_env_var(const char *name)
+{
+	char	*env_var;
+	char	*var_value;
+
+	env_var = getenv(name);
+	if (! env_var)
+		env_var = "";
+	return (ft_strdup(env_var));
+}
+*/
+
 int	handle_env(char **env, t_shell *shell)
 {
 	if (env == NULL)

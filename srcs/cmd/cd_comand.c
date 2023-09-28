@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 16:26:16 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:23:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,13 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 		free(temp);
 		return (NULL);
 	}
-	buf = list->next->str;
+	buf = ft_strdup(list->next->str);
+	if (! buf)
+	{
+		free(temp);
+		closedir(dir);
+		return (NULL);
+	}
 	if (shell->pwd == NULL)
 	{
 		if (!cd_move_and_change(env_list, shell))
@@ -107,6 +113,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
 	char	*buf;
 	int		cod;
+	int		err;
 
 	cod = check_cd(list, shell, env_list);
 	if (cod == 1)
@@ -116,19 +123,10 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 		buf = is_two_points(shell, list, env_list);
 	else
-		buf = list->next->str;
+		buf = ft_strdup(list->next->str);
 	if (!buf)
 		return (1);
-	if (cd_real_version(buf, shell, env_list, list) == 1)
-	{
-		free(buf);
-		return (1);
-	}
-	if (!change_error(&env_list, 0))
-	{
-		free(buf);
-		return (1);
-	}
+	err = cd_real_version(buf, shell, env_list, list);
 	free(buf);
-	return (0);
+	return (err || !change_error(&env_list, 0));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/27 17:18:26 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:06:00 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,26 +131,46 @@ void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 {
 	char	**tmp;
 	char	*verif;
+	char	*is_ve;
 	int		i;
 
 	tmp = ft_split_arg(node->str);
 	if (! tmp)
 		return ;
-	verif = NULL;
 	node->str = NULL;
 	i = 0;
 	while (tmp[i])
 	{
-		verif = tmp[i];
-		tmp[i] = is_env_var(tmp[i], env_list, flag);
+		is_ve = is_env_var(tmp[i], env_list, flag);
+		if (!is_ve)
+			return ;
+		verif = ft_strdup(tmp[i]);
+		if (!verif)
+			return ;
+		tmp[i] = ft_strdup(is_ve);
+		if (!tmp[i])
+			return ;
 		if (tmp[i] != NULL && ft_strcmp(verif, tmp[i]) == 0 && tmp[i][0] == '$')
 			node->token = TOKEN_TEMP_VAR;
 		if (tmp[i] != NULL && node->str != NULL)
+		{
 			node->str = ft_strjoin(node->str, tmp[i]);
+			if (!node->str)
+				return ;
+		}
 		if (tmp[i] != NULL && node->str == NULL)
-			node->str = tmp[i];
+		{
+			node->str = ft_strdup(tmp[i]);
+			if (!node->str)
+				return ;
+		}
 		i++;
+		free(verif);
+		free(is_ve);
 	}
+	i = 0;
+	while (tmp[i])
+		free(tmp[i++]);
 }
 
 /*
@@ -175,7 +195,11 @@ void	update_args(t_args **list, t_args **env_list)
 		if (current->str != NULL && current->token == 23)
 			current->token = tokenize_args(current->str, 23);
 		if (current->str == NULL && current->token == 23)
-			current->str = help;
+		{
+			current->str = ft_strdup(help);
+			if (!current->str)
+				return ;
+		}
 		current = current->next;
 	}
 	delete_null_nodes(list);

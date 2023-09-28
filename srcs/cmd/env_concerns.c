@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/28 11:56:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:42:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,22 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 int	change_env_exp(t_args **env_list, char *name_env, char *value)
 {
 	char	*result;
+	char	*tmp;
 	char	*current_name;
 	t_args	*current;
 
-	result = ft_strjoin(name_env, "=");
+	//ft_printf("value is : %s\n", value);
+	tmp = ft_strjoin(name_env, "=");
+	if (! tmp)
+		return (2);
 	if (ft_strcmp(name_env, "SHLVL") == 0 && ft_strlen((const char *)name_env) \
 		== 5 && ft_atoi(value) < 0)
-		result = ft_strjoin(result, "0");
+		result = ft_strjoin(tmp, "0");
 	else
-		result = ft_strjoin(result, value);
+		result = ft_strjoin(tmp, value);
+	free(tmp);
 	if (!result)
 		return (2);
-	current_name = NULL;
 	current = *env_list;
 	while (current)
 	{
@@ -123,7 +127,7 @@ int	ft_env(t_args *list, t_args **env_list)
 {
 	t_args	*current;
 
-	update_last_ve(&list, env_list);
+	update_last_ve(list, env_list);
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
