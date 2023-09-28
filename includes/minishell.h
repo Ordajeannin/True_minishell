@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 18:12:00 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/28 18:18:30 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ typedef struct s_args_list
 
 int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
 			char *user);
+void		ft_gain_place(char **av, t_args **list, char **input, \
+			t_args **env_list);
 int			msg(char *msg);
 int			handle_env(char **env, t_shell *envcpy);
 void		init_shell(t_shell *shell);
@@ -164,7 +166,8 @@ int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
 int			ft_exit(char *input, t_args *list, t_args *env_list);
 
 //Other commands
-int			all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list);
+int			all_cmd(t_args *arg, t_shell *shell, t_args **list, \
+			t_args **env_list);
 void		change_env_cd(t_args **env_list, char *new_str, char *change_value);
 void		cd_move_and_change(t_args *env_list, t_shell *shell);
 int			change_env_exp(t_args **env_list, char *name_env, char *value);
