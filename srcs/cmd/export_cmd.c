@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 17:38:40 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 11:49:32 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	}
 	if (list->next->next != NULL)
 		ft_export(list->next, shell, env_list);
-	// free(v_env);
-	// free(value);
 	if (!change_error(env_list, 0))
 		return (1);
 	return (0);

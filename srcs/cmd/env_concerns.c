@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 18:17:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 11:56:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 	t_args	*current;
 
 	current = *env_list;
-	while (current)
+	while (current && current->str != NULL)
 	{
-		if (ft_strncmp(current->str, change_value, ft_strlen(current->str))
-			== 0)
+		if (ft_strcmp(current->str, change_value) == 0 && \
+			ft_strlen(current->str) == ft_strlen(change_value))
 		{
-			current->str = new_str;
+			current->str = ft_strdup(new_str);
 			return ;
 		}
 		current = current->next;
@@ -49,8 +49,8 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	t_args	*current;
 
 	result = ft_strjoin(name_env, "=");
-	if (ft_strcmp(name_env, "SHLVL") == 0 && ft_strlen(name_env) == 5
-		&& ft_atoi(value) < 0)
+	if (ft_strcmp(name_env, "SHLVL") == 0 && ft_strlen((const char *)name_env) \
+		== 5 && ft_atoi(value) < 0)
 		result = ft_strjoin(result, "0");
 	else
 		result = ft_strjoin(result, value);
@@ -69,14 +69,14 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
 			&& ft_strlen(current_name) == ft_strlen(name_env))
 		{
-			current->str = result;
+			current->str = ft_strdup(result);
 			free(current_name);
-			// free(result);
+			free(result);
 			return (0);
 		}
 		current = current->next;
+		free(current_name);
 	}
-	free(current_name);
 	free(result);
 	return (1);
 }
@@ -170,5 +170,6 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 		i++;
 	}
 	add_arg(env_list, "?=0", 0);
+	free(identifier);
 	return (0);
 }

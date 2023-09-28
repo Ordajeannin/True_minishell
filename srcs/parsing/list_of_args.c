@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 14:54:50 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 11:46:48 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_args	*create_arg(char *str, int token)
 {
 	t_args	*new_arg;
 
-	new_arg = (t_args *)malloc(sizeof(t_args));
+	new_arg = ft_calloc(1, sizeof(t_args));
 	if (!new_arg)
 		return (NULL);
 	new_arg->str = str;

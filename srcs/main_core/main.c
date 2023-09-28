@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/27 18:27:01 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 11:46:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	if (access("tempfile.txt", F_OK != -1))
 		unlink("tempfile.txt");
 	close(saved_stdout);
-	free(input);
+	// free(input);
 	return (0);
 }
 
@@ -115,8 +115,9 @@ int	main(int ac, char **av, char **env)
 		free(prompt_char);
 		return (1);
 	}
-	shell.input_bis = input;
+	shell.input_bis = ft_strdup(input);
 	free(prompt_char);
+	free(input);
 	is_minishell(&shell, env_list, list, username);
 	free(username);
 	return (0);
@@ -150,15 +151,21 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		if (!(ft_strcmp(shell->input_bis, input) == 0 \
 			&& ft_strlen(shell->input_bis) == ft_strlen(input)))
 			add_history(input);
+		if (shell->input_bis)
+			free(shell->input_bis);
 		shell->input_bis = ft_strdup(input);
 		if (! shell->input_bis)
 		{
 			//Handle me damn!
+			free(user);
 			free(prompt_char);
+			free(input);
 			return (1);
 		}
 		main_bis(input, list, env_list, shell);
 		free(prompt_char);
+		free(input);
 	}
+	free(shell->input_bis);
 	free(user);
 }

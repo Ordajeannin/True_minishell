@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/27 17:28:48 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 11:50:29 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ int	handle_env(char **env, t_shell *shell)
 	if (env == NULL)
 		return (msg(ERROR_NOENV));
 	// AWENA PROTECT US !!!!!!!!!
-	shell->home = getenv("HOME");
-	shell->pwd = getenv("PWD");
-	shell->is_pwd = getenv("PWD");
-	shell->is_oldpwd = getenv("OLDPWD");
-	shell->oldpwd = getenv("OLDPWD");
-	shell->user = getenv("USER");
-	shell->shell = getenv("SHELL");
-	shell->path = getenv("PATH");
-	shell->lang = getenv("LANG");
-	shell->term = getenv("TERM");
-	shell->hostname = getenv("HOSTNAME");
-	shell->shlvl = getenv("SHLVL");
+	shell->home = ft_strdup(getenv("HOME"));
+	shell->pwd = ft_strdup(getenv("PWD"));
+	shell->is_pwd = ft_strdup(getenv("PWD"));
+	shell->is_oldpwd = ft_strdup(getenv("OLDPWD"));
+	shell->oldpwd = ft_strdup(getenv("OLDPWD"));
+	shell->user = ft_strdup(getenv("USER"));
+	shell->shell = ft_strdup(getenv("SHELL"));
+	shell->path = ft_strdup(getenv("PATH"));
+	shell->lang = ft_strdup(getenv("LANG"));
+	shell->term = ft_strdup(getenv("TERM"));
+	shell->hostname = ft_strdup(getenv("HOSTNAME"));
+	shell->shlvl = ft_strdup(getenv("SHLVL"));
 	if (shell->path != NULL && shell->path[0] != '\0')
 	{
 		shell->cmd_paths = ft_split(shell->path + 5, ':');

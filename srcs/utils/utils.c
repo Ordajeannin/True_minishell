@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:30:00 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 11:58:53 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 10:54:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ft_strdupto_n(char *str, char c)
 
 	i = 0;
 	len = 0;
+	if (!str[i])
+		return (NULL);
 	while (str[i] && str[i] != c)
 	{
 		len ++;

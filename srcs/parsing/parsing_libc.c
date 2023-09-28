@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/18 12:56:38 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 11:29:40 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s1++;
 		s2++;
 	}
+	// ft_printf("diff = %d\n", *(unsigned char *)s1 - *(unsigned char *)s2);
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
