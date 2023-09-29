@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 13:58:23 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 10:41:31 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,7 @@ typedef struct s_shell
 	char	*is_pwd;
 	char	*is_oldpwd;
 	char	*oldpwd;
-	char	*user;
-	char	*shell;
 	char	*path;
-	char	*lang;
-	char	*term;
-	char	*hostname;
 	char	*shlvl;
 	char	**cmd_paths;
 	char	**input;
@@ -128,7 +123,7 @@ char	*ft_strcpy(char *dest, const char *src);
 
 //List concerns
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
-void	loop_args(t_shell *shell, t_args **list);
+int		loop_args(t_shell *shell, t_args **list);
 void	clear_args_list(t_args **list);
 void	add_arg(t_args **list, char *str, int token);
 
@@ -184,5 +179,7 @@ char	*get_username(t_args **env_list);
 char	*get_pwd(void);
 int		set_empty_env(t_shell *shell, t_args **env_list);
 char	*prompt_cmd(t_shell *shell, char *user);
+
+void print_shell(t_shell *shell);
 
 #endif

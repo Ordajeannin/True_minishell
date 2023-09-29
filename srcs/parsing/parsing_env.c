@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 14:36:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 10:56:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,41 @@
  * ca plus tard. Par defaut, fin de minishell)
 */
 
-/*
+/* 
+ * Check si getenv est NULL
+ * Si oui, renvoit une chaine vide
+ * Renvoit un char * de la valeur de la ve enregistree
+*/
 static char *get_env_var(const char *name)
 {
 	char	*env_var;
-	char	*var_value;
 
 	env_var = getenv(name);
 	if (! env_var)
 		env_var = "";
 	return (ft_strdup(env_var));
 }
-*/
 
+/* 
+ * Creer les maillons shell->str en fonction de getenv
+ * Check cas d'erreurs
+*/
 int	handle_env(char **env, t_shell *shell)
 {
 	if (env == NULL)
 		return (msg(ERROR_NOENV));
-	// AWENA PROTECT US !!!!!!!!!
-	shell->home = ft_strdup(getenv("HOME"));
-	shell->pwd = ft_strdup(getenv("PWD"));
-	shell->is_pwd = ft_strdup(getenv("PWD"));
-	shell->is_oldpwd = ft_strdup(getenv("OLDPWD"));
-	shell->oldpwd = ft_strdup(getenv("OLDPWD"));
-	shell->user = ft_strdup(getenv("USER"));
-	shell->shell = ft_strdup(getenv("SHELL"));
-	shell->path = ft_strdup(getenv("PATH"));
-	shell->lang = ft_strdup(getenv("LANG"));
-	shell->term = ft_strdup(getenv("TERM"));
-	shell->hostname = ft_strdup(getenv("HOSTNAME"));
-	shell->shlvl = ft_strdup(getenv("SHLVL"));
+	shell->home = get_env_var("HOME");
+	shell->pwd = get_env_var("PWD");
+	shell->is_pwd = get_env_var("PWD");
+	shell->is_oldpwd = get_env_var("OLDPWD");
+	shell->oldpwd = get_env_var("OLDPWD");
+	shell->path = get_env_var("PATH");
+	shell->shlvl = get_env_var("SHLVL");
 	if (shell->path != NULL && shell->path[0] != '\0')
 	{
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
 		if (! shell->cmd_paths)
-			return (1);
+			return (-1);
 	}
 	return (0);
 }

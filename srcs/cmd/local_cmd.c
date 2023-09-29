@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 14:24:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 15:09:52 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,45 +47,4 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 	if (!change_error(&env_list, 0))
 		return (1);
 	return (0);
-}
-
-/*
- * Program stop.
- * Fonction a l'image de 'exit' 
- * Quitte le programme proprement avec free.
- * :warning:
- * wait(100) supprime de la premiere ligne pour la norme
-*/
-int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
-{
-	int	code_err;
-
-	code_err = 0;
-	(void)shell;
-	ft_printf("exit\n");
-	if (list && list->next && is_numeric(list->next->str) == 1)
-	{
-		ft_printf("%s: %s: numeric argument required\n", list->str,
-			list->next->str);
-		code_err = 2;
-	}
-	else if (list && list->next && list->next->next)
-	{
-		ft_printf("%s: too many arguments\n", list->str);
-		change_error(&env_list, 1);
-		return (1);
-	}
-	// while (*shell->cmd_paths != NULL)
-	// {
-	// 	free(*shell->cmd_paths);
-	// 	(*shell->cmd_paths) ++;
-	// }
-	if (input)
-		free(input);
-	if (list && list->next)
-		code_err = ft_atoi(list->next->str) % 256;
-	clear_args_list(&env_list);
-	rl_clear_history();
-	clear_args_list(&list);
-	exit(code_err);
 }

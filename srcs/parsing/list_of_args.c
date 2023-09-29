@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 11:46:48 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 10:41:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,29 +103,31 @@ void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
  * Adaptation de list pour execve
  * Boucle qui remplit shell->input
 */
-void	loop_args(t_shell *shell, t_args **list)
+int	loop_args(t_shell *shell, t_args **list)
 {
 	t_args	*current;
-	int		len;
+	// int		len;
 	int		len_list;
 	int		i;
 
-	len = 0;
+	// len = 0;
 	current = *list;
 	len_list = len_targs(current);
 	i = 0;
-	shell->input = malloc((len_list + 1) * sizeof(char *));
+	shell->input = ft_calloc((len_list + 1), sizeof(char *));
 	if (!shell->input)
-		return ;
+		return (1);
 	while (current)
 	{
-		len = ft_strlen(current->str);
-		shell->input[i] = malloc((len + 1) * sizeof(char));
+		shell->input[i] = ft_strdup(current->str);
 		if (!shell->input[i])
-			return ;
-		shell->input[i] = current->str;
+		{
+			while (i >= 0)
+				free(shell->input[i--]);
+			return (1);
+		}
 		current = current->next;
 		i ++;
 	}
-	shell->input[i] = NULL;
+	return (0);
 }

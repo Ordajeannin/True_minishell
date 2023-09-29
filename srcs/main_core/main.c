@@ -6,11 +6,28 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 11:46:25 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 10:44:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static void	print_member(const char *name, const void *member, int type)
+// {
+// 	if (type == 's')
+// 		printf("This is the %s : %s\n", name, (char *)member);
+// 	else if (type == 'i')
+// 		printf("This is the %s : %i \n", name, *(int *)member);
+// 	else if (type == 'a')
+// 		printf("This is the %s : %p \n", name, member);
+// }
+
+// void print_shell(t_shell *shell)
+// {
+// 	print_member("home", shell->home, 's');
+// 	print_member("path", shell->path, 's');
+// 	print_member("cmd_paths", shell->cmd_paths, 'a');
+// }
 
 /*
  * Suite du main #2
@@ -73,6 +90,7 @@ static void	little_more_main(t_shell shell, char *input)
 	add_history(input);
 }
 
+
 /*
  * Actions de la boucle ATM
  * 1) readline ("prompt")
@@ -94,6 +112,7 @@ int	main(int ac, char **av, char **env)
 	char	*prompt_char;
 
 	(void)ac;
+	ft_bzero(&shell, sizeof shell);
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);

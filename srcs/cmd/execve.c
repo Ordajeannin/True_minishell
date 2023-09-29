@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 12:10:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 10:44:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 		return (NULL);
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		return (NULL);
-	loop_args(shell, list);
+	if (loop_args(shell, list) == 1)
+		return (NULL);
 	if (ft_strcmp("./minishell", command) != 0)
 	{
 		signal(SIGQUIT, signal_handler);
@@ -145,7 +146,9 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 {
 	pid_t	pid_child;
 	char	*command;
+	char	**env_tab;
 
+	env_tab = NULL;
 	command = bfore_execution(arg, shell, list, env_list);
 	if (command == NULL)
 		return (1);
@@ -157,20 +160,26 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	}
 	else if (pid_child == 0)
 	{
-		execve(command, shell->input, dup_double_string(env_list));
+		env_tab = dup_double_string(env_list);
+		if (!env_tab)
+		{
+			free(command);
+			return (1);
+		}
+		execve(command, shell->input, env_tab);
 		ft_printf("%s : %s\n", command, strerror(errno));
 		exit(handle_error(errno));
 	}
-	if (next_execution(pid_child, env_list) == 1)
+	if (env_tab)
 	{
-		free(command);
-		return (1);
-	}
-	if (!change_error(env_list, 0))
-	{
-		free(command);
-		return (1);
+		while (*env_tab != NULL)
+		{
+			free(*env_tab);
+			(*env_tab) ++;
+		}
 	}
 	free(command);
+	if (next_execution(pid_child, env_list) == 1 || !change_error(env_list, 0))
+		return (1);
 	return (0);
 }
