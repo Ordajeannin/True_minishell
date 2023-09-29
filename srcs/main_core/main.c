@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 10:44:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 12:14:56 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		args_handle(list, shell, env_list, input);
+		create_sublists(list, shell, env_list, input);
 	}
 }
 
@@ -87,6 +87,7 @@ static void	little_more_main(t_shell shell, char *input)
 
 	shell.is_pwd = getcwd(buf, sizeof(buf));
 	shell.pwd = shell.is_pwd;
+	input = check_if_there_is_a_lost_pipe(input);
 	add_history(input);
 }
 
@@ -167,6 +168,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 				free(prompt_char);
 			ft_exit(input, list, env_list, shell);
 		}
+		input = check_if_there_is_a_lost_pipe(input);
 		if (!(ft_strcmp(shell->input_bis, input) == 0 \
 			&& ft_strlen(shell->input_bis) == ft_strlen(input)))
 			add_history(input);

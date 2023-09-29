@@ -6,7 +6,7 @@
 #    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/03 20:32:59 by ajeannin          #+#    #+#              #
-#    Updated: 2023/09/27 18:27:50 by asalic           ###   ########.fr        #
+#    Updated: 2023/09/29 12:13:02 by asalic           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ READLINE		= -lreadline
 SRC_FILES		:= $(shell find $(SRC_DIR) -type f -name "*.c")
 SRCS			:= $(SRC_FILES)
 OBJS			:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-OBJSWOF			:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR_WOF)/%.o, $(SRCS))
+#OBJSWOF			:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR_WOF)/%.o, $(SRCS))
 
 
 ################ R U L E S #############

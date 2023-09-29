@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 10:41:31 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 12:16:28 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,44 +82,66 @@ typedef struct s_args
 	struct s_args	*next;
 }	t_args;
 
-int		is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
-	char *user);
-void	ft_gain_place(char **av, t_args **list, char **input, \
-	t_args **env_list);
-int		msg(char *msg);
-int		handle_env(char **env, t_shell *envcpy);
-void	init_shell(t_shell *shell);
-int		parsing_input(char **input);
-void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
-	char *input);
-void	was_unclosed_quotes(t_args **list);
-size_t	is_quotes(char *str, t_args **list, const char *input, int flag);
-void	process_not_s_quotes(t_args *node, t_args **env_list, int flag);
-void	is_there_a_redirection(t_args **list);
-void	c_est_ma_direction(int token, t_args **list);
-void	plus_de_nouvelle(const char *str);
-int		is_correct_format(t_args **list);
+typedef struct s_args_list
+{
+	t_args				*head;
+	struct s_args_list	*next;
+}	t_args_list;
+
+int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
+			char *user);
+void		ft_gain_place(char **av, t_args **list, char **input, \
+			t_args **env_list);
+int			msg(char *msg);
+int			handle_env(char **env, t_shell *envcpy);
+void		init_shell(t_shell *shell);
+int			parsing_input(char **input);
+void		args_handle(t_args *list, t_shell *shell, t_args **env_list, \
+			char *input);
+void		was_unclosed_quotes(t_args **list);
+size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
+void		process_not_s_quotes(t_args *node, t_args **env_list, int flag);
+void		is_there_a_redirection(t_args **list);
+void		c_est_ma_direction(int token, t_args **list);
+void		plus_de_nouvelle(const char *str);
+int			is_correct_format(t_args **list);
+
+//Pipe
+void		create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
+			char *input);
+char		*check_if_there_is_a_lost_pipe(char *input);
+t_args_list	*stock_sublist(t_args **list);
+void		print_sublists(t_args_list *stock);
+void		ft2_lstadd_back(t_args_list **lst, t_args_list *new);
+t_args_list	*ft2_lstlast(t_args_list *lst);
+void		close_pipe(int pipe_fd[2]);
+void		redirect_input(int prev_pipe_fd[2]);
+void		redirect_output(int next_pipe_fd[2]);
+void		execute_child1(int prev_pipe_fd[2], int next_pipe_fd[2]);
+void		execute_child2(t_args_list *current, t_shell *shell, \
+			t_args **env_list, char *input);
+void		execute_parent(int prev_pipe_fd[2], int next_pipe_fd[2]);
 
 //Tok
-char	*ft_strtok(char *input, char **delim, t_args **list);
-void	update_args(t_args **list, t_args **env_list);
-int		tokenize_args(char *input, int flag);
-size_t	delimit_to_token(char *s, t_args **list, const char **input);
-char	*is_env_var(char *str, t_args **env_list, int flag);
-char	**ft_split_arg(char *str);
+char		*ft_strtok(char *input, char **delim, t_args **list);
+void		update_args(t_args **list, t_args **env_list);
+int			tokenize_args(char *input, int flag);
+size_t		delimit_to_token(char *s, t_args **list, const char **input);
+char		*is_env_var(char *str, t_args **env_list, int flag);
+char		**ft_split_arg(char *str);
 
 //libc parsing
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strpbrk(const char *s, const char *charset);
-size_t	ft_strspn(const char *s, char **accept, t_args **list);
-size_t	ft_strcspn(const char *s, char **reject, t_args **list);
-char	*ft_strncpy(char *dst, const char *src, int n);
-char	*ft_strrchr(const char *str, int ch);
-int		is_alphanum(char c);
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-char	*ft_strcat(char *str1, const char *str2);
-char	*ft_strcpy(char *dest, const char *src);
+int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strpbrk(const char *s, const char *charset);
+size_t		ft_strspn(const char *s, char **accept, t_args **list);
+size_t		ft_strcspn(const char *s, char **reject, t_args **list);
+char		*ft_strncpy(char *dst, const char *src, int n);
+char		*ft_strrchr(const char *str, int ch);
+int			is_alphanum(char c);
+void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+char		*ft_strcat(char *str1, const char *str2);
+char		*ft_strcpy(char *dest, const char *src);
 
 //List concerns
 void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list);
@@ -155,8 +177,8 @@ int		ft_plus_shell(t_shell *shell, t_args **env_list);
 void	signal_handler(int sig);
 int		export_out_args(t_args **env_list);
 
-void	code_error(int code);
-int		handle_error(int code_err);
+void		code_error(int code);
+int			handle_error(int code_err);
 
 //Helpful function
 char	*ft_strdupto_n(char *str, char c);
