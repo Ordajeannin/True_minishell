@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 10:44:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:26:59 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,16 @@ int	change_error(t_args **env_list, int value)
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
-			current->str = result;
+			current->str = ft_strdup(result);
 			free(current_name);
 			free(nb_char);
+			free(result);
 			return (1);
 		}
+		free(current_name);
 		current = current->next;
 	}
 	free(nb_char);
-	free(current_name);
 	free(result);
 	return (0);
 }
@@ -71,7 +72,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 	command = is_path_or_cmd(shell->cmd_paths, arg->str, shell, env_list);
 	if (command == NULL)
 	{
-		if (access(list->str, F_OK) == 0)
+		if (access(list->str, X_OK | F_OK) == 0)
 			return (list->str);
 		return (NULL);
 	}
@@ -166,8 +167,9 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			free(command);
 			return (1);
 		}
+		ft_printf("je suis la grosse pute : %s\n", command);
 		execve(command, shell->input, env_tab);
-		ft_printf("%s : %s\n", command, strerror(errno));
+		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
 		exit(handle_error(errno));
 	}
 	if (env_tab)

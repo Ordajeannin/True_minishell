@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 12:14:56 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:01:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		create_sublists(list, shell, env_list, input);
+		args_handle(list, shell, env_list, input);
+		// create_sublists(list, shell, env_list, input);
 	}
 }
 
@@ -146,7 +147,8 @@ int	main(int ac, char **av, char **env)
 /* 
  * Boucle principale minishell
  * Affiche le prompt
- * Ajoute la cmd a l'historique si besoin
+ * Ajoute la cmd a l'historique		args_handle(list, shell, env_list, input);
+ si besoin
  * Exit si CTRL-D
 */
 int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)

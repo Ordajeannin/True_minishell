@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 10:56:49 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:19:45 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 		free(temp);
 		if (! command)
 			return (NULL);
-		if (access(command, X_OK) == 0)
+		if (access(command, X_OK | F_OK) == 0)
 			return (command);
 		free(command);
 		paths++;
@@ -108,7 +108,7 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
 		command = extract_cmd_path(paths, cmd, shell, env_list);
 		return (command);
 	}
-	else if (access(cmd, X_OK) == 0)
+	else if (access(cmd, X_OK | F_OK) == 0)
 	{
 		if (cmd[ft_strlen(cmd) - 1] == 'v' && \
 			cmd[ft_strlen(cmd) - 2] == 'n' && \

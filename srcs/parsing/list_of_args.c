@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 10:41:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 14:54:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,18 @@ void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 int	loop_args(t_shell *shell, t_args **list)
 {
 	t_args	*current;
-	// int		len;
 	int		len_list;
 	int		i;
 
-	// len = 0;
 	current = *list;
 	len_list = len_targs(current);
 	i = 0;
+	if (shell->input)
+	{
+		while (shell->input[i])
+			free(shell->input[i++]);
+		i = 0;
+	}
 	shell->input = ft_calloc((len_list + 1), sizeof(char *));
 	if (!shell->input)
 		return (1);
@@ -129,5 +133,6 @@ int	loop_args(t_shell *shell, t_args **list)
 		current = current->next;
 		i ++;
 	}
+	shell->input[i] = NULL;
 	return (0);
 }

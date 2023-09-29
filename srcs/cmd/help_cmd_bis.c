@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 08:42:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/28 14:10:14 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 12:22:51 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,12 @@ int	cd_move_and_change(t_args *env_list, t_shell *shell)
 		return (1);
 	}
 	change_env_cd(&env_list, old_pwd_change, old_cmd);
-	// ft_printf("OLD: %s | OLD_CHANGE: %s\n", old_cmd, old_pwd_change);
 	free(old_cmd);
 	free(old_pwd_change);
 	free(shell->is_oldpwd);
 	free(shell->oldpwd);
 	shell->is_oldpwd = ft_strdup(shell->is_pwd);
 	shell->oldpwd = ft_strdup(shell->is_pwd);
-	// ft_printf("PWD est egal a : %s\n", getcwd(NULL, 0));
 	current_cmd = ft_strdup(getcwd(NULL, 0));
 	if (current_cmd != NULL)
 	{
@@ -58,7 +56,6 @@ int	cd_move_and_change(t_args *env_list, t_shell *shell)
 			free(new_pwd);
 			return (1);
 		}
-		// ft_printf("change_pwd : %s | old_cmd_pwd : %s\n", new_pwd, old_cmd);
 		change_env_cd(&env_list, new_pwd, old_cmd);
 		free(shell->pwd);
 		free(shell->is_pwd);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 10:51:31 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 14:49:27 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	free_shell_var(t_shell *shell)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
+	i = 0;
 	if (shell->is_oldpwd)
 		free(shell->is_oldpwd);
 	if (shell->is_pwd)
@@ -31,16 +31,19 @@ static void	free_shell_var(t_shell *shell)
 		free(shell->path);
 	if (shell->input_bis)
 		free(shell->input_bis);
-	// if (*shell->cmd_paths)
-	// {
-	// 	while (shell->cmd_paths[i])
-	// 		free(shell->cmd_paths[i++]);
-	// }
-	// if (*shell->input != NULL)
-	// {
-	// 	while (shell->input[i])
-	// 		free(shell->input[i++]);
-	// }
+	if (shell->shlvl)
+		free(shell->shlvl);
+	if (shell->cmd_paths)
+	{
+		while (shell->cmd_paths[i])
+			free(shell->cmd_paths[i++]);
+	}
+	i = 0;
+	if (shell->input)
+	{
+		while (shell->input[i])
+			free(shell->input[i++]);
+	}
 }
 
 /*
