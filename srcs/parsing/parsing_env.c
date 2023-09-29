@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 16:40:18 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:19:45 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,43 @@
  * (Renvoie un message d'erreur si env est null, a voir si on modifie
  * ca plus tard. Par defaut, fin de minishell)
 */
+
+/* 
+ * Check si getenv est NULL
+ * Si oui, renvoit une chaine vide
+ * Renvoit un char * de la valeur de la ve enregistree
+*/
+static char *get_env_var(const char *name)
+{
+	char	*env_var;
+
+	env_var = getenv(name);
+	if (! env_var)
+		env_var = "";
+	return (ft_strdup(env_var));
+}
+
+/* 
+ * Creer les maillons shell->str en fonction de getenv
+ * Check cas d'erreurs
+*/
 int	handle_env(char **env, t_shell *shell)
 {
 	if (env == NULL)
 		return (msg(ERROR_NOENV));
-	shell->home = getenv("HOME");
-	shell->pwd = getenv("PWD");
-	shell->is_pwd = getenv("PWD");
-	shell->is_oldpwd = getenv("OLDPWD");
-	shell->oldpwd = getenv("OLDPWD");
-	shell->user = getenv("USER");
-	shell->shell = getenv("SHELL");
-	shell->path = getenv("PATH");
-	shell->lang = getenv("LANG");
-	shell->term = getenv("TERM");
-	shell->hostname = getenv("HOSTNAME");
-	shell->shlvl = getenv("SHLVL");
+	shell->home = get_env_var("HOME");
+	shell->pwd = get_env_var("PWD");
+	shell->is_pwd = get_env_var("PWD");
+	shell->is_oldpwd = get_env_var("OLDPWD");
+	shell->oldpwd = get_env_var("OLDPWD");
+	shell->path = get_env_var("PATH");
+	shell->shlvl = get_env_var("SHLVL");
 	if (shell->path != NULL && shell->path[0] != '\0')
+	{
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
+		if (! shell->cmd_paths)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -57,9 +76,13 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	while (shell->path && *paths)
 	{
 		temp = ft_strjoin(*paths, "/");
+		if (! temp)
+			return (NULL);
 		command = ft_strjoin(temp, cmd);
 		free(temp);
-		if (access(command, X_OK) == 0)
+		if (! command)
+			return (NULL);
+		if (access(command, X_OK | F_OK) == 0)
 			return (command);
 		free(command);
 		paths++;
@@ -80,12 +103,12 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
 {
 	char	*command;
 
-	if (strchr(cmd, '/') == NULL)
+	if (ft_strchr(cmd, '/') == NULL)
 	{
 		command = extract_cmd_path(paths, cmd, shell, env_list);
 		return (command);
 	}
-	else if (access(cmd, X_OK) == 0)
+	else if (access(cmd, X_OK | F_OK) == 0)
 	{
 		if (cmd[ft_strlen(cmd) - 1] == 'v' && \
 			cmd[ft_strlen(cmd) - 2] == 'n' && \

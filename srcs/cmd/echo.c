@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 14:41:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/27 11:11:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	ft_echo(t_args *list, t_args **env_list)
 	echo_loop(list);
 	if (bools == 0)
 		write (1, "\n", 1);
-	change_error(env_list, 0);
+	if (!change_error(env_list, 0))
+		return (1);
 	return (0);
 }

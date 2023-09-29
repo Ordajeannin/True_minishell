@@ -6,23 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/11 09:20:57 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:12:05 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * Permet de... gagner de la place
-*/
-typedef struct s_split
-{
-	int		i;
-	int		j;
-	int		start;
-	int		flag;
-	char	**result;
-}	t_split;
 
 /*
  * alloue une sous chaine, et l'extrait de str
@@ -33,7 +21,7 @@ static char	*word_dup(char *str, int start, int finish)
 	int		i;
 
 	i = 0;
-	word = malloc(sizeof(char) * (finish - start + 1));
+	word = ft_calloc(finish - start + 1, sizeof(char));
 	if (!word)
 		return (NULL);
 	while (start < finish)
@@ -107,6 +95,7 @@ static void	update_split(t_split *s, int step)
 */
 static int	init_split(t_split *s, char *str, int step)
 {
+	
 	if (step == 2)
 	{
 		if (s->start < s->i)
@@ -118,9 +107,12 @@ static int	init_split(t_split *s, char *str, int step)
 	s->j = 0;
 	s->start = 0;
 	s->flag = 0;
-	s->result = malloc(sizeof(char *) * 1000);
-	if (!s->result)
-		return (-1);
+	if (step == 1)
+	{
+		s->result = ft_calloc(1000, sizeof(char *));
+		if (!s->result)
+			return (-1);
+	}
 	while (str[s->i] != '$' && str[s->i] != '\0')
 		s->i++;
 	if (s->i != 0)

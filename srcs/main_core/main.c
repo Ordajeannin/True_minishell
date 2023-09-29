@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 18:04:43 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:01:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static void	print_member(const char *name, const void *member, int type)
+// {
+// 	if (type == 's')
+// 		printf("This is the %s : %s\n", name, (char *)member);
+// 	else if (type == 'i')
+// 		printf("This is the %s : %i \n", name, *(int *)member);
+// 	else if (type == 'a')
+// 		printf("This is the %s : %p \n", name, member);
+// }
+
+// void print_shell(t_shell *shell)
+// {
+// 	print_member("home", shell->home, 's');
+// 	print_member("path", shell->path, 's');
+// 	print_member("cmd_paths", shell->cmd_paths, 'a');
+// }
 
 /*
  * Suite du main #2
@@ -21,14 +38,15 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		create_sublists(list, shell, env_list, input);
+		args_handle(list, shell, env_list, input);
+		// create_sublists(list, shell, env_list, input);
 	}
 }
 
 /* 
  * Suite du main.
 */
-static void	main_bis(char *input, t_args *list, t_args *env_list, \
+static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
 	int		saved_stdout;
@@ -36,7 +54,11 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 
 	if (g_error != 0)
 	{
-		change_error(&env_list, g_error);
+		if (!change_error(&env_list, g_error))
+		{
+			free(input);
+			return (1);
+		}
 		g_error = 0;
 	}
 	saved_stdout = dup(STDOUT_FILENO);
@@ -52,7 +74,8 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
 	if (access("tempfile.txt", F_OK != -1))
 		unlink("tempfile.txt");
 	close(saved_stdout);
-	free(input);
+	// free(input);
+	return (0);
 }
 
 /* 
@@ -68,6 +91,7 @@ static void	little_more_main(t_shell shell, char *input)
 	input = check_if_there_is_a_lost_pipe(input);
 	add_history(input);
 }
+
 
 /*
  * Actions de la boucle ATM
@@ -87,52 +111,84 @@ int	main(int ac, char **av, char **env)
 	t_args	*env_list;
 	t_shell	shell;
 	char	*username;
+	char	*prompt_char;
 
 	(void)ac;
+	ft_bzero(&shell, sizeof shell);
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	username = get_username(&env_list);
-	input = readline(prompt_cmd(&shell, username));
+	prompt_char = prompt_cmd(&shell, username);
+	input = readline(prompt_char);
 	if (input == NULL)
 	{
 		if (username)
 			free(username);
-		ft_exit(input, list, env_list);
+		if (prompt_char)
+			free(prompt_char);
+		ft_exit(input, list, env_list, &shell);
 	}
 	little_more_main(shell, input);
-	main_bis(input, list, env_list, &shell);
-	shell.input_bis = input;
+	if (main_bis(input, list, env_list, &shell) == 1)
+	{
+		free(username);
+		free(prompt_char);
+		return (1);
+	}
+	shell.input_bis = ft_strdup(input);
+	free(prompt_char);
+	free(input);
 	is_minishell(&shell, env_list, list, username);
+	free(username);
 	return (0);
 }
 
 /* 
  * Boucle principale minishell
  * Affiche le prompt
- * Ajoute la cmd a l'historique si besoin
+ * Ajoute la cmd a l'historique		args_handle(list, shell, env_list, input);
+ si besoin
  * Exit si CTRL-D
 */
 int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 {
 	char	*input;
+	char	*prompt_char;
 
 	input = NULL;
+	prompt_char = NULL;
 	while (1)
 	{
-		input = readline(prompt_cmd(shell, user));
+		prompt_char = prompt_cmd(shell, user);
+		input = readline(prompt_char);
 		if (input == NULL)
 		{
 			if (user)
 				free(user);
-			ft_exit(input, list, env_list);
+			if (prompt_char)
+				free(prompt_char);
+			ft_exit(input, list, env_list, shell);
 		}
 		input = check_if_there_is_a_lost_pipe(input);
 		if (!(ft_strcmp(shell->input_bis, input) == 0 \
-			&& ft_strlen(shell->input_bis) == ft_strlen(input))
-			&& shell->input_bis != NULL)
+			&& ft_strlen(shell->input_bis) == ft_strlen(input)))
 			add_history(input);
+		if (shell->input_bis)
+			free(shell->input_bis);
 		shell->input_bis = ft_strdup(input);
+		if (! shell->input_bis)
+		{
+			//Handle me damn!
+			free(user);
+			free(prompt_char);
+			free(input);
+			return (1);
+		}
 		main_bis(input, list, env_list, shell);
+		free(prompt_char);
+		free(input);
 	}
+	free(shell->input_bis);
+	free(user);
 }

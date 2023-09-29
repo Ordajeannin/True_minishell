@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/07/18 20:20:07 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:26:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	was_unclosed_quotes(t_args **list)
 	if (flag == 1)
 	{
 		clear_args_list(list);
-		printf("ERROR : quotes wasn't closed\n");
+		ft_putstr_fd("ERROR : quotes wasn't closed\n", STDOUT_FILENO);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:03:17 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:35:02 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 14:48:42 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,60 @@ static unsigned int	ft_atoi_evolve(char	*str)
  Incremente la VE SHLVL
  Lorsque un ./minishell est lance dans un ./minishell -> SHLVL +1
 */
-void	ft_plus_shell(t_shell *shell, t_args **env_list)
+int	ft_plus_shell(t_shell *shell, t_args **env_list)
 {
-	unsigned int		nb_shell;
+	unsigned int	nb_shell;
+	char			*len_shell;
 
 	nb_shell = ft_atoi_evolve(shell->shlvl) + 1;
-	shell->shlvl = ft_strjoin("SHLVL=", ft_itoa(nb_shell));
-	change_env_exp(env_list, "SHLVL", ft_itoa(nb_shell));
+	len_shell = ft_itoa(nb_shell);
+	if (!len_shell)
+		return (1);
+	if (shell->shlvl)
+		free(shell->shlvl);
+	shell->shlvl = ft_strjoin("SHLVL=", len_shell);
+	if (change_env_exp(env_list, "SHLVL", len_shell) == 2)
+	{
+		free(len_shell);
+		return (1);
+	}
+	free(len_shell);
+	return (0);
 }
 
-static void	shell_change_path(t_shell *shell, char *value)
+static int	shell_change_path(t_shell *shell, char *value)
 {
 	int		i;
 
 	i = 0;
-	shell->path = value;
-	if (shell->path == NULL)
+	free(shell->path);
+	// shell->path = NULL;
+	shell->path = ft_strdup(value);
+	ft_printf("value of path : %s\n", shell->path);
+	if (!shell->path)
 	{
 		while (shell->cmd_paths[i])
-			shell->cmd_paths[i++] = NULL;
-		shell->cmd_paths = NULL;
+			free(shell->cmd_paths[i++]);
+		// free(shell->cmd_paths);
+		return (1);
 	}
-	else
+	if (shell->cmd_paths)
+	{
+		while (shell->cmd_paths[i])
+		{
+			free(shell->cmd_paths[i]);
+	
+		}
+		// free(shell->cmd_paths);
+	}
+	ft_printf("value of path : %s\n", shell->path);
+	if (shell->path != NULL && ft_strlen(shell->path) >= 5)
+	{
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
+		if (! shell->cmd_paths)
+			return (-1);
+	}
+	return (0);
 }
 
 /* 
@@ -69,24 +100,25 @@ void	shell_change(t_shell *shell, char *str, char *value)
 
 	len = ft_strlen(str);
 	if (ft_strncmp(str, "HOME", len) == 0)
-		shell->home = value;
+	{
+		free(shell->home);
+		shell->home = ft_strdup(value);
+	}
 	else if (ft_strncmp(str, "OLDPWD", len) == 0)
-		shell->oldpwd = value;
+	{
+		free(shell->oldpwd);
+		shell->oldpwd = ft_strdup(value);
+	}
 	else if (ft_strncmp(str, "PWD", len) == 0)
-		shell->pwd = value;
-	else if (ft_strncmp(str, "USER", len) == 0)
-		shell->user = value;
-	else if (ft_strncmp(str, "SHELL", len) == 0)
-		shell->shell = value;
+	{
+		free(shell->pwd);
+		shell->pwd = ft_strdup(value);
+	}
 	else if (ft_strncmp(str, "PATH", len) == 0)
 		shell_change_path(shell, value);
-	if (ft_strncmp(str, "LANG", len) == 0)
-		shell->lang = value;
-	else if (ft_strncmp(str, "TERM", len) == 0)
-		shell->term = value;
-	else if (ft_strncmp(str, "HOSTNAME", len) == 0)
-		shell->hostname = value;
 	else if (ft_strncmp(str, "SHLVL", len) == 0)
-		shell->shlvl = value;
-	return ;
+	{
+		free(shell->shlvl);
+		shell->shlvl = ft_strdup(value);
+	}
 }

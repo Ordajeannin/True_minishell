@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 15:45:37 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/28 14:23:10 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 		return (1);
 	}
 	else
-		cd_move_and_change(env_list, shell);
+	{
+		if (!cd_move_and_change(env_list, shell))
+			return (1);
+	}
 	return (0);
 }
 
@@ -39,6 +42,8 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	char	*buf;
 
 	temp = from_end_to_char(shell->is_pwd, '/');
+	if (!temp)
+		return (NULL);
 	dir = opendir(temp);
 	if (dir == NULL)
 	{
@@ -46,11 +51,27 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 		ft_printf("cd : No such file or directory\n");
 		change_error(&env_list, 0);
 		closedir(dir);
+		free(temp);
 		return (NULL);
 	}
-	buf = list->next->str;
+	buf = ft_strdup(list->next->str);
+	if (! buf)
+	{
+		free(temp);
+		closedir(dir);
+		return (NULL);
+	}
 	if (shell->pwd == NULL)
-		cd_move_and_change(env_list, shell);
+	{
+		if (!cd_move_and_change(env_list, shell))
+		{
+			free(temp);
+			closedir(dir);
+			return (NULL);
+		}
+	}
+	free(temp);
+	closedir(dir);
 	return (buf);
 }
 
@@ -92,24 +113,20 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
 	char	*buf;
 	int		cod;
+	int		err;
 
 	cod = check_cd(list, shell, env_list);
 	if (cod == 1)
 		return (1);
 	if (cod == 2)
-	{
 		buf = ft_strdup(shell->home);
-	}
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
-	{
 		buf = is_two_points(shell, list, env_list);
-		if (buf == NULL)
-			return (1);
-	}
 	else
-		buf = list->next->str;
-	if (cd_real_version(buf, shell, env_list, list) == 1)
+		buf = ft_strdup(list->next->str);
+	if (!buf)
 		return (1);
-	change_error(&env_list, 0);
-	return (0);
+	err = cd_real_version(buf, shell, env_list, list);
+	free(buf);
+	return (err || !change_error(&env_list, 0));
 }

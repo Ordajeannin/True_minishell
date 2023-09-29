@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 18:18:30 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:33:37 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 # define MINISHELL_H
 
+/* * * * * Includes * * * * */
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -52,8 +53,10 @@
 # define TOKEN_TEMP_VAR	666
 # define ABORT_MISSION	42
 
+/* * * * * Variable Globale * * * * */
 extern int	g_error;
 
+/* * * * * Structures * * * * */
 struct s_test
 {
 	int	var_c;
@@ -67,12 +70,7 @@ typedef struct s_shell
 	char	*is_pwd;
 	char	*is_oldpwd;
 	char	*oldpwd;
-	char	*user;
-	char	*shell;
 	char	*path;
-	char	*lang;
-	char	*term;
-	char	*hostname;
 	char	*shlvl;
 	char	**cmd_paths;
 	char	**input;
@@ -93,6 +91,17 @@ typedef struct s_args_list
 	struct s_args_list	*next;
 }	t_args_list;
 
+typedef struct s_split
+{
+	int		i;
+	int		j;
+	int		start;
+	int		flag;
+	char	**result;
+}	t_split;
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+/* * * * * Prototypes Fonctions Minishell * * * * */
 int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
 			char *user);
 void		ft_gain_place(char **av, t_args **list, char **input, \
@@ -150,8 +159,8 @@ char		*ft_strcpy(char *dest, const char *src);
 
 //List concerns
 void		from_input_to_list_of_args(char *input, t_args **list, \
-			t_args **e_list);
-void		loop_args(t_shell *shell, t_args **list);
+	t_args **e_list);
+int			loop_args(t_shell *shell, t_args **list);
 void		clear_args_list(t_args **list);
 void		add_arg(t_args **list, char *str, int token);
 
@@ -163,24 +172,26 @@ int			ft_pwd(t_shell *shell, t_args **env_list);
 int			ft_env(t_args *list, t_args **env_list);
 int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
-int			ft_exit(char *input, t_args *list, t_args *env_list);
+int			ft_exit(char *input, t_args *list, t_args *env_list, \
+	t_shell *shell);
 
 //Other commands
 int			all_cmd(t_args *arg, t_shell *shell, t_args **list, \
-			t_args **env_list);
-void		change_env_cd(t_args **env_list, char *new_str, char *change_value);
-void		cd_move_and_change(t_args *env_list, t_shell *shell);
+	t_args **env_list);
+void		change_env_cd(t_args **env_list, char *new_str, \
+	char *change_value);
+int			cd_move_and_change(t_args *env_list, t_shell *shell);
 int			change_env_exp(t_args **env_list, char *name_env, char *value);
-int			update_last_ve(t_args **list, t_args **env_list);
+int			update_last_ve(t_args *list, t_args **env_list);
 int			parse_export(t_args *list);
 int			change_error(t_args **env_list, int value);
 int			searchin_env(t_args **env_list, t_args *list);
 char		*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
-			t_args **env_list);
+	t_args **env_list);
 void		shell_change(t_shell *shell, char *str, char *value);
 int			set_env(t_args **env_list, char **env, t_shell *shell);
 void		add_env(t_args **env_list, char *str);
-void		ft_plus_shell(t_shell *shell, t_args **env_list);
+int			ft_plus_shell(t_shell *shell, t_args **env_list);
 void		signal_handler(int sig);
 int			export_out_args(t_args **env_list);
 
@@ -190,9 +201,11 @@ int			handle_error(int code_err);
 //Helpful function
 char		*ft_strdupto_n(char *str, char c);
 char		*ft_strdup_from(char *str, char c);
+char		*ft_strjoin_free(char *s1, char *s2);
 char		*from_end_to_char(char *str, char c);
 int			is_only_equal(char *str, char c);
 int			len_targs(t_args *list);
+
 int			ft_strlen_double(char **str);
 int			count_back(char	*str);
 int			count_dir(t_shell *shell);
@@ -206,4 +219,7 @@ char		*get_username(t_args **env_list);
 char		*get_pwd(void);
 int			set_empty_env(t_shell *shell, t_args **env_list);
 char		*prompt_cmd(t_shell *shell, char *user);
+
+void		print_shell(t_shell *shell);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:44:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:07:16 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 11:25:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,16 @@ int	set_empty_env(t_shell *shell, t_args **env_list)
 	shell->is_pwd = shell->pwd;
 	shell->oldpwd = NULL;
 	shell->is_oldpwd = NULL;
-	shell->home = NULL;
-	shell->hostname = NULL;
-	shell->user = NULL;
+	shell->home = "";
 	shell->shlvl = "2";
 	shell->path = ft_strjoin("/usr/local/sbin:/usr/local/bin:", \
 		"/usr/sbin:/usr/bin:/sbin:/bin");
-	shell->cmd_paths = ft_split(shell->path + 5, ':');
+	if (shell->path != NULL && shell->path[0] != '\0')
+	{
+		shell->cmd_paths = ft_split(shell->path + 5, ':');
+		if (! shell->cmd_paths)
+			return (-1);
+	}
 	add_arg(env_list, "SHLVL=1", 0);
 	add_arg(env_list, ft_strjoin("PWD=", shell->is_pwd), 0);
 	add_arg(env_list, "_=./minishell", 0);

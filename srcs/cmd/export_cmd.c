@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 13:00:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 11:22:43 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,42 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 {
 	char	*value;
 	char	*v_env;
+	int		result_change_env;
 
 	if (export_errors(list, env_list) == 1)
 		return (1);
 	if (ft_strchr(list->next->str, '='))
 	{
 		v_env = ft_strdupto_n(list->next->str, '=');
+		if (! v_env)
+			return (1);
 		value = ft_strdup_from(list->next->str, '=');
-		if (change_env_exp(env_list, v_env, value) == 1)
+		if (! value)
+		{
+			free(v_env);
+			return (1);
+		}
+		result_change_env = change_env_exp(env_list, v_env, value);
+		if (result_change_env == 0)
 			ft_more_export(shell, v_env, value);
-		else
+		else if (result_change_env == 1)
 		{
 			add_env(env_list, list->next->str);
 			ft_more_export(shell, v_env, value);
 		}
+		else
+		{
+			free(v_env);
+			free(value);
+			return (1);
+		}
 	}
+	free(v_env);
+	free(value);
 	if (list->next->next != NULL)
 		ft_export(list->next, shell, env_list);
-	change_error(env_list, 0);
+	if (!change_error(env_list, 0))
+		return (1);
 	return (0);
 }
 
@@ -112,10 +130,11 @@ int	export_out_args(t_args **env_list)
 			ft_printf("declare -x %s=\"%s\"\n", bfore, after);
 			current = current->next;
 		}
-		bfore = NULL;
-		after = NULL;
+		free(bfore);
+		free(after);
 	}
-	change_error(env_list, 0);
+	if (!change_error(env_list, 0))
+		return (1);
 	return (0);
 }
 

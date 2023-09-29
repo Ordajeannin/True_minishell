@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:35:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:26:59 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,41 @@ int	change_error(t_args **env_list, int value)
 	t_args	*current;
 	char	*current_name;
 	char	*result;
+	char 	*nb_char;
 
-	result = ft_strjoin("?", "=");
-	result = ft_strjoin(result, ft_itoa(value));
+	nb_char = ft_itoa(value);
+	if (!nb_char)
+		return (2);
+	result = ft_strjoin("?=", nb_char);
+	if (!result)
+	{
+		free(nb_char);
+		return (2);
+	}
 	current = *env_list;
 	while (current)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
+		if (!current_name)
+		{
+			free(nb_char);
+			free(result);
+			return (2);
+		}
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
-			current->str = result;
+			current->str = ft_strdup(result);
+			free(current_name);
+			free(nb_char);
+			free(result);
 			return (1);
 		}
+		free(current_name);
 		current = current->next;
 	}
+	free(nb_char);
+	free(result);
 	return (0);
 }
 
@@ -52,7 +72,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 	command = is_path_or_cmd(shell->cmd_paths, arg->str, shell, env_list);
 	if (command == NULL)
 	{
-		if (access(list->str, F_OK) == 0)
+		if (access(list->str, X_OK | F_OK) == 0)
 			return (list->str);
 		return (NULL);
 	}
@@ -77,7 +97,8 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 		return (NULL);
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
 		return (NULL);
-	loop_args(shell, list);
+	if (loop_args(shell, list) == 1)
+		return (NULL);
 	if (ft_strcmp("./minishell", command) != 0)
 	{
 		signal(SIGQUIT, signal_handler);
@@ -126,10 +147,12 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 {
 	pid_t	pid_child;
 	char	*command;
+	char	**env_tab;
 
+	env_tab = NULL;
 	command = bfore_execution(arg, shell, list, env_list);
 	if (command == NULL)
-		return (0);
+		return (1);
 	pid_child = fork();
 	if (pid_child == -1)
 	{
@@ -138,12 +161,27 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	}
 	else if (pid_child == 0)
 	{
-		execve(command, shell->input, dup_double_string(env_list));
-		ft_printf("%s : %s\n", command, strerror(errno));
+		env_tab = dup_double_string(env_list);
+		if (!env_tab)
+		{
+			free(command);
+			return (1);
+		}
+		ft_printf("je suis la grosse pute : %s\n", command);
+		execve(command, shell->input, env_tab);
+		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
 		exit(handle_error(errno));
 	}
-	if (next_execution(pid_child, env_list) == 1)
+	if (env_tab)
+	{
+		while (*env_tab != NULL)
+		{
+			free(*env_tab);
+			(*env_tab) ++;
+		}
+	}
+	free(command);
+	if (next_execution(pid_child, env_list) == 1 || !change_error(env_list, 0))
 		return (1);
-	change_error(env_list, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/26 16:40:52 by asalic           ###   ########.fr       */
+/*   Updated: 2023/09/29 14:55:54 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 	t_args	*current;
 
 	current = *env_list;
-	while (current)
+	while (current && current->str != NULL)
 	{
-		if (ft_strncmp(current->str, change_value, ft_strlen(current->str))
-			== 0)
+		if (ft_strcmp(current->str, change_value) == 0 && \
+			ft_strlen(current->str) == ft_strlen(change_value))
 		{
-			current->str = NULL;
-			current->str = new_str;
+			current->str = ft_strdup(new_str);
 			return ;
 		}
 		current = current->next;
@@ -46,30 +45,43 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 int	change_env_exp(t_args **env_list, char *name_env, char *value)
 {
 	char	*result;
+	char	*tmp;
 	char	*current_name;
 	t_args	*current;
 
-	result = ft_strjoin(name_env, "=");
-	if (ft_strcmp(name_env, "SHLVL") == 0 && ft_strlen(name_env) == 5
-		&& ft_atoi(value) < 0)
-		result = ft_strjoin(result, "0");
+	tmp = ft_strjoin(name_env, "=");
+	if (! tmp)
+		return (2);
+	if (ft_strcmp(name_env, "SHLVL") == 0 && ft_strlen((const char *)name_env) \
+		== 5 && ft_atoi(value) < 0)
+		result = ft_strjoin(tmp, "0");
 	else
-		result = ft_strjoin(result, value);
-	current_name = NULL;
+		result = ft_strjoin(tmp, value);
+	free(tmp);
+	if (!result)
+		return (2);
 	current = *env_list;
 	while (current)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
+		if (!current_name)
+		{
+			free(result);
+			return (2);
+		}
 		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
 			&& ft_strlen(current_name) == ft_strlen(name_env))
 		{
-			current->str = NULL;
-			current->str = result;
-			return (1);
+			current->str = ft_strdup(result);
+			free(current_name);
+			free(result);
+			return (0);
 		}
 		current = current->next;
+		free(current_name);
 	}
-	return (0);
+	free(result);
+	return (1);
 }
 
 /* 
@@ -88,17 +100,21 @@ int	searchin_env(t_args **env_list, t_args *list)
 	while (current && current->next)
 	{
 		name_env = ft_strdupto_n(current->next->str, '=');
-		if (ft_strncmp(list->next->str, ft_strdupto_n(current->next->str, \
-			'='), len) == 0 && len == ft_strlen(name_env))
+		if (!name_env)
+			return (1);
+		if (ft_strncmp(list->next->str, name_env, len) == 0 && \
+		len == ft_strlen(name_env))
 		{
 			temp = current->next->next;
 			free(current->next);
 			current->next = temp;
-			return (1);
+			free(name_env);
+			return (0);
 		}
+		free(name_env);
 		current = current->next;
 	}
-	return (0);
+	return (1);
 }
 
 /* 
@@ -110,7 +126,7 @@ int	ft_env(t_args *list, t_args **env_list)
 {
 	t_args	*current;
 
-	update_last_ve(&list, env_list);
+	update_last_ve(list, env_list);
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
@@ -124,7 +140,8 @@ int	ft_env(t_args *list, t_args **env_list)
 			current = current->next;
 		}
 	}
-	change_error(env_list, 0);
+	if (!change_error(env_list, 0))
+		return (1);
 	return (0);
 }
 
@@ -133,7 +150,8 @@ int	ft_env(t_args *list, t_args **env_list)
 */
 int	set_env(t_args **env_list, char **env, t_shell *shell)
 {
-	int			i;
+	int		i;
+	char	*identifier;
 
 	if (*env == NULL)
 	{
@@ -146,9 +164,13 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	while (env[i])
 	{
 		add_arg(env_list, env[i], 0);
-		if (ft_strcmp(ft_strdupto_n(env[i], '='), "SHLVL") == 0
-			&& ft_strlen(ft_strdupto_n(env[i], '=')) == 5)
+		identifier = ft_strdupto_n(env[i], '=');
+		if (! identifier)
+			return (-1);
+		if (ft_strcmp(identifier, "SHLVL") == 0 && \
+		ft_strlen(identifier) == 5)
 			ft_plus_shell(shell, env_list);
+		free(identifier);
 		i++;
 	}
 	add_arg(env_list, "?=0", 0);
