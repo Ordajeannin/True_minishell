@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 14:06:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:13:20 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,27 @@ int	tokenize_args(char *input, int flag)
  * Permet de gerer le remplacement des variables d'environnement,
  * si correctement formate
 */
-void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
+void	process_not_s_quotes(t_args *node, t_args **env_list)
+{
+	char	**tmp;
+	int		i;
+
+	tmp = ft_split_arg(node->str);
+	node->str = NULL;
+	i = 0;
+	while (tmp[i])
+	{
+		tmp[i] = is_env_var(tmp[i], env_list);
+		if (tmp[i] != NULL && node->str != NULL)
+			node->str = ft_strjoin(node->str, tmp[i]);
+		if (tmp[i] != NULL && node->str == NULL)
+			node->str = tmp[i];
+		i++;
+	}
+}
+
+/*
+void	process_not_s_quotes(t_args *node, t_args **env_list)
 {
 	char	**tmp;
 	char	*verif;
@@ -172,7 +192,7 @@ void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 	while (tmp[i])
 		free(tmp[i++]);
 }
-
+*/
 /*
  * Permet de remplacer les variables d'environnement par leurs valeurs.
  * :warning: uniquement celles existantes / qui ne sont pas entre single quotes!
@@ -189,7 +209,7 @@ void	update_args(t_args **list, t_args **env_list)
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
-			process_not_s_quotes(current, env_list, 1);
+			process_not_s_quotes(current, env_list);
 		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str, 0);
 		if (current->str != NULL && current->token == 23)

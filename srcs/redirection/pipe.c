@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 16:50:21 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:11:37 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
 
 	stock = stock_sublist(&list);
 	print_sublists(stock);
-	execute_command(&stock, shell, env_list, input);
+	if (stock->next != NULL)
+		execute_command(&stock, shell, env_list, input);
+	else
+		args_handle(list, shell, env_list, input);
 }
 
 /*

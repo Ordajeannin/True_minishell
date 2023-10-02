@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 18:22:53 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:01:38 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void		args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 			char *input);
 void		was_unclosed_quotes(t_args **list);
 size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
-void		process_not_s_quotes(t_args *node, t_args **env_list, int flag);
+void		process_not_s_quotes(t_args *node, t_args **env_list);
 void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str);
@@ -142,7 +142,7 @@ char		*ft_strtok(char *input, char **delim, t_args **list);
 void		update_args(t_args **list, t_args **env_list);
 int			tokenize_args(char *input, int flag);
 size_t		delimit_to_token(char *s, t_args **list, const char **input);
-char		*is_env_var(char *str, t_args **env_list, int flag);
+char		*is_env_var(char *str, t_args **env_list);
 char		**ft_split_arg(char *str);
 
 //libc parsing

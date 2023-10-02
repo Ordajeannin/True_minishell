@@ -6,12 +6,13 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 12:59:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:13:59 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 static char	*add_a_dollar_to_str(char *str)
 {
 	int		i;
@@ -34,13 +35,14 @@ static char	*add_a_dollar_to_str(char *str)
 	result[j] = '\0';
 	return (result);
 }
+*/
 
 /*
  * Remplace une variable d'environnement par sa valeur correspondante
  * retourne un pointeur vers la nouvelle chaine si la variable existe, 
  * NULL sinon
 */
-static char	*replace_env_var(char *str, int n, t_args **env_list, int flag)
+static char	*replace_env_var(char *str, int n, t_args **env_list)
 {
 	char	*result;
 	char	*env;
@@ -62,9 +64,7 @@ static char	*replace_env_var(char *str, int n, t_args **env_list, int flag)
 		}
 		current = current->next;
 	}
-	if (flag == 2)
-		return (NULL);
-	return (add_a_dollar_to_str(str));
+	return (NULL);
 }
 
 /*
@@ -131,7 +131,7 @@ char	*is_env_var(char *str, t_args **env_list)
  * valeur
  * renvoie la sous-chaine sinon, ou si $?
  */
-char	*is_env_var(char *str, t_args **env_list, int flag)
+char	*is_env_var(char *str, t_args **env_list)
 {
 	char	*result;
 	int		len;
@@ -140,7 +140,7 @@ char	*is_env_var(char *str, t_args **env_list, int flag)
 	result = NULL;
 	if (str[0] == '$' && is_alphanum(str[1]) == 0)
 	{
-		result = replace_env_var(str + 1, len - 1, env_list, flag);
+		result = replace_env_var(str + 1, len - 1, env_list);
 		return (result);
 	}
 	return (str);

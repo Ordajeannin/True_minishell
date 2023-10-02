@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 18:27:16 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 20:08:21 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
+		//args_handle(list, shell, env_list, input);
 		create_sublists(list, shell, env_list, input);
 	}
 }
