@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 18:04:43 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:38:11 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ static void	main_bis(char *input, t_args *list, t_args *env_list, \
  * Init shell->pwd au debut du main
  * Ajout de la premiere commande a l'historique
 */
-static void	little_more_main(t_shell shell, char *input)
+static void	little_more_main(t_shell shell, char **input)
 {
 	char	buf[1024];
 
 	shell.is_pwd = getcwd(buf, sizeof(buf));
 	shell.pwd = shell.is_pwd;
-	input = check_if_there_is_a_lost_pipe(input);
-	add_history(input);
+	*input = check_if_there_is_a_lost_pipe(*input);
+	add_history(*input);
 }
 
 /*
@@ -100,7 +100,7 @@ int	main(int ac, char **av, char **env)
 			free(username);
 		ft_exit(input, list, env_list);
 	}
-	little_more_main(shell, input);
+	little_more_main(shell, &input);
 	main_bis(input, list, env_list, &shell);
 	shell.input_bis = input;
 	is_minishell(&shell, env_list, list, username);
