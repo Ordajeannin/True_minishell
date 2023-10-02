@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:58:53 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/20 19:59:25 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:57:28 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_correct_format(t_args **list)
 	current = *list;
 	while (current != NULL)
 	{
-		if (current->token == 5 || current->token == 6
+		if (current->token == 4 || current->token == 5 || current->token == 6
 			|| current->token == 7 || current->token == 8)
 		{
 			if (current->next == NULL
@@ -38,3 +38,18 @@ int	is_correct_format(t_args **list)
 	}
 	return (0);
 }
+
+/*
+void	free_sublists(t_args_list *stock)
+{
+	t_args_list	*temp;
+
+	while (stock)
+	{
+		temp = stock;
+		stock = stock->next;
+		clear_args_list(&(temp->head));
+		free(temp);
+	}
+}
+*/

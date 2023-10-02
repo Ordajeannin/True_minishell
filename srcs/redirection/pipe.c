@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 17:55:06 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:50:21 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static char	*call_readline(char *prompt)
 }
 
 /*
- * Permet de normer chek_if_there_is_a_lost_pipe
+ * Permet de normer check_if_there_is_a_lost_pipe
 */
 static char	*combine_input_with_new_one(char *input, int lenght)
 {
@@ -147,20 +147,27 @@ static char	*combine_input_with_new_one(char *input, int lenght)
  * (sans prendre en compte les espaces)
  * Auquel cas on doit de nouveau demander un input a l'utilisateur,
  * A concatener avec le precedent
+ * Boucle tant que les inputs se terminent par un pipe
 */
 char	*check_if_there_is_a_lost_pipe(char *input)
 {
-	int	lenght;
-	int	i;
+	int		lenght;
+	int		i;
+	char	*input2;
 
-	lenght = ft_strlen(input);
-	i = lenght - 1;
-	while (i >= 0 && input[i] == ' ')
-		i--;
-	if (i >= 0 && input[i] == '|')
-		return (combine_input_with_new_one(input, lenght));
-	else
-		return (input);
+	input2 = input;
+	while (1)
+	{
+		lenght = ft_strlen(input2);
+		i = lenght - 1;
+		while (i >= 0 && input2[i] == ' ')
+			i--;
+		if (i >= 0 && input2[i] == '|')
+			input2 = combine_input_with_new_one(input2, lenght);
+		else
+			break ;
+	}
+	return (input2);
 }
 
 /*
