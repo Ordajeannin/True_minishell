@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 18:48:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 20:04:35 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	char	*tmp;
 	char	*current_name;
 	t_args	*current;
+	// char	*essai;
 
 	tmp = ft_strjoin(name_env, "=");
 	if (! tmp)
@@ -60,6 +61,7 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	free(tmp);
 	if (!result)
 		return (2);
+	// essai = NULL;
 	current = *env_list;
 	while (current)
 	{
@@ -72,7 +74,9 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
 			&& ft_strlen(current_name) == ft_strlen(name_env))
 		{
+			// essai = ft_strdup(result);
 			current->str = ft_strdup(result);
+			// free(essai);
 			free(current_name);
 			free(result);
 			return (0);

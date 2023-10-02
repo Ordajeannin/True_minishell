@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 15:54:38 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 20:07:20 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,14 @@ int	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 	char	**tmp;
 	char	*verif;
 	char	*is_ve;
+	char	*tmp_node;
 	int		i;
 
 	tmp = ft_split_arg(node->str);
 	if (! tmp)
 		return (1);
 	node->str = NULL;
+	tmp_node = NULL;
 	i = 0;
 	while (tmp[i])
 	{
@@ -169,9 +171,8 @@ int	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 		{
 			free(is_ve);
 			free(verif);
-			i --;
-			while (i >= 0 && tmp[i])
-				free(tmp[i--]);
+			while (--i >= 0 && tmp[i])
+				free(tmp[i]);
 			free(tmp);
 			return (1);
 		}
@@ -179,7 +180,9 @@ int	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 			node->token = TOKEN_TEMP_VAR;
 		if (tmp[i] != NULL && node->str != NULL)
 		{
-			node->str = ft_strjoin(node->str, tmp[i]);
+			tmp_node = ft_strdup(node->str);
+			node->str = ft_strjoin(tmp_node, tmp[i]);
+			free(tmp_node);
 			if (!node->str)
 			{
 				free(is_ve);
@@ -192,6 +195,7 @@ int	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 		}
 		if (tmp[i] != NULL && node->str == NULL)
 		{
+			free(node->str);
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
 			{

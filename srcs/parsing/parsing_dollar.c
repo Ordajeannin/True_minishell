@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 12:59:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:48:56 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*replace_env_var(char *str, int n, t_args **env_list, int flag)
 
 	current = *env_list;
 	env = NULL;
-	result = malloc(sizeof(char) * n + 1);
+	result = ft_calloc(n + 1, sizeof(char));
 	if (!result)
 		return (NULL);
 	ft_strncpy(result, str, n);
@@ -60,10 +60,12 @@ static char	*replace_env_var(char *str, int n, t_args **env_list, int flag)
 			result = ft_strdup_from(current->str, '=');
 			return (result);
 		}
+		free(env);
 		current = current->next;
 	}
 	if (flag == 2)
 		return (NULL);
+	free(result);
 	return (add_a_dollar_to_str(str));
 }
 

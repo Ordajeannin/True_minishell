@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 19:14:49 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 20:04:03 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list)
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		// args_handle(list, shell, &env_list);
-		create_sublists(list, shell, env_list, input);
+		args_handle(list, shell, env_list);
+		// create_sublists(list, shell, env_list);
 	}
 }
 
@@ -128,7 +128,7 @@ int	main(int ac, char **av, char **env)
 		free(input);
 		ft_exit(list, env_list, &shell);
 	}
-	little_more_main(shell, input);
+	little_more_main(shell, &input);
 	shell.input_bis = ft_strdup(input);
 	if (main_bis(input, list, env_list, &shell) == 1)
 	{
@@ -183,7 +183,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		}
 		main_bis(input, list, env_list, shell);
 		free(prompt_char);
-		free(input);
+		// free(input);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 16:41:23 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:38:37 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	clear_args_list(t_args **list)
 	while (current != NULL)
 	{
 		next = current->next;
+		// free(current->str);
 		free(current);
 		current = next;
 	}
@@ -79,7 +80,7 @@ void	add_arg(t_args **list, char *str, int token)
 			current = current->next;
 		current->next = new_arg;
 	}
-	// free_maillon(new_arg);
+	// free(new_arg);
 }
 
 /*
