@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/28 15:09:52 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:13:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	ft_pwd(t_shell *shell, t_args **env_list)
 {
 	if (shell->is_pwd == NULL)
 	{
-		change_error(env_list, errno);
+		change_error(env_list, shell, errno);
 		return (1);
 	}
 	else
 		ft_printf("%s\n", shell->is_pwd);
-	if (!change_error(env_list, 0))
+	if (!change_error(env_list, shell, 0))
 		return (1);
 	return (0);
 }
@@ -44,7 +44,7 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
-	if (!change_error(&env_list, 0))
+	if (!change_error(&env_list, shell, 0))
 		return (1);
 	return (0);
 }

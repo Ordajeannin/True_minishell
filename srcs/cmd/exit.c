@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 14:49:27 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 12:22:35 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,18 @@ int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
 	else if (list && list->next && list->next->next)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
-		change_error(&env_list, 1);
+		change_error(&env_list, shell, 1);
 		return (1);
 	}
-	free_shell_var(shell);
+	else if (list && list->next)
+		code_err = ft_atoi(list->next->str) % 256;
+	else if (shell->error == 0 && g_error != 0)
+		code_err = g_error;
+	else
+		code_err = shell->error;
 	if (input)
 		free(input);
-	if (list && list->next)
-		code_err = ft_atoi(list->next->str) % 256;
+	free_shell_var(shell);
 	clear_args_list(&env_list);
 	rl_clear_history();
 	clear_args_list(&list);

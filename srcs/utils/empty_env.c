@@ -6,14 +6,14 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:44:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 11:25:38 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:16:31 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*read_bytes_user(int *pipefd, pid_t child, int status,
-	t_args **env_list)
+static char	*read_bytes_user(int *pipefd, pid_t child, int status,
+	t_args **env_list, t_shell *shell)
 {
 	int		len_bytes;
 	char	buf[1024];
@@ -29,7 +29,7 @@ char	*read_bytes_user(int *pipefd, pid_t child, int status,
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
-		change_error(env_list, handle_error(errno));
+		change_error(env_list, shell, handle_error(errno));
 		free(username);
 		return (NULL);
 	}
@@ -52,7 +52,7 @@ char	**create_path_cmd(void)
  * Si env -i ./minishell
  * Fait appel a whoami pour avoir l'user
 */
-char	*get_username(t_args **env_list)
+char	*get_username(t_args **env_list, t_shell *shell)
 {
 	pid_t	child;
 	int		pipefd[2];
@@ -78,7 +78,7 @@ char	*get_username(t_args **env_list)
 		ft_printf("%s : %s\n", "/bin/whoami", strerror(errno));
 		exit(handle_error(errno));
 	}
-	return (read_bytes_user(pipefd, child, status, env_list));
+	return (read_bytes_user(pipefd, child, status, env_list, shell));
 }
 
 /* 

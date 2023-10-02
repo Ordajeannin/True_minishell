@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 15:33:37 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:53:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_shell
 	char	**input;
 	int		is_work;
 	char	*input_bis;
+	int		error;
 }	t_shell;
 
 typedef struct s_args
@@ -165,11 +166,10 @@ void		clear_args_list(t_args **list);
 void		add_arg(t_args **list, char *str, int token);
 
 //Bultins
-int			find_opt(char *s1);
-int			ft_echo(t_args *list, t_args **env_list);
+int			ft_echo(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_pwd(t_shell *shell, t_args **env_list);
-int			ft_env(t_args *list, t_args **env_list);
+int			ft_env(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
 int			ft_exit(char *input, t_args *list, t_args *env_list, \
@@ -184,7 +184,6 @@ int			cd_move_and_change(t_args *env_list, t_shell *shell);
 int			change_env_exp(t_args **env_list, char *name_env, char *value);
 int			update_last_ve(t_args *list, t_args **env_list);
 int			parse_export(t_args *list);
-int			change_error(t_args **env_list, int value);
 int			searchin_env(t_args **env_list, t_args *list);
 char		*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
 	t_args **env_list);
@@ -193,8 +192,9 @@ int			set_env(t_args **env_list, char **env, t_shell *shell);
 void		add_env(t_args **env_list, char *str);
 int			ft_plus_shell(t_shell *shell, t_args **env_list);
 void		signal_handler(int sig);
-int			export_out_args(t_args **env_list);
+int			export_out_args(t_args **env_list, t_shell *shell);
 
+int			change_error(t_args **env_list, t_shell *shell, int value);
 void		code_error(int code);
 int			handle_error(int code_err);
 
@@ -215,7 +215,7 @@ int			is_numeric(char *str);
 //Print Things
 void		shell_style(t_shell *shell);
 void		print_args_list(t_args **list);
-char		*get_username(t_args **env_list);
+char		*get_username(t_args **env_list, t_shell *shell);
 char		*get_pwd(void);
 int			set_empty_env(t_shell *shell, t_args **env_list);
 char		*prompt_cmd(t_shell *shell, char *user);

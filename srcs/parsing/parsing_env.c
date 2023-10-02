@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 15:19:45 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:17:13 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	handle_env(char **env, t_shell *shell)
 	shell->oldpwd = get_env_var("OLDPWD");
 	shell->path = get_env_var("PATH");
 	shell->shlvl = get_env_var("SHLVL");
+	shell->error = 0;
 	if (shell->path != NULL && shell->path[0] != '\0')
 	{
 		shell->cmd_paths = ft_split(shell->path + 5, ':');
@@ -88,7 +89,7 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 		paths++;
 	}
 	ft_printf("%s : Command not found\n", cmd);
-	change_error(env_list, 127);
+	change_error(env_list, shell, 127);
 	return (NULL);
 }
 

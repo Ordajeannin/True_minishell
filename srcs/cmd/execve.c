@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 15:26:59 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 12:23:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Change env pour $?.
  * Mets a jour les cas d'erreurs de $?
 */
-int	change_error(t_args **env_list, int value)
+int	change_error(t_args **env_list, t_shell *shell, int value)
 {
 	t_args	*current;
 	char	*current_name;
@@ -30,6 +30,7 @@ int	change_error(t_args **env_list, int value)
 	if (!result)
 	{
 		free(nb_char);
+		shell->error = value;
 		return (2);
 	}
 	current = *env_list;
@@ -40,12 +41,14 @@ int	change_error(t_args **env_list, int value)
 		{
 			free(nb_char);
 			free(result);
+			shell->error = value;
 			return (2);
 		}
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
 			current->str = ft_strdup(result);
+			shell->error = value;
 			free(current_name);
 			free(nb_char);
 			free(result);
@@ -54,8 +57,10 @@ int	change_error(t_args **env_list, int value)
 		free(current_name);
 		current = current->next;
 	}
+	shell->error = value;
 	free(nb_char);
 	free(result);
+	ft_printf("shell->error : %d\n", shell->error);
 	return (0);
 }
 
@@ -77,7 +82,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 		return (NULL);
 	}
 	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
-		ft_env(list, env_list);
+		ft_env(list, env_list, shell);
 	return (command);
 }
 
@@ -113,25 +118,37 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
  * le processus enfant en a detecte une.
  * Exception: pour ./minishell, -1 a la VE de SHLVL
 */
-static int	next_execution(pid_t pid_child, t_args **env_list)
+static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 {
 	int		status;
 
 	waitpid(pid_child, &status, 0);
-	signal(SIGQUIT, SIG_IGN);
 	if (g_error == 2)
 		g_error = 0;
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
-		change_error(env_list, handle_error(errno));
+		if (g_error != 0)
+			change_error(env_list, shell, g_error);
+		else
+			change_error(env_list, shell, handle_error(errno));
 		return (1);
 	}
 	else if (WTERMSIG(status) == SIGSEGV)
 	{
 		ft_printf("Segmentation Fault (core dumped)\n");
-		change_error(env_list, 139);
+		change_error(env_list, shell, 139);
 		return (1);
+	}
+	else
+	{
+		if (g_error != 0)
+		{
+			if (!change_error(env_list, shell, g_error))
+				return (1);
+		}
+		else if (!change_error(env_list, shell, 0))
+			return (1);
 	}
 	return (0);
 }
@@ -167,7 +184,6 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			free(command);
 			return (1);
 		}
-		ft_printf("je suis la grosse pute : %s\n", command);
 		execve(command, shell->input, env_tab);
 		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
 		exit(handle_error(errno));
@@ -181,7 +197,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		}
 	}
 	free(command);
-	if (next_execution(pid_child, env_list) == 1 || !change_error(env_list, 0))
+	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);
 }

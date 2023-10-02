@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 11:22:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:12:54 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
  * check si l'argument est NULL ou s'il existe mais qu'il est vide
  * ATTENTION: voir cas speciaux et faire mini parsing des args avant d'export.
 */
-int	export_errors(t_args *list, t_args **env_list)
+int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 {
 	if (!list->next)
 	{
-		export_out_args(env_list);
+		export_out_args(env_list, shell);
 		return (1);
 	}
 	if (list->next->str[0] == '\0')
 	{
 		ft_printf("export : \"\": invalid identifier\n");
-		change_error(env_list, 1);
+		change_error(env_list, shell, 1);
 		return (1);
 	}
 	if (parse_export(list->next) == 2)
@@ -35,7 +35,7 @@ int	export_errors(t_args *list, t_args **env_list)
 	else if (parse_export(list->next) == 1)
 	{
 		ft_printf("export : \"%s\" : invalid identifier\n", list->next->str);
-		change_error(env_list, 1);
+		change_error(env_list, shell, 1);
 		return (1);
 	}
 	return (0);
@@ -69,7 +69,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	char	*v_env;
 	int		result_change_env;
 
-	if (export_errors(list, env_list) == 1)
+	if (export_errors(list, env_list, shell) == 1)
 		return (1);
 	if (ft_strchr(list->next->str, '='))
 	{
@@ -101,7 +101,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	free(value);
 	if (list->next->next != NULL)
 		ft_export(list->next, shell, env_list);
-	if (!change_error(env_list, 0))
+	if (!change_error(env_list, shell, 0))
 		return (1);
 	return (0);
 }
@@ -110,7 +110,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
  * Gere export sans args
  * Affiche: declare -x VE env
 */
-int	export_out_args(t_args **env_list)
+int	export_out_args(t_args **env_list, t_shell *shell)
 {
 	t_args	*current;
 	char	*bfore;
@@ -133,7 +133,7 @@ int	export_out_args(t_args **env_list)
 		free(bfore);
 		free(after);
 	}
-	if (!change_error(env_list, 0))
+	if (!change_error(env_list, shell, 0))
 		return (1);
 	return (0);
 }

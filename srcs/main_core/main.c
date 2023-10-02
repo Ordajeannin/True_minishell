@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 15:01:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 12:23:57 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 
 	if (g_error != 0)
 	{
-		if (!change_error(&env_list, g_error))
+		if (!change_error(&env_list, shell, g_error))
 		{
 			free(input);
 			return (1);
@@ -118,7 +118,7 @@ int	main(int ac, char **av, char **env)
 	ft_gain_place(av, &list, &input, &env_list);
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
-	username = get_username(&env_list);
+	username = get_username(&env_list, &shell);
 	prompt_char = prompt_cmd(&shell, username);
 	input = readline(prompt_char);
 	if (input == NULL)
@@ -179,7 +179,6 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		shell->input_bis = ft_strdup(input);
 		if (! shell->input_bis)
 		{
-			//Handle me damn!
 			free(user);
 			free(prompt_char);
 			free(input);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/28 14:23:10 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:08:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 	if (chdir(buf) == -1)
 	{
 		ft_printf("%s: %s: %s\n", list->str, buf, strerror(errno));
-		change_error(&env_list, handle_error(errno -1));
+		change_error(&env_list, shell, handle_error(errno -1));
 		return (1);
 	}
 	else
@@ -49,7 +49,7 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	{
 		buf = NULL;
 		ft_printf("cd : No such file or directory\n");
-		change_error(&env_list, 0);
+		change_error(&env_list, shell, 0);
 		closedir(dir);
 		free(temp);
 		return (NULL);
@@ -89,7 +89,7 @@ int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
 		if (shell->home == NULL)
 		{
 			ft_printf("%s: 'HOME' not defined\n", list->str);
-			change_error(&env_list, 1);
+			change_error(&env_list, shell, 1);
 			return (1);
 		}
 		return (2);
@@ -98,7 +98,7 @@ int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
 		&& list->next->next->token != TOKEN_OR)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
-		change_error(&env_list, 1);
+		change_error(&env_list, shell, 1);
 		return (1);
 	}
 	return (0);
@@ -128,5 +128,5 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 		return (1);
 	err = cd_real_version(buf, shell, env_list, list);
 	free(buf);
-	return (err || !change_error(&env_list, 0));
+	return (err || !change_error(&env_list, shell, 0));
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 11:11:49 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 11:29:05 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Cherche s2 dans s1.
  * Parcours s1 jusqu'a trouver s2 a la suite.
 */
-int	find_opt(char *s1)
+static int	find_opt(char *s1)
 {
 	size_t	i;
 
@@ -64,13 +64,18 @@ static int	iter_echo(t_args *list)
 	return (flag);
 }
 
-void	echo_loop(t_args *list)
+static void	echo_loop(t_args *list, t_shell *shell)
 {
-	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
+	if (ft_strcmp("$?", list->str) == 0 && ft_strlen(list->str) == 2)
+		ft_printf("%d", shell->error);
+	else
 	{
-		if (iter_echo(list) == 0)
-			write (1, " ", 1);
-		list = list->next;
+		while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
+		{
+			if (iter_echo(list) == 0)
+				write (1, " ", 1);
+			list = list->next;
+		}
 	}
 }
 
@@ -79,7 +84,7 @@ void	echo_loop(t_args *list)
  * Affiche caractere par caractere les arguments en ignorant les quotes.
  * (Attention: cas particuliers, quotes a l'interieur de d'autres).
 */
-int	ft_echo(t_args *list, t_args **env_list)
+int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 {
 	int	bools;
 
@@ -96,10 +101,10 @@ int	ft_echo(t_args *list, t_args **env_list)
 		list = list->next;
 		bools = 1;
 	}
-	echo_loop(list);
+	echo_loop(list, shell);
 	if (bools == 0)
 		write (1, "\n", 1);
-	if (!change_error(env_list, 0))
+	if (!change_error(env_list, shell, 0))
 		return (1);
 	return (0);
 }
