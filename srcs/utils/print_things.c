@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 14:13:02 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 15:18:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,18 @@ void	print_args_list(t_args **list)
 char	*prompt_cmd(t_shell *shell, char *user)
 {
 	char	*prompt;
+	char	*username;
+	char	*pwd;
 
 	prompt = NULL;
+	username = NULL;
+	pwd = NULL;
 	if (user != NULL)
-		prompt = ft_strjoin(user, ":");
+		username = ft_strjoin(user, ":");
 	if (shell->is_pwd != NULL)
-		prompt = ft_strjoin(prompt, shell->is_pwd);
-	prompt = ft_strjoin(prompt, ">");
+		pwd = ft_strjoin(username, shell->is_pwd);
+	prompt = ft_strjoin(pwd, ">");
+	free(username);
+	free(pwd);
 	return (prompt);
 }

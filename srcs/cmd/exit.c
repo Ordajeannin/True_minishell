@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 12:22:35 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 16:00:34 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,23 @@ static void	free_shell_var(t_shell *shell)
 	{
 		while (shell->cmd_paths[i])
 			free(shell->cmd_paths[i++]);
+		free(shell->cmd_paths);
 	}
 	i = 0;
 	if (shell->input)
 	{
 		while (shell->input[i])
 			free(shell->input[i++]);
+		free(shell->input);
 	}
+}
+
+void	free_everything(t_shell *shell, t_args *list, t_args *env_list)
+{
+	free_shell_var(shell);
+	clear_args_list(&env_list);
+	rl_clear_history();
+	clear_args_list(&list);
 }
 
 /*
@@ -53,7 +63,7 @@ static void	free_shell_var(t_shell *shell)
  * :warning:
  * wait(100) supprime de la premiere ligne pour la norme
 */
-int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
+int	ft_exit(t_args *list, t_args *env_list, t_shell *shell)
 {
 	int	code_err;
 
@@ -78,11 +88,6 @@ int	ft_exit(char *input, t_args *list, t_args *env_list, t_shell *shell)
 		code_err = g_error;
 	else
 		code_err = shell->error;
-	if (input)
-		free(input);
-	free_shell_var(shell);
-	clear_args_list(&env_list);
-	rl_clear_history();
-	clear_args_list(&list);
+	free_everything(shell, list, env_list);
 	exit(code_err);
 }

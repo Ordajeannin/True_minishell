@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 11:53:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 16:00:16 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void		args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 			char *input);
 void		was_unclosed_quotes(t_args **list);
 size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
-void		process_not_s_quotes(t_args *node, t_args **env_list, int flag);
+int			process_not_s_quotes(t_args *node, t_args **env_list, int flag);
 void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str);
@@ -139,7 +139,7 @@ void		execute_parent(int prev_pipe_fd[2], int next_pipe_fd[2]);
 
 //Tok
 char		*ft_strtok(char *input, char **delim, t_args **list);
-void		update_args(t_args **list, t_args **env_list);
+int			update_args(t_args **list, t_args **env_list);
 int			tokenize_args(char *input, int flag);
 size_t		delimit_to_token(char *s, t_args **list, const char **input);
 char		*is_env_var(char *str, t_args **env_list, int flag);
@@ -159,7 +159,7 @@ char		*ft_strcat(char *str1, const char *str2);
 char		*ft_strcpy(char *dest, const char *src);
 
 //List concerns
-void		from_input_to_list_of_args(char *input, t_args **list, \
+int			from_input_to_list_of_args(char *input, t_args **list, \
 	t_args **e_list);
 int			loop_args(t_shell *shell, t_args **list);
 void		clear_args_list(t_args **list);
@@ -172,7 +172,7 @@ int			ft_pwd(t_shell *shell, t_args **env_list);
 int			ft_env(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
-int			ft_exit(char *input, t_args *list, t_args *env_list, \
+int			ft_exit(t_args *list, t_args *env_list, \
 	t_shell *shell);
 
 //Other commands
@@ -205,6 +205,7 @@ char		*ft_strjoin_free(char *s1, char *s2);
 char		*from_end_to_char(char *str, char c);
 int			is_only_equal(char *str, char c);
 int			len_targs(t_args *list);
+void		free_everything(t_shell *shell, t_args *list, t_args *env_list);
 
 int			ft_strlen_double(char **str);
 int			count_back(char	*str);

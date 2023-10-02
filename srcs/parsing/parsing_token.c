@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/28 14:06:00 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 15:54:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	tokenize_args(char *input, int flag)
  * Permet de gerer le remplacement des variables d'environnement,
  * si correctement formate
 */
-void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
+int	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 {
 	char	**tmp;
 	char	*verif;
@@ -136,41 +136,81 @@ void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
 
 	tmp = ft_split_arg(node->str);
 	if (! tmp)
-		return ;
+		return (1);
 	node->str = NULL;
 	i = 0;
 	while (tmp[i])
 	{
 		is_ve = is_env_var(tmp[i], env_list, flag);
 		if (!is_ve)
-			return ;
+		{
+			if (tmp[i])
+			{
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
+				free(tmp);
+			}
+			return (1);
+		}
 		verif = ft_strdup(tmp[i]);
 		if (!verif)
-			return ;
+		{
+			free(is_ve);
+			if (tmp[i])
+			{
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
+				free(tmp);
+			}
+			return (1);
+		}
 		tmp[i] = ft_strdup(is_ve);
 		if (!tmp[i])
-			return ;
+		{
+			free(is_ve);
+			free(verif);
+			i --;
+			while (i >= 0 && tmp[i])
+				free(tmp[i--]);
+			free(tmp);
+			return (1);
+		}
 		if (tmp[i] != NULL && ft_strcmp(verif, tmp[i]) == 0 && tmp[i][0] == '$')
 			node->token = TOKEN_TEMP_VAR;
 		if (tmp[i] != NULL && node->str != NULL)
 		{
 			node->str = ft_strjoin(node->str, tmp[i]);
 			if (!node->str)
-				return ;
+			{
+				free(is_ve);
+				free(verif);
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
+				free(tmp);
+				return (1);
+			}
 		}
 		if (tmp[i] != NULL && node->str == NULL)
 		{
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
-				return ;
+			{
+				free(is_ve);
+				free(verif);
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
+				free(tmp);
+				return (1);
+			}
 		}
 		i++;
 		free(verif);
 		free(is_ve);
 	}
-	i = 0;
-	while (tmp[i])
-		free(tmp[i++]);
+	while (--i >= 0 && tmp[i])
+		free(tmp[i]);
+	free(tmp);
+	return (0);
 }
 
 /*
@@ -178,7 +218,7 @@ void	process_not_s_quotes(t_args *node, t_args **env_list, int flag)
  * :warning: uniquement celles existantes / qui ne sont pas entre single quotes!
  * ensuite, tokenize les arguments
 */
-void	update_args(t_args **list, t_args **env_list)
+int	update_args(t_args **list, t_args **env_list)
 {
 	t_args	*current;
 	char	help[2];
@@ -189,7 +229,10 @@ void	update_args(t_args **list, t_args **env_list)
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
-			process_not_s_quotes(current, env_list, 1);
+		{
+			if (process_not_s_quotes(current, env_list, 1) == 1)
+				return (1);
+		}
 		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str, 0);
 		if (current->str != NULL && current->token == 23)
@@ -198,11 +241,12 @@ void	update_args(t_args **list, t_args **env_list)
 		{
 			current->str = ft_strdup(help);
 			if (!current->str)
-				return ;
+				return (1);
 		}
 		current = current->next;
 	}
 	delete_null_nodes(list);
+	return (0);
 }
 
 /*

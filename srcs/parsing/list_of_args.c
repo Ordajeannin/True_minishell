@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 14:54:50 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 16:00:13 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	add_arg(t_args **list, char *str, int token)
  * Permet d'extraire les tokens de input sur base des delimitateurs
  * Puis identifie ces tokens
 */
-void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
+int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 {
 	char	*delim[11];
 	char	*token;
@@ -94,8 +94,10 @@ void	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
-	update_args(list, e_list);
+	if (update_args(list, e_list) == 1)
+		return (1);
 	was_unclosed_quotes(list);
+	return (0);
 }
 
 /* 
