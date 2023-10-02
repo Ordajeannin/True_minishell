@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 15:26:01 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:05:20 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,20 @@
 /*
  * Suite du main #2
 */
-static void	main_ter(t_args *list, t_shell *shell, t_args **env_list, \
-	char *input)
+static void	main_ter(t_args *list, t_shell *shell, t_args **env_list)
 {
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		args_handle(list, shell, env_list, input);
-		// create_sublists(list, shell, env_list, input);
+		// args_handle(list, shell, env_list);
+		create_sublists(list, shell, env_list);
 	}
 }
 
 /* 
  * Suite du main.
 */
-static int	main_bis(char *input, t_args *list, t_args *env_list, \
+static int	main_bis(char *input,t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
 	int		saved_stdout;
@@ -65,8 +64,9 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	saved_stdin = dup(STDIN_FILENO);
 	if (from_input_to_list_of_args(input, &list, &env_list) == 1)
 		return (1);
+	free(input);
 	if (list)
-		main_ter(list, shell, &env_list, input);
+		main_ter(list, shell, &env_list);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
 	clear_args_list(&list);
@@ -123,10 +123,8 @@ int	main(int ac, char **av, char **env)
 	input = readline(prompt_char);
 	if (input == NULL)
 	{
-		if (username)
-			free(username);
-		if (prompt_char)
-			free(prompt_char);
+		free(username);
+		free(prompt_char);
 		free(input);
 		ft_exit(list, env_list, &shell);
 	}
@@ -166,10 +164,8 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		input = readline(prompt_char);
 		if (input == NULL)
 		{
-			if (user)
-				free(user);
-			if (prompt_char)
-				free(prompt_char);
+			free(user);
+			free(prompt_char);
 			ft_exit(list, env_list, shell);
 		}
 		input = check_if_there_is_a_lost_pipe(input);

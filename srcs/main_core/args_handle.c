@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 15:22:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 16:53:17 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
  * A faire: implementer token 4 |.
  * Token 3 && fonctionnel.
 */
-void	check_args(t_args **list, t_shell *shell, t_args **env_list, \
-	char *input)
+void	check_args(t_args **list, t_shell *shell, t_args **env_list)
 {
 	t_args	*current;
 
@@ -28,12 +27,12 @@ void	check_args(t_args **list, t_shell *shell, t_args **env_list, \
 	{
 		if (current->token == TOKEN_AND && shell->is_work == 0)
 		{
-			args_handle(current->next, shell, env_list, input);
+			args_handle(current->next, shell, env_list);
 			return ;
 		}
 		else if (current->token == TOKEN_OR && shell->is_work != 0)
 		{
-			args_handle(current->next, shell, env_list, input);
+			args_handle(current->next, shell, env_list);
 			return ;
 		}
 		else if (current->token == TOKEN_OR && shell->is_work == 0)
@@ -70,8 +69,7 @@ static int	args_two(t_args *list, t_shell *shell, t_args **env_list)
  * Recupere l'arguments et la commande separement.
  * Traite en fonction de la commande enregistree.
 */
-void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
-	char *input)
+void	args_handle(t_args *list, t_shell *shell, t_args **env_list)
 {
 	t_args	*current_env;
 
@@ -87,13 +85,10 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list, \
 		shell->is_work = ft_unset(list, shell, current_env);
 	else if (ft_strncmp(list->str, "exit",
 			ft_strlen(list->str)) == 0 && ft_strlen(list->str) == 4)
-	{
-		free(input);
 		ft_exit(list, current_env, shell);
-	}
 	else
 		shell->is_work = args_two(list, shell, env_list);
-	check_args(&list, shell, env_list, input);
+	check_args(&list, shell, env_list);
 	if (!(ft_strncmp(list->str, "env", ft_strlen(list->str))
 			== 0 && ft_strlen(list->str) == 3))
 		update_last_ve(list, env_list);

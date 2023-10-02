@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 16:00:34 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:03:42 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	ft_exit(t_args *list, t_args *env_list, t_shell *shell)
 		ft_printf("%s: %s: numeric argument required\n", list->str,
 			list->next->str);
 		code_err = 2;
+		// free_everything(shell, list, env_list);
+		// exit(code_err);
 	}
 	else if (list && list->next && list->next->next)
 	{

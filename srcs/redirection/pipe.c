@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 14:49:25 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 18:59:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,21 @@
  * Permet d'executer les commandes en pipeline
  * sans connaitre a l'avance le nombre de sous-chaines
  * (sa norme constitue mon plus grand cauchemard)
+ * deso j'ai rajoute des lignes hors norme, le cauchemar se prolonge ...
 */
 static void	execute_command(t_args_list **stock, t_shell *shell, \
-		t_args **env_list, char *input)
+		t_args **env_list, t_args *list)
 {
 	t_args_list	*current;
 	int			prev_pipe[2];
 	int			pipe_fds[2];
 	pid_t		pid;
+	int			status;
 
 	current = *stock;
 	prev_pipe[0] = -1;
 	prev_pipe[1] = -1;
+	status = 0x0;
 	while (current != NULL)
 	{
 		if (pipe(pipe_fds) == -1)
@@ -53,8 +56,9 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 			}
 			if (current->next != NULL)
 				dup2(pipe_fds[1], STDOUT_FILENO);
-			args_handle(current->head, shell, env_list, input);
-			exit(EXIT_SUCCESS);
+			args_handle(current->head, shell, env_list);
+			free_everything(shell, list, *env_list);
+			exit(shell->error);
 		}
 		else
 		{
@@ -65,8 +69,14 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		}
 		current = current->next;
 	}
-	while (wait(NULL) > 0)
-		;
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
+		{
+			change_error(env_list, shell, WEXITSTATUS(status));
+			shell->error = WEXITSTATUS(status);
+		}
+	}
 }
 
 /*
@@ -74,14 +84,13 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
  * et les stockera dans une nouvelle liste chainee, **stock
  * en vu d'etre execute simultanement par execute_command
 */
-void	create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
-		char *input)
+void	create_sublists(t_args *list, t_shell *shell, t_args **env_list)
 {
 	t_args_list	*stock;
 
 	stock = stock_sublist(&list);
 	print_sublists(stock);
-	execute_command(&stock, shell, env_list, input);
+	execute_command(&stock, shell, env_list, list);
 }
 
 /*

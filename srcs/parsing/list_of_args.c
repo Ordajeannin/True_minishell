@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 16:00:13 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 16:41:23 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	clear_args_list(t_args **list)
 	}
 	*list = NULL;
 }
+
+// static void	free_maillon(t_args *node)
+// {
+// 	if (node)
+// 	{
+// 		if (node->str)
+// 			free(node->str);
+// 		free(node);
+// 	}
+// }
 
 /*
  * Fonction utilitaire, cree un maillon 
@@ -69,6 +79,7 @@ void	add_arg(t_args **list, char *str, int token)
 			current = current->next;
 		current->next = new_arg;
 	}
+	// free_maillon(new_arg);
 }
 
 /*

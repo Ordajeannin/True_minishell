@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 14:58:46 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:01:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 	shell->error = value;
 	free(nb_char);
 	free(result);
-	ft_printf("shell->error : %d\n", shell->error);
 	return (0);
 }
 

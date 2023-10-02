@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 16:00:16 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 16:52:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ int			msg(char *msg);
 int			handle_env(char **env, t_shell *envcpy);
 void		init_shell(t_shell *shell);
 int			parsing_input(char **input);
-void		args_handle(t_args *list, t_shell *shell, t_args **env_list, \
-			char *input);
+void		args_handle(t_args *list, t_shell *shell, t_args **env_list);
 void		was_unclosed_quotes(t_args **list);
 size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
 int			process_not_s_quotes(t_args *node, t_args **env_list, int flag);
@@ -122,8 +121,7 @@ void		plus_de_nouvelle(const char *str);
 int			is_correct_format(t_args **list);
 
 //Pipe
-void		create_sublists(t_args *list, t_shell *shell, t_args **env_list, \
-			char *input);
+void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
 char		*check_if_there_is_a_lost_pipe(char *input);
 t_args_list	*stock_sublist(t_args **list);
 void		print_sublists(t_args_list *stock);
