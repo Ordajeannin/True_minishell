@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 16:52:50 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:13:33 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str);
 int			is_correct_format(t_args **list);
+void		free_sublists(t_args_list *stock);
 
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);

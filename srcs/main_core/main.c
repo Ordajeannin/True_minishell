@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 19:05:20 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/02 19:14:49 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list)
 	if (is_correct_format(&list) == 0)
 	{
 		is_there_a_redirection(&list);
-		// args_handle(list, shell, env_list);
-		create_sublists(list, shell, env_list);
+		// args_handle(list, shell, &env_list);
+		create_sublists(list, shell, env_list, input);
 	}
 }
 
 /* 
  * Suite du main.
 */
-static int	main_bis(char *input,t_args *list, t_args *env_list, \
+static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
 {
 	int		saved_stdout;
@@ -82,14 +82,14 @@ static int	main_bis(char *input,t_args *list, t_args *env_list, \
  * Init shell->pwd au debut du main
  * Ajout de la premiere commande a l'historique
 */
-static void	little_more_main(t_shell shell, char *input)
+static void	little_more_main(t_shell shell, char **input)
 {
 	char	buf[1024];
 
 	shell.is_pwd = getcwd(buf, sizeof(buf));
 	shell.pwd = shell.is_pwd;
-	input = check_if_there_is_a_lost_pipe(input);
-	add_history(input);
+	*input = check_if_there_is_a_lost_pipe(*input);
+	add_history(*input);
 }
 
 

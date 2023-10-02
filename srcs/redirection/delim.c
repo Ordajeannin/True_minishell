@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:34:03 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:53:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void	plus_de_nouvelle(const char *str)
 	}
 	if (line)
 		free(line);
-	return (tempfile(result));
+	if (result)
+		return (tempfile(result));
 }
 
 /*
