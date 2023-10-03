@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 12:37:54 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:23:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 		}
 		else if (tmp[i] != NULL && node->str == NULL)
 		{
+			if (node->str)
+				free(node->str);
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
 			{

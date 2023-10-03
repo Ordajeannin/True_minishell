@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/03 12:21:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:13:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
+			if (current->str)
+				free(current->str);
 			current->str = ft_strdup(result);
 			shell->error = value;
 			free(current_name);

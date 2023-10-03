@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/03 12:20:28 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:19:48 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 		if (ft_strcmp(current->str, change_value) == 0 && \
 			ft_strlen(current->str) == ft_strlen(change_value))
 		{
+			if (current->str)
+				free(current->str);
 			current->str = ft_strdup(new_str);
 			return ;
 		}
@@ -72,6 +74,8 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
 			&& ft_strlen(current_name) == ft_strlen(name_env))
 		{
+			if (current->str)
+				free(current->str);
 			current->str = ft_strdup(result);
 			free(current_name);
 			free(result);
@@ -163,7 +167,7 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	i = 0;
 	while (env[i])
 	{
-		add_arg(env_list, env[i], 0);
+		add_env(env_list, env[i]);
 		identifier = ft_strdupto_n(env[i], '=');
 		if (! identifier)
 			return (-1);
@@ -176,6 +180,6 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 		free(identifier);
 		i++;
 	}
-	add_arg(env_list, "?=0", 0);
+	add_env(env_list, "?=0");
 	return (0);
 }
