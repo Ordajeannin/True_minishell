@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 19:38:37 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 12:07:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,34 @@ static t_args	*create_arg(char *str, int token)
 	return (new_arg);
 }
 
+// static t_args *copy_list(t_args* source)
+// {
+//     t_args* new_head = NULL;
+//     t_args* current = source;
+//     t_args* tail = NULL;
+    
+//     while (current != NULL)
+// 	{
+//         if (new_head == NULL)
+// 		{
+//             new_head = ft_calloc(1, sizeof(t_args));
+//             new_head->str = current->str;
+// 			new_head->token = current->token;
+//             new_head->next = NULL;
+//             tail = new_head;
+//         }
+// 		else
+// 		{
+//             tail->next = ft_calloc(1, sizeof(t_args));
+//             tail = tail->next;
+//             tail->str = current->str;
+// 			tail->token = current->token;
+//             tail->next = NULL;
+//         }
+//         current = current->next;
+//     }
+//     return (new_head);
+// }
 /*
  * Fonction utilitaire, ajoute un maillon a la fin de la chaine
  * appel a create_arg pour creer le maillon
@@ -80,7 +108,6 @@ void	add_arg(t_args **list, char *str, int token)
 			current = current->next;
 		current->next = new_arg;
 	}
-	// free(new_arg);
 }
 
 /*

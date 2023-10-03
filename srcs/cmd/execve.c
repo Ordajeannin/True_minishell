@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/03 10:53:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 12:21:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 		return (2);
 	}
 	current = *env_list;
-	while (current)
+	while (current && current->next != NULL)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
 		if (!current_name)

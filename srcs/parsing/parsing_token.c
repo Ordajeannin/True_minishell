@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 11:01:27 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 12:37:54 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 				return (1);
 			}
 		}
-		if (tmp[i] != NULL && node->str == NULL)
+		else if (tmp[i] != NULL && node->str == NULL)
 		{
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
@@ -274,7 +274,7 @@ void	process_not_s_quotes(t_args *node, t_args **env_list)
  * {
 			if (process_not_s_quotes(current, env_list, 1) == 1)
 				return (1);
-		}
+	}
 */
 int	update_args(t_args **list, t_args **env_list)
 {
@@ -282,7 +282,7 @@ int	update_args(t_args **list, t_args **env_list)
 	char	help[2];
 
 	current = *list;
-	help[0] = '\0';
+	help[0] = '\0'; // C'est quoi ce bordel ????
 	help[1] = '\0';
 	while (current != NULL)
 	{
@@ -297,6 +297,8 @@ int	update_args(t_args **list, t_args **env_list)
 			current->token = tokenize_args(current->str, 23);
 		if (current->str == NULL && current->token == 23)
 		{
+			if (current->str != NULL)
+				free(current->str);
 			current->str = ft_strdup(help);
 			if (!current->str)
 				return (1);
