@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:44:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 11:16:31 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 20:43:20 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ static char	*read_bytes_user(int *pipefd, pid_t child, int status,
 
 	close(pipefd[1]);
 	len_bytes = read(pipefd[0], buf, sizeof(buf));
+	username = NULL;
 	if (len_bytes > 0)
-	{
 		username = ft_strdupto_n(buf, '\n');
-	}
 	waitpid(child, &status, 0);
 	if (WEXITSTATUS(status) != 0)
 	{

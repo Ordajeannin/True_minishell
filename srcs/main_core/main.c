@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 20:05:36 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 20:44:26 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ int	main(int ac, char **av, char **env)
 	}
 	free(prompt_char);
 	is_minishell(&shell, env_list, list, username);
-	free(username);
 	return (0);
 }
 
@@ -175,15 +174,16 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		if (shell->input_bis)
 			free(shell->input_bis);
 		shell->input_bis = ft_strdup(input);
-		if (! shell->input_bis)
+		if (!shell->input_bis)
 		{
 			free(prompt_char);
 			free(input);
+			free(user);
 			return (1);
 		}
 		main_bis(input, list, env_list, shell);
 		free(prompt_char);
-		// free(input);
 	}
+	free(user);
 	return (1);
 }
