@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 20:30:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:57:24 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,24 +126,62 @@ int	tokenize_args(char *input, int flag)
 /*
  * Permet de gerer le remplacement des variables d'environnement,
  * si correctement formate
+ * Il faut proteger !!!
 */
-void	process_not_s_quotes(t_args *node, t_args **env_list)
+int	process_not_s_quotes(t_args *node, t_args **env_list)
 {
 	char	**tmp;
 	int		i;
+	char	*tmp_node;
 
 	tmp = ft_split_arg(node->str);
+	if (!tmp)
+		return (1);
 	node->str = NULL;
+	tmp_node = NULL;
 	i = 0;
 	while (tmp[i])
 	{
 		tmp[i] = is_env_var(tmp[i], env_list);
 		if (tmp[i] != NULL && node->str != NULL)
-			node->str = ft_strjoin(node->str, tmp[i]);
-		if (tmp[i] != NULL && node->str == NULL)
-			node->str = tmp[i];
+		{
+			tmp_node = ft_strdup(node->str);
+			free(node->str);
+			node->str = ft_strjoin(tmp_node, tmp[i]);
+			free(tmp_node);
+			if (!node->str)
+			{
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
+				free(tmp);
+				return (1);
+			}
+		}
+		else if (tmp[i] != NULL && node->str == NULL)
+		{
+			if (node->str)
+				free(node->str);
+			node->str = ft_strdup(tmp[i]);
+			if (!node->str)
+			{
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
+				free(tmp);
+				return (1);
+			}
+		}
+		else
+		{
+			while (--i >= 0 && tmp[i])
+				free(tmp[i]);
+			free(tmp);
+		}
 		i++;
 	}
+	while (--i >= 0 && tmp[i])
+		free(tmp[i]);
+	free(tmp);
+	return (0);
 }
 
 /*
@@ -244,7 +282,7 @@ void	process_not_s_quotes(t_args *node, t_args **env_list)
  * {
 			if (process_not_s_quotes(current, env_list, 1) == 1)
 				return (1);
-		}
+	}
 */
 int	update_args(t_args **list, t_args **env_list)
 {
@@ -257,13 +295,18 @@ int	update_args(t_args **list, t_args **env_list)
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
-			process_not_s_quotes(current, env_list);
+		{
+			if (process_not_s_quotes(current, env_list) == 1)
+				return (1);
+		}
 		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str, 0);
 		if (current->str != NULL && current->token == 23)
 			current->token = tokenize_args(current->str, 23);
 		if (current->str == NULL && current->token == 23)
 		{
+			if (current->str != NULL)
+				free(current->str);
 			current->str = ft_strdup(help);
 			if (!current->str)
 				return (1);

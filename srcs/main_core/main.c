@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 16:29:41 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:25:50 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,6 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			}
 			main_bis(input, list, env_list, shell);
 			free(prompt_char);
-			// free(input);
 		}
 	}
 	return (1);

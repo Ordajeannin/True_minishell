@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 08:42:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 12:22:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 20:10:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	cd_move_and_change(t_args *env_list, t_shell *shell)
 	char	*old_cmd;
 	char	*current_cmd;
 	char	*new_pwd;
+	char	*tmp;
 
 	old_pwd_change = ft_strjoin("OLDPWD=", shell->is_pwd);
 	if (!old_pwd_change)
@@ -40,7 +41,9 @@ int	cd_move_and_change(t_args *env_list, t_shell *shell)
 	free(shell->oldpwd);
 	shell->is_oldpwd = ft_strdup(shell->is_pwd);
 	shell->oldpwd = ft_strdup(shell->is_pwd);
-	current_cmd = ft_strdup(getcwd(NULL, 0));
+	tmp = getcwd(NULL, 0);
+	current_cmd = ft_strdup(tmp);
+	free(tmp);
 	if (current_cmd != NULL)
 	{
 		new_pwd = ft_strjoin("PWD=", current_cmd);

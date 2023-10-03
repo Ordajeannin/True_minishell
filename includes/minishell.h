@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 15:38:53 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:00:07 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int			parsing_input(char **input);
 void		args_handle(t_args *list, t_shell *shell, t_args **env_list);
 void		was_unclosed_quotes(t_args **list);
 size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
-void		process_not_s_quotes(t_args *node, t_args **env_list);
+int			process_not_s_quotes(t_args *node, t_args **env_list);
 void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str);
@@ -211,6 +211,7 @@ int			count_back(char	*str);
 int			count_dir(t_shell *shell);
 char		**dup_double_string(t_args **e_list);
 int			is_numeric(char *str);
+t_args		*copy_list(t_args* source);
 
 //Print Things
 void		shell_style(t_shell *shell);

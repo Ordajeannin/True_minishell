@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:03:17 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 12:32:28 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 11:10:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	ft_plus_shell(t_shell *shell, t_args **env_list)
 		free(shell->shlvl);
 	shell->shlvl = ft_strdup(len_shell);
 	if (!shell->shlvl)
+	{
+		free(len_shell);
 		return (1);
+	}
 	if (change_env_exp(env_list, "SHLVL", len_shell) == 2)
 	{
 		free(len_shell);

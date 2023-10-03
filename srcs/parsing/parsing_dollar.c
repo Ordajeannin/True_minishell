@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 20:29:35 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:37:38 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ static char	*replace_env_var(char *str, int n, t_args **env_list)
 		env = ft_strdupto_n(current->str, '=');
 		if (ft_strcmp(env, str) == 0)
 		{
+			if (result)
+				free(result);
 			result = ft_strdup_from(current->str, '=');
+			free(env);
 			return (result);
 		}
 		free(env);

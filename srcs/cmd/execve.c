@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 19:51:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:13:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 	char	*current_name;
 	char	*result;
 	char 	*nb_char;
-	char	*tmp;
+	// char	*tmp;
 
 	nb_char = ft_itoa(value);
 	if (!nb_char)
 		return (2);
 	result = ft_strjoin("?=", nb_char);
-	tmp = NULL;
+	// tmp = NULL;
 	if (!result)
 	{
 		free(nb_char);
@@ -36,7 +36,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 		return (2);
 	}
 	current = *env_list;
-	while (current)
+	while (current && current->next != NULL)
 	{
 		current_name = ft_strdupto_n(current->str, '=');
 		if (!current_name)
@@ -49,9 +49,9 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 		if (ft_strcmp(current_name, "?") == 0
 			&& ft_strlen(current_name) == 1)
 		{
-			tmp = ft_strdup(result);
-			current->str = tmp;
-			free(tmp);
+			if (current->str)
+				free(current->str);
+			current->str = ft_strdup(result);
 			shell->error = value;
 			free(current_name);
 			free(nb_char);
