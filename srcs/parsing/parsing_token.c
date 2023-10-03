@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 17:23:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 20:28:13 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,8 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 			free(tmp_node);
 			if (!node->str)
 			{
-				while (--i >= 0 && tmp[i])
-					free(tmp[i]);
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
 				free(tmp);
 				return (1);
 			}
@@ -164,11 +164,17 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
 			{
-				while (--i >= 0 && tmp[i])
-					free(tmp[i]);
+				while (i >= 0 && tmp[i])
+					free(tmp[i--]);
 				free(tmp);
 				return (1);
 			}
+		}
+		else
+		{
+			while (--i >= 0 && tmp[i])
+				free(tmp[i]);
+			free(tmp);
 		}
 		i++;
 	}
@@ -284,7 +290,7 @@ int	update_args(t_args **list, t_args **env_list)
 	char	help[2];
 
 	current = *list;
-	help[0] = '\0'; // C'est quoi ce bordel ????
+	help[0] = '\0';
 	help[1] = '\0';
 	while (current != NULL)
 	{

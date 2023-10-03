@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 15:12:05 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 20:34:15 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,14 @@ static void	update_split(t_split *s, int step)
 */
 static int	init_split(t_split *s, char *str, int step)
 {
-	
 	if (step == 2)
 	{
 		if (s->start < s->i)
+		{
+			if (s->result[s->j])
+				free(s->result[s->j]);
 			s->result[s->j++] = word_dup(str, s->start, s->i);
+		}
 		s->result[s->j] = NULL;
 		return (0);
 	}
@@ -117,6 +120,8 @@ static int	init_split(t_split *s, char *str, int step)
 		s->i++;
 	if (s->i != 0)
 	{
+		if (s->result[s->j])
+				free(s->result[s->j]);
 		s->result[s->j++] = word_dup(str, s->start, s->i);
 		s->start = s->i;
 	}
