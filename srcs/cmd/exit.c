@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 19:36:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/03 16:56:15 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void	free_shell_var(t_shell *shell)
 void	free_everything(t_shell *shell, t_args *list, t_args *env_list)
 {
 	free_shell_var(shell);
-	clear_args_list(&env_list);
+	if (env_list)
+		clear_args_list(&env_list);
 	rl_clear_history();
 	clear_args_list(&list);
 }

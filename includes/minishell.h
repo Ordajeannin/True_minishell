@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 20:27:18 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:38:53 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct s_split
 /* * * * * Prototypes Fonctions Minishell * * * * */
 int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
 			char *user);
-void		ft_gain_place(char **av, t_args **list, char **input, \
+void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
 int			handle_env(char **env, t_shell *envcpy);

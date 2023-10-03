@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 20:35:23 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:36:18 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,23 @@ static char	*combine_input_with_new_one(char *input, int lenght)
 	return (combined);
 }
 
+static int	check_multiple_pipe(char *input)
+{
+	int	flag;
+
+	flag = 0;
+	while (*input)
+	{
+		if (*input != ' ' && *input != '\t' && *input != '|')
+			flag = 0;
+		if (flag == 1 && *input == '|')
+			return (-1);
+		if (*input == '|')
+			flag = 1;
+		input++;
+	}
+	return (0);
+}
 /*
  * Permet de verifier si l'input ne se termine pas par un pipe
  * (sans prendre en compte les espaces)
@@ -175,7 +192,16 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 		while (i >= 0 && input2[i] == ' ')
 			i--;
 		if (i >= 0 && input2[i] == '|')
-			input2 = combine_input_with_new_one(input2, lenght);
+		{
+			if (check_multiple_pipe(input2) == 0)
+				input2 = combine_input_with_new_one(input2, lenght);
+			else
+			{
+				add_history(input2);
+				perror("syntax error near unexpected token");
+				return (NULL);
+			}	
+		}
 		else
 			break ;
 	}
