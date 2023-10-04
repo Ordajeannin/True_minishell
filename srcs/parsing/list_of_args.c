@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 17:34:06 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 00:02:43 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,17 +125,17 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
-	if (update_args(list, e_list) == 1)
+	if (update_args(list) == 1)
 		return (1);
-	printf("------------------- AVANT HEREDOC --------------------\n");
-	print_args_list(list);
+//	printf("------------------- AVANT HEREDOC --------------------\n");
+//	print_args_list(list);
 	if (handle_heredoc(list) == 1)
 		return (1);
 //	print_args_list(list);
 	if (update_args2(list, e_list) == 1)
 		return (1);
-	printf("----------------- POST-SUBSTITUTION -------------------\n");
-	print_args_list(list);
+//	printf("----------------- POST-SUBSTITUTION -------------------\n");
+//	print_args_list(list);
 	was_unclosed_quotes(list);
 	if (token)
 		free(token);

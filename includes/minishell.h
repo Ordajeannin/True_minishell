@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 21:00:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 00:02:01 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int			is_correct_format(t_args **list);
 void		free_sublists(t_args_list *stock);
 int			update_args2(t_args **list, t_args **env_list);
 int			handle_heredoc(t_args **input);
+int			handle_multi_heredoc(t_args **stock);
 
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
@@ -140,7 +141,7 @@ void		execute_parent(int prev_pipe_fd[2], int next_pipe_fd[2]);
 
 //Tok
 char		*ft_strtok(char *input, char **delim, t_args **list);
-int			update_args(t_args **list, t_args **env_list);
+int			update_args(t_args **list);
 int			tokenize_args(char *input, int flag);
 size_t		delimit_to_token(char *s, t_args **list, const char **input);
 char		*is_env_var(char *str, t_args **env_list);

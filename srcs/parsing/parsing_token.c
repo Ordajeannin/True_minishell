@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 20:57:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 00:01:34 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,9 @@ void	process_not_s_quotes(t_args *node, t_args **env_list)
 	}
 */
 
+/*
+ * Remplace les $var APRES la gestion des heredocs
+*/
 int	update_args2(t_args **list, t_args **env_list)
 {
 	t_args	*current;
@@ -305,7 +308,7 @@ int	update_args2(t_args **list, t_args **env_list)
 	return (0);
 }
 
-int	update_args(t_args **list, t_args **env_list)
+int	update_args(t_args **list)
 {
 	t_args	*current;
 	char	help[2];

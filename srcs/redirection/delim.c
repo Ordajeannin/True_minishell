@@ -6,12 +6,19 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 17:53:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/04 23:58:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ * Permet de creer le fichier temporaire,
+ * pour stocker l'input de l'utilisateur.
+ * (uniquement celui entre les deux derniers delims si multiple)
+ * le fichier sera l'entree par defaut des commandes
+ * (fichier supprime a la fin de l'execution)
+*/
 static void	tempfile(char *str)
 {
 	int	temp_fd;
@@ -91,11 +98,10 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
 
 /*
  * redirection <<
- * en l'etat, et isole du programme, interagit avec l'utilisateur
+ * Interagit avec l'utilisateur
  * et recupere son input sous forme de str\nstr\nstr\n
- * jusqu au delim    (*list)->next->str
- * prochaine etape : gerer cet *str pour en faire l'input de la commande
- * (fichier temporaire?)
+ * jusqu au dernier delim 
+ * -> stockage dans un fichier temporaire pour en faire l entree par defaut
 */
 void	plus_de_nouvelle(const char *str)
 {
@@ -122,6 +128,46 @@ void	plus_de_nouvelle(const char *str)
 		return (tempfile(result));
 }
 
+/*
+ * Permet de gerer les multiples heredoc
+ * Laisse la main a l utilisateur tant que les eof sont definis
+ * Si un EOF n'est pas defini,
+ * erreur quand c est a son tour d etre pris en compte
+ * Si on arrive au dernier EOF, alors stockage de l'input + concatenation, 
+ * into fichier temporaire qui sera la nouvelle entree par defaut
+*/
+int handle_mult_heredoc(t_args **stock)
+{
+	t_args	*current;
+	char	*line;
+
+	if (*stock == NULL)
+		return (0);
+	current = *stock;
+	while (current->next != NULL)
+	{
+		if (current->str == NULL)
+			return (1);
+		line = readline("> ");
+		if (line == NULL || ft_strcmp(line, current->str) == 0)
+			current = current->next;
+	}
+	if (current->str == NULL)
+		return (1);
+	plus_de_nouvelle(current->str);
+	//fonction pour free stock, plus necessaire
+	return (0);
+}
+
+/*
+ * Permet de gerer l'encapsulation des heredoc
+ * Creation d'une liste chainee qui stockera les EOF des << rencontres
+ * si << :
+ * supression des maillons current et next (si il existe) de la chaine principal
+ * creation d'un maillon pour stock
+ * (valeur != en fonction de la presence ou non d'un EOF)
+ * mise a jour du prev->next pour assurer la stabilite
+*/
 int	handle_heredoc(t_args **input)
 {
 	t_args	*current;
@@ -140,25 +186,35 @@ int	handle_heredoc(t_args **input)
 		if (current->token == TOKEN_DELIM)
 		{
 			if (current->next != NULL)
-				add_arg(&stock, current->next->str, TOKEN_DELIM);
-			else
-				add_arg(&stock, NULL, -66);
-			next = current->next;
-			free(current);
-			if (prev == NULL)
-				*input = next;
-			else
-				prev->next = next->next;
-			if (next != NULL)
 			{
-				current = next->next;
-				free(next);
+				add_arg(&stock, current->next->str, TOKEN_DELIM);
+				next = current->next;
+				free(current);
+				if (prev == NULL)
+					*input = next;
+				else
+					prev->next = next->next;
+				if (next != NULL)
+				{
+					current = next->next;
+					free(next);
+				}
+				else
+				{
+					current = NULL;
+					if (prev != NULL)
+						prev->next = NULL;
+				}
 			}
 			else
 			{
-				current = NULL;
+				add_arg(&stock, NULL, -66);
 				if (prev != NULL)
 					prev->next = NULL;
+				else
+					*input = NULL;
+				free(current);
+				break ;
 			}
 		}
 		else
@@ -167,21 +223,21 @@ int	handle_heredoc(t_args **input)
 			current = current->next;
 		}
 	}
-	printf("----------------- RESULTAT HEREDOC --------------------\n");
-	if (stock != NULL)
-		print_args_list(&stock);
-	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
-	if (input != NULL)
-		print_args_list(input);
+//	printf("----------------- RESULTAT HEREDOC --------------------\n");
+//	if (stock != NULL)
+//		print_args_list(&stock);
+//	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
+//	if (input != NULL)
+//		print_args_list(input);
+	if (handle_mult_heredoc(&stock) == 1)
+	{
+		perror("syntax error near unexpected token\n");
+		return (1);
+	}
 	return (0);
 }
 
 			
-
-
-
-
-
 /*
  * fonction initiale, a conserver si comportement indesirable
  *
