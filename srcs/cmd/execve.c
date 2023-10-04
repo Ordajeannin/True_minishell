@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/03 17:13:46 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 17:13:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 	char 	*nb_char;
 	// char	*tmp;
 
+	// ft_printf("env_list 1 : %s | value : %d\n", *env_list, value);
 	nb_char = ft_itoa(value);
 	if (!nb_char)
 		return (2);
@@ -36,8 +37,9 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 		return (2);
 	}
 	current = *env_list;
-	while (current && current->next != NULL)
+	while (current)
 	{
+		// ft_printf("je suis la bicth 3\n");
 		current_name = ft_strdupto_n(current->str, '=');
 		if (!current_name)
 		{
