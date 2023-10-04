@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 17:22:12 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 18:02:17 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (from_input_to_list_of_args(input, &list, &env_list) == 1)
-	{
 		return (1);
-	}
 	free(input);
 	if (list)
 		main_ter(list, shell, &env_list);
@@ -194,12 +192,14 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 	{
 		prompt_char = prompt_cmd(shell, user);
 		input = readline(prompt_char);
+		free(prompt_char);
 		if (input == NULL)
 		{
 			free(user);
-			free(prompt_char);
 			ft_exit(list, env_list, shell);
 		}
+		free(shell->is_pwd);
+		free(shell->pwd);
 		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
 		shell->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
 		input = check_if_there_is_a_lost_pipe(input);
@@ -207,24 +207,28 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		{
 			add_history(input);
 			shell->input_bis = ft_strdup(input);
+			if (! shell->input_bis)
+			{
+				free(input);
+				free(user);
+				return (1);
+			}
 			if (main_bis(input, list, env_list, shell) == 1)
 			{
 				free(user);
-				free(prompt_char);
 				free_everything(shell, list, env_list);
 				return (1);
 			}
 		}
-		free(prompt_char);
 	}
 	while (1)
 	{
 		prompt_char = prompt_cmd(shell, user);
 		input = readline(prompt_char);
+		free(prompt_char);
 		if (input == NULL)
 		{
 			free(user);
-			free(prompt_char);
 			ft_exit(list, env_list, shell);
 		}
 		input = check_if_there_is_a_lost_pipe(input);
@@ -238,19 +242,16 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			shell->input_bis = ft_strdup(input);
 			if (! shell->input_bis)
 			{
-				free(prompt_char);
 				free(input);
 				free(user);
 				return (1);
 			}
 			if (main_bis(input, list, env_list, shell) == 1)
 			{
-				free(prompt_char);
 				free(user);
 				return (1);
 			}
 		}
-		free(prompt_char);
 	}
 	return (1);
 }

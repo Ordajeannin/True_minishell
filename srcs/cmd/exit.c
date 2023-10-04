@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/04 17:18:42 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 17:33:19 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	free_everything(t_shell *shell, t_args *list, t_args *env_list)
 	if (env_list)
 		clear_args_list(&env_list);
 	rl_clear_history();
-	clear_args_list(&list);
+	if (list)
+		clear_args_list(&list);
 }
 
 /*

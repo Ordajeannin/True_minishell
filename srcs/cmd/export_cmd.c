@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 11:12:54 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 17:25:25 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,15 @@ static void	ft_more_export(t_shell *shell, char *v_env, char *value)
 		value = "0";
 	shell_change(shell, v_env, value);
 	if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
-		shell->is_pwd = value;
+	{
+		free(shell->is_pwd);
+		shell->is_pwd = ft_strdup(value);
+	}
 	else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
-		shell->is_oldpwd = value;
+	{
+		free(shell->is_oldpwd);
+		shell->is_oldpwd = ft_strdup(value);
+	}
 }
 
 /* Fonction export.
