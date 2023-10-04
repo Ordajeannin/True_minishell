@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 20:57:24 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 19:36:18 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,13 +174,16 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 		{
 			while (--i >= 0 && tmp[i])
 				free(tmp[i]);
-			free(tmp);
+			// free(tmp);
 		}
 		i++;
 	}
-	while (--i >= 0 && tmp[i])
-		free(tmp[i]);
-	free(tmp);
+	if (tmp[i])
+	{
+		while (i >= 0 && tmp[i])
+			free(tmp[i--]);
+		free(tmp);
+	}
 	return (0);
 }
 
