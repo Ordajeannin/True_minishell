@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 18:02:17 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 18:55:43 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,11 @@ int	main(int ac, char **av, char **env)
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	username = get_username(&env_list, &shell);
-	is_minishell(&shell, env_list, list, username);
-	free(username);
+	if (is_minishell(&shell, env_list, list, username) == 2)
+	{
+		free(username);
+		ft_exit(list, env_list, &shell);
+	}
 	return (0);
 }
 
@@ -194,10 +197,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		input = readline(prompt_char);
 		free(prompt_char);
 		if (input == NULL)
-		{
-			free(user);
-			ft_exit(list, env_list, shell);
-		}
+			return (2);
 		free(shell->is_pwd);
 		free(shell->pwd);
 		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
@@ -210,12 +210,10 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			if (! shell->input_bis)
 			{
 				free(input);
-				free(user);
 				return (1);
 			}
 			if (main_bis(input, list, env_list, shell) == 1)
 			{
-				free(user);
 				free_everything(shell, list, env_list);
 				return (1);
 			}
@@ -227,10 +225,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		input = readline(prompt_char);
 		free(prompt_char);
 		if (input == NULL)
-		{
-			free(user);
-			ft_exit(list, env_list, shell);
-		}
+			return (2);
 		input = check_if_there_is_a_lost_pipe(input);
 		if (input != NULL)
 		{
@@ -243,14 +238,10 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			if (! shell->input_bis)
 			{
 				free(input);
-				free(user);
 				return (1);
 			}
 			if (main_bis(input, list, env_list, shell) == 1)
-			{
-				free(user);
 				return (1);
-			}
 		}
 	}
 	return (1);

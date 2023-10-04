@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 21:05:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 19:26:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 	status = 0x0;
 	while (current != NULL)
 	{
+		if (ft_atoi(shell->shlvl) > 1)
+		{
+			g_error = 2;
+			signal(SIGQUIT, signal_handler);
+			//Probleme signaux: SIGQUIT est ignore dans execve avant qu'il soit ignore ici
+		}
 		if (pipe(pipe_fds) == -1)
 		{
 			perror("pipe");
@@ -71,12 +77,15 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 	}
 	while (wait(&status) > 0)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
 		{
 			change_error(env_list, shell, WEXITSTATUS(status));
 			shell->error = WEXITSTATUS(status);
 		}
 	}
+	if (g_error == 2)
+		g_error = 0;
 }
 
 /*

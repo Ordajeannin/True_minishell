@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/04 17:56:58 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 19:25:55 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	int		status;
 
 	waitpid(pid_child, &status, 0);
+	signal(SIGQUIT, SIG_IGN);
 	if (g_error == 2)
 		g_error = 0;
 	if (WEXITSTATUS(status) != 0)
@@ -204,8 +205,6 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			(*env_tab) ++;
 		}
 	}
-	// if (command)
-	// 	free(command);
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);
