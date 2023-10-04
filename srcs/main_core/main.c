@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 17:14:26 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/04 17:22:12 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,17 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
  * Init shell->pwd au debut du main
  * Ajout de la premiere commande a l'historique
 */
-static void	little_more_main(t_shell shell, char **input)
+/*static void	little_more_main(t_shell shell, char **input)
 {
 	char	buf[1024];
 
 	shell.is_pwd = getcwd(buf, sizeof(buf));
 	shell.pwd = shell.is_pwd;
 	*input = check_if_there_is_a_lost_pipe(*input);
-	add_history(*input);
+	if (input != NULL)
+		add_history(*input);
 }
-
-
+*/
 /*
  * Actions de la boucle ATM
  * 1) readline ("prompt")
@@ -106,6 +106,7 @@ static void	little_more_main(t_shell shell, char **input)
  * 7) free le precedent input avant de reproposer le prompt
  * 8) vide la liste d'arguments, mais conserve le pointeur
 */
+/*
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
@@ -131,20 +132,49 @@ int	main(int ac, char **av, char **env)
 		ft_exit(list, env_list, &shell);
 	}
 	little_more_main(shell, &input);
-	shell.input_bis = ft_strdup(input);
-	if (main_bis(input, list, env_list, &shell) == 1)
+	ft_printf("je vaux : %s\n", input);
+	if (input != NULL)
 	{
-		free(username);
-		free(prompt_char);
-		// free(input);
-		free_everything(&shell, list, env_list);
-		return (1);
+		shell.input_bis = ft_strdup(input);
+		if (main_bis(input, list, env_list, &shell) == 1)
+		{
+			free(username);
+			free(prompt_char);
+			free(input);
+			free_everything(&shell, list, env_list);
+			return (1);
+		}
 	}
+	ft_printf("je suis la \n");
+	free(input);
 	free(prompt_char);
 	is_minishell(&shell, env_list, list, username);
+	free(username);
+	return (0);
+}*/
+
+/*
+ *(!) Main ne gere plus l'input
+*/
+int	main(int ac, char **av, char **env)
+{
+	t_args	*list;
+	t_args	*env_list;
+	t_shell	shell;
+	char	*username;
+
+	(void)ac;
+	ft_bzero(&shell, sizeof shell);
+	ft_gain_place(av, &list, &env_list);
+	if (set_env(&env_list, env, &shell) == -1)
+		return (-1);
+	username = get_username(&env_list, &shell);
+	is_minishell(&shell, env_list, list, username);
+	free(username);
 	return (0);
 }
 
+	
 /* 
  * Boucle principale minishell
  * Affiche le prompt
@@ -156,9 +186,37 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 {
 	char	*input;
 	char	*prompt_char;
+	char	buf[1024];
 
 	input = NULL;
 	prompt_char = NULL;
+	if (1 == 1)
+	{
+		prompt_char = prompt_cmd(shell, user);
+		input = readline(prompt_char);
+		if (input == NULL)
+		{
+			free(user);
+			free(prompt_char);
+			ft_exit(list, env_list, shell);
+		}
+		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
+		shell->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
+		input = check_if_there_is_a_lost_pipe(input);
+		if (input != NULL)
+		{
+			add_history(input);
+			shell->input_bis = ft_strdup(input);
+			if (main_bis(input, list, env_list, shell) == 1)
+			{
+				free(user);
+				free(prompt_char);
+				free_everything(shell, list, env_list);
+				return (1);
+			}
+		}
+		free(prompt_char);
+	}
 	while (1)
 	{
 		prompt_char = prompt_cmd(shell, user);
@@ -170,22 +228,29 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			ft_exit(list, env_list, shell);
 		}
 		input = check_if_there_is_a_lost_pipe(input);
-		if (!(ft_strcmp(shell->input_bis, input) == 0 \
-			&& ft_strlen(shell->input_bis) == ft_strlen(input)))
-			add_history(input);
-		if (shell->input_bis)
-			free(shell->input_bis);
-		shell->input_bis = ft_strdup(input);
-		if (!shell->input_bis)
+		if (input != NULL)
 		{
-			free(prompt_char);
-			// free(input);
-			free(user);
-			return (1);
+			if (!(ft_strcmp(shell->input_bis, input) == 0 \
+				&& ft_strlen(shell->input_bis) == ft_strlen(input)))
+				add_history(input);
+			if (shell->input_bis)
+				free(shell->input_bis);
+			shell->input_bis = ft_strdup(input);
+			if (! shell->input_bis)
+			{
+				free(prompt_char);
+				free(input);
+				free(user);
+				return (1);
+			}
+			if (main_bis(input, list, env_list, shell) == 1)
+			{
+				free(prompt_char);
+				free(user);
+				return (1);
+			}
 		}
-		main_bis(input, list, env_list, shell);
 		free(prompt_char);
 	}
-	free(user);
 	return (1);
 }
