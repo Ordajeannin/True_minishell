@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:59:31 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:10:57 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/04 23:48:17 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void	c_est_ma_direction(int token, t_args **list)
 		sans_abandonner(list);
 	if (token == TOKEN_APPEND)
 		ni_baisser_les_bras(list);
-	if (token == TOKEN_DELIM)
-		plus_de_nouvelle((*list)->next->str);
+//	if (token == TOKEN_DELIM)
+//		plus_de_nouvelle((*list)->next->str);
 }

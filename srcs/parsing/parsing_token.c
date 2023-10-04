@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 19:36:18 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 00:10:36 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,28 @@ void	process_not_s_quotes(t_args *node, t_args **env_list)
 				return (1);
 	}
 */
-int	update_args(t_args **list, t_args **env_list)
+
+/*
+ * Remplace les $var APRES la gestion des heredocs
+*/
+int	update_args2(t_args **list, t_args **env_list)
+{
+	t_args	*current;
+	
+	current = *list;
+	while (current != NULL)
+	{
+		if (current->token != TOKEN_S_QUOTES)
+		{
+			if (process_not_s_quotes(current, env_list) == 1)
+				return (1);
+		}
+		current = current->next;
+	}
+	return (0);
+}
+
+int	update_args(t_args **list)
 {
 	t_args	*current;
 	char	help[2];
@@ -297,11 +318,11 @@ int	update_args(t_args **list, t_args **env_list)
 	help[1] = '\0';
 	while (current != NULL)
 	{
-		if (current->token != TOKEN_S_QUOTES)
-		{
-			if (process_not_s_quotes(current, env_list) == 1)
-				return (1);
-		}
+//		if (current->token != TOKEN_S_QUOTES)
+//		{
+//			if (process_not_s_quotes(current, env_list) == 1)
+//				return (1);
+//		}
 		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str, 0);
 		if (current->str != NULL && current->token == 23)
