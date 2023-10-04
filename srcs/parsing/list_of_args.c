@@ -127,6 +127,15 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 		token = ft_strtok(NULL, delim, list);
 	if (update_args(list, e_list) == 1)
 		return (1);
+	printf("------------------- AVANT HEREDOC --------------------\n");
+	print_args_list(list);
+	if (handle_heredoc(list) == 1)
+		return (1);
+//	print_args_list(list);
+	if (update_args2(list, e_list) == 1)
+		return (1);
+	printf("----------------- POST-SUBSTITUTION -------------------\n");
+	print_args_list(list);
 	was_unclosed_quotes(list);
 	if (token)
 		free(token);

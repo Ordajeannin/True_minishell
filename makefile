@@ -19,7 +19,7 @@ SRC_DIR			= srcs
 OBJ_DIR			= obj
 OBJ_DIR_WOF		= obj
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -g3 #-fsanitize=leak,address,undefined
+CFLAGS			= #-Wall -Werror -Wextra -g3 #-fsanitize=leak,address,undefined
 READLINE		= -lreadline
 
 

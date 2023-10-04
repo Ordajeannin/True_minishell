@@ -122,6 +122,66 @@ void	plus_de_nouvelle(const char *str)
 		return (tempfile(result));
 }
 
+int	handle_heredoc(t_args **input)
+{
+	t_args	*current;
+	t_args	*prev;
+	t_args	*next;
+	t_args	*stock;
+
+	current = *input;
+	prev = NULL;
+	next = NULL;
+	stock = NULL;
+	if (input == NULL || *input == NULL)
+		return (1);
+	while (current != NULL)
+	{
+		if (current->token == TOKEN_DELIM)
+		{
+			if (current->next != NULL)
+				add_arg(&stock, current->next->str, TOKEN_DELIM);
+			else
+				add_arg(&stock, NULL, -66);
+			next = current->next;
+			free(current);
+			if (prev == NULL)
+				*input = next;
+			else
+				prev->next = next->next;
+			if (next != NULL)
+			{
+				current = next->next;
+				free(next);
+			}
+			else
+			{
+				current = NULL;
+				if (prev != NULL)
+					prev->next = NULL;
+			}
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+	printf("----------------- RESULTAT HEREDOC --------------------\n");
+	if (stock != NULL)
+		print_args_list(&stock);
+	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
+	if (input != NULL)
+		print_args_list(input);
+	return (0);
+}
+
+			
+
+
+
+
+
 /*
  * fonction initiale, a conserver si comportement indesirable
  *

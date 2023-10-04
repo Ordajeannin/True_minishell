@@ -120,6 +120,8 @@ void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str);
 int			is_correct_format(t_args **list);
 void		free_sublists(t_args_list *stock);
+int			update_args2(t_args **list, t_args **env_list);
+int			handle_heredoc(t_args **input);
 
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
