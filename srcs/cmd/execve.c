@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/04 19:25:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:30:51 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		}
 		execve(command, shell->input, env_tab);
 		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
+		free(command);
 		shell->error = handle_error(errno);
 		free_everything(shell, *list, *env_list);
 		exit(handle_error(errno));
@@ -205,6 +206,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			(*env_tab) ++;
 		}
 	}
+	free(command);
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);

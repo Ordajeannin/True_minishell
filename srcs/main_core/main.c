@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 18:55:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 15:00:43 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (from_input_to_list_of_args(input, &list, &env_list) == 1)
+	{
+		free(input);
 		return (1);
+	}
 	free(input);
 	if (list)
 		main_ter(list, shell, &env_list);
