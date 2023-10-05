@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/04 17:25:25 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 17:57:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 */
 int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 {
-	if (!list->next)
+	if (ft_strlen(list->str) == 6 && ft_strcmp(list->str, "export") == 0
+		&& !list->next)
 	{
+		ft_printf("que pasa\n");
 		export_out_args(env_list, shell);
 		return (1);
 	}
@@ -76,7 +78,11 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	int		result_change_env;
 
 	if (export_errors(list, env_list, shell) == 1)
+	{
+		if (list->next != NULL)
+			ft_export(list->next, shell, env_list);
 		return (1);
+	}
 	if (ft_strchr(list->next->str, '='))
 	{
 		v_env = ft_strdupto_n(list->next->str, '=');
@@ -118,27 +124,31 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 */
 int	export_out_args(t_args **env_list, t_shell *shell)
 {
-	t_args	*current;
 	char	*bfore;
 	char	*after;
+	char	**env_sort;
+	int		i;
 
-	current = *env_list;
 	bfore = NULL;
 	after = NULL;
-	while (current != NULL)
+	env_sort = ft_sort(env_list);
+	i = 0;
+	while (env_sort[i])
 	{
-		bfore = ft_strdupto_n(current->str, '=');
-		after = ft_strdup_from(current->str, '=');
-		if (ft_strncmp(current->str, "?=", 2) == 0)
-			current = current->next;
+		bfore = ft_strdupto_n(env_sort[i], '=');
+		after = ft_strdup_from(env_sort[i], '=');
+		if (ft_strncmp(bfore, "?=", 2) == 0)
+			i ++;
 		else
-		{
 			ft_printf("declare -x %s=\"%s\"\n", bfore, after);
-			current = current->next;
-		}
+		i ++;
 		free(bfore);
 		free(after);
 	}
+	i = 0;
+	while (env_sort[i])
+		free(env_sort[i++]);
+	free(env_sort);
 	if (!change_error(env_list, shell, 0))
 		return (1);
 	return (0);
@@ -162,7 +172,10 @@ int	parse_export(t_args *list)
 		if (!(list->str[i] >= '0' && list->str[i] <= '9') && !(list->str[i] \
 			>= 'A' && list->str[i] <= 'Z') && !(list->str[i] >= 'a' \
 			&& list->str[i] <= 'z') && list->str[i] != '_')
+		{
+			
 			return (1);
+		}
 		i ++;
 	}
 	if (list->str[i] == '=')

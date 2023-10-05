@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 19:26:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 17:28:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		if (pipe(pipe_fds) == -1)
 		{
 			perror("pipe");
+			free_everything(shell, list, *env_list);
 			exit(EXIT_FAILURE);
 		}
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("fork");
+			free_everything(shell, list, *env_list);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)

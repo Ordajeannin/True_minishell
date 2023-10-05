@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 18:42:02 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 19:45:21 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	clear_args_list(t_args **list)
 		free(current);
 		current = next;
 	}
-	*list = NULL;
+	// *list = NULL;
 }
 
 /*
@@ -50,12 +50,18 @@ static t_args	*create_arg(char *str, int token)
 	return (new_arg);
 }
 
-t_args *copy_list(t_args* source)
+/* 
+ * Permets de copier un liste d'args
+*/
+t_args *copy_list(t_args *source)
 {
-    t_args* new_head = NULL;
-    t_args* current = source;
-    t_args* tail = NULL;
+    t_args* new_head;
+    t_args* current;
+    t_args* tail;
     
+	new_head = NULL;
+	tail = NULL;
+	current = source;
     while (current != NULL)
 	{
         if (new_head == NULL)
@@ -72,6 +78,7 @@ t_args *copy_list(t_args* source)
             tail = tail->next;
             tail->str = current->str;
 			tail->token = current->token;
+			// tail->next = NULL;
         }
         current = current->next;
     }
@@ -97,6 +104,8 @@ void	add_arg(t_args **list, char *str, int token)
 		current = *list;
 		while (current->next != NULL)
 			current = current->next;
+		// if(current->next)
+		// 	free(current->next);
 		current->next = copy_list(new_arg);
 	}
 	free(new_arg);
@@ -142,8 +151,6 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	if (help_fitloa(list, e_list) == 1)
 		return (1);
 	was_unclosed_quotes(list);
-	if (token)
-		free(token);
 	return (0);
 }
 

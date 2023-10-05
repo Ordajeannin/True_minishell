@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 18:55:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 17:44:44 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,16 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (from_input_to_list_of_args(input, &list, &env_list) == 1)
+	{
+		free(input);
 		return (1);
+	}
 	free(input);
 	if (list)
 		main_ter(list, shell, &env_list);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
-	clear_args_list(&list);
+	// clear_args_list(&list);
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		perror("Failed to restore standard input\n");
 	if (access("tempfile.txt", F_OK != -1))
@@ -167,15 +170,12 @@ int	main(int ac, char **av, char **env)
 	if (set_env(&env_list, env, &shell) == -1)
 		return (-1);
 	username = get_username(&env_list, &shell);
-	if (is_minishell(&shell, env_list, list, username) == 2)
-	{
-		free(username);
-		ft_exit(list, env_list, &shell);
-	}
+	is_minishell(&shell, env_list, list, username);
+	free(username);
+	free_everything(&shell, list, env_list);
 	return (0);
 }
 
-	
 /* 
  * Boucle principale minishell
  * Affiche le prompt
@@ -214,10 +214,13 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			}
 			if (main_bis(input, list, env_list, shell) == 1)
 			{
-				free_everything(shell, list, env_list);
+				// free_everything(shell, list, env_list);
 				return (1);
 			}
+			clear_args_list(&list);
 		}
+		else
+			return (1);
 	}
 	while (1)
 	{
@@ -241,8 +244,14 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 				return (1);
 			}
 			if (main_bis(input, list, env_list, shell) == 1)
+			{
+				// free_everything(shell, list, env_list);
 				return (1);
+			}
+			clear_args_list(&list);
 		}
+		else
+			return (1);
 	}
 	return (1);
 }

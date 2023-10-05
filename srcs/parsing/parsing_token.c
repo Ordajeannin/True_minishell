@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 15:54:23 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 19:45:31 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 //		}
 		i++;
 	}
+	i = 0;
 	if (tmp[i])
 	{
 		while (i >= 0 && tmp[i])
