@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delim.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 23:58:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:50:44 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int	handle_heredoc(t_args **input)
 	next = NULL;
 	stock = NULL;
 	if (input == NULL || *input == NULL)
-		return (1);
+		return (0);
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -230,10 +230,7 @@ int	handle_heredoc(t_args **input)
 //	if (input != NULL)
 //		print_args_list(input);
 	if (handle_mult_heredoc(&stock) == 1)
-	{
 		perror("syntax error near unexpected token\n");
-		return (1);
-	}
 	return (0);
 }
 

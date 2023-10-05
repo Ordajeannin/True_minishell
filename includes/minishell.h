@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 00:02:01 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:20:13 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int			count_dir(t_shell *shell);
 char		**dup_double_string(t_args **e_list);
 int			is_numeric(char *str);
 t_args		*copy_list(t_args* source);
+char		**ft_sort(t_args **env_list);
 
 //Print Things
 void		shell_style(t_shell *shell);

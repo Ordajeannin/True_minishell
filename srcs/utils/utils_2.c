@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:31:12 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/27 14:11:26 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:14:58 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,59 @@ char	*ft_strjoin_free(char *s1, char *s2)
 		new[j++] = s2[i++];
 	new[j] = '\0';
 	return (free(s1), free(s2), new);
+}
+
+static char	**env_to_char(t_args **env_list)
+{
+	t_args	*current;
+	char	**env_char;
+	int		i;
+
+	current = *env_list;
+	env_char = ft_calloc(len_targs(current), sizeof *current);
+	if (!env_char)
+		return (NULL);
+	i = 0;
+	while (current)
+	{
+		env_char[i] = ft_strdup(current->str);
+		if (!env_char[i])
+		{
+			while (i >= 0)
+				free(env_char[i--]);
+			free(env_char);
+		}			
+		current = current->next;
+		i ++;
+	}
+	return (env_char);
+}
+
+char    **ft_sort(t_args **env_list)
+{
+    int			i;
+    char		*temp;
+	char		**env_char;
+    int			must_continue;
+
+	env_char = env_to_char(env_list);
+    must_continue = 1;
+    while (must_continue)
+    {
+        must_continue = 0;
+        i = 1;
+        while (env_char[i + 1])
+        {
+            if (ft_strncmp(env_char[i], env_char[i + 1],
+                    ft_strlen(env_char[i]) + ft_strlen(env_char[i + 1])) > 0)
+            {
+                temp = env_char[i];
+                env_char[i] = env_char[i + 1];
+                env_char[i + 1] = temp;
+                must_continue = 1;
+            }
+            i++;
+        }
+    }
+	return (env_char);
 }

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 19:17:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 10:39:11 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  */
 void	signal_handler(int sig)
 {
-	ft_printf("je suis la\n");
+	// ft_printf("je suis la\n");
 	// ft_printf("sig vaut : %d\n", sig);
 	if (rl_done && g_error == 2)
 	{
