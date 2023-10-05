@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 13:59:23 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:22:02 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	export_out_args(t_args **env_list, t_shell *shell)
 	{
 		bfore = ft_strdupto_n(env_sort[i], '=');
 		after = ft_strdup_from(env_sort[i], '=');
-		if (ft_strncmp(ft_strdupto_n(env_sort[i], '='), "?=", 2) == 0)
+		if (ft_strncmp(bfore, "?=", 2) == 0)
 			i ++;
 		else
 			ft_printf("declare -x %s=\"%s\"\n", bfore, after);
