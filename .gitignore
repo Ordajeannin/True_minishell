@@ -1,6 +1,7 @@
 *.o
 *.swp
 tags
+libft/tags
 ./minishell
 minishell
 ./a.out
