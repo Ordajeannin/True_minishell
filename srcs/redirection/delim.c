@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 23:58:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:54:47 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int	handle_heredoc(t_args **input)
 	next = NULL;
 	stock = NULL;
 	if (input == NULL || *input == NULL)
-		return (1);
+		return (0);
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -230,55 +230,6 @@ int	handle_heredoc(t_args **input)
 //	if (input != NULL)
 //		print_args_list(input);
 	if (handle_mult_heredoc(&stock) == 1)
-	{
 		perror("syntax error near unexpected token\n");
-		return (1);
-	}
 	return (0);
 }
-
-			
-/*
- * fonction initiale, a conserver si comportement indesirable
- *
-char	*plus_de_nouvelle(const char *str)
-{
-	char	*result;
-	char	*line;
-	int		input_size;
-	int		buffer_lenght;
-
-	result = NULL;
-	line = NULL;
-	input_size = 0;
-	buffer_lenght = 0;
-	while (1)
-	{
-		line = readline("> ");
-		if (line == NULL || ft_strcmp(line, str) == 0)
-			break ;
-		buffer_lenght = ft_strlen(line) + 1;
-		if (result == NULL)
-			result = (char *)malloc(buffer_lenght);
-		else
-			result = (char *)ft_realloc(result, input_size + buffer_lenght);
-		if (result == NULL)
-		{
-			free(line);
-			return (NULL);
-		}
-		if (input_size == 0)
-			ft_strcpy(result, line);
-		else
-		{
-			ft_strcat(result, "\n");
-			ft_strcat(result, line);
-		}
-		input_size += buffer_lenght;
-		free(line);
-	}
-	if (line)
-		free(line);
-	return (result);
-}
-*/

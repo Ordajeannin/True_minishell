@@ -1,39 +1,10 @@
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
-!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
-!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
-!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
-!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/mnt/nfs/homes/asalic/Documents/Cursus42/minishell/Minishell/libft/	//
-!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
-!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
-!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	5.9.0	//
-$(NAME)	Makefile	/^$(NAME) 		: $(OBJ)$/;"	t
-$(OBJF)	Makefile	/^$(OBJF)			:$/;"	t
-$(OBJ_DIR)%.o	Makefile	/^$(OBJ_DIR)%.o 		: $(SRC_DIR)%.c | $(OBJF)$/;"	t
-0	src/.vscode/c_cpp_properties.json	/^        ""$/;"	s	array:configurations.0.compilerArgs
-0	src/.vscode/c_cpp_properties.json	/^        "${workspaceFolder}\/**"$/;"	s	array:configurations.0.includePath
-0	src/.vscode/c_cpp_properties.json	/^    {$/;"	o	array:configurations
-0	src/.vscode/launch.json	/^        {$/;"	o	array:configurations.0.setupCommands
-0	src/.vscode/launch.json	/^    {$/;"	o	array:configurations
-0	src/.vscode/settings.json	/^    "*",$/;"	s	array:C_Cpp_Runner.includeSearch
-0	src/.vscode/settings.json	/^    "**\/build",$/;"	s	array:C_Cpp_Runner.excludeSearch
-0	src/.vscode/settings.json	/^    "-Wall",$/;"	s	array:C_Cpp_Runner.warnings
-1	src/.vscode/settings.json	/^    "**\/*"$/;"	s	array:C_Cpp_Runner.includeSearch
-1	src/.vscode/settings.json	/^    "**\/build\/**",$/;"	s	array:C_Cpp_Runner.excludeSearch
-1	src/.vscode/settings.json	/^    "-Wextra",$/;"	s	array:C_Cpp_Runner.warnings
-2	src/.vscode/settings.json	/^    "**\/.*",$/;"	s	array:C_Cpp_Runner.excludeSearch
-2	src/.vscode/settings.json	/^    "-Wpedantic",$/;"	s	array:C_Cpp_Runner.warnings
-3	src/.vscode/settings.json	/^    "**\/.*\/**",$/;"	s	array:C_Cpp_Runner.excludeSearch
-3	src/.vscode/settings.json	/^    "-Wshadow",$/;"	s	array:C_Cpp_Runner.warnings
-4	src/.vscode/settings.json	/^    "**\/.vscode",$/;"	s	array:C_Cpp_Runner.excludeSearch
-4	src/.vscode/settings.json	/^    "-Wformat=2",$/;"	s	array:C_Cpp_Runner.warnings
-5	src/.vscode/settings.json	/^    "**\/.vscode\/**"$/;"	s	array:C_Cpp_Runner.excludeSearch
-5	src/.vscode/settings.json	/^    "-Wconversion",$/;"	s	array:C_Cpp_Runner.warnings
-6	src/.vscode/settings.json	/^    "-Wnull-dereference",$/;"	s	array:C_Cpp_Runner.warnings
-7	src/.vscode/settings.json	/^    "-Wsign-conversion"$/;"	s	array:C_Cpp_Runner.warnings
-BUFFER_SIZE	includes/libft.h	/^#  define BUFFER_SIZE /;"	d
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUFFER_SIZE	includes/libft.h	24;"	d
 CC	Makefile	/^CC				= gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS 			= -Werror -Wextra -Wall -g3 -I$/;"	m
 INCLUDES	Makefile	/^INCLUDES		= includes$/;"	m

@@ -6,30 +6,11 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 00:10:36 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:54:23 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * Fonction permettant de rajouter un espace a la fin d'un argument
- * (update en verifiant le token?)
-static char	*add_space(char	*str)
-{
-	char	*result;
-	int		len;
-
-	len = ft_strlen(str);
-	result = malloc(sizeof(char) * len + 1);
-	if (!result)
-		return (NULL);
-	ft_strncpy(result, str, len);
-	result[len] = ' ';
-	result[len + 1] = '\0';
-	return (result);
-}
-*/
 
 /*
  * Permet de gagner de la place pour delete_null_nodes (input == NULL)
@@ -170,12 +151,12 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 				return (1);
 			}
 		}
-		else
-		{
-			while (--i >= 0 && tmp[i])
-				free(tmp[i]);
+//		else
+//		{
+//			while (--i >= 0 && tmp[i])
+//				free(tmp[i]);
 			// free(tmp);
-		}
+//		}
 		i++;
 	}
 	if (tmp[i])
@@ -186,107 +167,6 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 	}
 	return (0);
 }
-
-/*
-void	process_not_s_quotes(t_args *node, t_args **env_list)
-{
-	char	**tmp;
-	char	*verif;
-	char	*is_ve;
-	char	*tmp_node;
-	int		i;
-
-	tmp = ft_split_arg(node->str);
-	if (! tmp)
-		return (1);
-	node->str = NULL;
-	tmp_node = NULL;
-	i = 0;
-	while (tmp[i])
-	{
-		is_ve = is_env_var(tmp[i], env_list, flag);
-		if (!is_ve)
-		{
-			if (tmp[i])
-			{
-				while (i >= 0 && tmp[i])
-					free(tmp[i--]);
-				free(tmp);
-			}
-			return (1);
-		}
-		verif = ft_strdup(tmp[i]);
-		if (!verif)
-		{
-			free(is_ve);
-			if (tmp[i])
-			{
-				while (i >= 0 && tmp[i])
-					free(tmp[i--]);
-				free(tmp);
-			}
-			return (1);
-		}
-		tmp[i] = ft_strdup(is_ve);
-		if (!tmp[i])
-		{
-			free(is_ve);
-			free(verif);
-			while (--i >= 0 && tmp[i])
-				free(tmp[i]);
-			free(tmp);
-			return (1);
-		}
-		if (tmp[i] != NULL && ft_strcmp(verif, tmp[i]) == 0 && tmp[i][0] == '$')
-			node->token = TOKEN_TEMP_VAR;
-		if (tmp[i] != NULL && node->str != NULL)
-		{
-			tmp_node = ft_strdup(node->str);
-			node->str = ft_strjoin(tmp_node, tmp[i]);
-			free(tmp_node);
-			if (!node->str)
-			{
-				free(is_ve);
-				free(verif);
-				while (i >= 0 && tmp[i])
-					free(tmp[i--]);
-				free(tmp);
-				return (1);
-			}
-		}
-		if (tmp[i] != NULL && node->str == NULL)
-		{
-			free(node->str);
-			node->str = ft_strdup(tmp[i]);
-			if (!node->str)
-			{
-				free(is_ve);
-				free(verif);
-				while (i >= 0 && tmp[i])
-					free(tmp[i--]);
-				free(tmp);
-				return (1);
-			}
-		}
-		i++;
-		free(verif);
-		free(is_ve);
-	}
-	while (--i >= 0 && tmp[i])
-		free(tmp[i]);
-	free(tmp);
-	return (0);
-}
-*/
-/*
- * Permet de remplacer les variables d'environnement par leurs valeurs.
- * :warning: uniquement celles existantes / qui ne sont pas entre single quotes!
- * ensuite, tokenize les arguments
- * {
-			if (process_not_s_quotes(current, env_list, 1) == 1)
-				return (1);
-	}
-*/
 
 /*
  * Remplace les $var APRES la gestion des heredocs
@@ -305,6 +185,7 @@ int	update_args2(t_args **list, t_args **env_list)
 		}
 		current = current->next;
 	}
+	delete_null_nodes(list);
 	return (0);
 }
 
@@ -318,11 +199,6 @@ int	update_args(t_args **list)
 	help[1] = '\0';
 	while (current != NULL)
 	{
-//		if (current->token != TOKEN_S_QUOTES)
-//		{
-//			if (process_not_s_quotes(current, env_list) == 1)
-//				return (1);
-//		}
 		if (current->str != NULL && current->token < 20)
 			current->token = tokenize_args(current->str, 0);
 		if (current->str != NULL && current->token == 23)
@@ -337,47 +213,5 @@ int	update_args(t_args **list)
 		}
 		current = current->next;
 	}
-	delete_null_nodes(list);
 	return (0);
 }
-
-/*
- * Permet de verifier si un argument contient une variable d'environnement
- * correctement formatee, et de la remplacer
- * Permet egalement d'associer un token a une string pour chaque maillon
- * de la liste chainee input
- * A CONSERVER TEMPORAIREMENT, si probleme avec le raccourcissement
-*/
-/*
-void	update_args(t_args **list, t_args **env_list)
-{
-	t_args	*current;
-	char	**tmp;
-	int		i;
-
-	current = *list;
-	tmp = NULL;
-	while (current != NULL)
-	{
-		i = 0;
-		if (current->token != TOKEN_S_QUOTES)
-		{
-			tmp = ft_split_arg(current->str);
-			current->str = NULL;
-			while (tmp[i])
-			{
-				tmp[i] = is_env_var(tmp[i], env_list);
-				if (tmp[i] != NULL && current->str != NULL)
-					current->str = ft_strjoin(current->str, tmp[i]);
-				if (tmp[i] != NULL && current->str == NULL)
-					current->str = tmp[i];
-				i++;
-			}
-		}
-		if (current->str != NULL && current->token < 20)
-			current->token = tokenize_args(current->str);
-		current = current->next;
-	}
-	delete_null_nodes(list);
-}
-*/
