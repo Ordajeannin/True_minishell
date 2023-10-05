@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 14:22:02 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 17:57:46 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 */
 int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 {
-	if (!list->next)
+	if (ft_strlen(list->str) == 6 && ft_strcmp(list->str, "export") == 0
+		&& !list->next)
 	{
+		ft_printf("que pasa\n");
 		export_out_args(env_list, shell);
 		return (1);
 	}

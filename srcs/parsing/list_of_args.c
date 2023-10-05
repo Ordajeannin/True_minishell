@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 16:21:08 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 17:52:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,11 @@ void	clear_args_list(t_args **list)
 	{
 		next = current->next;
 		if (current->str)
-		{
-			ft_printf("list = %s\n", current->str);
 			free(current->str);
-		}
-		if (current)
-			free(current);
+		free(current);
 		current = next;
 	}
-	*list = NULL;
+	// *list = NULL;
 }
 
 /*
@@ -108,8 +104,8 @@ void	add_arg(t_args **list, char *str, int token)
 		current = *list;
 		while (current->next != NULL)
 			current = current->next;
-		if(current->next)
-			free(current->next);
+		// if(current->next)
+		// 	free(current->next);
 		current->next = copy_list(new_arg);
 	}
 	free(new_arg);

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:05:55 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/02 19:31:13 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 17:50:47 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	help_stock(t_args_list **stock, t_args **start, t_args **current)
 	{
 		if ((*current)->token == TOKEN_PIPE)
 		{
-			new_node = malloc(sizeof(t_args_list));
+			new_node = ft_calloc(1, sizeof(t_args_list));
 			if (!new_node)
 			{
 				perror("malloc");
