@@ -159,6 +159,7 @@ int			is_alphanum(char c);
 void		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_strcat(char *str1, const char *str2);
 char		*ft_strcpy(char *dest, const char *src);
+char		*word_dup(char *str, int start, int finish);
 
 //List concerns
 int			from_input_to_list_of_args(char *input, t_args **list, \

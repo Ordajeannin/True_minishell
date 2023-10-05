@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-/*
- * Permet de copier l'env du shell initial,
- * et d'initialiser notre structure.
- * Toutes les varables seront initialisees et modifiables au besoin
- * PATH est split pour pouvoir manipuler chaque path individuellement
- * -> **cmd_paths
- * (Renvoie un message d'erreur si env est null, a voir si on modifie
- * ca plus tard. Par defaut, fin de minishell)
-*/
-
 /* 
  * Check si getenv est NULL
  * Si oui, renvoit une chaine vide

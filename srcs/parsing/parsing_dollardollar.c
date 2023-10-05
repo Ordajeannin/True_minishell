@@ -6,29 +6,11 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 15:52:35 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:10:27 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * alloue une sous chaine, et l'extrait de str
-*/
-static char	*word_dup(char *str, int start, int finish)
-{
-	char	*word;
-	int		i;
-
-	i = 0;
-	word = ft_calloc(finish - start + 1, sizeof(char));
-	if (!word)
-		return (NULL);
-	while (start < finish)
-		word[i++] = str[start++];
-	word[i] = '\0';
-	return (word);
-}
 
 /*
  * gere les cas particuliers
@@ -89,6 +71,18 @@ static void	update_split(t_split *s, int step)
 	}
 }
 
+static int	step2split(t_split *s, char *str)
+{
+	if (s->start < s->i)
+	{
+		if (s->result[s->j])
+			free(s->result[s->j]);
+		s->result[s->j++] = word_dup(str, s->start, s->i);
+	}
+	s->result[s->j] = NULL;
+	return (0);
+}
+
 /*
  * Permet d'initialiser la structure, et de traiter la premiere sous chaine
  * jusqu'a la rencontre d'un '$'
@@ -96,16 +90,7 @@ static void	update_split(t_split *s, int step)
 static int	init_split(t_split *s, char *str, int step)
 {
 	if (step == 2)
-	{
-		if (s->start < s->i)
-		{
-			if (s->result[s->j])
-				free(s->result[s->j]);
-			s->result[s->j++] = word_dup(str, s->start, s->i);
-		}
-		s->result[s->j] = NULL;
-		return (0);
-	}
+		return (step2split(s, str));
 	s->i = 0;
 	s->j = 0;
 	s->start = 0;
@@ -162,62 +147,3 @@ char	**ft_split_arg(char *str)
 	init_split(&s, str, 2);
 	return (s.result);
 }
-
-/*
- * version plus clair mais incorrect pour la norme
- * a conserver pour awena
-char	**ft_split_arg(char *str)
-{
-	int		i;
-	int		j;
-	int		start;
-	int		flag;
-	char	**result;
-
-	i = 0;
-	j = 0;
-	start = 0;
-	flag = 0;
-	result = malloc(sizeof(char *) * 1000);
-	if (!result)
-		return (NULL);
-	while (str[i] != '$' && str[i] != '\0')
-		i++;
-	if (i != 0)
-	{
-		result[j++] = word_dup(str, start, i);
-		start = i;
-	}
-	while (str[i] != '\0')
-	{
-		if (flag == 1 && (str[i] == '$' || str[i] == '\0'
-				|| is_alphanum(str[i]) == -1))
-		{
-			result[j++] = word_dup(str, start, i);
-			start = i;
-			flag = 0;
-		}
-		if (str[i] == '$' && str[i + 1] == '$')
-		{
-			result[j++] = word_dup(str, i, i + 2);
-			i++;
-			start = i + 1;
-		}
-		else if (str[i] == '$' && flag == 0)
-		{
-			flag = 1;
-			start = i;
-		}
-		else if (str[i] != '$' && flag == 0)
-		{
-			flag = 1;
-			start = i;
-		}
-		i++;
-	}
-	if (start < i)
-		result[j++] = word_dup(str, start, i);
-	result[j] = NULL;
-	return (result);
-}
-*/

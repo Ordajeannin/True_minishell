@@ -90,3 +90,22 @@ char	*ft_strcat(char *str1, const char *str2)
 	*str = '\0';
 	return (str);
 }
+
+/*
+ * alloue une sous chaine, et l'extrait de str
+*/
+char	*word_dup(char *str, int start, int finish)
+{
+	char	*word;
+	int		i;
+
+	i = 0;
+	word = ft_calloc(finish - start + 1, sizeof(char));
+	if (!word)
+		return (NULL);
+	while (start < finish)
+		word[i++] = str[start++];
+	word[i] = '\0';
+	return (word);
+}
+

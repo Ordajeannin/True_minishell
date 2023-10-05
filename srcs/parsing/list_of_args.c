@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 15:55:02 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:42:02 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,20 @@ void	add_arg(t_args **list, char *str, int token)
 }
 
 /*
+ * Permet de norme from_input_to_list_of_args
+*/
+static int	help_fitloa(t_args **list, t_args **e_list)
+{
+	if (update_args(list) == 1)
+		return (1);
+	if (handle_heredoc(list) == 1)
+		return (1);
+	if (update_args2(list, e_list) == 1)
+		return (1);
+	return (0);
+}
+
+/*
  * Permet d'extraire les tokens de input sur base des delimitateurs
  * Puis identifie ces tokens
 */
@@ -125,20 +139,33 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
-	if (update_args(list) == 1)
+	if (help_fitloa(list, e_list) == 1)
 		return (1);
-//	printf("------------------- AVANT HEREDOC --------------------\n");
-//	print_args_list(list);
-	if (handle_heredoc(list) == 1)
-		return (1);
-//	print_args_list(list);
-	if (update_args2(list, e_list) == 1)
-		return (1);
-//	printf("----------------- POST-SUBSTITUTION -------------------\n");
-//	print_args_list(list);
 	was_unclosed_quotes(list);
 	if (token)
 		free(token);
+	return (0);
+}
+
+/*
+ * Permet de norme loop_args
+*/
+static int	help_loop_args(t_shell **shell, int *i, int flag)
+{
+	if (flag == 1)
+	{
+		while ((*shell)->input[*i])
+			free((*shell)->input[(*i)++]);
+		free((*shell)->input);
+		*i = 0;
+	}
+	else if (flag == 2)
+	{
+		while (*i >= 0)
+			free((*shell)->input[(*i)--]);
+		free((*shell)->input);
+		return (1);
+	}
 	return (0);
 }
 
@@ -157,12 +184,7 @@ int	loop_args(t_shell *shell, t_args **list)
 	len_list = len_targs(current);
 	i = 0;
 	if (shell->input)
-	{
-		while (shell->input[i])
-			free(shell->input[i++]);
-		free(shell->input);
-		i = 0;
-	}
+		help_loop_args(&shell, &i, 1);
 	shell->input = ft_calloc((len_list + 1), sizeof(char *));
 	if (!shell->input)
 		return (1);
@@ -170,12 +192,7 @@ int	loop_args(t_shell *shell, t_args **list)
 	{
 		shell->input[i] = ft_strdup(current->str);
 		if (!shell->input[i])
-		{
-			while (i >= 0)
-				free(shell->input[i--]);
-			free(shell->input);
-			return (1);
-		}
+			help_loop_args(&shell, &i, 2);
 		current = current->next;
 		i ++;
 	}
