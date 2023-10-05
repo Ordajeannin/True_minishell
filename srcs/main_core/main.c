@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 15:00:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 16:14:06 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,11 @@ int	main(int ac, char **av, char **env)
 		free(username);
 		ft_exit(list, env_list, &shell);
 	}
+	free(username);
+	free_everything(&shell, list, env_list);
 	return (0);
 }
 
-	
 /* 
  * Boucle principale minishell
  * Affiche le prompt

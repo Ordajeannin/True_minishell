@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 14:30:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 16:18:02 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	if (pid_child == -1)
 	{
 		perror("fork");
+		free(command);
 		free_everything(shell, *list, *env_list);
 		exit(EXIT_FAILURE);
 	}
@@ -189,6 +190,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		if (!env_tab)
 		{
 			free(command);
+			free_everything(shell, *list, *env_list);
 			return (1);
 		}
 		execve(command, shell->input, env_tab);
@@ -206,7 +208,8 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			(*env_tab) ++;
 		}
 	}
-	free(command);
+	if (command)
+		free(command);
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);
