@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 11:08:25 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 19:24:22 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,32 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 }
 
 /*
+ * Permet de normer is_two_point
+*/
+static char *help_itp1(t_args *env_list, t_shell **shell, DIR **dir,
+		char **temp)
+{
+	ft_printf("cd : No such file of directory\n");
+	change_error(&env_list, *shell, 0);
+	closedir(*dir);
+	free(*temp);
+	return (NULL);
+}
+
+/*
+ * Permet de normer is_two_points
+ * fonction recurrente dans le code
+*/
+static char	*help_itp2(DIR **dir, char **temp)
+{
+	free(*temp);
+	closedir(*dir);
+	return (NULL);
+}
+
+/*
  * Cas ou cd.., suite de la commande cd principale
+ * Fonction normee, conservation du code commente au cas ou
 */
 static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 {
@@ -46,32 +71,36 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 		return (NULL);
 	dir = opendir(temp);
 	if (dir == NULL)
-	{
-		buf = NULL;
-		ft_printf("cd : No such file or directory\n");
-		change_error(&env_list, shell, 0);
-		closedir(dir);
-		free(temp);
-		return (NULL);
-	}
+		return (help_itp1(env_list, &shell, &dir, &temp));
+//	{
+//		buf = NULL; pourquoi set a NULL alors qu on return?
+//		ft_printf("cd : No such file or directory\n");
+//		change_error(&env_list, shell, 0);
+//		closedir(dir);
+//		free(temp);
+//		return (NULL);
+//	}
 	buf = ft_strdup(list->next->str);
 	if (! buf)
-	{
-		free(temp);
-		closedir(dir);
-		return (NULL);
-	}
+		help_itp2(&dir, &temp);
+//	{
+//		free(temp);
+//		closedir(dir);
+//		return (NULL);
+//	}
 	if (shell->pwd == NULL)
 	{
 		if (!cd_move_and_change(env_list, shell))
-		{
-			free(temp);
-			closedir(dir);
-			return (NULL);
-		}
+			return(help_itp2(&dir, &temp));
+//		{
+//			free(temp);
+//			closedir(dir);
+//			return (NULL);
+//		}
 	}
-	free(temp);
-	closedir(dir);
+	help_itp2(&dir, &temp);
+//	free(temp);
+//	closedir(dir);
 	return (buf);
 }
 

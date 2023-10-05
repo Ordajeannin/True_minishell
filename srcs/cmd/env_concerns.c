@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/04 17:14:12 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/05 20:16:12 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,50 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 	}
 }
 
+/*
+ * Permet de norme change_env_exp
+*/
+static int	help_cee(char **current_name, t_args **current, char **result)
+{
+	*current_name = ft_strdupto_n((*current)->str, '=');
+	if (!*current_name)
+	{
+		free(*result);
+		return (2);
+	}
+	return (0);
+}
+
+/*
+ * Permet de norme change_env_exp
+*/
+static int	help_cee2(char **current_name, t_args **current, char **result,
+		char **name_env)
+{
+	if (ft_strncmp(*current_name, *name_env, ft_strlen(*current_name)) == 0
+		&& ft_strlen(*current_name) == ft_strlen(*name_env))
+	{
+		if ((*current)->str)
+				free((*current)->str);
+		(*current)->str = ft_strdup(*result);
+		free(*current_name);
+		free(*result);
+		return (0);
+	}
+	*current = (*current)->next;
+	free(*current_name);
+	return (1);
+}
+
+/*
+ * Permet de norme change_env_exp
+*/
+static int	help_cee3(char **result)
+{
+	free(*result);
+	return (1);
+}
+
 /* 
  * Modif de env pour export
  * Recherche de name_env dans env et modifs.
@@ -65,27 +109,47 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	current = *env_list;
 	while (current && current->next != NULL)
 	{
-		current_name = ft_strdupto_n(current->str, '=');
-		if (!current_name)
-		{
-			free(result);
+		if (help_cee(&current_name, &current, &result) == 2)
 			return (2);
-		}
-		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
-			&& ft_strlen(current_name) == ft_strlen(name_env))
-		{
-			if (current->str)
-				free(current->str);
-			current->str = ft_strdup(result);
-			free(current_name);
-			free(result);
+		if (help_cee2(&current_name, &current, &result, &name_env) == 0)
 			return (0);
-		}
-		current = current->next;
-		free(current_name);
 	}
-	free(result);
-	return (1);
+	return (help_cee3(&result));
+}
+//	{
+//		current_name = ft_strdupto_n(current->str, '=');
+//		if (!current_name)
+//		{
+//			free(result);
+//			return (2);
+//		}
+//		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
+//			&& ft_strlen(current_name) == ft_strlen(name_env))
+//		{
+//			if (current->str)
+//				free(current->str);
+//			current->str = ft_strdup(result);
+//			free(current_name);
+//			free(result);
+//			return (0);
+//		}
+//		current = current->next;
+//		free(current_name);
+//	}
+//	free(result);
+//	return (1);
+//}
+
+/*
+ * Permet de norme searchin_env
+*/
+static int	help_s_e(t_args **temp, t_args **current, char **name_env)
+{
+	*temp = (*current)->next->next;
+	free((*current)->next);
+	(*current)->next = *temp;
+	free(*name_env);
+	return (0);
 }
 
 /* 
@@ -108,13 +172,14 @@ int	searchin_env(t_args **env_list, t_args *list)
 			return (1);
 		if (ft_strncmp(list->next->str, name_env, len) == 0 && \
 		len == ft_strlen(name_env))
-		{
-			temp = current->next->next;
-			free(current->next);
-			current->next = temp;
-			free(name_env);
-			return (0);
-		}
+			return (help_s_e(&temp, &current, &name_env));
+//		{
+//			temp = current->next->next;
+//			free(current->next);
+//			current->next = temp;
+//			free(name_env);
+//			return (0);
+//		}
 		free(name_env);
 		current = current->next;
 	}
@@ -149,6 +214,36 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 	return (0);
 }
 
+/*
+ * Permet de norme set_env
+*/
+static int	help_set_env(t_args **env_list, char **env, int *i,
+		char **identifier)
+{
+	add_env(env_list, env[*i]);
+	*identifier = ft_strdupto_n(env[*i], '=');
+	if (!*identifier)
+		return (-1);
+	return (0);
+}
+
+/*
+ * Permet de norme set_env
+*/
+static int	help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
+		int *i)
+{
+	if (ft_strcmp(*identifier, "SHLVL") == 0
+		&& ft_strlen(*identifier) == 5)
+	{
+		if (ft_plus_shell(*shell, env_list) == 1)
+			return (-1);
+	}
+	free(*identifier);
+	(*i)++;
+	return (0);
+}
+
 /* 
  * Initialise liste d'env 
 */
@@ -167,18 +262,10 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	i = 0;
 	while (env[i])
 	{
-		add_env(env_list, env[i]);
-		identifier = ft_strdupto_n(env[i], '=');
-		if (! identifier)
+		if (help_set_env(env_list, env, &i, &identifier) == -1)
 			return (-1);
-		if (ft_strcmp(identifier, "SHLVL") == 0 && \
-		ft_strlen(identifier) == 5)
-		{
-			if (ft_plus_shell(shell, env_list) == 1)
-				return (-1);
-		}
-		free(identifier);
-		i++;
+		if (help_set_env2(env_list, &shell, &identifier, &i) == -1)
+			return (-1);
 	}
 	add_env(env_list, "?=0");
 	return (0);
