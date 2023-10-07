@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 17:44:44 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/07 11:36:18 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,10 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		input = readline(prompt_char);
 		free(prompt_char);
 		if (input == NULL)
-			return (2);
+		{
+			free(user);
+			ft_exit(list, env_list, shell);
+		}
 		free(shell->is_pwd);
 		free(shell->pwd);
 		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
@@ -219,8 +222,6 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			}
 			clear_args_list(&list);
 		}
-		else
-			return (1);
 	}
 	while (1)
 	{
@@ -228,7 +229,10 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		input = readline(prompt_char);
 		free(prompt_char);
 		if (input == NULL)
-			return (2);
+		{
+			free(user);
+			ft_exit(list, env_list, shell);
+		}
 		input = check_if_there_is_a_lost_pipe(input);
 		if (input != NULL)
 		{
@@ -250,8 +254,6 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 			}
 			clear_args_list(&list);
 		}
-		else
-			return (1);
 	}
 	return (1);
 }
