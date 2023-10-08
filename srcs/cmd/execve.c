@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 17:46:09 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/07 11:43:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,6 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			(*env_tab) ++;
 		}
 	}
-	// if (command)
-	// 	free(command);
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);
