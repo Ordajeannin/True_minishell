@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 17:57:46 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/09 10:50:23 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,18 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 	if (ft_strlen(list->str) == 6 && ft_strcmp(list->str, "export") == 0
 		&& !list->next)
 	{
-		ft_printf("que pasa\n");
 		export_out_args(env_list, shell);
 		return (1);
 	}
-	if (list->next->str[0] == '\0')
+	if (list->next && list->next->str[0] == '\0')
 	{
 		ft_printf("export : \"\": invalid identifier\n");
 		change_error(env_list, shell, 1);
 		return (1);
 	}
-	if (parse_export(list->next) == 2)
+	if (list->next && parse_export(list->next) == 2)
 		return (0);
-	else if (parse_export(list->next) == 1)
+	else if (list->next && parse_export(list->next) == 1)
 	{
 		ft_printf("export : \"%s\" : invalid identifier\n", list->next->str);
 		change_error(env_list, shell, 1);
@@ -79,7 +78,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 
 	if (export_errors(list, env_list, shell) == 1)
 	{
-		if (list->next != NULL)
+		if (list->next->next != NULL)
 			ft_export(list->next, shell, env_list);
 		return (1);
 	}
@@ -112,7 +111,9 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	free(v_env);
 	free(value);
 	if (list->next->next != NULL)
+	{
 		ft_export(list->next, shell, env_list);
+	}
 	if (!change_error(env_list, shell, 0))
 		return (1);
 	return (0);
@@ -173,7 +174,6 @@ int	parse_export(t_args *list)
 			>= 'A' && list->str[i] <= 'Z') && !(list->str[i] >= 'a' \
 			&& list->str[i] <= 'z') && list->str[i] != '_')
 		{
-			
 			return (1);
 		}
 		i ++;

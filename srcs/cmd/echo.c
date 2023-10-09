@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 11:29:05 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/09 10:39:19 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,16 @@ static int	find_opt(char *s1)
 static int	iter_echo(t_args *list)
 {
 	int		i;
-	int		flag;
 
 	i = 0;
-	flag = 0;
 	if (list->str == NULL)
 		return (0);
 	while (list->str[i])
 	{
-		if (list->str[i] == '$')
-		{
-			i ++;
-			flag = 1;
-			while (list->str[i] && list->str[i] != ' ')
-				i ++;
-			if (!list->str[i])
-				return (flag);
-		}
 		write (1, &list->str[i], 1);
 		i ++;
 	}
-	return (flag);
+	return (0);
 }
 
 static void	echo_loop(t_args *list, t_shell *shell)
@@ -72,7 +61,7 @@ static void	echo_loop(t_args *list, t_shell *shell)
 	{
 		while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 		{
-			if (iter_echo(list) == 0)
+			if (iter_echo(list) == 0 && list->next != NULL)
 				write (1, " ", 1);
 			list = list->next;
 		}
