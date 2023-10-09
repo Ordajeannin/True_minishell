@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/04 00:02:01 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:50:01 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,5 +226,26 @@ int			set_empty_env(t_shell *shell, t_args **env_list);
 char		*prompt_cmd(t_shell *shell, char *user);
 
 void		print_shell(t_shell *shell);
+
+
+//Norme
+char		*help_itp1(t_args *env_list, t_shell **shell, DIR **dir,
+			char **temp);
+char		*help_itp2(DIR **dir, char **temp);
+int			help_cee(char **current_name, t_args **current, char **result);
+int			help_cee2(char **current_name, t_args **current, char **result,
+			char **name_env);
+int			help_cee3(char **result);
+int			help_s_e(t_args **temp, t_args **current, char **name_env);
+int			help_set_env(t_args **env_list, char **env, int *i,
+			char **identifier);
+int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
+			int *i);
+int			help_all_cmd01(char **env_tab, t_args **env_list, char **command,
+			t_shell **shell);
+void		help_all_cmd02(t_shell **shell, t_args **list, t_args **env_list);
+void		if_env_tab(char **env_tab);
+
+
 
 #endif
