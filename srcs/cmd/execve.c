@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/07 11:43:39 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/09 11:08:39 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 			free(current_name);
 			free(nb_char);
 			free(result);
-			return (1);
+			return (0);
 		}
 		free(current_name);
 		current = current->next;
@@ -66,7 +66,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 	shell->error = value;
 	free(nb_char);
 	free(result);
-	return (0);
+	return (1);
 }
 
 /* 

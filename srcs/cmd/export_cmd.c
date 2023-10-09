@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/09 10:50:23 by asalic           ###   ########.fr       */
+/*   Updated: 2023/10/09 11:23:19 by asalic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,19 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 		export_out_args(env_list, shell);
 		return (1);
 	}
-	if (list->next && list->next->str[0] == '\0')
+	if (list && list->str[0] == '\0')
 	{
 		ft_printf("export : \"\": invalid identifier\n");
 		change_error(env_list, shell, 1);
 		return (1);
 	}
-	if (list->next && parse_export(list->next) == 2)
-		return (0);
-	else if (list->next && parse_export(list->next) == 1)
+	if (list && parse_export(list) == 2)
 	{
-		ft_printf("export : \"%s\" : invalid identifier\n", list->next->str);
+		return (0);
+	}
+	else if (list && parse_export(list) == 1)
+	{
+		ft_printf("export : \"%s\" : invalid identifier\n", list->str);
 		change_error(env_list, shell, 1);
 		return (1);
 	}
@@ -78,16 +80,19 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 
 	if (export_errors(list, env_list, shell) == 1)
 	{
-		if (list->next->next != NULL)
+		// ft_printf("arg 1: %s, arg 2: %s, arg 3: %s\n", list->str, list->next->str, list->next->next->str);
+		if (list->next)
 			ft_export(list->next, shell, env_list);
 		return (1);
 	}
-	if (ft_strchr(list->next->str, '='))
+	list = list->next;
+	ft_printf("list : %s\n", list->str);
+	if (ft_strchr(list->str, '='))
 	{
-		v_env = ft_strdupto_n(list->next->str, '=');
+		v_env = ft_strdupto_n(list->str, '=');
 		if (! v_env)
 			return (1);
-		value = ft_strdup_from(list->next->str, '=');
+		value = ft_strdup_from(list->str, '=');
 		if (! value)
 		{
 			free(v_env);
@@ -98,7 +103,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 			ft_more_export(shell, v_env, value);
 		else if (result_change_env == 1)
 		{
-			add_env(env_list, list->next->str);
+			add_env(env_list, list->str);
 			ft_more_export(shell, v_env, value);
 		}
 		else
@@ -110,7 +115,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	}
 	free(v_env);
 	free(value);
-	if (list->next->next != NULL)
+	if (list->next != NULL)
 	{
 		ft_export(list->next, shell, env_list);
 	}
@@ -133,6 +138,7 @@ int	export_out_args(t_args **env_list, t_shell *shell)
 	bfore = NULL;
 	after = NULL;
 	env_sort = ft_sort(env_list);
+	ft_printf("yolo\n");
 	i = 0;
 	while (env_sort[i])
 	{
@@ -150,8 +156,10 @@ int	export_out_args(t_args **env_list, t_shell *shell)
 	while (env_sort[i])
 		free(env_sort[i++]);
 	free(env_sort);
-	if (!change_error(env_list, shell, 0))
+	if (change_error(env_list, shell, 0) == 1)
+	{
 		return (1);
+	}
 	return (0);
 }
 
