@@ -6,11 +6,73 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/07 11:43:39 by asalic           ###   ########.fr       */
+=======
+/*   Updated: 2023/10/09 14:51:26 by ajeannin         ###   ########.fr       */
+>>>>>>> aj/somefix
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+ * Permet de normer change_error
+*/
+static int	help_change_error1(char **nb_char, t_shell **shell, int value)
+{
+	free(*nb_char);
+	(*shell)->error = value;
+	return (2);
+}
+
+/*
+ * Permet de normer change_error
+*/
+static int	help_change_error2(char **nb_char, char **result, t_shell **shell,
+		int value)
+{
+	free(*nb_char);
+	free(*result);
+	(*shell)->error = value;
+	return (2);
+}
+
+/*
+ * Permet de normer change_error
+*/
+static void	help_change_error3(t_args **current, char **result, t_shell **shell, 
+		int value)
+{
+	if ((*current)->str)
+		free((*current)->str);
+	(*current)->str = ft_strdup(*result);
+	(*shell)->error = value;
+}
+
+/*
+ * Permet de normer change_error
+*/
+static int	help_change_error4(char **current_name, char **nb_char, 
+		char **result)
+{
+	free(*current_name);
+	free(*nb_char);
+	free(*result);
+	return (1);
+}
+
+/*
+ * Permet de normer change_error
+*/
+static int	help_change_error5(t_shell **shell, int value, char **nb_char,
+		char **result)
+{
+	(*shell)->error = value;
+	free(*nb_char);
+	free(*result);
+	return (0);
+}
 
 /* 
  * Change env pour $?.
@@ -31,42 +93,46 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 	result = ft_strjoin("?=", nb_char);
 	// tmp = NULL;
 	if (!result)
-	{
-		free(nb_char);
-		shell->error = value;
-		return (2);
-	}
+		return (help_change_error1(&nb_char, &shell, value));
+//	{
+//		free(nb_char);
+//		shell->error = value;
+//		return (2);
+//	}
 	current = *env_list;
 	while (current)
 	{
 		// ft_printf("je suis la bicth 3\n");
 		current_name = ft_strdupto_n(current->str, '=');
 		if (!current_name)
+			return (help_change_error2(&nb_char, &result, &shell, value));
+//		{
+//			free(nb_char);
+//			free(result);
+//			shell->error = value;
+//			return (2);
+//		}
+		if (ft_strcmp(current_name, "?") == 0 && ft_strlen(current_name) == 1)
 		{
-			free(nb_char);
-			free(result);
-			shell->error = value;
-			return (2);
-		}
-		if (ft_strcmp(current_name, "?") == 0
-			&& ft_strlen(current_name) == 1)
-		{
-			if (current->str)
-				free(current->str);
-			current->str = ft_strdup(result);
-			shell->error = value;
-			free(current_name);
-			free(nb_char);
-			free(result);
-			return (1);
+			help_change_error3(&current, &result, &shell, value);
+			return (help_change_error4(&current_name, &nb_char, &result));
+//			if (current->str)
+//				free(current->str);
+//			current->str = ft_strdup(result);
+//			shell->error = value;
+//			free(current_name);
+//			free(nb_char);
+//			free(result);
+//			return (1);
 		}
 		free(current_name);
 		current = current->next;
 	}
-	shell->error = value;
-	free(nb_char);
-	free(result);
-	return (0);
+	return (help_change_error5(&shell, value, &nb_char, &result));
+//	shell->error = value;
+//	free(nb_char);
+//	free(result);
+//	return (0);
 }
 
 /* 
@@ -118,6 +184,30 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 }
 
 /*
+ * Permet de normer next_execution
+*/
+static int	help_next_execution(t_args **env_list, t_shell *shell, int status,
+		int flag)
+{
+	if (flag == 1)
+	{
+		errno = WEXITSTATUS(status);
+		if (g_error != 0)
+			change_error(env_list, shell, g_error);
+		else
+			change_error(env_list, shell, handle_error(errno));
+		return (1);
+	}
+	if (flag == 2)
+	{
+		ft_printf("Segmentation Fault (core dumped)\n");
+		change_error(env_list, shell, 139);
+		return (1);
+	}
+	return (0);
+}
+
+/*
  * Processus parents en attente
  * Attends la fin du processus enfant et renvoie une erreur si
  * le processus enfant en a detecte une.
@@ -131,21 +221,24 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	signal(SIGQUIT, SIG_IGN);
 	if (g_error == 2)
 		g_error = 0;
+//	if (WEXITSTATUS(status) != 0)
+//	{
+//		errno = WEXITSTATUS(status);
+//		if (g_error != 0)
+//			change_error(env_list, shell, g_error);
+//		else
+//			change_error(env_list, shell, handle_error(errno));
+//		return (1);
+//	}
 	if (WEXITSTATUS(status) != 0)
-	{
-		errno = WEXITSTATUS(status);
-		if (g_error != 0)
-			change_error(env_list, shell, g_error);
-		else
-			change_error(env_list, shell, handle_error(errno));
-		return (1);
-	}
+		return (help_next_execution(env_list, shell, status, 1));
 	else if (WTERMSIG(status) == SIGSEGV)
-	{
-		ft_printf("Segmentation Fault (core dumped)\n");
-		change_error(env_list, shell, 139);
-		return (1);
-	}
+		return (help_next_execution(env_list, shell, status, 2));
+//	{
+//		ft_printf("Segmentation Fault (core dumped)\n");
+//		change_error(env_list, shell, 139);
+//		return (1);
+//	}
 	else
 	{
 		if (g_error != 0)
@@ -186,6 +279,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	}
 	else if (pid_child == 0)
 	{
+<<<<<<< HEAD
 		env_tab = dup_double_string(env_list);
 		if (!env_tab)
 		{
@@ -207,7 +301,32 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			free(*env_tab);
 			(*env_tab) ++;
 		}
+=======
+		if (help_all_cmd01(env_tab, env_list, &command, &shell) == 1)
+			return (1);
+//		env_tab = dup_double_string(env_list);
+//		if (!env_tab)
+//		{
+//			free(command);
+//			return (1);
+//		}
+//		execve(command, shell->input, env_tab);
+		help_all_cmd02(&shell, list, env_list);
+//		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
+//		shell->error = handle_error(errno);
+//		free_everything(shell, *list, *env_list);
+//		exit(handle_error(errno));
+>>>>>>> aj/somefix
 	}
+	if_env_tab(env_tab);
+//	if (env_tab)
+//	{
+//		while (*env_tab != NULL)
+//		{
+//			free(*env_tab);
+//			(*env_tab) ++;
+//		}
+//	}
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);

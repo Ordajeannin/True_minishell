@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 19:24:22 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:29:13 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,6 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 			return (1);
 	}
 	return (0);
-}
-
-/*
- * Permet de normer is_two_point
-*/
-static char *help_itp1(t_args *env_list, t_shell **shell, DIR **dir,
-		char **temp)
-{
-	ft_printf("cd : No such file of directory\n");
-	change_error(&env_list, *shell, 0);
-	closedir(*dir);
-	free(*temp);
-	return (NULL);
-}
-
-/*
- * Permet de normer is_two_points
- * fonction recurrente dans le code
-*/
-static char	*help_itp2(DIR **dir, char **temp)
-{
-	free(*temp);
-	closedir(*dir);
-	return (NULL);
 }
 
 /*
@@ -91,7 +67,7 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	if (shell->pwd == NULL)
 	{
 		if (!cd_move_and_change(env_list, shell))
-			return(help_itp2(&dir, &temp));
+			return (help_itp2(&dir, &temp));
 //		{
 //			free(temp);
 //			closedir(dir);

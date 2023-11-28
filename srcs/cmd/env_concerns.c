@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 20:16:12 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:23:07 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,50 +36,6 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 		if (current == NULL)
 			add_env(env_list, new_str);
 	}
-}
-
-/*
- * Permet de norme change_env_exp
-*/
-static int	help_cee(char **current_name, t_args **current, char **result)
-{
-	*current_name = ft_strdupto_n((*current)->str, '=');
-	if (!*current_name)
-	{
-		free(*result);
-		return (2);
-	}
-	return (0);
-}
-
-/*
- * Permet de norme change_env_exp
-*/
-static int	help_cee2(char **current_name, t_args **current, char **result,
-		char **name_env)
-{
-	if (ft_strncmp(*current_name, *name_env, ft_strlen(*current_name)) == 0
-		&& ft_strlen(*current_name) == ft_strlen(*name_env))
-	{
-		if ((*current)->str)
-				free((*current)->str);
-		(*current)->str = ft_strdup(*result);
-		free(*current_name);
-		free(*result);
-		return (0);
-	}
-	*current = (*current)->next;
-	free(*current_name);
-	return (1);
-}
-
-/*
- * Permet de norme change_env_exp
-*/
-static int	help_cee3(char **result)
-{
-	free(*result);
-	return (1);
 }
 
 /* 
@@ -140,18 +96,6 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 //	return (1);
 //}
 
-/*
- * Permet de norme searchin_env
-*/
-static int	help_s_e(t_args **temp, t_args **current, char **name_env)
-{
-	*temp = (*current)->next->next;
-	free((*current)->next);
-	(*current)->next = *temp;
-	free(*name_env);
-	return (0);
-}
-
 /* 
  * Boucle principale d'unset.
  * Cherche une VE et la supprime s'il la trouve.
@@ -211,36 +155,6 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 	}
 	if (!change_error(env_list, shell, 0))
 		return (1);
-	return (0);
-}
-
-/*
- * Permet de norme set_env
-*/
-static int	help_set_env(t_args **env_list, char **env, int *i,
-		char **identifier)
-{
-	add_env(env_list, env[*i]);
-	*identifier = ft_strdupto_n(env[*i], '=');
-	if (!*identifier)
-		return (-1);
-	return (0);
-}
-
-/*
- * Permet de norme set_env
-*/
-static int	help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
-		int *i)
-{
-	if (ft_strcmp(*identifier, "SHLVL") == 0
-		&& ft_strlen(*identifier) == 5)
-	{
-		if (ft_plus_shell(*shell, env_list) == 1)
-			return (-1);
-	}
-	free(*identifier);
-	(*i)++;
 	return (0);
 }
 
