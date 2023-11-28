@@ -6,11 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/07 11:43:39 by asalic           ###   ########.fr       */
-=======
-/*   Updated: 2023/10/09 14:51:26 by ajeannin         ###   ########.fr       */
->>>>>>> aj/somefix
+/*   Updated: 2023/11/28 23:43:05 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +275,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	}
 	else if (pid_child == 0)
 	{
-<<<<<<< HEAD
+		// start awena
 		env_tab = dup_double_string(env_list);
 		if (!env_tab)
 		{
@@ -301,24 +297,24 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 			free(*env_tab);
 			(*env_tab) ++;
 		}
-=======
-		if (help_all_cmd01(env_tab, env_list, &command, &shell) == 1)
-			return (1);
-//		env_tab = dup_double_string(env_list);
-//		if (!env_tab)
-//		{
-//			free(command);
-//			return (1);
-//		}
-//		execve(command, shell->input, env_tab);
-		help_all_cmd02(&shell, list, env_list);
-//		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
-//		shell->error = handle_error(errno);
-//		free_everything(shell, *list, *env_list);
-//		exit(handle_error(errno));
->>>>>>> aj/somefix
+	// fin awena
+	// start moi (norme)
+		//if (help_all_cmd01(env_tab, env_list, &command, &shell) == 1)
+			//return (1);
+////		env_tab = dup_double_string(env_list);
+////		if (!env_tab)
+////	{
+////			free(command);
+////			return (1);
+////		}
+////		execve(command, shell->input, env_tab);
+		//help_all_cmd02(&shell, list, env_list);
+////		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
+////		shell->error = handle_error(errno);
+////		free_everything(shell, *list, *env_list);
+////		exit(handle_error(errno));
 	}
-	if_env_tab(env_tab);
+	//if_env_tab(env_tab);
 //	if (env_tab)
 //	{
 //		while (*env_tab != NULL)
@@ -327,7 +323,9 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 //			(*env_tab) ++;
 //		}
 //	}
+	// fin moi (norme)
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);
 }
+
