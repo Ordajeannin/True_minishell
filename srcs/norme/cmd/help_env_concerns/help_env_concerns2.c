@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_env_concerns2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:18:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/09 13:19:27 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:20:22 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 int	help_s_e(t_args **temp, t_args **current, char **name_env)
 {
 	*temp = (*current)->next->next;
-	free((*current)->next);
+	// free((*current)->next);
 	(*current)->next = *temp;
-	free(*name_env);
+	// free(*name_env);
 	return (0);
 }
 
@@ -49,7 +49,7 @@ int	help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
 		if (ft_plus_shell(*shell, env_list) == 1)
 			return (-1);
 	}
-	free(*identifier);
+	// free(*identifier);
 	(*i)++;
 	return (0);
 }

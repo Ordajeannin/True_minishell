@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 17:28:46 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:27:50 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		if (pipe(pipe_fds) == -1)
 		{
 			perror("pipe");
-			free_everything(shell, list, *env_list);
+			// free_everything(shell, list, *env_list);
+			ft_malloc(0, FREE);
 			exit(EXIT_FAILURE);
 		}
 		pid = fork();
 		if (pid == -1)
 		{
 			perror("fork");
-			free_everything(shell, list, *env_list);
+			// free_everything(shell, list, *env_list);
+			ft_malloc(0, FREE);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
@@ -65,7 +67,8 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 			if (current->next != NULL)
 				dup2(pipe_fds[1], STDOUT_FILENO);
 			args_handle(current->head, shell, env_list);
-			free_everything(shell, list, *env_list);
+			// free_everything(shell, list, *env_list);
+			ft_malloc(0, FREE);
 			exit(shell->error);
 		}
 		else
@@ -105,7 +108,7 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list)
 		execute_command(&stock, shell, env_list, list);
 	else
 		args_handle(list, shell, env_list);
-	free(stock);
+	// free(stock);
 }
 
 /*
@@ -133,9 +136,9 @@ static char	*call_readline(char *prompt)
 			if (*ptr++ != ' ')
 				flag = 0;
 		}
-		if (flag)
-			free(input);
-		else
+		// if (flag)
+		// 	free(input);
+		if (!flag)
 			break ;
 	}
 	return (input);
@@ -152,17 +155,17 @@ static char	*combine_input_with_new_one(char *input, int lenght)
 	new_input = call_readline("> ");
 	if (!new_input)
 		return (NULL);
-	combined = (char *)malloc(lenght + ft_strlen(new_input) + 2);
-	if (!combined)
-	{
-		perror("malloc");
-		free(new_input);
-		return (NULL);
-	}
+	combined = (char *)ft_malloc(lenght + ft_strlen(new_input) + 2, ALLOC);
+	// if (!combined)
+	// {
+	// 	perror("malloc");
+	// 	// free(new_input);
+	// 	return (NULL);
+	// }
 	ft_strcpy(combined, input);
 	ft_strcat(combined, " ");
 	ft_strcat(combined, new_input);
-	free(new_input);
+	// free(new_input);
 	return (combined);
 }
 

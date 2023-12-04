@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   empty_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:44:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/03 21:26:55 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:28:37 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*read_bytes_user(int *pipefd, pid_t child, int status,
 	{
 		errno = WEXITSTATUS(status);
 		change_error(env_list, shell, handle_error(errno));
-		free(username);
+		// free(username);
 		return (NULL);
 	}
 	return (username);
@@ -38,7 +38,7 @@ char	**create_path_cmd(void)
 {
 	char	**cmd;
 
-	cmd = malloc(2 * sizeof(char *));
+	cmd = ft_malloc(2 * sizeof(char *), ALLOC);
 	if (!cmd)
 		return (NULL);
 	cmd[0] = ft_strdup("/bin/whoami");

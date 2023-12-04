@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asalic <asalic@student.42.fr>              +#+  +:+       +#+         #
+#    By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/15 16:27:15 by ajeannin          #+#    #+#              #
-#    Updated: 2023/09/26 11:01:56 by asalic           ###   ########.fr        #
+#    Updated: 2023/12/04 17:39:16 by pkorsako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,8 @@ SRC_FILES 		= ft_atoi			\
 			ft_lstdelone			\
 			ft_lstclear			\
 			ft_lstiter			\
-			ft_lstmap
+			ft_lstmap			\
+			ft_malloc
 
 SRC			= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

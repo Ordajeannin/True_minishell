@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 19:45:31 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:24:24 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	delete_null_nodes(t_args **list)
 			else
 				prev->next = current->next;
 			current = current->next;
-			free(temp);
+			// free(temp);
 		}
 		else
 			help_delete_or_token(&prev, &current, NULL);
@@ -127,27 +127,27 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 		if (tmp[i] != NULL && node->str != NULL)
 		{
 			tmp_node = ft_strdup(node->str);
-			free(node->str);
+			// free(node->str);
 			node->str = ft_strjoin(tmp_node, tmp[i]);
-			free(tmp_node);
+			// free(tmp_node);
 			if (!node->str)
 			{
-				while (i >= 0 && tmp[i])
-					free(tmp[i--]);
-				free(tmp);
+			// 	while (i >= 0 && tmp[i])
+			// 		free(tmp[i--]);
+			// 	free(tmp);
 				return (1);
 			}
 		}
 		else if (tmp[i] != NULL && node->str == NULL)
 		{
-			if (node->str)
-				free(node->str);
+			// if (node->str)
+			// 	free(node->str);
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
 			{
-				while (i >= 0 && tmp[i])
-					free(tmp[i--]);
-				free(tmp);
+				// while (i >= 0 && tmp[i])
+				// 	free(tmp[i--]);
+				// free(tmp);
 				return (1);
 			}
 		}
@@ -162,9 +162,9 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 	i = 0;
 	if (tmp[i])
 	{
-		while (i >= 0 && tmp[i])
-			free(tmp[i--]);
-		free(tmp);
+		// while (i >= 0 && tmp[i])
+		// 	free(tmp[i--]);
+		// free(tmp);
 	}
 	return (0);
 }
@@ -206,8 +206,8 @@ int	update_args(t_args **list)
 			current->token = tokenize_args(current->str, 23);
 		if (current->str == NULL && current->token == 23)
 		{
-			if (current->str != NULL)
-				free(current->str);
+			// if (current->str != NULL)
+			// 	free(current->str);
 			current->str = ft_strdup(help);
 			if (!current->str)
 				return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:31:12 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/05 14:18:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:29:48 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	while (s2[i])
 		new[j++] = s2[i++];
 	new[j] = '\0';
-	return (free(s1), free(s2), new);
+	return (/*free(s1), free(s2), */new);
 }
 
 static char	**env_to_char(t_args **env_list)
@@ -103,12 +103,12 @@ static char	**env_to_char(t_args **env_list)
 	while (current)
 	{
 		env_char[i] = ft_strdup(current->str);
-		if (!env_char[i])
-		{
-			while (i >= 0)
-				free(env_char[i--]);
-			free(env_char);
-		}			
+		// if (!env_char[i])
+		// {
+		// 	while (i >= 0)
+		// 		free(env_char[i--]);
+		// 	free(env_char);
+		// }			
 		current = current->next;
 		i ++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:59:47 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 17:00:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:28:16 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static t_args	*j_ai_peter_les_plombs(t_args **list)
 
 	current = *list;
 	*list = (*list)->next;
-	free(current);
+	// free(current);
 	if (*list == NULL)
 		return (NULL);
 	current = *list;
 	*list = (*list)->next;
-	free(current);
+	// free(current);
 	if (*list != NULL)
 		return (*list);
 	else

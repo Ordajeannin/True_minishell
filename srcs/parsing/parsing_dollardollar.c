@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_dollardollar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 17:10:27 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:22:42 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ static int	step2split(t_split *s, char *str)
 {
 	if (s->start < s->i)
 	{
-		if (s->result[s->j])
-			free(s->result[s->j]);
+		// if (s->result[s->j])
+		// 	free(s->result[s->j]);
 		s->result[s->j++] = word_dup(str, s->start, s->i);
 	}
 	s->result[s->j] = NULL;
@@ -105,8 +105,8 @@ static int	init_split(t_split *s, char *str, int step)
 		s->i++;
 	if (s->i != 0)
 	{
-		if (s->result[s->j])
-			free(s->result[s->j]);
+		// if (s->result[s->j])
+		// 	free(s->result[s->j]);
 		s->result[s->j++] = word_dup(str, s->start, s->i);
 		s->start = s->i;
 	}

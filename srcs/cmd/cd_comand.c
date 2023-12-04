@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_comand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/09 13:29:13 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:59:08 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,6 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (!buf)
 		return (1);
 	err = cd_real_version(buf, shell, env_list, list);
-	free(buf);
+	// free(buf);
 	return (err || !change_error(&env_list, shell, 0));
 }

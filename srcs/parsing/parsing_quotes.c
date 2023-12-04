@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_quotes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 18:46:22 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:22:28 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ size_t	is_quotes(char *str, t_args **list, const char *input, int flag)
 	int		i;
 
 	i = 0;
-	result = malloc(sizeof(char) * ft_strlen(input) + 1);
+	result = ft_malloc(sizeof(char) * ft_strlen(input) + 1, ALLOC);
 	if (!result)
 		return (0);
 	if (*str == '\'')

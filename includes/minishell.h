@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/11/28 23:41:26 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:37:25 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@
 # define TOKEN_TEMP_VAR	666
 # define ABORT_MISSION	42
 
+
+
 /* * * * * Variable Globale * * * * */
 extern int	g_error;
 
@@ -77,6 +79,7 @@ typedef struct s_shell
 	int		is_work;
 	char	*input_bis;
 	int		error;
+//	t_args	*args;
 }	t_shell;
 
 typedef struct s_args
@@ -201,6 +204,7 @@ int			change_error(t_args **env_list, t_shell *shell, int value);
 void		code_error(int code);
 int			handle_error(int code_err);
 
+
 //Helpful function
 char		*ft_strdupto_n(char *str, char c);
 char		*ft_strdup_from(char *str, char c);
@@ -217,6 +221,7 @@ char		**dup_double_string(t_args **e_list);
 int			is_numeric(char *str);
 t_args		*copy_list(t_args* source);
 char		**ft_sort(t_args **env_list);
+
 
 //Print Things
 void		shell_style(t_shell *shell);

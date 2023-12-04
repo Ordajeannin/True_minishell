@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delim.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 19:45:41 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:25:36 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
 	buffer_lenght = ft_strlen(line) + 1;
 	temp = NULL;
 	if (result == NULL)
-		result = (char *)malloc(buffer_lenght);
+		result = (char *)ft_malloc(buffer_lenght, ALLOC);
 	else
 	{
-		temp = (char *)malloc(*input_size + buffer_lenght);
-		if (!temp)
-		{
-			free(result);
-			return (NULL);
-		}
+		temp = (char *)ft_malloc(*input_size + buffer_lenght, ALLOC);
+		// if (!temp)
+		// {
+		// 	// free(result);
+		// 	return (NULL);
+		// }
 		ft_strcpy(temp, result);
-		free(result);
+		// free(result);
 		result = temp;
 	}
 	if (!result)
@@ -118,12 +118,12 @@ void	plus_de_nouvelle(const char *str)
 		if (line == NULL || ft_strcmp(line, str) == 0)
 			break ;
 		result = batterie_faible(line, result, &input_size);
-		free(line);
+		// free(line);
 		if (result == NULL)
 			return ;
 	}
-	if (line)
-		free(line);
+	// if (line)
+		// free(line);
 	if (result)
 		return (tempfile(result));
 }
@@ -189,7 +189,7 @@ int	handle_heredoc(t_args **input)
 			{
 				add_arg(&stock, current->next->str, TOKEN_DELIM);
 				next = current->next;
-				free(current);
+				// free(current);
 				if (prev == NULL)
 					*input = next;
 				else
@@ -197,7 +197,7 @@ int	handle_heredoc(t_args **input)
 				if (next != NULL)
 				{
 					current = next->next;
-					free(next);
+					// free(next);
 				}
 				else
 				{
@@ -213,7 +213,7 @@ int	handle_heredoc(t_args **input)
 					prev->next = NULL;
 				else
 					*input = NULL;
-				free(current);
+				// free(current);
 				break ;
 			}
 		}

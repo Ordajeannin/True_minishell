@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_things.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 16:47:33 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:32:21 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	print_args_list(t_args **list)
 	while (current != NULL)
 	{
 		if (current->str != NULL)
-			ft_printf("\nargument %d\nstring: %s\ntoken: %d\n\n",
+			printf("\nargument %d\nstring: %s\ntoken: %d\n\n",
 				i, current->str, current->token);
 		else
-			ft_printf("\nargument %d\nstring: NULL\ntoken: %d\n\n",
+			printf("\nargument %d\nstring: NULL\ntoken: %d\n\n",
 				i, current->token);
 		i++;
 		current = current->next;
@@ -100,7 +100,7 @@ char	*prompt_cmd(t_shell *shell, char *user)
 	if (shell->is_pwd != NULL)
 		pwd = ft_strjoin(username, shell->is_pwd);
 	prompt = ft_strjoin(pwd, ">");
-	free(username);
-	free(pwd);
+	// free(username);
+	// free(pwd);
 	return (prompt);
 }

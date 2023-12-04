@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_unsigned.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:33:45 by ajeannin          #+#    #+#             */
-/*   Updated: 2022/11/07 18:22:31 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:33:40 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_uitoa(unsigned int n)
 	int		len;
 
 	len = ft_nbr_len(n);
-	nbr = (char *)malloc(sizeof(char) * (len + 1));
+	nbr = (char *)ft_malloc(sizeof(char) * (len + 1), ALLOC);
 	if (!nbr)
 		return (0);
 	nbr[len] = '\0';
@@ -55,7 +55,7 @@ int	ft_print_unsigned(unsigned int n)
 	{
 		nbr = ft_uitoa(n);
 		print_length += ft_print_str(nbr);
-		free(nbr);
+		// free(nbr);
 	}
 	return (print_length);
 }

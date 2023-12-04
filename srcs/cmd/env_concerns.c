@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_concerns.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/09 13:23:07 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:59:54 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 		if (ft_strcmp(current->str, change_value) == 0 && \
 			ft_strlen(current->str) == ft_strlen(change_value))
 		{
-			if (current->str)
-				free(current->str);
+			// if (current->str)
+			// 	free(current->str);
 			current->str = ft_strdup(new_str);
 			return ;
 		}
@@ -59,7 +59,7 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 		result = ft_strjoin(tmp, "0");
 	else
 		result = ft_strjoin(tmp, value);
-	free(tmp);
+	// free(tmp);
 	if (!result)
 		return (2);
 	current = *env_list;
@@ -124,7 +124,7 @@ int	searchin_env(t_args **env_list, t_args *list)
 //			free(name_env);
 //			return (0);
 //		}
-		free(name_env);
+		// free(name_env);
 		current = current->next;
 	}
 	return (1);

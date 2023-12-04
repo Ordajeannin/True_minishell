@@ -3,60 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/07 11:36:51 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:49:28 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_shell_var(t_shell *shell)
-{
-	int	i;
+// static void	free_shell_var(t_shell *shell)
+// {
+// 	int	i;
 
-	i = 0;
-	if (shell->is_oldpwd)
-		free(shell->is_oldpwd);
-	if (shell->is_pwd)
-		free(shell->is_pwd);
-	if (shell->oldpwd)
-		free(shell->oldpwd);
-	if (shell->pwd)
-		free(shell->pwd);
-	if (shell->home)
-		free(shell->home);
-	if (shell->path)
-		free(shell->path);
-	if (shell->input_bis)
-		free(shell->input_bis);
-	if (shell->shlvl)
-		free(shell->shlvl);
-	if (shell->cmd_paths)
-	{
-		while (shell->cmd_paths[i])
-			free(shell->cmd_paths[i++]);
-		free(shell->cmd_paths);
-	}
-	i = 0;
-	if (shell->input)
-	{
-		while (shell->input[i])
-			free(shell->input[i++]);
-		free(shell->input);
-	}
-}
+// 	i = 0;
+// 	if (shell->is_oldpwd)
+// 		free(shell->is_oldpwd);
+// 	if (shell->is_pwd)
+// 		free(shell->is_pwd);
+// 	if (shell->oldpwd)
+// 		free(shell->oldpwd);
+// 	if (shell->pwd)
+// 		free(shell->pwd);
+// 	if (shell->home)
+// 		free(shell->home);
+// 	if (shell->path)
+// 		free(shell->path);
+// 	if (shell->input_bis)
+// 		free(shell->input_bis);
+// 	if (shell->shlvl)
+// 		free(shell->shlvl);
+// 	if (shell->cmd_paths)
+// 	{
+// 		while (shell->cmd_paths[i])
+// 			free(shell->cmd_paths[i++]);
+// 		free(shell->cmd_paths);
+// 	}
+// 	i = 0;
+// 	if (shell->input)
+// 	{
+// 		while (shell->input[i])
+// 			free(shell->input[i++]);
+// 		free(shell->input);
+// 	}
+// }
 
-void	free_everything(t_shell *shell, t_args *list, t_args *env_list)
-{
-	free_shell_var(shell);
-	if (env_list)
-		clear_args_list(&env_list);
-	rl_clear_history();
-	if (list)
-		clear_args_list(&list);
-}
+// void	free_everything(t_shell *shell, t_args *list, t_args *env_list)
+// {
+// 	free_shell_var(shell);
+// 	if (env_list)
+// 		clear_args_list(&env_list);
+// 	rl_clear_history();
+// 	if (list)
+// 		clear_args_list(&list);
+// }
 
 /*
  * Program stop.
@@ -90,6 +90,8 @@ int	ft_exit(t_args *list, t_args *env_list, t_shell *shell)
 		code_err = g_error;
 	else
 		code_err = shell->error;
-	free_everything(shell, list, env_list);
+	ft_malloc(0, FREE);
+	rl_clear_history();
+	// free_everything(shell, list, env_list);
 	exit(code_err);
 }

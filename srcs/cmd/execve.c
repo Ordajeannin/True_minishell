@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/11/28 23:43:05 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:02:24 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 static int	help_change_error1(char **nb_char, t_shell **shell, int value)
 {
-	free(*nb_char);
+	// free(*nb_char);
 	(*shell)->error = value;
 	return (2);
 }
@@ -28,8 +28,8 @@ static int	help_change_error1(char **nb_char, t_shell **shell, int value)
 static int	help_change_error2(char **nb_char, char **result, t_shell **shell,
 		int value)
 {
-	free(*nb_char);
-	free(*result);
+	// free(*nb_char);
+	// free(*result);
 	(*shell)->error = value;
 	return (2);
 }
@@ -40,8 +40,8 @@ static int	help_change_error2(char **nb_char, char **result, t_shell **shell,
 static void	help_change_error3(t_args **current, char **result, t_shell **shell, 
 		int value)
 {
-	if ((*current)->str)
-		free((*current)->str);
+	// if ((*current)->str)
+	// 	free((*current)->str);
 	(*current)->str = ft_strdup(*result);
 	(*shell)->error = value;
 }
@@ -52,9 +52,9 @@ static void	help_change_error3(t_args **current, char **result, t_shell **shell,
 static int	help_change_error4(char **current_name, char **nb_char, 
 		char **result)
 {
-	free(*current_name);
-	free(*nb_char);
-	free(*result);
+	// free(*current_name);
+	// free(*nb_char);
+	// free(*result);
 	return (1);
 }
 
@@ -65,8 +65,8 @@ static int	help_change_error5(t_shell **shell, int value, char **nb_char,
 		char **result)
 {
 	(*shell)->error = value;
-	free(*nb_char);
-	free(*result);
+	// free(*nb_char);
+	// free(*result);
 	return (0);
 }
 
@@ -121,7 +121,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 //			free(result);
 //			return (1);
 		}
-		free(current_name);
+		// free(current_name);
 		current = current->next;
 	}
 	return (help_change_error5(&shell, value, &nb_char, &result));
@@ -266,11 +266,11 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	if (command == NULL)
 		return (1);
 	pid_child = fork();
-	if (pid_child == -1)
+	if (pid_child == -1)//ATTENTION AUITTE LE PROGRAMME OU LE PROCCESSUR ?
 	{
 		perror("fork");
-		free(command);
-		free_everything(shell, *list, *env_list);
+		// free(command);
+		// free_everything(shell, *list, *env_list);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid_child == 0)
@@ -279,24 +279,24 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 		env_tab = dup_double_string(env_list);
 		if (!env_tab)
 		{
-			free(command);
-			free_everything(shell, *list, *env_list);
+			// free(command);
+			// free_everything(shell, *list, *env_list);
 			return (1);
 		}
 		execve(command, shell->input, env_tab);
 		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
-		free(command);
+		// free(command);
 		shell->error = handle_error(errno);
-		free_everything(shell, *list, *env_list);
+		// free_everything(shell, *list, *env_list);
 		exit(handle_error(errno));
 	}
-	if (env_tab)
-	{
-		while (*env_tab != NULL)
-		{
-			free(*env_tab);
-			(*env_tab) ++;
-		}
+	// if (env_tab)
+	// {
+		// while (*env_tab != NULL)
+		// {
+		// 	free(*env_tab);
+		// 	(*env_tab) ++;
+		// }
 	// fin awena
 	// start moi (norme)
 		//if (help_all_cmd01(env_tab, env_list, &command, &shell) == 1)
@@ -313,7 +313,7 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 ////		shell->error = handle_error(errno);
 ////		free_everything(shell, *list, *env_list);
 ////		exit(handle_error(errno));
-	}
+	// }
 	//if_env_tab(env_tab);
 //	if (env_tab)
 //	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_of_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 19:45:21 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:45:38 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@
 */
 void	clear_args_list(t_args **list)
 {
-	t_args	*current;
-	t_args	*next;
+// 	t_args	*current;
+// 	t_args	*next;
 
-	current = *list;
-	while (current != NULL)
-	{
-		next = current->next;
-		if (current->str)
-			free(current->str);
-		free(current);
-		current = next;
-	}
-	// *list = NULL;
+// 	current = *list;
+// 	while (current != NULL)
+// 	{
+// 		next = current->next;
+// 		// if (current->str)
+// 		// 	free(current->str);
+// 		// free(current);
+// 		current = next;
+// 	}
+ 	*list = NULL;
 }
 
 /*
@@ -82,7 +82,7 @@ t_args *copy_list(t_args *source)
         }
         current = current->next;
     }
-	free(tail->next);
+	// free(tail->next);
     return (new_head);
 }
 /*
@@ -108,7 +108,7 @@ void	add_arg(t_args **list, char *str, int token)
 		// 	free(current->next);
 		current->next = copy_list(new_arg);
 	}
-	free(new_arg);
+	// free(new_arg);
 }
 
 /*
@@ -161,16 +161,16 @@ static int	help_loop_args(t_shell **shell, int *i, int flag)
 {
 	if (flag == 1)
 	{
-		while ((*shell)->input[*i])
-			free((*shell)->input[(*i)++]);
-		free((*shell)->input);
+		// while ((*shell)->input[*i])
+		// 	free((*shell)->input[(*i)++]);
+		// free((*shell)->input);
 		*i = 0;
 	}
 	else if (flag == 2)
 	{
-		while (*i >= 0)
-			free((*shell)->input[(*i)--]);
-		free((*shell)->input);
+		// while (*i >= 0)
+		// 	free((*shell)->input[(*i)--]);
+		// free((*shell)->input);
 		return (1);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 11:29:05 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 16:15:23 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ static int	iter_echo(t_args *list)
 		return (0);
 	while (list->str[i])
 	{
-		if (list->str[i] == '$')
-		{
-			i ++;
-			flag = 1;
-			while (list->str[i] && list->str[i] != ' ')
-				i ++;
-			if (!list->str[i])
-				return (flag);
-		}
+//		if (list->str[i] == '$')
+//		{
+//			i ++;
+//			flag = 1;
+//			while (list->str[i] && list->str[i] != ' ')
+//				i ++;
+//			if (!list->str[i])
+//				return (flag);
+//		}
 		write (1, &list->str[i], 1);
 		i ++;
 	}

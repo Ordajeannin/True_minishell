@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_str_nbr.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 16:44:11 by ajeannin          #+#    #+#             */
-/*   Updated: 2022/11/07 18:22:18 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:33:03 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	ft_print_nbr(int n)
 	len = 0;
 	nbr = ft_itoa(n);
 	len = ft_print_str(nbr);
-	free(nbr);
+	// free(nbr);
 	return (len);
 }

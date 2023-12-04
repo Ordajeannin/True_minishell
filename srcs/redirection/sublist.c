@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sublist.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:05:55 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 17:50:47 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 17:53:43 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ t_args_list	*stock_sublist(t_args **list)
 	current = (*list);
 	stock = NULL;
 	help_stock(&stock, &start, &current);
-	new_node = malloc(sizeof(t_args_list));
+	new_node = ft_malloc(sizeof(t_args_list), ALLOC);
 	if (!new_node)
 	{
 		perror("malloc");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_libc3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 20:04:26 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/04 18:22:58 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,19 +119,19 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	void	*new_ptr;
 
 	if (ptr == NULL)
-		return (malloc(new_size));
-	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	new_ptr = malloc(new_size);
+		return (ft_malloc(new_size, ALLOC));
+	// if (new_size == 0)//plus utile
+	// {
+	// 	free(ptr);
+	// 	return (NULL);
+	// }
+	new_ptr = ft_malloc(new_size, ALLOC);
 	if (new_ptr == NULL)
 		return (NULL);
 	if (old_size < new_size)
 		ft_memcpy(new_ptr, ptr, old_size);
 	else
 		ft_memcpy(new_ptr, ptr, new_size);
-	free(ptr);
+	// free(ptr);
 	return (new_ptr);
 }
