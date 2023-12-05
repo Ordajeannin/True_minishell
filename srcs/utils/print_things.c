@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 18:45:15 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:09:27 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,20 @@ char	*prompt_cmd(t_shell *shell)
 		prompt = ft_strjoin(pwd, ">");
 	return (prompt);
 }
+
+// static void	print_member(const char *name, const void *member, int type)
+// {
+// 	if (type == 's')
+// 		printf("This is the %s : %s\n", name, (char *)member);
+// 	else if (type == 'i')
+// 		printf("This is the %s : %i \n", name, *(int *)member);
+// 	else if (type == 'a')
+// 		printf("This is the %s : %p \n", name, member);
+// }
+
+// void print_shell(t_shell *shell)
+// {
+// 	print_member("home", shell->home, 's');
+// 	print_member("path", shell->path, 's');
+// 	print_member("cmd_paths", shell->cmd_paths, 'a');
+// }

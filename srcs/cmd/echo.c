@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 16:15:23 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:17:49 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ static int	find_opt(char *s1)
 	return (0);
 }
 
-/* 
+/*
  * Affiche caractere par caractere la liste.
  * Suite de ft_echo.
- * // if (list->token == TOKEN_TEMP_VAR)
-	// 	process_not_s_quotes(list, env_list, 2);
 */
 static int	iter_echo(t_args *list)
 {
@@ -49,15 +47,6 @@ static int	iter_echo(t_args *list)
 		return (0);
 	while (list->str[i])
 	{
-//		if (list->str[i] == '$')
-//		{
-//			i ++;
-//			flag = 1;
-//			while (list->str[i] && list->str[i] != ' ')
-//				i ++;
-//			if (!list->str[i])
-//				return (flag);
-//		}
 		write (1, &list->str[i], 1);
 		i ++;
 	}

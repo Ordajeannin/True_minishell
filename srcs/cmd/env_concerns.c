@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 17:59:54 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:18:40 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	change_env_cd(t_args **env_list, char *new_str, char *change_value)
 		if (ft_strcmp(current->str, change_value) == 0 && \
 			ft_strlen(current->str) == ft_strlen(change_value))
 		{
-			// if (current->str)
-			// 	free(current->str);
 			current->str = ft_strdup(new_str);
 			return ;
 		}
@@ -59,7 +57,6 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 		result = ft_strjoin(tmp, "0");
 	else
 		result = ft_strjoin(tmp, value);
-	// free(tmp);
 	if (!result)
 		return (2);
 	current = *env_list;
@@ -72,29 +69,6 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	}
 	return (help_cee3(&result));
 }
-//	{
-//		current_name = ft_strdupto_n(current->str, '=');
-//		if (!current_name)
-//		{
-//			free(result);
-//			return (2);
-//		}
-//		if (ft_strncmp(current_name, name_env, ft_strlen(current_name)) == 0
-//			&& ft_strlen(current_name) == ft_strlen(name_env))
-//		{
-//			if (current->str)
-//				free(current->str);
-//			current->str = ft_strdup(result);
-//			free(current_name);
-//			free(result);
-//			return (0);
-//		}
-//		current = current->next;
-//		free(current_name);
-//	}
-//	free(result);
-//	return (1);
-//}
 
 /* 
  * Boucle principale d'unset.
@@ -117,14 +91,6 @@ int	searchin_env(t_args **env_list, t_args *list)
 		if (ft_strncmp(list->next->str, name_env, len) == 0 && \
 		len == ft_strlen(name_env))
 			return (help_s_e(&temp, &current, &name_env));
-//		{
-//			temp = current->next->next;
-//			free(current->next);
-//			current->next = temp;
-//			free(name_env);
-//			return (0);
-//		}
-		// free(name_env);
 		current = current->next;
 	}
 	return (1);

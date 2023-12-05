@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/05 18:38:45 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:05:00 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,8 @@ typedef struct s_shell
 	int		is_work;
 	char	*input_bis;
 	int		error;
-//	t_args	*args;
 	t_args  *env_list;
 	t_args  *list;
-//	int     g_error;
 }	t_shell;
 
 typedef struct s_args_list

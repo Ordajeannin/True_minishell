@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 18:02:24 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:56:04 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,62 +15,24 @@
 /*
  * Permet de normer change_error
 */
-static int	help_change_error1(char **nb_char, t_shell **shell, int value)
+static int	help_change_error(t_shell **shell, int value, int flag)
 {
-	// free(*nb_char);
 	(*shell)->error = value;
-	return (2);
+	return (flag);
 }
 
 /*
  * Permet de normer change_error
 */
-static int	help_change_error2(char **nb_char, char **result, t_shell **shell,
+static int	help_change_error2(t_args **current, char **result, t_shell **shell, 
 		int value)
 {
-	// free(*nb_char);
-	// free(*result);
-	(*shell)->error = value;
-	return (2);
-}
-
-/*
- * Permet de normer change_error
-*/
-static void	help_change_error3(t_args **current, char **result, t_shell **shell, 
-		int value)
-{
-	// if ((*current)->str)
-	// 	free((*current)->str);
 	(*current)->str = ft_strdup(*result);
 	(*shell)->error = value;
-}
-
-/*
- * Permet de normer change_error
-*/
-static int	help_change_error4(char **current_name, char **nb_char, 
-		char **result)
-{
-	// free(*current_name);
-	// free(*nb_char);
-	// free(*result);
 	return (1);
 }
 
 /*
- * Permet de normer change_error
-*/
-static int	help_change_error5(t_shell **shell, int value, char **nb_char,
-		char **result)
-{
-	(*shell)->error = value;
-	// free(*nb_char);
-	// free(*result);
-	return (0);
-}
-
-/* 
  * Change env pour $?.
  * Mets a jour les cas d'erreurs de $?
 */
@@ -80,58 +42,27 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 	char	*current_name;
 	char	*result;
 	char 	*nb_char;
-	// char	*tmp;
 
-	// ft_printf("env_list 1 : %s | value : %d\n", *env_list, value);
 	nb_char = ft_itoa(value);
 	if (!nb_char)
 		return (2);
 	result = ft_strjoin("?=", nb_char);
-	// tmp = NULL;
 	if (!result)
-		return (help_change_error1(&nb_char, &shell, value));
-//	{
-//		free(nb_char);
-//		shell->error = value;
-//		return (2);
-//	}
+		return (help_change_error(&shell, value, 2));
 	current = *env_list;
 	while (current)
 	{
-		// ft_printf("je suis la bicth 3\n");
 		current_name = ft_strdupto_n(current->str, '=');
 		if (!current_name)
-			return (help_change_error2(&nb_char, &result, &shell, value));
-//		{
-//			free(nb_char);
-//			free(result);
-//			shell->error = value;
-//			return (2);
-//		}
+			return (help_change_error(&shell, value, 2));
 		if (ft_strcmp(current_name, "?") == 0 && ft_strlen(current_name) == 1)
-		{
-			help_change_error3(&current, &result, &shell, value);
-			return (help_change_error4(&current_name, &nb_char, &result));
-//			if (current->str)
-//				free(current->str);
-//			current->str = ft_strdup(result);
-//			shell->error = value;
-//			free(current_name);
-//			free(nb_char);
-//			free(result);
-//			return (1);
-		}
-		// free(current_name);
+			return (help_change_error2(&current, &result, &shell, value));
 		current = current->next;
 	}
-	return (help_change_error5(&shell, value, &nb_char, &result));
-//	shell->error = value;
-//	free(nb_char);
-//	free(result);
-//	return (0);
+	return (help_change_error(&shell, value, 0));
 }
 
-/* 
+/*
  * Debut de all_cmd.
  * Cherche si la commande existe ou non a partir de PATH.
  * Exception: si la commande est env, redirection vers builtins.
@@ -153,7 +84,7 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 	return (command);
 }
 
-/* 
+/*
  * Preparation du bios avant la creation du processus enfant.
  * Check si la commande est valide ou que son path est valide.
  * Mets tous les arguments dans un shell->input (char **).
@@ -217,24 +148,10 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	signal(SIGQUIT, SIG_IGN);
 	if (g_error == 2)
 		g_error = 0;
-//	if (WEXITSTATUS(status) != 0)
-//	{
-//		errno = WEXITSTATUS(status);
-//		if (g_error != 0)
-//			change_error(env_list, shell, g_error);
-//		else
-//			change_error(env_list, shell, handle_error(errno));
-//		return (1);
-//	}
 	if (WEXITSTATUS(status) != 0)
 		return (help_next_execution(env_list, shell, status, 1));
 	else if (WTERMSIG(status) == SIGSEGV)
 		return (help_next_execution(env_list, shell, status, 2));
-//	{
-//		ft_printf("Segmentation Fault (core dumped)\n");
-//		change_error(env_list, shell, 139);
-//		return (1);
-//	}
 	else
 	{
 		if (g_error != 0)
@@ -248,7 +165,21 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	return (0);
 }
 
-/* 
+int help_all_cmd(t_shell *shell, char *command, t_args **env_list)
+{
+	char **env_tab;
+
+	env_tab = NULL;
+	env_tab = dup_double_string(env_list);
+	if (!env_tab)
+		return (1);
+	execve(command, shell->input, env_tab);
+	printf("%s : %s\n", shell->input[0], strerror(errno));
+	shell->error = handle_error(errno);
+	return (0);
+}
+
+/*
  * Execution des commandes dependantes de PATH.
  * Creation d'un sous-processus pour execve.
  * Check si la commande est valide.
@@ -259,73 +190,24 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 {
 	pid_t	pid_child;
 	char	*command;
-	char	**env_tab;
 
-	env_tab = NULL;
 	command = bfore_execution(arg, shell, list, env_list);
 	if (command == NULL)
 		return (1);
 	pid_child = fork();
-	if (pid_child == -1)//ATTENTION AUITTE LE PROGRAMME OU LE PROCCESSUR ?
+	if (pid_child == -1) //Semble quitter le programme -> free
 	{
 		perror("fork");
-		// free(command);
-		// free_everything(shell, *list, *env_list);
+		ft_malloc(0, FREE);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid_child == 0)
 	{
-		// start awena
-		env_tab = dup_double_string(env_list);
-		if (!env_tab)
-		{
-			// free(command);
-			// free_everything(shell, *list, *env_list);
+		if (help_all_cmd(shell, command, env_list) == 1)
 			return (1);
-		}
-		execve(command, shell->input, env_tab);
-		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
-		// free(command);
-		shell->error = handle_error(errno);
-		// free_everything(shell, *list, *env_list);
 		exit(handle_error(errno));
 	}
-	// if (env_tab)
-	// {
-		// while (*env_tab != NULL)
-		// {
-		// 	free(*env_tab);
-		// 	(*env_tab) ++;
-		// }
-	// fin awena
-	// start moi (norme)
-		//if (help_all_cmd01(env_tab, env_list, &command, &shell) == 1)
-			//return (1);
-////		env_tab = dup_double_string(env_list);
-////		if (!env_tab)
-////	{
-////			free(command);
-////			return (1);
-////		}
-////		execve(command, shell->input, env_tab);
-		//help_all_cmd02(&shell, list, env_list);
-////		ft_printf("%s : %s\n", shell->input[0], strerror(errno));
-////		shell->error = handle_error(errno);
-////		free_everything(shell, *list, *env_list);
-////		exit(handle_error(errno));
-	// }
-	//if_env_tab(env_tab);
-//	if (env_tab)
-//	{
-//		while (*env_tab != NULL)
-//		{
-//			free(*env_tab);
-//			(*env_tab) ++;
-//		}
-//	}
-	// fin moi (norme)
 	if (next_execution(pid_child, env_list, shell) == 1)
 		return (1);
 	return (0);
 }
-

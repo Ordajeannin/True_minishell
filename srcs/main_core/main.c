@@ -6,37 +6,11 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/05 18:58:41 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:55:07 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	print_member(const char *name, const void *member, int type)
-// {
-// 	if (type == 's')
-// 		printf("This is the %s : %s\n", name, (char *)member);
-// 	else if (type == 'i')
-// 		printf("This is the %s : %i \n", name, *(int *)member);
-// 	else if (type == 'a')
-// 		printf("This is the %s : %p \n", name, member);
-// }
-
-// void print_shell(t_shell *shell)
-// {
-// 	print_member("home", shell->home, 's');
-// 	print_member("path", shell->path, 's');
-// 	print_member("cmd_paths", shell->cmd_paths, 'a');
-// }
-
-/*
- * Suite du main #2
-static void	main_ter(t_args *list, t_shell *shell, t_args **env_list)
-{
-	if (is_correct_format(&list) == 0)
-		create_sublists(list, shell, env_list);
-}
-*/
 
 /*
  * Suite du main.

@@ -6,13 +6,13 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 17:59:08 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:17:24 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
+/*
  * Change de repertoire en fonction du buf envoye.
  * Agit reellement comme la commande cd.
 */
@@ -48,39 +48,19 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	dir = opendir(temp);
 	if (dir == NULL)
 		return (help_itp1(env_list, &shell, &dir, &temp));
-//	{
-//		buf = NULL; pourquoi set a NULL alors qu on return?
-//		ft_printf("cd : No such file or directory\n");
-//		change_error(&env_list, shell, 0);
-//		closedir(dir);
-//		free(temp);
-//		return (NULL);
-//	}
 	buf = ft_strdup(list->next->str);
 	if (! buf)
 		help_itp2(&dir, &temp);
-//	{
-//		free(temp);
-//		closedir(dir);
-//		return (NULL);
-//	}
 	if (shell->pwd == NULL)
 	{
 		if (!cd_move_and_change(env_list, shell))
 			return (help_itp2(&dir, &temp));
-//		{
-//			free(temp);
-//			closedir(dir);
-//			return (NULL);
-//		}
 	}
 	help_itp2(&dir, &temp);
-//	free(temp);
-//	closedir(dir);
 	return (buf);
 }
 
-/* 
+/*
  * Check les arguments de cd
  * Gere cas d'erreurs premiers
 */
@@ -132,6 +112,5 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (!buf)
 		return (1);
 	err = cd_real_version(buf, shell, env_list, list);
-	// free(buf);
 	return (err || !change_error(&env_list, shell, 0));
 }
