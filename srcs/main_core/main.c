@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/05 16:41:03 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:58:41 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,14 @@
 
 /*
  * Suite du main #2
-*/
 static void	main_ter(t_args *list, t_shell *shell, t_args **env_list)
 {
 	if (is_correct_format(&list) == 0)
-	{
-//		is_there_a_redirection(&list);
-		//args_handle(list, shell, env_list);
 		create_sublists(list, shell, env_list);
-	}
 }
+*/
 
-/* 
+/*
  * Suite du main.
 */
 static int	main_bis(char *input, t_args *list, t_args *env_list, \
@@ -54,23 +50,19 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	if (g_error != 0)
 	{
 		if (!change_error(&env_list, shell, g_error))
-		{
-			// free(input);
 			return (1);
-		}
 		g_error = 0;
 	}
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (from_input_to_list_of_args(input, &list, &env_list) == 1)
-	{
-		// free(input);
 		return (1);
-	}
 	print_args_list(&list);
-	// free(input);
 	if (list)
-		main_ter(list, shell, &env_list);
+	{
+		if (is_correct_format(&list) == 0)
+			create_sublists(list, shell, &env_list);
+	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
 	// clear_args_list(&list);
@@ -82,110 +74,41 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	return (0);
 }
 
-/* 
- * Init shell->pwd au debut du main
- * Ajout de la premiere commande a l'historique
-*/
-/*static void	little_more_main(t_shell shell, char **input)
+static void try_to_init_shell(int ac, char **av, t_shell *shell)
 {
-	char	buf[1024];
-
-	shell.is_pwd = getcwd(buf, sizeof(buf));
-	shell.pwd = shell.is_pwd;
-	*input = check_if_there_is_a_lost_pipe(*input);
-	if (input != NULL)
-		add_history(*input);
-}
-*/
-/*
- * Actions de la boucle ATM
- * 1) readline ("prompt")
- * 2) splitage de l'input en tableau de chaine
- * 3) analyse de chaque chaine, attribution des tokens
- * 4) affichage de l'analyse (temporaire)
- * 5) gestionnaire de commandes
- * 6) gere l'historique de commande
- * 7) free le precedent input avant de reproposer le prompt
- * 8) vide la liste d'arguments, mais conserve le pointeur
-*/
-/*
-int	main(int ac, char **av, char **env)
-{
-	char	*input;
-	t_args	*list;
-	t_args	*env_list;
-	t_shell	shell;
-	char	*username;
-	char	*prompt_char;
-
 	(void)ac;
-	ft_bzero(&shell, sizeof shell);
-	ft_gain_place(av, &list, &input, &env_list);
-	if (set_env(&env_list, env, &shell) == -1)
-		return (-1);
-	username = get_username(&env_list, &shell);
-	prompt_char = prompt_cmd(&shell, username);
-	input = readline(prompt_char);
-	if (input == NULL)
-	{
-		free(username);
-		free(prompt_char);
-		free(input);
-		ft_exit(list, env_list, &shell);
-	}
-	little_more_main(shell, &input);
-	ft_printf("je vaux : %s\n", input);
-	if (input != NULL)
-	{
-		shell.input_bis = ft_strdup(input);
-		if (main_bis(input, list, env_list, &shell) == 1)
-		{
-			free(username);
-			free(prompt_char);
-			free(input);
-			free_everything(&shell, list, env_list);
-			return (1);
-		}
-	}
-	ft_printf("je suis la \n");
-	free(input);
-	free(prompt_char);
-	is_minishell(&shell, env_list, list, username);
-	free(username);
-	return (0);
-}*/
+	(void)av;
+	g_error = 0;
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	shell->list = NULL;
+	shell->env_list = NULL;
+}
 
 /*
  *(!) Main ne gere plus l'input
 */
 int	main(int ac, char **av, char **env)
 {
-	t_args	*list;
-	t_args	*env_list;
 	t_shell	shell;
-	char	*username;
 
-	(void)ac;
 	ft_bzero(&shell, sizeof shell);
-	ft_gain_place(av, &list, &env_list);
-	if (set_env(&env_list, env, &shell) == -1)
+	try_to_init_shell(ac, av, &shell);
+	if (set_env(&(shell.env_list), env, &shell) == -1)
 		return (-1);
-	username = get_username(&env_list, &shell);//issue?
-	is_minishell(&shell, env_list, list, username);
-	// free(username);
-	// free_everything(&shell, list, env_list);
+	is_minishell(&shell, shell.env_list, shell.list);
 	ft_malloc(0, FREE);
 	return (0);
 }
 
-/* 
+/*
  * Boucle principale minishell
  * Affiche le prompt
  * Ajoute la cmd a l'historique		args_handle(list, shell, env_list, input);
  si besoin
  * Exit si CTRL-D
 */
-int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
+int	is_minishell(t_shell *shell, t_args *env_list, t_args *list)
 {
 	char	*input;
 	char	*prompt_char;
@@ -195,16 +118,10 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 	prompt_char = NULL;
 	if (1 == 1)
 	{
-		prompt_char = prompt_cmd(shell, user);
+		prompt_char = prompt_cmd(shell);
 		input = readline(prompt_char);
-		// free(prompt_char);
 		if (input == NULL)
-		{
-			// free(user);
 			ft_exit(list, env_list, shell);
-		}
-		// free(shell->is_pwd);
-		// free(shell->pwd);
 		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
 		shell->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
 		input = check_if_there_is_a_lost_pipe(input);
@@ -212,48 +129,30 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list, char *user)
 		{
 			add_history(input);
 			shell->input_bis = ft_strdup(input);
-			if (! shell->input_bis)
-			{
-				// free(input);
+			if (!shell->input_bis)
 				return (1);
-			}
 			if (main_bis(input, list, env_list, shell) == 1)
-			{
-				// free_everything(shell, list, env_list);
 				return (1);
-			}
 			clear_args_list(&list);
 		}
 	}
 	while (1)
 	{
-		prompt_char = prompt_cmd(shell, user);
+		prompt_char = prompt_cmd(shell);
 		input = readline(prompt_char);
-		// free(prompt_char);
 		if (input == NULL)
-		{	printf("ctrD ?\n");
-			// ft_malloc(0, FREE);
 			ft_exit(list, env_list, shell);
-		}
 		input = check_if_there_is_a_lost_pipe(input);
 		if (input != NULL)
 		{
 			if (!(ft_strcmp(shell->input_bis, input) == 0 \
 				&& ft_strlen(shell->input_bis) == ft_strlen(input)))
 				add_history(input);
-			// if (shell->input_bis)
-			// 	free(shell->input_bis);
 			shell->input_bis = ft_strdup(input);
-			if (! shell->input_bis)
-			{
-				ft_malloc(0, FREE);
+			if (!shell->input_bis)
 				return (1);
-			}
 			if (main_bis(input, list, env_list, shell) == 1)
-			{
-				// free_everything(shell, list, env_list);
 				return (1);
-			}
 			clear_args_list(&list);
 		}
 	}

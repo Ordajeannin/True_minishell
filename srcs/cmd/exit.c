@@ -6,61 +6,15 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 18:49:28 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:29:00 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	free_shell_var(t_shell *shell)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (shell->is_oldpwd)
-// 		free(shell->is_oldpwd);
-// 	if (shell->is_pwd)
-// 		free(shell->is_pwd);
-// 	if (shell->oldpwd)
-// 		free(shell->oldpwd);
-// 	if (shell->pwd)
-// 		free(shell->pwd);
-// 	if (shell->home)
-// 		free(shell->home);
-// 	if (shell->path)
-// 		free(shell->path);
-// 	if (shell->input_bis)
-// 		free(shell->input_bis);
-// 	if (shell->shlvl)
-// 		free(shell->shlvl);
-// 	if (shell->cmd_paths)
-// 	{
-// 		while (shell->cmd_paths[i])
-// 			free(shell->cmd_paths[i++]);
-// 		free(shell->cmd_paths);
-// 	}
-// 	i = 0;
-// 	if (shell->input)
-// 	{
-// 		while (shell->input[i])
-// 			free(shell->input[i++]);
-// 		free(shell->input);
-// 	}
-// }
-
-// void	free_everything(t_shell *shell, t_args *list, t_args *env_list)
-// {
-// 	free_shell_var(shell);
-// 	if (env_list)
-// 		clear_args_list(&env_list);
-// 	rl_clear_history();
-// 	if (list)
-// 		clear_args_list(&list);
-// }
-
 /*
  * Program stop.
- * Fonction a l'image de 'exit' 
+ * Fonction a l'image de 'exit'
  * Quitte le programme proprement avec free.
  * :warning:
  * wait(100) supprime de la premiere ligne pour la norme
@@ -92,6 +46,5 @@ int	ft_exit(t_args *list, t_args *env_list, t_shell *shell)
 		code_err = shell->error;
 	ft_malloc(0, FREE);
 	rl_clear_history();
-	// free_everything(shell, list, env_list);
 	exit(code_err);
 }

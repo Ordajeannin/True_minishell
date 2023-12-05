@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 17:37:25 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:38:45 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ struct s_test
 	int	var_d;
 };
 
+typedef struct s_args
+{
+	char			*str;
+	int				token;
+	struct s_args	*next;
+}	t_args;
+
 typedef struct s_shell
 {
 	char	*home;
@@ -80,14 +87,10 @@ typedef struct s_shell
 	char	*input_bis;
 	int		error;
 //	t_args	*args;
+	t_args  *env_list;
+	t_args  *list;
+//	int     g_error;
 }	t_shell;
-
-typedef struct s_args
-{
-	char			*str;
-	int				token;
-	struct s_args	*next;
-}	t_args;
 
 typedef struct s_args_list
 {
@@ -106,8 +109,7 @@ typedef struct s_split
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
 /* * * * * Prototypes Fonctions Minishell * * * * */
-int			is_minishell(t_shell *shell, t_args *env_list, t_args *list, \
-			char *user);
+int			is_minishell(t_shell *shell, t_args *env_list, t_args *list);
 void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
@@ -229,7 +231,7 @@ void		print_args_list(t_args **list);
 char		*get_username(t_args **env_list, t_shell *shell);
 char		*get_pwd(void);
 int			set_empty_env(t_shell *shell, t_args **env_list);
-char		*prompt_cmd(t_shell *shell, char *user);
+char		*prompt_cmd(t_shell *shell);
 
 void		print_shell(t_shell *shell);
 

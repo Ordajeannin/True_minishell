@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:37:34 by pkorsako          #+#    #+#             */
-/*   Updated: 2023/12/04 18:08:44 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 18:58:21 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	upgrade_list(t_garbage *alloc_elements, void *allocated_element)
 {
 	t_garbage	*new_struct;
 	t_garbage	*index;
-	
+
 	new_struct = malloc(sizeof(t_garbage));
 	if(!new_struct)
 	{
@@ -50,7 +50,7 @@ void	*ft_malloc(size_t byte_size, int action)
 {
 	static t_garbage	alloc_elements;
 	void				*allocated_element;
-	
+
 	if (action == FREE)
 		free_garbage(&alloc_elements);
 	else
