@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:36:33 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:41:03 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	main_ter(t_args *list, t_shell *shell, t_args **env_list)
 {
 	if (is_correct_format(&list) == 0)
 	{
-		is_there_a_redirection(&list);
+//		is_there_a_redirection(&list);
 		//args_handle(list, shell, env_list);
 		create_sublists(list, shell, env_list);
 	}

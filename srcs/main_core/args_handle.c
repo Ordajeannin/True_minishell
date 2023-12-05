@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 16:53:17 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/05 16:32:51 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list)
 
 	shell->is_work = 1;
 	current_env = *env_list;
+	is_there_a_redirection(&list);
 	if (list == NULL)
 		return ;
 	if (ft_strncmp(list->str, "cd", ft_strlen(list->str))
