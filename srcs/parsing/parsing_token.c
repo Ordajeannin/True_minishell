@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:24:24 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:20:41 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	delete_null_nodes(t_args **list)
 {
 	t_args	*current;
 	t_args	*prev;
-	t_args	*temp;
 
 	if (*list == NULL)
 		return ;
@@ -60,13 +59,11 @@ static void	delete_null_nodes(t_args **list)
 	{
 		if (current->str == NULL && current->token != 23)
 		{
-			temp = current;
 			if (prev == NULL)
 				*list = current->next;
 			else
 				prev->next = current->next;
 			current = current->next;
-			// free(temp);
 		}
 		else
 			help_delete_or_token(&prev, &current, NULL);
@@ -127,45 +124,19 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 		if (tmp[i] != NULL && node->str != NULL)
 		{
 			tmp_node = ft_strdup(node->str);
-			// free(node->str);
 			node->str = ft_strjoin(tmp_node, tmp[i]);
-			// free(tmp_node);
 			if (!node->str)
-			{
-			// 	while (i >= 0 && tmp[i])
-			// 		free(tmp[i--]);
-			// 	free(tmp);
 				return (1);
-			}
 		}
 		else if (tmp[i] != NULL && node->str == NULL)
 		{
-			// if (node->str)
-			// 	free(node->str);
 			node->str = ft_strdup(tmp[i]);
 			if (!node->str)
-			{
-				// while (i >= 0 && tmp[i])
-				// 	free(tmp[i--]);
-				// free(tmp);
 				return (1);
-			}
 		}
-//		else
-//		{
-//			while (--i >= 0 && tmp[i])
-//				free(tmp[i]);
-			// free(tmp);
-//		}
 		i++;
 	}
 	i = 0;
-	if (tmp[i])
-	{
-		// while (i >= 0 && tmp[i])
-		// 	free(tmp[i--]);
-		// free(tmp);
-	}
 	return (0);
 }
 
@@ -175,7 +146,7 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 int	update_args2(t_args **list, t_args **env_list)
 {
 	t_args	*current;
-	
+
 	current = *list;
 	while (current != NULL)
 	{
@@ -206,8 +177,6 @@ int	update_args(t_args **list)
 			current->token = tokenize_args(current->str, 23);
 		if (current->str == NULL && current->token == 23)
 		{
-			// if (current->str != NULL)
-			// 	free(current->str);
 			current->str = ft_strdup(help);
 			if (!current->str)
 				return (1);

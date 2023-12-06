@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/05 19:05:00 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 16:45:12 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,8 +250,5 @@ int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
 int			help_all_cmd01(char **env_tab, t_args **env_list, char **command,
 			t_shell **shell);
 void		help_all_cmd02(t_shell **shell, t_args **list, t_args **env_list);
-void		if_env_tab(char **env_tab);
-
-
 
 #endif

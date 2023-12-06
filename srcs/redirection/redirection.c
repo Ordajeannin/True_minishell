@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:59:47 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:28:16 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:28:08 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,10 @@
 */
 static t_args	*j_ai_peter_les_plombs(t_args **list)
 {
-	t_args	*current;
-
-	current = *list;
 	*list = (*list)->next;
-	// free(current);
 	if (*list == NULL)
 		return (NULL);
-	current = *list;
 	*list = (*list)->next;
-	// free(current);
 	if (*list != NULL)
 		return (*list);
 	else

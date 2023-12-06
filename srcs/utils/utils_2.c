@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:31:12 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 18:29:48 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:17:16 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,6 @@ static char	**env_to_char(t_args **env_list)
 	while (current)
 	{
 		env_char[i] = ft_strdup(current->str);
-		// if (!env_char[i])
-		// {
-		// 	while (i >= 0)
-		// 		free(env_char[i--]);
-		// 	free(env_char);
-		// }			
 		current = current->next;
 		i ++;
 	}

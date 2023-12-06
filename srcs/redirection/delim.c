@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:25:36 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:09:49 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,9 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
 	else
 	{
 		temp = (char *)ft_malloc(*input_size + buffer_lenght, ALLOC);
-		// if (!temp)
-		// {
-		// 	// free(result);
-		// 	return (NULL);
-		// }
+		if (!temp)
+			return (NULL);
 		ft_strcpy(temp, result);
-		// free(result);
 		result = temp;
 	}
 	if (!result)
@@ -118,12 +114,9 @@ void	plus_de_nouvelle(const char *str)
 		if (line == NULL || ft_strcmp(line, str) == 0)
 			break ;
 		result = batterie_faible(line, result, &input_size);
-		// free(line);
 		if (result == NULL)
 			return ;
 	}
-	// if (line)
-		// free(line);
 	if (result)
 		return (tempfile(result));
 }
@@ -155,7 +148,6 @@ int handle_mult_heredoc(t_args **stock)
 	if (current->str == NULL)
 		return (1);
 	plus_de_nouvelle(current->str);
-	//fonction pour free stock, plus necessaire
 	return (0);
 }
 
@@ -189,16 +181,12 @@ int	handle_heredoc(t_args **input)
 			{
 				add_arg(&stock, current->next->str, TOKEN_DELIM);
 				next = current->next;
-				// free(current);
 				if (prev == NULL)
 					*input = next;
 				else
 					prev->next = next->next;
 				if (next != NULL)
-				{
 					current = next->next;
-					// free(next);
-				}
 				else
 				{
 					current = NULL;
@@ -213,7 +201,6 @@ int	handle_heredoc(t_args **input)
 					prev->next = NULL;
 				else
 					*input = NULL;
-				// free(current);
 				break ;
 			}
 		}

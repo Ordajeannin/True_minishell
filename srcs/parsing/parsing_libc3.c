@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:22:58 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:05:07 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 
 /*
  * Implementation de realloc
+ * //plus utile
+ * inscrit au niveau de la protection de new_size, why?
 */
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
@@ -120,11 +122,8 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 
 	if (ptr == NULL)
 		return (ft_malloc(new_size, ALLOC));
-	// if (new_size == 0)//plus utile
-	// {
-	// 	free(ptr);
-	// 	return (NULL);
-	// }
+	if (new_size == 0)
+		return (NULL);
 	new_ptr = ft_malloc(new_size, ALLOC);
 	if (new_ptr == NULL)
 		return (NULL);
@@ -132,6 +131,5 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 		ft_memcpy(new_ptr, ptr, old_size);
 	else
 		ft_memcpy(new_ptr, ptr, new_size);
-	// free(ptr);
 	return (new_ptr);
 }

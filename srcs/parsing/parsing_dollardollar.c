@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:22:42 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 16:59:52 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,11 @@ static void	update_split(t_split *s, int step)
 	}
 }
 
+//protection?
 static int	step2split(t_split *s, char *str)
 {
 	if (s->start < s->i)
-	{
-		// if (s->result[s->j])
-		// 	free(s->result[s->j]);
 		s->result[s->j++] = word_dup(str, s->start, s->i);
-	}
 	s->result[s->j] = NULL;
 	return (0);
 }
@@ -105,9 +102,8 @@ static int	init_split(t_split *s, char *str, int step)
 		s->i++;
 	if (s->i != 0)
 	{
-		// if (s->result[s->j])
-		// 	free(s->result[s->j]);
 		s->result[s->j++] = word_dup(str, s->start, s->i);
+		//protection?
 		s->start = s->i;
 	}
 	return (0);
@@ -115,7 +111,6 @@ static int	init_split(t_split *s, char *str, int step)
 
 /*
  * Main fonction
- * cf version + clair ci-dessous
  * retourne un tableau de tableau contenant chaque sous-chaine
  * devant etre traitee par is_env_var
 */
@@ -131,11 +126,13 @@ char	**ft_split_arg(char *str)
 				|| is_alphanum(str[s.i]) == -1))
 		{
 			s.result[s.j++] = word_dup(str, s.start, s.i);
+			//protection?
 			update_split(&s, 1);
 		}
 		if (str[s.i] == '$' && str[s.i + 1] == '$')
 		{
 			s.result[s.j++] = word_dup(str, s.i, s.i + 2);
+			//protection?
 			update_split(&s, 2);
 		}
 		else if (str[s.i] == '$' && s.flag == 0)

@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:30:00 by asalic            #+#    #+#             */
-/*   Updated: 2023/09/29 11:21:28 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/06 17:17:42 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strdupto_n(char *str, char c)
 	return (tab);
 }
 
-/* 
+/*
  * Recupere str a partir de c.
 */
 char	*ft_strdup_from(char *str, char c)
@@ -76,7 +76,7 @@ char	*ft_strdup_from(char *str, char c)
 	return (tab);
 }
 
-/* 
+/*
  * Part de la fin de str et recule jusqu'a c.
  * Puis copie du debut de la chaine jusqu'a ce c marque
 */

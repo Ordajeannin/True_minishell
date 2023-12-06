@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:58:53 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/03 13:37:55 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:10:18 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,3 @@ int	is_correct_format(t_args **list)
 	}
 	return (0);
 }
-
-/*
-void	free_sublists(t_args_list *stock)
-{
-	t_args_list	*temp;
-
-	while (stock)
-	{
-		temp = stock;
-		stock = stock->next;
-		clear_args_list(&(temp->head));
-		free(temp);
-	}
-}
-*/

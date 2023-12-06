@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:27:50 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:24:22 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
  * Permet d'executer les commandes en pipeline
  * sans connaitre a l'avance le nombre de sous-chaines
  * (sa norme constitue mon plus grand cauchemard)
- * deso j'ai rajoute des lignes hors norme, le cauchemar se prolonge ...
+ *
+ * ft_malloc(0, FREE) si pid == 0? pourquoi?
 */
 static void	execute_command(t_args_list **stock, t_shell *shell, \
-		t_args **env_list, t_args *list)
+		t_args **env_list)
 {
 	t_args_list	*current;
 	int			prev_pipe[2];
@@ -42,7 +43,6 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		if (pipe(pipe_fds) == -1)
 		{
 			perror("pipe");
-			// free_everything(shell, list, *env_list);
 			ft_malloc(0, FREE);
 			exit(EXIT_FAILURE);
 		}
@@ -50,7 +50,6 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		if (pid == -1)
 		{
 			perror("fork");
-			// free_everything(shell, list, *env_list);
 			ft_malloc(0, FREE);
 			exit(EXIT_FAILURE);
 		}
@@ -67,7 +66,6 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 			if (current->next != NULL)
 				dup2(pipe_fds[1], STDOUT_FILENO);
 			args_handle(current->head, shell, env_list);
-			// free_everything(shell, list, *env_list);
 			ft_malloc(0, FREE);
 			exit(shell->error);
 		}
@@ -105,10 +103,9 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list)
 	stock = stock_sublist(&list);
 	print_sublists(stock);
 	if (stock->next != NULL)
-		execute_command(&stock, shell, env_list, list);
+		execute_command(&stock, shell, env_list);
 	else
 		args_handle(list, shell, env_list);
-	// free(stock);
 }
 
 /*
@@ -136,8 +133,6 @@ static char	*call_readline(char *prompt)
 			if (*ptr++ != ' ')
 				flag = 0;
 		}
-		// if (flag)
-		// 	free(input);
 		if (!flag)
 			break ;
 	}
@@ -156,16 +151,14 @@ static char	*combine_input_with_new_one(char *input, int lenght)
 	if (!new_input)
 		return (NULL);
 	combined = (char *)ft_malloc(lenght + ft_strlen(new_input) + 2, ALLOC);
-	// if (!combined)
-	// {
-	// 	perror("malloc");
-	// 	// free(new_input);
-	// 	return (NULL);
-	// }
+	if (!combined)
+	{
+		perror("malloc");
+	 	return (NULL);
+	 }
 	ft_strcpy(combined, input);
 	ft_strcat(combined, " ");
 	ft_strcat(combined, new_input);
-	// free(new_input);
 	return (combined);
 }
 
@@ -215,49 +208,10 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 				add_history(input2);
 				perror("syntax error near unexpected token");
 				return (NULL);
-			}	
+			}
 		}
 		else
 			break ;
 	}
 	return (input2);
 }
-
-/*
- * Last Stable Version,
- * a conserver au cas ou la version normee ne soit pas bug-proof
-*/
-/*
-char	*check_if_there_is_a_lost_pipe(char *input)
-{
-	char	*new_input;
-	char	*combined;
-	int		lenght;
-	int		i;
-
-	lenght = ft_strlen(input);
-	i = lenght - 1;
-	while (i >= 0 && input[i] == ' ')
-		i--;
-	if (i >= 0 && input[i] == '|')
-	{
-		new_input = readline("> ");
-		if (!new_input)
-			return (NULL);
-		combined = (char *)malloc(lenght + ft_strlen(new_input) + 2);
-		if (!combined)
-		{
-			perror("malloc");
-			free(new_input);
-			return (NULL);
-		}
-		ft_strcpy(combined, input);
-		ft_strcat(combined, " ");
-		ft_strcat(combined, new_input);
-		free(new_input);
-		return (combined);
-	}
-	else
-		return (input);
-}
-*/

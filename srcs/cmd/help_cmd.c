@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/04 18:10:10 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 16:30:59 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,11 @@ void	add_env(t_args **env_list, char *str)
 	t_args	*current;
 
 	new_var = ft_calloc(1, sizeof *new_var);
-	if (! new_var)	
+	if (! new_var)
 		return ;
 	new_var->str = ft_strdup(str);
-	// if (! new_var->str)
-	// {
-	// 	// free(new_var);
-	// 	return ;
-	// }
+	if (! new_var->str)
+	 	return ;
 	new_var->token = 0;
 	new_var->next = NULL;
 	if (*env_list)
@@ -63,7 +60,6 @@ void	add_env(t_args **env_list, char *str)
 	}
 	else
 		*env_list = copy_list(new_var);
-	// free(new_var);
 }
 
 /* Compte nombre de maillon dans une liste */
@@ -97,12 +93,8 @@ char	**dup_double_string(t_args **e_list)
 	while (current)
 	{
 		result[i] = ft_strdup(current->str);
-		// if (result[i] == NULL)
-		// {
-		// 	while (i >= 0)
-		// 		free(result[i--]);
-		// 	return (NULL);
-		// }
+		if (result[i] == NULL)
+			return (NULL);
 		i ++;
 		current = current->next;
 	}

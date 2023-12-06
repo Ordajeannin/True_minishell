@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/05 19:55:07 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 16:49:49 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 /*
  * Suite du main.
+ * :WARNING: j'ai uncommented clear_args_list, qui avant devait free.
+ * on a du se dire qu'elle ne servait plus a rien, mais elle set qd meme
+ * list a NULL, conservons la.
 */
 static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	t_shell *shell)
@@ -39,7 +42,7 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
-	// clear_args_list(&list);
+	clear_args_list(&list);
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		perror("Failed to restore standard input\n");
 	if (access("tempfile.txt", F_OK != -1))

@@ -6,18 +6,16 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:22:21 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:21:49 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*help_replace_var(char **result, char **env, t_args *current)
+static char	*help_replace_var(char **result, t_args *current)
 {
-	// if (*result)
-	// 	free(*result);
 	*result = ft_strdup_from(current->str, '=');
-	// free(*env);
+	//protection?
 	return (*result);
 }
 
@@ -42,11 +40,9 @@ static char	*replace_env_var(char *str, int n, t_args **env_list)
 	{
 		env = ft_strdupto_n(current->str, '=');
 		if (ft_strcmp(env, str) == 0)
-			return (help_replace_var(&result, &env, current));
-		// free(env);
+			return (help_replace_var(&result, current));
 		current = current->next;
 	}
-	// free(result);
 	return (NULL);
 }
 

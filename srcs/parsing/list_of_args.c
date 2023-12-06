@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:45:38 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 16:55:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@
 */
 void	clear_args_list(t_args **list)
 {
-// 	t_args	*current;
-// 	t_args	*next;
-
-// 	current = *list;
-// 	while (current != NULL)
-// 	{
-// 		next = current->next;
-// 		// if (current->str)
-// 		// 	free(current->str);
-// 		// free(current);
-// 		current = next;
-// 	}
  	*list = NULL;
 }
 
@@ -58,7 +46,7 @@ t_args *copy_list(t_args *source)
     t_args* new_head;
     t_args* current;
     t_args* tail;
-    
+
 	new_head = NULL;
 	tail = NULL;
 	current = source;
@@ -78,13 +66,12 @@ t_args *copy_list(t_args *source)
             tail = tail->next;
             tail->str = current->str;
 			tail->token = current->token;
-			// tail->next = NULL;
         }
         current = current->next;
     }
-	// free(tail->next);
     return (new_head);
 }
+
 /*
  * Fonction utilitaire, ajoute un maillon a la fin de la chaine
  * appel a create_arg pour creer le maillon
@@ -104,11 +91,8 @@ void	add_arg(t_args **list, char *str, int token)
 		current = *list;
 		while (current->next != NULL)
 			current = current->next;
-		// if(current->next)
-		// 	free(current->next);
 		current->next = copy_list(new_arg);
 	}
-	// free(new_arg);
 }
 
 /*
@@ -154,28 +138,6 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	return (0);
 }
 
-/*
- * Permet de norme loop_args
-*/
-static int	help_loop_args(t_shell **shell, int *i, int flag)
-{
-	if (flag == 1)
-	{
-		// while ((*shell)->input[*i])
-		// 	free((*shell)->input[(*i)++]);
-		// free((*shell)->input);
-		*i = 0;
-	}
-	else if (flag == 2)
-	{
-		// while (*i >= 0)
-		// 	free((*shell)->input[(*i)--]);
-		// free((*shell)->input);
-		return (1);
-	}
-	return (0);
-}
-
 /* 
  * PROTECTION DE MALLOC! 
  * Adaptation de list pour execve
@@ -190,16 +152,13 @@ int	loop_args(t_shell *shell, t_args **list)
 	current = *list;
 	len_list = len_targs(current);
 	i = 0;
-	if (shell->input)
-		help_loop_args(&shell, &i, 1);
 	shell->input = ft_calloc((len_list + 1), sizeof(char *));
 	if (!shell->input)
 		return (1);
 	while (current)
 	{
 		shell->input[i] = ft_strdup(current->str);
-		if (!shell->input[i])
-			help_loop_args(&shell, &i, 2);
+		// protection ici, quand meme? if ! alors return 1
 		current = current->next;
 		i ++;
 	}

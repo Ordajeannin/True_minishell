@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 15:05:55 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 17:53:43 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:15:40 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,49 +147,3 @@ t_args_list	*stock_sublist(t_args **list)
 	ft2_lstadd_back(&stock, new_node);
 	return (stock);
 }
-
-/*
- * Last Stable Version
- * A garder si fonctions normees instables!
-*/
-/*
-t_args_list	*stock_sublist(t_args **list)
-{
-	t_args		*current = (*list);
-	t_args		*start = (*list);
-	t_args		*prev = NULL;
-	t_args_list	*stock = NULL;
-	t_args_list	*new_node = NULL;
-
-	while (current)
-	{
-		if (current->token == TOKEN_PIPE)
-		{
-			new_node = malloc(sizeof(t_args_list));
-			if (!new_node)
-			{
-				perror("malloc");
-				return (NULL);
-			}
-			new_node->head = start;
-			new_node->next = NULL;
-			ft2_lstadd_back(&stock, new_node);
-			prev->next = NULL;
-			start = current->next;
-			current = start;
-		}
-		prev = current;
-		current = current->next;
-	}
-	new_node = malloc(sizeof(t_args_list));
-	if (!new_node)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	new_node->head = start;
-	new_node->next = NULL;
-	ft2_lstadd_back(&stock, new_node);
-	return (stock);
-}
-*/

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:22:50 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:00:54 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,10 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 		if (! temp)
 			return (NULL);
 		command = ft_strjoin(temp, cmd);
-		// free(temp);
 		if (! command)
 			return (NULL);
 		if (access(command, X_OK | F_OK) == 0)
 			return (command);
-		// free(command);
 		paths++;
 	}
 	ft_printf("%s : Command not found\n", cmd);
