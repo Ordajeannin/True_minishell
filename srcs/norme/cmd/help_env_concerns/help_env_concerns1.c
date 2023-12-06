@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:15:44 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 16:38:43 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:00:29 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Permet de norme change_env_exp
 */
-int	help_cee(char **current_name, t_args **current, char **result)
+int	help_cee(char **current_name, t_args **current)
 {
 	*current_name = ft_strdupto_n((*current)->str, '=');
 	if (!*current_name)
@@ -36,13 +36,5 @@ int	help_cee2(char **current_name, t_args **current, char **result,
 		return (0);
 	}
 	*current = (*current)->next;
-	return (1);
-}
-
-/*
- * Permet de norme change_env_exp
-*/
-int	help_cee3(char **result)
-{
 	return (1);
 }

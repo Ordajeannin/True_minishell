@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:10:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 16:38:01 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:54:48 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Permet de normer is_two_point
 */
-char	*help_itp1(t_args *env_list, t_shell **shell, DIR **dir, char **temp)
+char	*help_itp1(t_args *env_list, t_shell **shell, DIR **dir)
 {
 	ft_printf("cd : No such file of directory\n");
 	change_error(&env_list, *shell, 0);
@@ -27,7 +27,7 @@ char	*help_itp1(t_args *env_list, t_shell **shell, DIR **dir, char **temp)
  * Permet de normer is_two_points
  * fonction recurrente dans le code
 */
-char	*help_itp2(DIR **dir, char **temp)
+char	*help_itp2(DIR **dir)
 {
 	closedir(*dir);
 	return (NULL);

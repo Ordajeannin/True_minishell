@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:18:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 16:39:00 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:01:29 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Permet de norme searchin_env
 */
-int	help_s_e(t_args **temp, t_args **current, char **name_env)
+int	help_s_e(t_args **temp, t_args **current)
 {
 	*temp = (*current)->next->next;
 	(*current)->next = *temp;

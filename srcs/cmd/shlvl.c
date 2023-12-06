@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:03:17 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/06 16:33:25 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:08:26 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ int	ft_plus_shell(t_shell *shell, t_args **env_list)
 
 static int	shell_change_path(t_shell *shell, char *value)
 {
-	int		i;
-
-	i = 0;
 	shell->path = NULL;
 	shell->path = ft_strdup(value);
 	ft_printf("value of path : %s\n", shell->path);

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 16:45:12 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:05:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,20 +235,15 @@ void		print_shell(t_shell *shell);
 
 
 //Norme
-char		*help_itp1(t_args *env_list, t_shell **shell, DIR **dir,
-			char **temp);
-char		*help_itp2(DIR **dir, char **temp);
-int			help_cee(char **current_name, t_args **current, char **result);
+char		*help_itp1(t_args *env_list, t_shell **shell, DIR **dir);
+char		*help_itp2(DIR **dir);
+int			help_cee(char **current_name, t_args **current);
 int			help_cee2(char **current_name, t_args **current, char **result,
 			char **name_env);
-int			help_cee3(char **result);
-int			help_s_e(t_args **temp, t_args **current, char **name_env);
+int			help_s_e(t_args **temp, t_args **current);
 int			help_set_env(t_args **env_list, char **env, int *i,
 			char **identifier);
 int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
 			int *i);
-int			help_all_cmd01(char **env_tab, t_args **env_list, char **command,
-			t_shell **shell);
-void		help_all_cmd02(t_shell **shell, t_args **list, t_args **env_list);
 
 #endif

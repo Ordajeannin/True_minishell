@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 19:17:24 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:09:44 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 		return (NULL);
 	dir = opendir(temp);
 	if (dir == NULL)
-		return (help_itp1(env_list, &shell, &dir, &temp));
+		return (help_itp1(env_list, &shell, &dir));
 	buf = ft_strdup(list->next->str);
 	if (! buf)
-		help_itp2(&dir, &temp);
+		help_itp2(&dir);
 	if (shell->pwd == NULL)
 	{
 		if (!cd_move_and_change(env_list, shell))
-			return (help_itp2(&dir, &temp));
+			return (help_itp2(&dir));
 	}
-	help_itp2(&dir, &temp);
+	help_itp2(&dir);
 	return (buf);
 }
 

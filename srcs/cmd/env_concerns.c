@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 19:18:40 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:07:31 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	current = *env_list;
 	while (current && current->next != NULL)
 	{
-		if (help_cee(&current_name, &current, &result) == 2)
+		if (help_cee(&current_name, &current) == 2)
 			return (2);
 		if (help_cee2(&current_name, &current, &result, &name_env) == 0)
 			return (0);
 	}
-	return (help_cee3(&result));
+	return (1);
 }
 
 /* 
@@ -90,7 +90,7 @@ int	searchin_env(t_args **env_list, t_args *list)
 			return (1);
 		if (ft_strncmp(list->next->str, name_env, len) == 0 && \
 		len == ft_strlen(name_env))
-			return (help_s_e(&temp, &current, &name_env));
+			return (help_s_e(&temp, &current));
 		current = current->next;
 	}
 	return (1);
