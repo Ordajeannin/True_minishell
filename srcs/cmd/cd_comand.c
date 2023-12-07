@@ -6,11 +6,29 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/06 18:09:44 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:31:19 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_getcwd()
+{
+	char 	*cwd;
+	int		i;
+
+	i = 0;
+	cwd = NULL;
+	while (!cwd)
+	{
+		i += 50;
+		cwd = ft_malloc(sizeof(char) * i, ALLOC);
+		ft_bzero(cwd, i);
+		cwd = getcwd(cwd, i);
+	}
+	return (cwd);
+}
+
 
 /*
  * Change de repertoire en fonction du buf envoye.
@@ -18,17 +36,19 @@
 */
 int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 {
+	shell->oldpwd = ft_getcwd();
 	if (chdir(buf) == -1)
 	{
 		ft_printf("%s: %s: %s\n", list->str, buf, strerror(errno));
 		change_error(&env_list, shell, handle_error(errno -1));
 		return (1);
 	}
-	else
-	{
-		if (!cd_move_and_change(env_list, shell))
-			return (1);
-	}
+	update_pwd(env_list, shell);
+	// else
+	// {
+	// 	if (!cd_move_and_change(env_list, shell))
+	// 		return (1);
+	// }
 	return (0);
 }
 
@@ -51,11 +71,11 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	buf = ft_strdup(list->next->str);
 	if (! buf)
 		help_itp2(&dir);
-	if (shell->pwd == NULL)
-	{
-		if (!cd_move_and_change(env_list, shell))
-			return (help_itp2(&dir));
-	}
+	// if (shell->pwd == NULL)
+	// {
+	// 	if (!cd_move_and_change(env_list, shell))
+	// 		return (help_itp2(&dir));
+	// }
 	help_itp2(&dir);
 	return (buf);
 }
@@ -66,12 +86,12 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 */
 int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
 {
-	if (list->next != NULL && list->next->str[0] == '\0')
-		return (1);
-	if (list->next == NULL || ft_strncmp(list->next->str, "~",
+	// if (list->next != NULL && list->next->str[0] == '\0')
+	// 	return (1);
+	if (list->next == NULL || !list->next->str || ft_strncmp(list->next->str, "~",
 			ft_strlen(list->next->str)) == 0)
 	{
-		if (shell->home == NULL)
+		if (!find_a("HOME", env_list))
 		{
 			ft_printf("%s: 'HOME' not defined\n", list->str);
 			change_error(&env_list, shell, 1);
@@ -104,7 +124,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (cod == 1)
 		return (1);
 	if (cod == 2)
-		buf = ft_strdup(shell->home);
+		buf = ft_strdup(find_a("HOME", env_list)->str + 5);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
 		buf = is_two_points(shell, list, env_list);
 	else
@@ -114,3 +134,49 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	err = cd_real_version(buf, shell, env_list, list);
 	return (err || !change_error(&env_list, shell, 0));
 }
+
+///////////////////////////////////PAUL///////////////////////////////////////
+
+// int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
+// {
+	
+// }
+
+// void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)//change le working directory
+// {
+// 	if (list->next == NULL || !list->next->str || ft_strncmp(list->next->str, "~", 2))
+// 	{
+// 		if (find_a("HOME", data->env))
+// 		{
+// 			chdir(find_a("HOME", data->env)->data + 5);
+// 			update_pwd(data);
+// 		}
+// 		else
+// 		{
+// 			data->error_number = 1;
+// 			printf("bash: cd: HOME not set\n");
+// 		}
+// 	}
+// 	if (tab[1] && tab[2])
+// 	{
+// 		printf("minishell: cd: trop d'arguments");
+// 		data->error_number = 1;
+// 		return ;
+// 	}
+// 	if (chdir(tab[1]) != 0)
+// 	{
+// 		printf("erno :%d\n", errno);
+// 		if (errno == 13)
+// 		{
+// 			printf("minishell: cd: %s: Permission denied\n", tab[1]);
+// 			data->error_number = 1;
+// 		}
+// 		if (errno == 116)
+// 		{
+// 			printf("bash: cd: %s: No such file or directory\n", tab[1]);
+// 			data->error_number = 1;
+// 		}
+// 	}
+// 	else
+// 		update_pwd(data);
+// }

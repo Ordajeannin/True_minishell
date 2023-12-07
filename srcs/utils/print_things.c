@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 19:09:27 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:41:28 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,9 @@ void	print_args_list(t_args **list)
 
 char	*prompt_cmd(t_shell *shell)
 {
-	char	*prompt;
-	char	*pwd;
-
-	prompt = NULL;
-	pwd = NULL;
-	if (shell->pwd != NULL)
-		prompt = ft_strjoin(shell->pwd, ">");
-	else
-		prompt = ft_strjoin(pwd, ">");
-	return (prompt);
+	(void)shell;
+	
+	return (ft_strjoin(ft_strjoin("minishell :", ft_getcwd()), ":>"));
 }
 
 // static void	print_member(const char *name, const void *member, int type)
