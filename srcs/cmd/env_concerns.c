@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/06 18:07:31 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:26:35 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,67 @@ int	set_env(t_args **env_list, char **env, t_shell *shell)
 	}
 	add_env(env_list, "?=0");
 	return (0);
+}
+
+/////////////////////////////////PAUL///////////////////
+
+t_args	*find_a(char *var, t_args *env)
+{
+	char	*str;
+
+	str = ft_strdup(var);
+	if (ft_strchr(var, '='))
+		ft_strlcpy(str, var, ft_strchr(var, '=') - var + 1);
+	while (ft_strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
+		&& ft_strncmp(env->str, str, ft_strlen(str)) && env->next)
+		env = env->next;
+	if (!strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
+		&& !ft_strncmp(env->str, str, ft_strlen(str)))
+	{
+		return (env);
+	}
+	else
+		return (NULL);
+}
+
+void	upgrade_shlvl(t_args *env)//ajoute 1 a SHLVL dans l'env lors du lancement
+{
+	t_args	*shlvl;
+	int		shlvl_nmb;
+	char	*new_shlvl;
+
+	shlvl = find_a("SHLVL", env);
+	shlvl_nmb = ft_atoi(ft_strchr(shlvl->str, '=') + 1) + 1;
+	new_shlvl = ft_itoa(shlvl_nmb);
+	shlvl->str = ft_strjoin("SHLVL=", new_shlvl);
+}
+
+t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a partir de envp (char **)
+{
+	size_t	index;
+	t_args	*first;
+	t_args	*new;
+
+	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
+	data->env_list->next = NULL;
+	if (!envp)
+	{
+		data->env_list->str = ft_strdup("\0\0\0\0\0");
+		return (data->env_list);
+	}
+	first = data->env_list;
+	data->env_list->str = ft_strdup(envp[0]);
+	index = 1;
+	while (envp[index])
+	{
+		new = ft_malloc(sizeof(t_args), ALLOC);
+		new->str = ft_strdup(envp[index]);
+		data->env_list->next = new;
+		data->env_list = new;
+		index ++;
+	}
+	data->env_list->next = NULL;
+	upgrade_shlvl(first);
+	// data->secret_pwd = (find_a("PWD", first)->data + 4);
+	return (first);
 }

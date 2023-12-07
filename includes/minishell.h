@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 18:05:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:23:40 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,8 @@ int			change_error(t_args **env_list, t_shell *shell, int value);
 void		code_error(int code);
 int			handle_error(int code_err);
 
+t_args	*create_env(t_shell *data, char **envp);
+t_args	*find_a(char *var, t_args *env);
 
 //Helpful function
 char		*ft_strdupto_n(char *str, char c);

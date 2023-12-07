@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:00:54 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:55:34 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	char	*command;
 
 	command = NULL;
-	while (shell->path && *paths)
+	while (paths && *paths)//j'ai enlever "shell->path" 
 	{
 		temp = ft_strjoin(*paths, "/");
 		if (! temp)
@@ -100,10 +100,10 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
 	}
 	else if (access(cmd, X_OK | F_OK) == 0)
 	{
-		if (cmd[ft_strlen(cmd) - 1] == 'v' && \
-			cmd[ft_strlen(cmd) - 2] == 'n' && \
-			cmd[ft_strlen(cmd) - 3] == 'e')
-			return ("It's env");
+		// if (cmd[ft_strlen(cmd) - 1] == 'v' && 
+		// 	cmd[ft_strlen(cmd) - 2] == 'n' && 
+		// 	cmd[ft_strlen(cmd) - 3] == 'e')
+		// 	return ("It's env");
 		return (cmd);
 	}
 	return (cmd);

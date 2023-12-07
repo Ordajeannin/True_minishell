@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:24:22 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:45:53 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 	status = 0x0;
 	while (current != NULL)
 	{
-		if (ft_atoi(shell->shlvl) > 1)
+		if (ft_atoi(find_a("SHLVL", *env_list)->str + 6) > 1)//sert a quoi ?
 		{
 			g_error = 2;
 			signal(SIGQUIT, signal_handler);

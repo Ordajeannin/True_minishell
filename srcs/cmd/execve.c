@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 19:56:04 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:48:26 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 {
 	char	*command;
 
+	// shell->path = find_a("PATH", *env_list)-;
+	shell->cmd_paths = NULL;
+	if (find_a("PATH", *env_list))
+		shell->cmd_paths = ft_split(find_a("PATH", *env_list)->str + 5, ':');
 	command = is_path_or_cmd(shell->cmd_paths, arg->str, shell, env_list);
 	if (command == NULL)
 	{
@@ -79,8 +83,8 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 			return (list->str);
 		return (NULL);
 	}
-	if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
-		ft_env(list, env_list, shell);
+	// if (ft_strncmp(command, "It's env", ft_strlen(command)) == 0)
+	// 	ft_env(list, env_list, shell);
 	return (command);
 }
 

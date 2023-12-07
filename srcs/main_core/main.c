@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 16:49:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:25:28 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ int	main(int ac, char **av, char **env)
 
 	ft_bzero(&shell, sizeof shell);
 	try_to_init_shell(ac, av, &shell);
-	if (set_env(&(shell.env_list), env, &shell) == -1)
-		return (-1);
+	shell.env_list = create_env(&shell, env);
+	// if (set_env(&(shell.env_list), env, &shell) == -1)
+	// 	return (-1);
 	is_minishell(&shell, shell.env_list, shell.list);
 	ft_malloc(0, FREE);
 	return (0);
