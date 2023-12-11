@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 19:41:28 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:18:00 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,46 @@ void	print_args_list(t_args **list)
 	}
 }
 
-char	*prompt_cmd(t_shell *shell)
+/*
+ * just a quick function to get a shorter path for the prompt
+ * display /../../.. in the state
+ * -> modify "n" in the last while condition, and in the next if
+ * include first '/' or not? ft_strjoin in the return
+*/
+static char *ft_getcwd2(char *src)
 {
-	(void)shell;
-	
-	return (ft_strjoin(ft_strjoin("minishell :", ft_getcwd()), ":>"));
+    char *result;
+    int i;
+    int n;
+    int flag;
+
+    result = src;
+    i = -1;
+    n = 0;
+    flag = 0;
+    if (src == NULL)
+        return (NULL);
+    while (src[++i])
+        if (src[i] == '/')
+            n++;
+    while (*result && n > 2)
+    {
+        if (*result == '/')
+            n--;
+        result++;
+        flag = 1;
+    }
+    if (n == 2 && flag == 1)
+        return (ft_strjoin("/", ft_strdup(result)));
+    return (ft_strdup(result));
+}
+
+char    *prompt_cmd(t_shell *shell)
+{
+    (void)shell;
+
+    return (ft_strjoin(ft_strjoin("Minishell:",
+                ft_getcwd2(ft_getcwd())), ">"));
 }
 
 // static void	print_member(const char *name, const void *member, int type)

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 15:26:35 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:16:30 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a pa
 		data->env_list = new;
 		index ++;
 	}
+	add_env(env_list, "?=0");
 	data->env_list->next = NULL;
 	upgrade_shlvl(first);
 	// data->secret_pwd = (find_a("PWD", first)->data + 4);
