@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/07 15:25:28 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:33:12 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * on a du se dire qu'elle ne servait plus a rien, mais elle set qd meme
  * list a NULL, conservons la.
 */
-static int	main_bis(char *input, t_args *list, t_args *env_list, \
+static int	main_bis(char *input, t_args *env_list, \
 	t_shell *shell)
 {
 	int		saved_stdout;
@@ -32,17 +32,17 @@ static int	main_bis(char *input, t_args *list, t_args *env_list, \
 	}
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	if (from_input_to_list_of_args(input, &list, &env_list) == 1)
+	if (from_input_to_list_of_args(input, &(shell->list), &env_list) == 1)
 		return (1);
-	print_args_list(&list);
-	if (list)
+	print_args_list(&(shell->list));
+	if (shell->list)
 	{
-		if (is_correct_format(&list) == 0)
-			create_sublists(list, shell, &env_list);
+		if (is_correct_format(&(shell->list)) == 0)
+			create_sublists(shell->list, shell, &env_list);
 	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
-	clear_args_list(&list);
+	clear_args_list(&(shell->list));
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		perror("Failed to restore standard input\n");
 	if (access("tempfile.txt", F_OK != -1))
@@ -74,7 +74,7 @@ int	main(int ac, char **av, char **env)
 	shell.env_list = create_env(&shell, env);
 	// if (set_env(&(shell.env_list), env, &shell) == -1)
 	// 	return (-1);
-	is_minishell(&shell, shell.env_list, shell.list);
+	is_minishell(&shell, shell.env_list);
 	ft_malloc(0, FREE);
 	return (0);
 }
@@ -86,7 +86,7 @@ int	main(int ac, char **av, char **env)
  si besoin
  * Exit si CTRL-D
 */
-int	is_minishell(t_shell *shell, t_args *env_list, t_args *list)
+int	is_minishell(t_shell *shell, t_args *env_list)
 {
 	char	*input;
 	char	*prompt_char;
@@ -99,7 +99,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list)
 		prompt_char = prompt_cmd(shell);
 		input = readline(prompt_char);
 		if (input == NULL)
-			ft_exit(list, env_list, shell);
+			ft_exit(shell->list, env_list, shell);
 		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
 		shell->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
 		input = check_if_there_is_a_lost_pipe(input);
@@ -109,9 +109,9 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list)
 			shell->input_bis = ft_strdup(input);
 			if (!shell->input_bis)
 				return (1);
-			if (main_bis(input, list, env_list, shell) == 1)
+			if (main_bis(input, env_list, shell) == 1)
 				return (1);
-			clear_args_list(&list);
+			clear_args_list(&(shell->list));
 		}
 	}
 	while (1)
@@ -119,7 +119,7 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list)
 		prompt_char = prompt_cmd(shell);
 		input = readline(prompt_char);
 		if (input == NULL)
-			ft_exit(list, env_list, shell);
+			ft_exit(shell->list, env_list, shell);
 		input = check_if_there_is_a_lost_pipe(input);
 		if (input != NULL)
 		{
@@ -129,9 +129,9 @@ int	is_minishell(t_shell *shell, t_args *env_list, t_args *list)
 			shell->input_bis = ft_strdup(input);
 			if (!shell->input_bis)
 				return (1);
-			if (main_bis(input, list, env_list, shell) == 1)
+			if (main_bis(input, env_list, shell) == 1)
 				return (1);
-			clear_args_list(&list);
+			clear_args_list(&(shell->list));
 		}
 	}
 	return (1);

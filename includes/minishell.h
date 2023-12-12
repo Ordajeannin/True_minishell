@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/07 19:31:59 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:25:29 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_split
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
 /* * * * * Prototypes Fonctions Minishell * * * * */
-int			is_minishell(t_shell *shell, t_args *env_list, t_args *list);
+int			is_minishell(t_shell *shell, t_args *env_list);
 void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
