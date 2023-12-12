@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:33:12 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:38:04 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	main_bis(char *input, t_args *env_list, \
 	}
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	if (from_input_to_list_of_args(input, &(shell->list), &env_list) == 1)
+	if (from_input_to_list_of_args(input, shell, &env_list) == 1)
 		return (1);
 	print_args_list(&(shell->list));
 	if (shell->list)

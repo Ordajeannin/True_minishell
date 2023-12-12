@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:25:29 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:39:01 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ char		*ft_strcpy(char *dest, const char *src);
 char		*word_dup(char *str, int start, int finish);
 
 //List concerns
-int			from_input_to_list_of_args(char *input, t_args **list, \
+int			from_input_to_list_of_args(char *input, t_shell *shell, \
 	t_args **e_list);
 int			loop_args(t_shell *shell, t_args **list);
 void		clear_args_list(t_args **list);
