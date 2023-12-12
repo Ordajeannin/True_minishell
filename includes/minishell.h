@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:43:33 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:55:41 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ char		**ft_split_arg(char *str);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strpbrk(const char *s, const char *charset);
-size_t		ft_strspn(const char *s, char **accept, t_args **list);
-size_t		ft_strcspn(const char *s, char **reject, t_args **list);
+size_t		ft_strspn(const char *s, char **accept, t_shell *shell);
+size_t		ft_strcspn(const char *s, char **reject, t_shell *shell);
 char		*ft_strncpy(char *dst, const char *src, int n);
 char		*ft_strrchr(const char *str, int ch);
 int			is_alphanum(char c);

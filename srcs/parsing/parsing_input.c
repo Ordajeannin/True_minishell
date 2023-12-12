@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:45:28 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:55:27 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*ft_strtok(char *input, char **delim, t_shell *shell)
 			return (NULL);
 		input = last_token;
 	}
-	input += ft_strspn(input, delim, &(shell->list));
+	input += ft_strspn(input, delim, shell);
 	if (*input == '\0')
 	{
 		last_token = NULL;
 		return (NULL);
 	}
 	add_arg(&(shell->list), input, 0);
-	token_end = input + ft_strcspn(input, delim, &(shell->list));
+	token_end = input + ft_strcspn(input, delim, shell);
 	if (*token_end != '\0')
 		help_strtok(token_end, &last_token);
 	else

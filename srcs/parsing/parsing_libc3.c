@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:05:07 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:57:55 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /*
  * Permet de... gagner de la place pour ft_strcspn
 */
-static void	ft_help2(char **r, t_args **list, size_t *count, const char **input)
+static void	ft_help2(char **r, t_shell *shell, size_t *count, const char **input)
 {
-	(*count) += delimit_to_token(*r, list, input);
+	(*count) += delimit_to_token(*r, &(shell->list), input);
 	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
 		(*count)++;
 	if (ft_strcmp("||", *r) == 0)
@@ -27,11 +27,11 @@ static void	ft_help2(char **r, t_args **list, size_t *count, const char **input)
 /*
  * Permet de... gagner de la place pour ft_strspn
 */
-static void	ft_help1(char **a, t_args **list, size_t *count, const char **input)
+static void	ft_help1(char **a, t_shell *shell, size_t *count, const char **input)
 {
 	size_t	i;
 
-	i = delimit_to_token(*a, list, input);
+	i = delimit_to_token(*a, &(shell->list), input);
 	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
 	{
 		(*count)++;
@@ -49,7 +49,7 @@ static void	ft_help1(char **a, t_args **list, size_t *count, const char **input)
 /*
  * Permet de calculer la partie de input composee uniquement de delimitateurs
 */
-size_t	ft_strspn(const char *input, char **accept, t_args **list)
+size_t	ft_strspn(const char *input, char **accept, t_shell *shell)
 {
 	char		**a;
 	size_t		count;
@@ -64,7 +64,7 @@ size_t	ft_strspn(const char *input, char **accept, t_args **list)
 		{
 			if (ft_strncmp(input, *a, ft_strlen(*a)) == 0)
 			{
-				ft_help1(a, list, &count, &input);
+				ft_help1(a, shell, &count, &input);
 				accepted = 1;
 				break ;
 			}
@@ -82,7 +82,7 @@ size_t	ft_strspn(const char *input, char **accept, t_args **list)
  * A l'inverse, renvoie la longueur de la partie de input qui ne contient
  * aucun delimitateur
 */
-size_t	ft_strcspn(const char *input, char **reject, t_args **list)
+size_t	ft_strcspn(const char *input, char **reject, t_shell *shell)
 {
 	char		**r;
 	size_t		count;
@@ -97,7 +97,7 @@ size_t	ft_strcspn(const char *input, char **reject, t_args **list)
 		{
 			if (ft_strncmp(input, *r, ft_strlen(*r)) == 0)
 			{
-				ft_help2(r, list, &count, &input);
+				ft_help2(r, shell, &count, &input);
 				rejected = 1;
 				break ;
 			}
