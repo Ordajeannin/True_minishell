@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 15:16:27 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/12 18:45:28 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	help_strtok(char *token_end, char **last_token)
  * Si tous les tokens ont ete extraits, retourne NULL
  * Sinon, renvoie un pointeur vers le debut du token extrait
 */
-char	*ft_strtok(char *input, char **delim, t_args **list)
+char	*ft_strtok(char *input, char **delim, t_shell *shell)
 {
 	static char	*last_token = NULL;
 	char		*token_end;
@@ -60,14 +60,14 @@ char	*ft_strtok(char *input, char **delim, t_args **list)
 			return (NULL);
 		input = last_token;
 	}
-	input += ft_strspn(input, delim, list);
+	input += ft_strspn(input, delim, &(shell->list));
 	if (*input == '\0')
 	{
 		last_token = NULL;
 		return (NULL);
 	}
-	add_arg(list, input, 0);
-	token_end = input + ft_strcspn(input, delim, list);
+	add_arg(&(shell->list), input, 0);
+	token_end = input + ft_strcspn(input, delim, &(shell->list));
 	if (*token_end != '\0')
 		help_strtok(token_end, &last_token);
 	else

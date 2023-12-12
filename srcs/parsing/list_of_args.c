@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:39:51 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:42:59 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	delim[8] = "\'";
 	delim[9] = "\"";
 	delim[10] = NULL;
-	token = ft_strtok(input, delim, &(shell->list));
+	token = ft_strtok(input, delim, shell);
 	while (token != NULL)
-		token = ft_strtok(NULL, delim, &(shell->list));
+		token = ft_strtok(NULL, delim, shell);
 	if (help_fitloa(&(shell->list), e_list) == 1)
 		return (1);
 	was_unclosed_quotes(&(shell->list));

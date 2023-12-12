@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:39:01 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:43:33 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void		execute_child2(t_args_list *current, t_shell *shell, \
 void		execute_parent(int prev_pipe_fd[2], int next_pipe_fd[2]);
 
 //Tok
-char		*ft_strtok(char *input, char **delim, t_args **list);
+char		*ft_strtok(char *input, char **delim, t_shell *shell);
 int			update_args(t_args **list);
 int			tokenize_args(char *input, int flag);
 size_t		delimit_to_token(char *s, t_args **list, const char **input);
