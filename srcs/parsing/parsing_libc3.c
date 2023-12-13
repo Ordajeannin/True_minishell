@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:57:55 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 20:58:02 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 */
 static void	ft_help2(char **r, t_shell *shell, size_t *count, const char **input)
 {
-	(*count) += delimit_to_token(*r, &(shell->list), input);
+	printf("heyyyy i m the best ok\n");
+	if (ft_strcmp("\"", *r) != 0)
+		(*count) += delimit_to_token(*r, &(shell->list), input);
 	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
 		(*count)++;
 	if (ft_strcmp("||", *r) == 0)
@@ -31,6 +33,7 @@ static void	ft_help1(char **a, t_shell *shell, size_t *count, const char **input
 {
 	size_t	i;
 
+	printf("hey, spn here\n");
 	i = delimit_to_token(*a, &(shell->list), input);
 	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
 	{
@@ -78,6 +81,8 @@ size_t	ft_strspn(const char *input, char **accept, t_shell *shell)
 	return (count);
 }
 
+//static void ft_help3(int *count, char **input, t_shell *shell)
+
 /*
  * A l'inverse, renvoie la longueur de la partie de input qui ne contient
  * aucun delimitateur
@@ -87,13 +92,27 @@ size_t	ft_strcspn(const char *input, char **reject, t_shell *shell)
 	char		**r;
 	size_t		count;
 	int			rejected;
+	int flag = 0;
 
 	count = 0;
 	while (*input)
 	{
 		r = reject;
 		rejected = 0;
-		while (*r != NULL)
+		if (ft_strncmp(input,"\"", ft_strlen("\"")) == 0)
+		{
+			if (flag == 0)
+			{
+				printf("On arrete de prendre en compte les delim\n");
+				flag = 1;
+			}
+			else
+			{
+				printf("on reprend\n");
+				flag = 0;
+			}
+		}
+		while (*r != NULL && flag == 0)
 		{
 			if (ft_strncmp(input, *r, ft_strlen(*r)) == 0)
 			{

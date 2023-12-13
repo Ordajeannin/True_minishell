@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:55:41 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:59:23 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,5 +248,9 @@ int			help_set_env(t_args **env_list, char **env, int *i,
 			char **identifier);
 int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
 			int *i);
+
+int		handle_quotes(t_args **list, t_args **e_list);
+int		help_fitloa(t_args **list, t_args **e_list);
+t_args *create_arg(char *str, int token);
 
 #endif

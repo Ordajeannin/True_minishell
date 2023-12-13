@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:42:59 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:26:32 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	clear_args_list(t_args **list)
  * Fonction utilitaire, cree un maillon 
  * a partir du contenu de l'argument et du token attribue
 */
-static t_args	*create_arg(char *str, int token)
+t_args	*create_arg(char *str, int token)
 {
 	t_args	*new_arg;
 
@@ -35,6 +35,7 @@ static t_args	*create_arg(char *str, int token)
 	new_arg->str = str;
 	new_arg->token = token;
 	new_arg->next = NULL;
+//	printf("contenu : %s\n", new_arg->str);
 	return (new_arg);
 }
 
@@ -98,7 +99,8 @@ void	add_arg(t_args **list, char *str, int token)
 /*
  * Permet de norme from_input_to_list_of_args
 */
-static int	help_fitloa(t_args **list, t_args **e_list)
+/*
+int	help_fitloa(t_args **list, t_args **e_list)
 {
 	if (update_args(list) == 1)
 		return (1);
@@ -108,6 +110,20 @@ static int	help_fitloa(t_args **list, t_args **e_list)
 		return (1);
 	return (0);
 }
+*/
+//static void handle_quotes(t_args **list)
+//{
+	//va devoir parcourir chaque maillon
+	//et verifier a chaque fois si il contient des quotes
+	//si oui, et si %2 == 0, (:warning: si " str ' str " ca doit marcher)
+	//alors va devoir decouper la string et en faire plusieurs maillon,
+	//a rattacher a la liste principale.
+	//
+	//enfaite, il va meme falloir par defaut creer une sublist,
+	//creer les maillons (si necessaire)
+	//subsituer les VE
+	//et ENSUITE reconstruire la liste principale
+//}
 
 /*
  * Permet d'extraire les tokens de input sur base des delimitateurs
@@ -115,7 +131,7 @@ static int	help_fitloa(t_args **list, t_args **e_list)
 */
 int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 {
-	char	*delim[11];
+	char	*delim[9];
 	char	*token;
 
 	delim[0] = " ";
@@ -126,14 +142,24 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	delim[5] = ">";
 	delim[6] = "||";
 	delim[7] = "|";
-	delim[8] = "\'";
-	delim[9] = "\"";
-	delim[10] = NULL;
+	delim[8] = NULL;
+//	delim[8] = "\'";
+//	delim[9] = "\"";
+//	delim[10] = NULL;
 	token = ft_strtok(input, delim, shell);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, shell);
-	if (help_fitloa(&(shell->list), e_list) == 1)
+//	if (help_fitloa(&(shell->list), e_list) == 1)
+//		return (1);
+	if (update_args(&(shell->list)) == 1)
+		return 1;
+	if (handle_heredoc(&(shell->list)) == 1)
 		return (1);
+	printf("----------------- BEFORE QUOTES --------------------\n");
+	print_args_list(&(shell->list));
+	if (handle_quotes(&(shell->list), e_list) == 1)
+		return (1); //AVANT help_fitloa
+	printf("-----------------  AFTER QUOTES --------------------\n");
 	was_unclosed_quotes(&(shell->list));
 	return (0);
 }
