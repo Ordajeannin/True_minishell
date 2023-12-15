@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 18:57:59 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:49:05 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,13 @@ void	add_arg(t_args **list, char *str, int token)
 /*
 int	help_fitloa(t_args **list, t_args **e_list)
 {
+	int	hdl_heredoc_rt;
+	
 	if (update_args(list) == 1)
 		return (1);
-	if (handle_heredoc(list) == 1)
-		return (1);
+	hdl_heredoc_rt = handle_heredoc(list);
+	if (hdl_heredoc_rt)//si positif (erreur)
+		return (hdl_heredoc_rt);//renvoi erreur
 	if (update_args2(list, e_list) == 1)
 		return (1);
 	return (0);
@@ -133,6 +136,7 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 {
 	char	*delim[9];
 	char	*token;
+	int		fitloa_ret;
 
 	delim[0] = " ";
 	delim[1] = "\t";
@@ -161,6 +165,10 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 		return (1); //AVANT help_fitloa
 	printf("-----------------  AFTER QUOTES --------------------\n");
 	was_unclosed_quotes(&(shell->list));
+	///ajput p pour heredoc	
+	// fitloa_ret = help_fitloa(list, e_list);
+	// if (fitloa_ret)
+	// 	return (fitloa_ret);
 	return (0);
 }
 

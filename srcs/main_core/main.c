@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 18:38:04 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:47:57 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,26 @@ static int	main_bis(char *input, t_args *env_list, \
 {
 	int		saved_stdout;
 	int		saved_stdin;
+	int		fitloa_ret;
 
-	if (g_error != 0)
-	{
-		if (!change_error(&env_list, shell, g_error))
-			return (1);
-		g_error = 0;
-	}
+	// if (g_error != 0)//sert a quoi ?
+	// {
+	// 	if (!change_error(&env_list, shell, g_error))
+	// 		return (1);
+	// 	g_error = 0;
+	// }
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	if (from_input_to_list_of_args(input, shell, &env_list) == 1)
-		return (1);
+	// if (from_input_to_list_of_args(input, shell, &env_list) == 1)
+	// 	return (1);
 	print_args_list(&(shell->list));
+	if (shell->list)
+	fitloa_ret = from_input_to_list_of_args(input, &list, &env_list);
+	if (fitloa_ret)
+		return (fitloa_ret);
+	// if (from_input_to_list_of_args(input, &list, &env_list) == 1)
+	// 	return (1);
+	// print_args_list(&list);
 	if (shell->list)
 	{
 		if (is_correct_format(&(shell->list)) == 0)
@@ -91,6 +99,7 @@ int	is_minishell(t_shell *shell, t_args *env_list)
 	char	*input;
 	char	*prompt_char;
 	char	buf[1024];
+	// int		mb_ret;
 
 	input = NULL;
 	prompt_char = NULL;

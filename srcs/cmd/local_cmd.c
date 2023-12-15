@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   local_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/10/02 11:13:07 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/12 14:51:05 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 */
 int	ft_pwd(t_shell *shell, t_args **env_list)
 {
+	if (shell->secret_pwd)
+		printf("%s\n", shell->secret_pwd);
+	// else
+	// {
+	// 	printf("pwd: error retrieving current directory:");
+	// 	printf(" No such file or directory");
+	// 	set_error_nb(1, YES);
+	// }
+	set_error_nb(0, YES);
+	return (1);
+	////AWENA//////
 	if (shell->is_pwd == NULL)
 	{
 		change_error(env_list, shell, errno);
@@ -44,7 +55,8 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 		shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
-	if (!change_error(&env_list, shell, 0))
-		return (1);
+	set_error_nb(0, YES);
+	// if (!change_error(&env_list, shell, 0))
+	// 	return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 08:42:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 19:35:27 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:53:00 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	update_pwd(t_args *env_list, t_shell *shell)//met a jours PWD et OLDPWD dan
 	PWD = find_a("PWD", env_list);
 	OLDPWD = find_a("OLDPWD", env_list);
 	if (PWD)
-		PWD->str = ft_strjoin("PWD=", ft_getcwd());
+		PWD->str = ft_strjoin("PWD=", shell->secret_pwd);
 	if (OLDPWD)
 		OLDPWD->str = ft_strjoin("OLDPWD=", shell->oldpwd);
 }

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 19:55:28 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:50:02 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ static int help_exit(t_args *list, t_args *env_list, t_shell *shell, int flag)
 	if (flag == 1)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
+		set_error_nb(1, YES);
+		return (1);
+		///////awena/////////
 		change_error(&env_list, shell, 1);
 		return (1);
 	}

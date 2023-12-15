@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 19:17:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:29:53 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 	if (list == NULL)
 	{
 		write (1, "\n", 1);
+		set_error_nb(0, YES);
 		return (1);
 	}
 	while (list && ft_strcmp(list->str, "\t") == 0)
@@ -93,7 +94,9 @@ int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 	echo_loop(list, shell);
 	if (bools == 0)
 		write (1, "\n", 1);
+	set_error_nb(0, YES);
+	return (0);
+	////awena////
 	if (!change_error(env_list, shell, 0))
 		return (1);
-	return (0);
 }

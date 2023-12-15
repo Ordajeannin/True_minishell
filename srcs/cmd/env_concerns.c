@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/11 15:21:45 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:45:11 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,17 +111,19 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 		return (1);
 	while (current != NULL && current->str != NULL)
 	{
-		if (ft_strncmp(current->str, "?=", 2) == 0)
-			current = current->next;
-		else
+		// if (ft_strncmp(current->str, "?=", 2) == 0)
+		// 	current = current->next;
+		// else
 		{
 			ft_printf("%s\n", current->str);
 			current = current->next;
 		}
 	}
+	set_error_nb(0, YES);
+	return (0);
+	///////awena////////
 	if (!change_error(env_list, shell, 0))
 		return (1);
-	return (0);
 }
 
 /* 
@@ -178,10 +180,15 @@ void	upgrade_shlvl(t_args *env)//ajoute 1 a SHLVL dans l'env lors du lancement
 	int		shlvl_nmb;
 	char	*new_shlvl;
 
-	shlvl = find_a("SHLVL", env);
-	shlvl_nmb = ft_atoi(ft_strchr(shlvl->str, '=') + 1) + 1;
-	new_shlvl = ft_itoa(shlvl_nmb);
-	shlvl->str = ft_strjoin("SHLVL=", new_shlvl);
+	if (find_a("SHLVL", env))
+	{
+		shlvl = find_a("SHLVL", env);
+		shlvl_nmb = ft_atoi(ft_strchr(shlvl->str, '=') + 1) + 1;
+		new_shlvl = ft_itoa(shlvl_nmb);
+		shlvl->str = ft_strjoin("SHLVL=", new_shlvl);
+	}
+	else
+		add_env(&env, "SHLVL=1");	
 }
 
 t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a partir de envp (char **)
@@ -190,11 +197,13 @@ t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a pa
 	t_args	*first;
 	t_args	*new;
 
+	data->secret_pwd = getcwd(NULL, 0);//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
 	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
 	data->env_list->next = NULL;
-	if (!envp)
+	// *envp = NULL;
+	if (*envp == NULL)
 	{
-		data->env_list->str = ft_strdup("\0\0\0\0\0");
+		data->env_list->str = ft_strdup("");
 		return (data->env_list);
 	}
 	first = data->env_list;
@@ -211,6 +220,6 @@ t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a pa
 	add_env(&(data->env_list), "?=0");
 	data->env_list->next = NULL;
 	upgrade_shlvl(first);
-	// data->secret_pwd = (find_a("PWD", first)->data + 4);
+	add_env(&data->env_list, "?=0");
 	return (first);
 }

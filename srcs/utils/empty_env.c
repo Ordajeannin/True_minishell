@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 09:44:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/06 17:15:59 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:14:43 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ static char	*read_bytes_user(int *pipefd, pid_t child, int status,
 	if (WEXITSTATUS(status) != 0)
 	{
 		errno = WEXITSTATUS(status);
+		set_error_nb(handle_error(errno), YES);
+		return (NULL);
+		/////////////awena////////////////
 		change_error(env_list, shell, handle_error(errno));
 		return (NULL);
 	}
