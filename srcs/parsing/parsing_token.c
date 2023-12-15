@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:20:41 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/15 19:22:59 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,18 @@ int	tokenize_args(char *input, int flag)
 		return (12910);
 }
 
+static void print_split(char **tmp)
+{
+	int i = 1;
+
+	while (*tmp)
+	{
+		printf("tmp[%d] : %s\n", i, *tmp);
+		i++;
+		tmp++;
+	}
+}
+
 /*
  * Permet de gerer le remplacement des variables d'environnement,
  * si correctement formate
@@ -118,6 +130,7 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 	node->str = NULL;
 	tmp_node = NULL;
 	i = 0;
+	print_split(tmp);
 	while (tmp[i])
 	{
 		tmp[i] = is_env_var(tmp[i], env_list);
@@ -148,6 +161,7 @@ int	update_args2(t_args **list, t_args **env_list)
 	t_args	*current;
 
 	current = *list;
+	printf("hey, are you here?\n");
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
