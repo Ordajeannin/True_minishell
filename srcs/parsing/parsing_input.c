@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 15:16:27 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/11 17:45:00 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	delimit_to_token(char *str, t_args **list, const char **input)
 		return (is_quotes(str, list, *input, 1));
 	else if (ft_strcmp(str, "\"") == 0)
 		return (is_quotes(str, list, *input, 2));
-	else if (ft_strcmp(str, " ") != 0)
+	else if (ft_strcmp(str, " ") != 0 && *str != '\t')//whitespaces
 		add_arg(list, str, 0);
 	return (0);
 }

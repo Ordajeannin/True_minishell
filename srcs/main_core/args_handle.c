@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/05 16:32:51 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:25:25 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * Parcours list d'arg pour chercher une separation: && ou |.
  * A faire: implementer token 4 |.
  * Token 3 && fonctionnel.
-*/
+*///sert a priori, plus a rien
 void	check_args(t_args **list, t_shell *shell, t_args **env_list)
 {
 	t_args	*current;

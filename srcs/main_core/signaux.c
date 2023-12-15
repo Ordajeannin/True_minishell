@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/10/05 10:39:11 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/15 17:13:52 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+/*
+ *gestionnaire de signal pou le heredoc
+ *
+*/
+void	signal_heredoc(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	exit (130);
+}
 
 /* 
  * Gestionnaire de signaux
@@ -23,20 +35,23 @@ void	signal_handler(int sig)
 	if (rl_done && g_error == 2)
 	{
 		ft_printf("\n");
-		code_error(130);
+		set_error_nb(130, YES);
+		// code_error(130);
 	}
 	if (!rl_done)
 	{
+		set_error_nb(130, YES);
 		ft_printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		code_error(130);
+		// code_error(130);
 	}
 	else if (sig == 3)
 	{
 		ft_printf("Quit (core dumped)\n");
-		code_error(131);
+		set_error_nb(131, YES);
+		// code_error(131);
 	}
 	return ;
 }

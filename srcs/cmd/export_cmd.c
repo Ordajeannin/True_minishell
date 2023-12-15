@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 19:06:57 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:49:26 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 	if (list->next->str[0] == '\0')
 	{
 		ft_printf("export : \"\": invalid identifier\n");
-		change_error(env_list, shell, 1);
+		set_error_nb(1, YES);
+		// change_error(env_list, shell, 1);
 		return (1);
 	}
 	if (parse_export(list->next) == 2)
@@ -37,7 +38,8 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 	else if (parse_export(list->next) == 1)
 	{
 		ft_printf("export : \"%s\" : invalid identifier\n", list->next->str);
-		change_error(env_list, shell, 1);
+		set_error_nb(1, YES);
+		// change_error(env_list, shell, 1);
 		return (1);
 	}
 	return (0);
@@ -98,8 +100,9 @@ int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
 	}
 	if (list->next->next != NULL)
 		ft_export(list->next, shell, env_list);
-	if (!change_error(env_list, shell, 0))
-		return (1);
+	set_error_nb(0, YES);
+	// if (!change_error(env_list, shell, 0))
+	// 	return (1);
 	return (0);
 }
 
@@ -129,9 +132,11 @@ int	export_out_args(t_args **env_list, t_shell *shell)
 		i ++;
 	}
 	i = 0;
+	set_error_nb(0, YES);
+	return (0);
+	///////awena//////////
 	if (!change_error(env_list, shell, 0))
 		return (1);
-	return (0);
 }
 
 /* 

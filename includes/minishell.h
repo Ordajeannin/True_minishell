@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/07 19:31:59 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:14:20 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@
 # define TOKEN_TEMP_VAR	666
 # define ABORT_MISSION	42
 
+# define YES			1
+# define NO				0
 
 
 /* * * * * Variable Globale * * * * */
@@ -86,6 +88,7 @@ typedef struct s_shell
 	int		is_work;
 	char	*input_bis;
 	int		error;
+	char	*secret_pwd;
 	t_args  *env_list;
 	t_args  *list;
 }	t_shell;
@@ -126,6 +129,7 @@ void		free_sublists(t_args_list *stock);
 int			update_args2(t_args **list, t_args **env_list);
 int			handle_heredoc(t_args **input);
 int			handle_multi_heredoc(t_args **stock);
+void		signal_heredoc(int sig);
 
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
@@ -203,10 +207,12 @@ int			change_error(t_args **env_list, t_shell *shell, int value);
 void		code_error(int code);
 int			handle_error(int code_err);
 
-t_args	*create_env(t_shell *data, char **envp);
-t_args	*find_a(char *var, t_args *env);
-void	update_pwd(t_args *env_list, t_shell *shell);
-char	*ft_getcwd();
+int			set_error_nb(int error, int update);
+t_args		*create_env(t_shell *data, char **envp);
+t_args		*find_a(char *var, t_args *env);
+void		update_pwd(t_args *env_list, t_shell *shell);
+char		*ft_getcwd();
+int			keep_tmp_fd(int tmp_fd, int update);
 
 //Helpful function
 char		*ft_strdupto_n(char *str, char c);

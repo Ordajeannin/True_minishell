@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 16:55:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:45:07 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,13 @@ void	add_arg(t_args **list, char *str, int token)
 */
 static int	help_fitloa(t_args **list, t_args **e_list)
 {
+	int	hdl_heredoc_rt;
+	
 	if (update_args(list) == 1)
 		return (1);
-	if (handle_heredoc(list) == 1)
-		return (1);
+	hdl_heredoc_rt = handle_heredoc(list);
+	if (hdl_heredoc_rt)//si positif (erreur)
+		return (hdl_heredoc_rt);//renvoi erreur
 	if (update_args2(list, e_list) == 1)
 		return (1);
 	return (0);
@@ -117,6 +120,7 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 {
 	char	*delim[11];
 	char	*token;
+	int		fitloa_ret;
 
 	delim[0] = " ";
 	delim[1] = "\t";
@@ -132,8 +136,11 @@ int	from_input_to_list_of_args(char *input, t_args **list, t_args **e_list)
 	token = ft_strtok(input, delim, list);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, list);
-	if (help_fitloa(list, e_list) == 1)
-		return (1);
+	fitloa_ret = help_fitloa(list, e_list);
+	if (fitloa_ret)
+		return (fitloa_ret);
+	// if (help_fitloa(list, e_list) == 1)
+	// 	return (1);
 	was_unclosed_quotes(list);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 19:31:19 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:06:03 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_getcwd()
+char	*ft_getcwd(void)
 {
 	char 	*cwd;
 	int		i;
@@ -36,13 +36,15 @@ char	*ft_getcwd()
 */
 int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 {
-	shell->oldpwd = ft_getcwd();
+	shell->oldpwd = shell->secret_pwd;
 	if (chdir(buf) == -1)
 	{
 		ft_printf("%s: %s: %s\n", list->str, buf, strerror(errno));
-		change_error(&env_list, shell, handle_error(errno -1));
+		set_error_nb(handle_error(errno -1), YES);//paul
+		// change_error(&env_list, shell, handle_error(errno -1));
 		return (1);
 	}
+	shell->secret_pwd = ft_getcwd();
 	update_pwd(env_list, shell);
 	// else
 	// {
@@ -84,7 +86,7 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
  * Check les arguments de cd
  * Gere cas d'erreurs premiers
 */
-int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
+int	check_cd(t_args *list, t_args *env_list)
 {
 	// if (list->next != NULL && list->next->str[0] == '\0')
 	// 	return (1);
@@ -94,7 +96,8 @@ int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
 		if (!find_a("HOME", env_list))
 		{
 			ft_printf("%s: 'HOME' not defined\n", list->str);
-			change_error(&env_list, shell, 1);
+			set_error_nb(1, YES);//paul
+			// change_error(&env_list, shell, 1);
 			return (1);
 		}
 		return (2);
@@ -103,7 +106,8 @@ int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
 		&& list->next->next->token != TOKEN_OR)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
-		change_error(&env_list, shell, 1);
+		set_error_nb(1, YES);//paul
+		// change_error(&env_list, shell, 1);
 		return (1);
 	}
 	return (0);
@@ -120,7 +124,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	int		cod;
 	int		err;
 
-	cod = check_cd(list, shell, env_list);
+	cod = check_cd(list, env_list);
 	if (cod == 1)
 		return (1);
 	if (cod == 2)
@@ -132,7 +136,8 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (!buf)
 		return (1);
 	err = cd_real_version(buf, shell, env_list, list);
-	return (err || !change_error(&env_list, shell, 0));
+	set_error_nb(0, YES);
+	return (err);//return (err || !change_error(&env_list, shell, 0));
 }
 
 ///////////////////////////////////PAUL///////////////////////////////////////

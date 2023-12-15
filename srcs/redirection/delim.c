@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:09:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:36:03 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	plus_de_nouvelle(const char *str)
 	input_size = 0;
 	while (1)
 	{
+		if (set_error_nb(0, NO) == 130)
+			return ;
 		line = readline("> ");
 		if (line == NULL || ft_strcmp(line, str) == 0)
 			break ;
@@ -136,11 +138,14 @@ int handle_mult_heredoc(t_args **stock)
 
 	if (*stock == NULL)
 		return (0);
+	print_args_list(stock);
 	current = *stock;
 	while (current->next != NULL)
 	{
 		if (current->str == NULL)
 			return (1);
+		if (set_error_nb(0, NO) == 130)
+			return (0);
 		line = readline("> ");
 		if (line == NULL || ft_strcmp(line, current->str) == 0)
 			current = current->next;
@@ -166,6 +171,8 @@ int	handle_heredoc(t_args **input)
 	t_args	*prev;
 	t_args	*next;
 	t_args	*stock;
+	pid_t	pid;
+	int		status;
 
 	current = *input;
 	prev = NULL;
@@ -173,6 +180,7 @@ int	handle_heredoc(t_args **input)
 	stock = NULL;
 	if (input == NULL || *input == NULL)
 		return (0);
+	
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -216,7 +224,24 @@ int	handle_heredoc(t_args **input)
 //	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
 //	if (input != NULL)
 //		print_args_list(input);
-	if (handle_mult_heredoc(&stock) == 1)
-		perror("syntax error near unexpected token\n");
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, &signal_heredoc);
+		if (handle_mult_heredoc(&stock) == 1)
+		{
+			perror("syntax error near unexpected token");
+			exit (2);
+		}
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WEXITSTATUS(status) == 2 || WEXITSTATUS(status) == 130)
+		{
+			set_error_nb(WEXITSTATUS(status), YES);
+			return (2);
+		}
+	}
 	return (0);
 }

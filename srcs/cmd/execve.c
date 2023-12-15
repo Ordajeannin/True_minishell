@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 16:48:26 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:08:58 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	change_error(t_args **env_list, t_shell *shell, int value)
 			return (help_change_error2(&current, &result, &shell, value));
 		current = current->next;
 	}
+	printf("change erro return 0\n");
 	return (help_change_error(&shell, value, 0));
 }
 
@@ -72,7 +73,6 @@ static char	*error_cmd(t_args *arg, t_shell *shell, t_args *list,
 {
 	char	*command;
 
-	// shell->path = find_a("PATH", *env_list)-;
 	shell->cmd_paths = NULL;
 	if (find_a("PATH", *env_list))
 		shell->cmd_paths = ft_split(find_a("PATH", *env_list)->str + 5, ':');
@@ -117,22 +117,25 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 /*
  * Permet de normer next_execution
 */
-static int	help_next_execution(t_args **env_list, t_shell *shell, int status,
+static int	help_next_execution(int status,
 		int flag)
 {
 	if (flag == 1)
 	{
 		errno = WEXITSTATUS(status);
 		if (g_error != 0)
-			change_error(env_list, shell, g_error);
+			set_error_nb(g_error, YES);
+			// change_error(env_list, shell, g_error);
 		else
-			change_error(env_list, shell, handle_error(errno));
+			set_error_nb(handle_error(errno), YES);
+			// change_error(env_list, shell, handle_error(errno));
 		return (1);
 	}
 	if (flag == 2)
 	{
 		ft_printf("Segmentation Fault (core dumped)\n");
-		change_error(env_list, shell, 139);
+		set_error_nb(139, YES);
+		// change_error(env_list, shell, 139);
 		return (1);
 	}
 	return (0);
@@ -153,19 +156,23 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	if (g_error == 2)
 		g_error = 0;
 	if (WEXITSTATUS(status) != 0)
-		return (help_next_execution(env_list, shell, status, 1));
+		return (help_next_execution(status, 1));
 	else if (WTERMSIG(status) == SIGSEGV)
-		return (help_next_execution(env_list, shell, status, 2));
+		return (help_next_execution(status, 2));
 	else
 	{
 		if (g_error != 0)
 		{
+			set_error_nb(g_error, YES);
+			return (1);
+			////////////awena///////////
 			if (!change_error(env_list, shell, g_error))
 				return (1);
 		}
-		else if (!change_error(env_list, shell, 0))
-			return (1);
+		// else if (!change_error(env_list, shell, 0))
+			// return (1);
 	}
+	set_error_nb(0, YES);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/07 19:41:28 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:52:29 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*prompt_cmd(t_shell *shell)
 {
 	(void)shell;
 	
-	return (ft_strjoin(ft_strjoin("minishell :", ft_getcwd()), ":>"));
+	return (ft_strjoin(ft_strjoin("minishell :", shell->secret_pwd), ":>"));
 }
 
 // static void	print_member(const char *name, const void *member, int type)

@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/12 11:12:53 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/11 15:20:06 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_error;
+
+int	set_error_nb(int error, int update)//set et stocke la derniere erreur, appeller avec yes pour update et no pour recuperer l'erreur
+{
+	static int	error_nb;
+
+	if (update == NO)
+		return (error_nb);
+	error_nb = error;
+	return (-1);
+}
 
 void	code_error(int code)
 {
