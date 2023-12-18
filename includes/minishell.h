@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 17:33:01 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:30:04 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,5 +259,6 @@ int		handle_quotes(t_args **list, t_args **e_list);
 int		help_fitloa(t_args **list, t_args **e_list);
 t_args *create_arg(char *str, int token);
 void	delete_null_nodes(t_args **list);
+int		is_quote(char c, char *flag);
 
 #endif

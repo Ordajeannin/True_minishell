@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:26:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 19:03:54 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:29:36 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_args	*join_nodes(t_args **sublist)
 	return (create_arg(str, token));
 }
 
-static int	is_quote(char c, char *flag)
+int	is_quote(char c, char *flag)
 {
 	static int quotes = 0;
 
@@ -161,6 +161,7 @@ int handle_quotes(t_args **list, t_args **e_list)
 
 	stock = NULL;
 	current = *list;
+	is_quote(0, "RESET");
 	printf("---------------------------------------------------------------\n");
 	printf("_____________________________________\n");
 	printf("_____________ MAIN LIST _____________\n");
