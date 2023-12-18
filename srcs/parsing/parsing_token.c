@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:22:59 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:59:16 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	help_delete_or_token(t_args **prev, t_args **current, char	*input)
  * Permet de supprimer les arguments qui se voulaient etre des
  * variables d'environnement, mais mal formatee
 */
-static void	delete_null_nodes(t_args **list)
+void	delete_null_nodes(t_args **list)
 {
 	t_args	*current;
 	t_args	*prev;
@@ -107,7 +107,7 @@ static void print_split(char **tmp)
 
 	while (*tmp)
 	{
-		printf("tmp[%d] : %s\n", i, *tmp);
+//		printf("tmp[%d] : %s\n", i, *tmp);
 		i++;
 		tmp++;
 	}
@@ -130,7 +130,9 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 	node->str = NULL;
 	tmp_node = NULL;
 	i = 0;
+//	printf("----------------------------------------\n");
 	print_split(tmp);
+//	printf("----------------------------------------\n");
 	while (tmp[i])
 	{
 		tmp[i] = is_env_var(tmp[i], env_list);
@@ -160,8 +162,10 @@ int	update_args2(t_args **list, t_args **env_list)
 {
 	t_args	*current;
 
+	delete_null_nodes(list);
 	current = *list;
-	printf("hey, are you here?\n");
+//	printf("hey, are you here?\n");
+	printf("1\n");
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
@@ -171,7 +175,9 @@ int	update_args2(t_args **list, t_args **env_list)
 		}
 		current = current->next;
 	}
-	delete_null_nodes(list);
+	printf("2\n");
+//	delete_null_nodes(list);
+	printf("3\n");
 	return (0);
 }
 

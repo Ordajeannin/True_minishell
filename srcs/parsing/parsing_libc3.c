@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 20:58:02 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:39:03 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 static void	ft_help2(char **r, t_shell *shell, size_t *count, const char **input)
 {
-	printf("heyyyy i m the best ok\n");
+//	printf("heyyyy i m the best ok\n");
 	if (ft_strcmp("\"", *r) != 0)
 		(*count) += delimit_to_token(*r, &(shell->list), input);
 	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
@@ -33,7 +33,7 @@ static void	ft_help1(char **a, t_shell *shell, size_t *count, const char **input
 {
 	size_t	i;
 
-	printf("hey, spn here\n");
+//	printf("hey, spn here\n");
 	i = delimit_to_token(*a, &(shell->list), input);
 	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
 	{
@@ -103,12 +103,12 @@ size_t	ft_strcspn(const char *input, char **reject, t_shell *shell)
 		{
 			if (flag == 0)
 			{
-				printf("On arrete de prendre en compte les delim\n");
+//				printf("On arrete de prendre en compte les delim\n");
 				flag = 1;
 			}
 			else
 			{
-				printf("on reprend\n");
+//				printf("on reprend\n");
 				flag = 0;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:26:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:35:37 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:49:28 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	is_quote(char c, char *flag)
 	}
 	if (ft_strcmp(flag, "VALUE") == 0)
 	{
-		if (quotes > 20)
+		if (quotes > 20 || quotes == 0)
 			return (quotes);
 		else
 			return (ABORT_MISSION);
@@ -101,21 +101,41 @@ static void	split_str_if_quotes(t_args *current, t_args **sublist)
 		return (add_arg(sublist, current->str, current->token));
 	while (str[i])
 	{
-		while (is_quote(str[i], "SEARCH") == 0)
+		while (is_quote(str[i], "SEARCH") == 0 && str[i])
 			i++;
 		if (i > 0)
+		{
 			add_arg(sublist, substring(str, prev, i - 1), 12910);
+			printf("we had %s, %d\n", substring(str, prev, i - 1), is_quote(0, "VALUE"));
+		}
+		if (i == 0 && !str[i + 1])
+		{
+			is_quote(0, "RESET");
+			add_arg(sublist, "NULL\0", 42);
+			printf("we had %s\n", "NULL1\0");
+			break ;
+		}
 		prev = i + 1;
 		i++;
 		while (is_quote(str[i], "SEARCH") < 20 && str[i])
 			i++;
 		if (i > prev)
+		{
 			add_arg(sublist, substring(str, prev, i - 1), is_quote(0, "VALUE"));
+			printf("we had %s, %d\n", substring(str, prev, i - 1), is_quote(0, "VALUE"));
+		}
 		prev = i + 1;
 		i++;
+		if (is_quote(0, "VALUE") == 42)
+		{
+			is_quote(0, "RESET");
+			add_arg(sublist, "NULL\0", 42);
+			printf("we had %s\n", "NULL2\0");
+			break ;
+		}
 		is_quote(0, "RESET");
 	}
-	print_args_list(sublist);
+//	print_args_list(sublist);
 }
 
 static t_args	*looking_for_quotes(t_args *current, t_args **e_list)
@@ -123,42 +143,16 @@ static t_args	*looking_for_quotes(t_args *current, t_args **e_list)
 	t_args *sublist;
 
 	sublist = NULL;
-	printf("hmmmmm here i guess?\n");
 	split_str_if_quotes(current, &sublist);
-	printf("HEY! EHOH! I'M HERE!\n");
-//	if (help_fitloa(&sublist, e_list) == 1)
-//		return (NULL);
+	printf("it's okay buddy...\n");
 	if (update_args2(&sublist, e_list) == 1)
 		return (NULL);
+	printf("---Sublist---\n");
 	print_args_list(&sublist);
+//	printf("-------------\n");
 	return (join_nodes(&sublist));
 }
 
-/*
- * copie de current->next
-*/
-/*
-int	handle_quotes(t_args **list, t_args **e_list)
-{
-	t_args *current;
-	t_args *next;
-
-	current = *list;
-	while (current)
-	{
-		next = current->next;
-		current = looking_for_quotes(current, e_list);
-		if (current == NULL)
-			return (1);
-		current->next = next;
-		current = current->next;
-	}
-	printf("BITE ME HERE\n");
-	print_args_list(list);
-	printf("AND HERE\n");
-	return (0);
-}
-*/
 int handle_quotes(t_args **list, t_args **e_list)
 {
 	t_args *stock;
@@ -167,6 +161,9 @@ int handle_quotes(t_args **list, t_args **e_list)
 
 	stock = NULL;
 	current = *list;
+	printf("____________ MAIN LIST _____________\n");
+	print_args_list(list);
+	printf("____________________________________\n");
 	while (current)
 	{
 		next = current->next;
@@ -175,9 +172,10 @@ int handle_quotes(t_args **list, t_args **e_list)
 		current = next;
 	}
 	*list = stock;
-	printf("BITE ME HERE\n");
+	delete_null_nodes(list);
+	printf("_____________ NEW LIST _____________\n");
 	print_args_list(list);
-	printf("AND HERE\n");
+	printf("____________________________________\n");
 	return (0);
 }
 

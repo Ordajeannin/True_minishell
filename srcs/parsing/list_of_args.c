@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:57:00 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:49:57 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,11 +160,11 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	fitloa_ret = handle_heredoc(&(shell->list));
 	if (fitloa_ret)
 		return (fitloa_ret);
-	printf("----------------- BEFORE QUOTES --------------------\n");
-	print_args_list(&(shell->list));
+//	printf("----------------- BEFORE QUOTES --------------------\n");
+//	print_args_list(&(shell->list));
 	if (handle_quotes(&(shell->list), e_list) == 1)
 		return (1); //AVANT help_fitloa
-	printf("-----------------  AFTER QUOTES --------------------\n");
+//	printf("-----------------  AFTER QUOTES --------------------\n");
 	was_unclosed_quotes(&(shell->list));
 	return (0);
 }
