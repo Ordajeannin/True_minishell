@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 17:36:03 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:53:52 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int handle_mult_heredoc(t_args **stock)
 
 	if (*stock == NULL)
 		return (0);
-	print_args_list(stock);
+	// print_args_list(stock);
 	current = *stock;
 	while (current->next != NULL)
 	{
@@ -233,6 +233,7 @@ int	handle_heredoc(t_args **input)
 			perror("syntax error near unexpected token");
 			exit (2);
 		}
+		exit (0);
 	}
 	else
 	{

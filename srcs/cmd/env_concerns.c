@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/15 19:45:11 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:30:47 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,19 +159,31 @@ t_args	*find_a(char *var, t_args *env)
 {
 	char	*str;
 
-	str = ft_strdup(var);
-	if (ft_strchr(var, '='))
-		ft_strlcpy(str, var, ft_strchr(var, '=') - var + 1);
-	while (ft_strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
-		&& ft_strncmp(env->str, str, ft_strlen(str)) && env->next)
-		env = env->next;
-	if (!strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
-		&& !ft_strncmp(env->str, str, ft_strlen(str)))
+	while (env)
 	{
-		return (env);
+		str = ft_strdupto_n(env->str, '=');
+		if (ft_strcmp(str, var) == 0)
+			return (env);
+		env = env->next;
 	}
-	else
-		return (NULL);
+	printf("vale don't found\n");
+	return (NULL);
+	// str = ft_strdup(var);
+	// if (ft_strchr(var, '='))
+	// 	ft_strlcpy(str, var, ft_strchr(var, '=') - var + 1);
+	// while (ft_strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
+	// 	&& ft_strncmp(env->str, str, ft_strlen(str)) && env->next)
+	// 	env = env->next;
+	// if (!strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
+	// 	&& !ft_strncmp(env->str, str, ft_strlen(str)))
+	// {	printf("var found\n");
+	// 	return (env);
+	// }
+	// else
+	// {
+	// 	printf("var not found\n");
+	// 	return (NULL);
+	// }
 }
 
 void	upgrade_shlvl(t_args *env)//ajoute 1 a SHLVL dans l'env lors du lancement

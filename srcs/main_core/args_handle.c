@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/11 16:25:25 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:59:27 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	args_two(t_args *list, t_shell *shell, t_args **env_list)
 		shell->is_work = ft_env(list, env_list, shell);
 	else if (ft_strncmp(list->str, "export",
 			ft_strlen(list->str)) == 0 && ft_strlen(list->str) == 6)
-		shell->is_work = ft_export(list, shell, env_list);
+		shell->is_work = ft_export(list, shell, *env_list);
 	else if (ft_strncmp(list->str, "pwd", ft_strlen(list->str))
 		== 0 && ft_strlen(list->str) == 3)
 		shell->is_work = ft_pwd(shell, env_list);

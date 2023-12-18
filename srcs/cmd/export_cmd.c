@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/11 18:49:26 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:36:32 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 	{
 		ft_printf("export : \"\": invalid identifier\n");
 		set_error_nb(1, YES);
-		// change_error(env_list, shell, 1);
 		return (1);
 	}
 	if (parse_export(list->next) == 2)
@@ -39,7 +38,6 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 	{
 		ft_printf("export : \"%s\" : invalid identifier\n", list->next->str);
 		set_error_nb(1, YES);
-		// change_error(env_list, shell, 1);
 		return (1);
 	}
 	return (0);
@@ -48,17 +46,17 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 /* 
  * Gere les boucles de export pour changer les VE et sinon les creer
 */
-static void	ft_more_export(t_shell *shell, char *v_env, char *value)
-{
-	if (ft_strcmp(v_env, "SHLVL") == 0 && ft_strlen(v_env) == 5
-		&& ft_atoi(value) < 0)
-		value = "0";
-	shell_change(shell, v_env, value);
-	if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
-		shell->is_pwd = ft_strdup(value);
-	else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
-		shell->is_oldpwd = ft_strdup(value);
-}
+// static void	ft_more_export(t_shell *shell, char *v_env, char *value)
+// {
+// 	if (ft_strcmp(v_env, "SHLVL") == 0 && ft_strlen(v_env) == 5
+// 		&& ft_atoi(value) < 0)
+// 		value = "0";
+// 	shell_change(shell, v_env, value);
+// 	if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
+// 		shell->is_pwd = ft_strdup(value);
+// 	else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
+// 		shell->is_oldpwd = ft_strdup(value);
+// }
 
 /* Fonction export.
  * Cherche d'abord si la VE existe deja.
@@ -67,42 +65,50 @@ static void	ft_more_export(t_shell *shell, char *v_env, char *value)
  * Gere le cas ou il y a plusieurs creation/remplacement de VE
 
 */
-int	ft_export(t_args *list, t_shell *shell, t_args **env_list)
+int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 {
-	char	*value;
-	char	*v_env;
-	int		result_change_env;
+	// char	*value;
+	// char	*v_env;
+	// int		result_change_env;
+	t_args	*new_variable;
 
-	if (export_errors(list, env_list, shell) == 1)
+	if (export_errors(list, &env_list, shell) == 1)
 	{
-		if (list->next != NULL)
-			ft_export(list->next, shell, env_list);
+		// if (list->next != NULL)
+		// 	ft_export(list->next, shell, env_list);
 		return (1);
 	}
 	if (ft_strchr(list->next->str, '='))
-	{
-		v_env = ft_strdupto_n(list->next->str, '=');
-		if (!v_env)
-			return (1);
-		value = ft_strdup_from(list->next->str, '=');
-		if (!value)
-			return (1);
-		result_change_env = change_env_exp(env_list, v_env, value);
-		if (result_change_env == 0)
-			ft_more_export(shell, v_env, value);
-		else if (result_change_env == 1)
-		{
-			add_env(env_list, list->next->str);
-			ft_more_export(shell, v_env, value);
-		}
+	{	printf("montruc\n");
+		new_variable = find_a(ft_strdupto_n(list->next->str, '='), env_list);
+		if (new_variable)
+			new_variable->str = list->next->str;
 		else
-			return (1);
+			add_arg(&env_list, list->next->str, 0);
+		// v_envtr = ft_sdupto_n(list->next->str, '=');
+		// if (!v_env)
+		// 	return (1);
+		// value = ft_strdup_from(list->next->str, '=');
+		// if (!value)
+		// 	return (1);
+		// printf("v_env :%s\tvalue :%s\n", v_env, value);
+		// result_change_env = change_env_exp(env_list, v_env, value);
+		// if (result_change_env == 0)
+		// 	ft_more_export(shell, v_env, value);
+		// else if (result_change_env == 1)
+		// {
+		// 	add_env(env_list, list->next->str);
+		// 	ft_more_export(shell, v_env, value);
+		// }
+		// else
+		// {	
+			// printf("UTIL OR NOT\n");
+			// return (1);
+		// }
 	}
-	if (list->next->next != NULL)
-		ft_export(list->next, shell, env_list);
+	// if (list->next->next != NULL)
+	// 	ft_export(list->next, shell, env_list);
 	set_error_nb(0, YES);
-	// if (!change_error(env_list, shell, 0))
-	// 	return (1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:50:58 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:00:10 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int			handle_heredoc(t_args **input);
 int			handle_multi_heredoc(t_args **stock);
 void		signal_heredoc(int sig);
 
+
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
 char		*check_if_there_is_a_lost_pipe(char *input);
@@ -181,7 +182,7 @@ int			ft_cd(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_pwd(t_shell *shell, t_args **env_list);
 int			ft_env(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
-int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
+int			ft_export(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_exit(t_args *list, t_args *env_list, \
 	t_shell *shell);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:26:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:35:37 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:09:23 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,22 +115,31 @@ static void	split_str_if_quotes(t_args *current, t_args **sublist)
 		i++;
 		is_quote(0, "RESET");
 	}
-	print_args_list(sublist);
+	// print_args_list(sublist);
 }
+//----------------------------------PAUL------------------------------------
+
+// void Psplit_str_if_quotes(t_args *current, t_args **sublist)
+// {
+// 	char	str;
+// 	int		i;
+// }
 
 static t_args	*looking_for_quotes(t_args *current, t_args **e_list)
 {
 	t_args *sublist;
 
 	sublist = NULL;
-	printf("hmmmmm here i guess?\n");
+	// Psplit_str_if_quotes(current, &sublist);
 	split_str_if_quotes(current, &sublist);
-	printf("HEY! EHOH! I'M HERE!\n");
+	printf("sublist returned by split str if quotes:\n");
+	print_args_list(&sublist);
+	printf("-------------------next_sublist---------------------\n");
 //	if (help_fitloa(&sublist, e_list) == 1)
 //		return (NULL);
 	if (update_args2(&sublist, e_list) == 1)
 		return (NULL);
-	print_args_list(&sublist);
+	// print_args_list(&sublist);
 	return (join_nodes(&sublist));
 }
 
@@ -167,6 +176,8 @@ int handle_quotes(t_args **list, t_args **e_list)
 
 	stock = NULL;
 	current = *list;
+	printf("befor split\n");
+	print_args_list(list);
 	while (current)
 	{
 		next = current->next;
@@ -176,7 +187,7 @@ int handle_quotes(t_args **list, t_args **e_list)
 	}
 	*list = stock;
 	printf("BITE ME HERE\n");
-	print_args_list(list);
+	// print_args_list(list);
 	printf("AND HERE\n");
 	return (0);
 }
