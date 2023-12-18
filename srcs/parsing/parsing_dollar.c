@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:21:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 18:50:52 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ char	*is_env_var(char *str, t_args **env_list)
 
 	len = ft_strlen(str);
 	result = NULL;
+	if (str[0] == '$' && str[1] == '?')
+	{
+//		printf("set_couille :%s\n", ft_itoa(set_error_nb(0, NO)));
+		result = ft_itoa(set_error_nb(0, NO));
+		return (result);
+	}
 	if (str[0] == '$' && is_alphanum(str[1]) == 0)
 	{
 		result = replace_env_var(str + 1, len - 1, env_list);

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 17:59:16 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 18:50:29 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	tokenize_args(char *input, int flag)
 		return (12910);
 }
 
+/*
 static void print_split(char **tmp)
 {
 	int i = 1;
@@ -112,6 +113,7 @@ static void print_split(char **tmp)
 		tmp++;
 	}
 }
+*/
 
 /*
  * Permet de gerer le remplacement des variables d'environnement,
@@ -131,7 +133,7 @@ int	process_not_s_quotes(t_args *node, t_args **env_list)
 	tmp_node = NULL;
 	i = 0;
 //	printf("----------------------------------------\n");
-	print_split(tmp);
+//	print_split(tmp);
 //	printf("----------------------------------------\n");
 	while (tmp[i])
 	{
@@ -165,7 +167,7 @@ int	update_args2(t_args **list, t_args **env_list)
 	delete_null_nodes(list);
 	current = *list;
 //	printf("hey, are you here?\n");
-	printf("1\n");
+//	printf("1\n");
 	while (current != NULL)
 	{
 		if (current->token != TOKEN_S_QUOTES)
@@ -175,9 +177,9 @@ int	update_args2(t_args **list, t_args **env_list)
 		}
 		current = current->next;
 	}
-	printf("2\n");
+//	printf("2\n");
 //	delete_null_nodes(list);
-	printf("3\n");
+//	printf("3\n");
 	return (0);
 }
 
