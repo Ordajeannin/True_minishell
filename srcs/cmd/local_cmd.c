@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/12 14:51:05 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:41:15 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,50 @@
  * Affiche le repertoire courrant 
  * Fonction a l'image de 'pwd'
 */
-int	ft_pwd(t_shell *shell, t_args **env_list)
+int	ft_pwd(t_shell *shell)
 {
 	if (shell->secret_pwd)
 		printf("%s\n", shell->secret_pwd);
-	// else
-	// {
-	// 	printf("pwd: error retrieving current directory:");
-	// 	printf(" No such file or directory");
-	// 	set_error_nb(1, YES);
-	// }
+	else
+	{
+		printf("pwd: error retrieving current directory:");
+		set_error_nb(1, YES);
+	}
 	set_error_nb(0, YES);
 	return (1);
-	////AWENA//////
-	if (shell->is_pwd == NULL)
+}
+
+/* 
+ * Boucle principale d'unset.
+ * Cherche une VE et la supprime s'il la trouve.
+*/
+int	searchin_env(t_args **env_list, t_args *list, t_shell *shell)
+{
+	t_args	*current;
+	t_args	*temp;
+	char	*name_env;
+
+	current = *env_list;
+	if (!ft_strcmp(list->next->str, ft_strdupto_n(current->str, '=')))
 	{
-		change_error(env_list, shell, errno);
+		shell->env_list = (*env_list)->next;
+		*env_list = (*env_list)->next;
 		return (1);
+	}		
+	while (current && current->next)
+	{
+		name_env = ft_strdupto_n(current->next->str, '=');
+		if (!name_env)
+			return (1);
+		if (ft_strcmp(list->next->str, name_env) == 0)
+		{
+			printf("VAR found\n");
+			return (help_s_e(&temp, &current, env_list));
+		}
+		current = current->next;
 	}
-	else
-		ft_printf("%s\n", shell->is_pwd);
-	if (!change_error(env_list, shell, 0))
-		return (1);
-	return (0);
+	printf("VAR didn't found\n");
+	return (1);
 }
 
 /* 
@@ -51,12 +72,11 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 {
 	if (!list->next)
 		return (1);
-	if (searchin_env(&env_list, list))
-		shell_change(shell, list->next->str, NULL);
+	searchin_env(&env_list, list, shell);
+	// if (searchin_env(&env_list, list, shell))
+		// shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
 	set_error_nb(0, YES);
-	// if (!change_error(&env_list, shell, 0))
-	// 	return (1);
 	return (0);
 }

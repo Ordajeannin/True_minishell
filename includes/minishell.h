@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 19:30:04 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:47:11 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ typedef struct s_split
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
 /* * * * * Prototypes Fonctions Minishell * * * * */
-int			is_minishell(t_shell *shell, t_args *env_list);
+int			is_minishell(t_shell *shell);
 void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
@@ -130,6 +130,7 @@ int			update_args2(t_args **list, t_args **env_list);
 int			handle_heredoc(t_args **input);
 int			handle_multi_heredoc(t_args **stock);
 void		signal_heredoc(int sig);
+
 
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
@@ -178,10 +179,10 @@ void		add_arg(t_args **list, char *str, int token);
 //Bultins
 int			ft_echo(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_cd(t_args *list, t_shell *shell, t_args *env_list);
-int			ft_pwd(t_shell *shell, t_args **env_list);
+int			ft_pwd(t_shell *shell);
 int			ft_env(t_args *list, t_args **env_list, t_shell *shell);
 int			ft_unset(t_args *list, t_shell *shell, t_args *env_list);
-int			ft_export(t_args *list, t_shell *shell, t_args **env_list);
+int			ft_export(t_args *list, t_shell *shell, t_args *env_list);
 int			ft_exit(t_args *list, t_args *env_list, \
 	t_shell *shell);
 
@@ -194,7 +195,7 @@ int			cd_move_and_change(t_args *env_list, t_shell *shell);
 int			change_env_exp(t_args **env_list, char *name_env, char *value);
 int			update_last_ve(t_args *list, t_args **env_list);
 int			parse_export(t_args *list);
-int			searchin_env(t_args **env_list, t_args *list);
+int			searchin_env(t_args **env_list, t_args *list, t_shell *shell);
 char		*is_path_or_cmd(char **paths, char *cmd, t_shell *shell, \
 	t_args **env_list);
 void		shell_change(t_shell *shell, char *str, char *value);
@@ -202,7 +203,7 @@ int			set_env(t_args **env_list, char **env, t_shell *shell);
 void		add_env(t_args **env_list, char *str);
 int			ft_plus_shell(t_shell *shell, t_args **env_list);
 void		signal_handler(int sig);
-int			export_out_args(t_args **env_list, t_shell *shell);
+int			export_out_args(t_args **env_list);
 int			change_error(t_args **env_list, t_shell *shell, int value);
 void		code_error(int code);
 int			handle_error(int code_err);
@@ -249,7 +250,7 @@ char		*help_itp2(DIR **dir);
 int			help_cee(char **current_name, t_args **current);
 int			help_cee2(char **current_name, t_args **current, char **result,
 			char **name_env);
-int			help_s_e(t_args **temp, t_args **current);
+int			help_s_e(t_args **temp, t_args **current, t_args **env_list);
 int			help_set_env(t_args **env_list, char **env, int *i,
 			char **identifier);
 int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/11 19:06:03 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:41:13 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_getcwd(void)
 {
-	char 	*cwd;
+	char	*cwd;
 	int		i;
 
 	i = 0;
@@ -29,7 +29,6 @@ char	*ft_getcwd(void)
 	return (cwd);
 }
 
-
 /*
  * Change de repertoire en fonction du buf envoye.
  * Agit reellement comme la commande cd.
@@ -40,17 +39,11 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 	if (chdir(buf) == -1)
 	{
 		ft_printf("%s: %s: %s\n", list->str, buf, strerror(errno));
-		set_error_nb(handle_error(errno -1), YES);//paul
-		// change_error(&env_list, shell, handle_error(errno -1));
+		set_error_nb(handle_error(errno -1), YES);
 		return (1);
 	}
 	shell->secret_pwd = ft_getcwd();
 	update_pwd(env_list, shell);
-	// else
-	// {
-	// 	if (!cd_move_and_change(env_list, shell))
-	// 		return (1);
-	// }
 	return (0);
 }
 
@@ -73,11 +66,6 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 	buf = ft_strdup(list->next->str);
 	if (! buf)
 		help_itp2(&dir);
-	// if (shell->pwd == NULL)
-	// {
-	// 	if (!cd_move_and_change(env_list, shell))
-	// 		return (help_itp2(&dir));
-	// }
 	help_itp2(&dir);
 	return (buf);
 }
@@ -90,14 +78,13 @@ int	check_cd(t_args *list, t_args *env_list)
 {
 	// if (list->next != NULL && list->next->str[0] == '\0')
 	// 	return (1);
-	if (list->next == NULL || !list->next->str || ft_strncmp(list->next->str, "~",
-			ft_strlen(list->next->str)) == 0)
+	if (list->next == NULL || !list->next->str || ft_strncmp(list->next->str,
+			"~", ft_strlen(list->next->str)) == 0)
 	{
 		if (!find_a("HOME", env_list))
 		{
 			ft_printf("%s: 'HOME' not defined\n", list->str);
-			set_error_nb(1, YES);//paul
-			// change_error(&env_list, shell, 1);
+			set_error_nb(1, YES);
 			return (1);
 		}
 		return (2);
@@ -106,8 +93,7 @@ int	check_cd(t_args *list, t_args *env_list)
 		&& list->next->next->token != TOKEN_OR)
 	{
 		ft_printf("%s: too many arguments\n", list->str);
-		set_error_nb(1, YES);//paul
-		// change_error(&env_list, shell, 1);
+		set_error_nb(1, YES);
 		return (1);
 	}
 	return (0);
@@ -137,51 +123,5 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 		return (1);
 	err = cd_real_version(buf, shell, env_list, list);
 	set_error_nb(0, YES);
-	return (err);//return (err || !change_error(&env_list, shell, 0));
+	return (err);
 }
-
-///////////////////////////////////PAUL///////////////////////////////////////
-
-// int	check_cd(t_args *list, t_shell *shell, t_args *env_list)
-// {
-	
-// }
-
-// void	ft_cd(t_args *list, t_shell *shell, t_args *env_list)//change le working directory
-// {
-// 	if (list->next == NULL || !list->next->str || ft_strncmp(list->next->str, "~", 2))
-// 	{
-// 		if (find_a("HOME", data->env))
-// 		{
-// 			chdir(find_a("HOME", data->env)->data + 5);
-// 			update_pwd(data);
-// 		}
-// 		else
-// 		{
-// 			data->error_number = 1;
-// 			printf("bash: cd: HOME not set\n");
-// 		}
-// 	}
-// 	if (tab[1] && tab[2])
-// 	{
-// 		printf("minishell: cd: trop d'arguments");
-// 		data->error_number = 1;
-// 		return ;
-// 	}
-// 	if (chdir(tab[1]) != 0)
-// 	{
-// 		printf("erno :%d\n", errno);
-// 		if (errno == 13)
-// 		{
-// 			printf("minishell: cd: %s: Permission denied\n", tab[1]);
-// 			data->error_number = 1;
-// 		}
-// 		if (errno == 116)
-// 		{
-// 			printf("bash: cd: %s: No such file or directory\n", tab[1]);
-// 			data->error_number = 1;
-// 		}
-// 	}
-// 	else
-// 		update_pwd(data);
-// }

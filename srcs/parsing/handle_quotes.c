@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:26:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 19:29:36 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:57:47 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,13 @@ static void	split_str_if_quotes(t_args *current, t_args **sublist)
 	}
 //	print_args_list(sublist);
 }
+//----------------------------------PAUL------------------------------------
+
+// void Psplit_str_if_quotes(t_args *current, t_args **sublist)
+// {
+// 	char	str;
+// 	int		i;
+// }
 
 static t_args	*looking_for_quotes(t_args *current, t_args **e_list)
 {

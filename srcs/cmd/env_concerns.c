@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/15 19:45:11 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:41:10 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,32 +71,6 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 }
 
 /* 
- * Boucle principale d'unset.
- * Cherche une VE et la supprime s'il la trouve.
-*/
-int	searchin_env(t_args **env_list, t_args *list)
-{
-	t_args	*current;
-	t_args	*temp;
-	char	*name_env;
-	size_t	len;
-
-	current = *env_list;
-	len = ft_strlen(list->next->str);
-	while (current && current->next)
-	{
-		name_env = ft_strdupto_n(current->next->str, '=');
-		if (!name_env)
-			return (1);
-		if (ft_strncmp(list->next->str, name_env, len) == 0 && \
-		len == ft_strlen(name_env))
-			return (help_s_e(&temp, &current));
-		current = current->next;
-	}
-	return (1);
-}
-
-/* 
  * Fonction a l'image de 'env'
  * Affiche l'environnement du shell en entier
  * (Attention : env -i ./minishell doit afficher PWD, SHLVL et _)
@@ -105,76 +79,62 @@ int	ft_env(t_args *list, t_args **env_list, t_shell *shell)
 {
 	t_args	*current;
 
+	(void)shell;
 	update_last_ve(list, env_list);
 	current = *env_list;
 	if (list->next != NULL)
 		return (1);
 	while (current != NULL && current->str != NULL)
 	{
-		// if (ft_strncmp(current->str, "?=", 2) == 0)
-		// 	current = current->next;
-		// else
-		{
-			ft_printf("%s\n", current->str);
-			current = current->next;
-		}
+		ft_printf("%s\n", current->str);
+		current = current->next;
 	}
 	set_error_nb(0, YES);
 	return (0);
-	///////awena////////
-	if (!change_error(env_list, shell, 0))
-		return (1);
 }
 
 /* 
  * Initialise liste d'env 
 */
-int	set_env(t_args **env_list, char **env, t_shell *shell)
-{
-	int		i;
-	char	*identifier;
+// int	set_env(t_args **env_list, char **env, t_shell *shell)
+// {
+// 	int		i;
+// 	char	*identifier;
 
-	if (*env == NULL)
-	{
-		set_empty_env(shell, env_list);
-		return (0);
-	}
-	if (handle_env(env, shell) == -1)
-		return (-1);
-	i = 0;
-	while (env[i])
-	{
-		if (help_set_env(env_list, env, &i, &identifier) == -1)
-			return (-1);
-		if (help_set_env2(env_list, &shell, &identifier, &i) == -1)
-			return (-1);
-	}
-	add_env(env_list, "?=0");
-	return (0);
-}
-
-/////////////////////////////////PAUL///////////////////
+// 	if (*env == NULL)
+// 	{
+// 		set_empty_env(shell, env_list);
+// 		return (0);
+// 	}
+// 	if (handle_env(env, shell) == -1)
+// 		return (-1);
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		if (help_set_env(env_list, env, &i, &identifier) == -1)
+// 			return (-1);
+// 		if (help_set_env2(env_list, &shell, &identifier, &i) == -1)
+// 			return (-1);
+// 	}
+// 	add_env(env_list, "?=0");
+// 	return (0);
+// }
 
 t_args	*find_a(char *var, t_args *env)
 {
 	char	*str;
 
-	str = ft_strdup(var);
-	if (ft_strchr(var, '='))
-		ft_strlcpy(str, var, ft_strchr(var, '=') - var + 1);
-	while (ft_strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
-		&& ft_strncmp(env->str, str, ft_strlen(str)) && env->next)
-		env = env->next;
-	if (!strncmp(env->str, str, ft_strchr(env->str, '=') - env->str)
-		&& !ft_strncmp(env->str, str, ft_strlen(str)))
+	while (env)
 	{
-		return (env);
+		str = ft_strdupto_n(env->str, '=');
+		if (ft_strcmp(str, var) == 0)
+			return (env);
+		env = env->next;
 	}
-	else
-		return (NULL);
+	return (NULL);
 }
 
-void	upgrade_shlvl(t_args *env)//ajoute 1 a SHLVL dans l'env lors du lancement
+void	upgrade_shlvl(t_args *env)
 {
 	t_args	*shlvl;
 	int		shlvl_nmb;
@@ -200,7 +160,6 @@ t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a pa
 	data->secret_pwd = getcwd(NULL, 0);//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
 	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
 	data->env_list->next = NULL;
-	// *envp = NULL;
 	if (*envp == NULL)
 	{
 		data->env_list->str = ft_strdup("");
@@ -217,9 +176,7 @@ t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a pa
 		data->env_list = new;
 		index ++;
 	}
-	add_env(&(data->env_list), "?=0");
 	data->env_list->next = NULL;
 	upgrade_shlvl(first);
-	add_env(&data->env_list, "?=0");
 	return (first);
 }
