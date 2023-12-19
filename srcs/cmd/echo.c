@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/11 17:29:53 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:51:21 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 {
 	int	bools;
 
+	(void)env_list;
 	bools = 0;
 	if (list == NULL)
 	{
@@ -96,7 +97,4 @@ int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 		write (1, "\n", 1);
 	set_error_nb(0, YES);
 	return (0);
-	////awena////
-	if (!change_error(env_list, shell, 0))
-		return (1);
 }

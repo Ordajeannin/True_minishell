@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:37:34 by pkorsako          #+#    #+#             */
-/*   Updated: 2023/12/05 18:58:21 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/18 19:43:08 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	*ft_malloc(size_t byte_size, int action)
 		free_garbage(&alloc_elements);
 	else
 	{
-		// printf("ft_malloc is mallocing\n");
 		allocated_element = malloc(byte_size);
 		if (!allocated_element)
 			ft_malloc(0, FREE);

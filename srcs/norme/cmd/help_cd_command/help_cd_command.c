@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:10:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 13:15:25 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:49:10 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@
 */
 char	*help_itp1(t_args *env_list, t_shell **shell, DIR **dir)
 {
+	(void)env_list;
+	(void)shell;
 	ft_printf("cd : No such file of directory\n");
 	set_error_nb(0, YES);
-	closedir(*dir);
-	return (NULL);
-	////////awena//////////////
-	change_error(&env_list, *shell, 0);
 	closedir(*dir);
 	return (NULL);
 }

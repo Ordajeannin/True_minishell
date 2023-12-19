@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 13:16:00 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:50:11 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	char	*temp;
 	char	*command;
 
+	(void)shell;
+	(void)env_list;
 	command = NULL;
 	while (paths && *paths)//j'ai enlever "shell->path" 
 	{
@@ -79,9 +81,6 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	}
 	ft_printf("%s : Command not found\n", cmd);
 	set_error_nb(127, YES);
-	return (NULL);
-	////////////////awena///////////
-	change_error(env_list, shell, 127);
 	return (NULL);
 }
 

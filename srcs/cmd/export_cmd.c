@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/18 17:36:32 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:50:45 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
  * check si l'argument est NULL ou s'il existe mais qu'il est vide
  * ATTENTION: voir cas speciaux et faire mini parsing des args avant d'export.
 */
-int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
+int	export_errors(t_args *list, t_args **env_list)
 {
 	if (ft_strlen(list->str) == 6 && ft_strcmp(list->str, "export") == 0
 		&& !list->next)
 	{
 		ft_printf("que pasa\n");
-		export_out_args(env_list, shell);
+		export_out_args(env_list);
 		return (1);
 	}
 	if (list->next->str[0] == '\0')
@@ -67,47 +67,24 @@ int	export_errors(t_args *list, t_args **env_list, t_shell *shell)
 */
 int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 {
-	// char	*value;
-	// char	*v_env;
-	// int		result_change_env;
 	t_args	*new_variable;
 
-	if (export_errors(list, &env_list, shell) == 1)
+	if (export_errors(list, &env_list) == 1)
 	{
-		// if (list->next != NULL)
-		// 	ft_export(list->next, shell, env_list);
+		if (list->next != NULL) //SAIS PAS A QUOI CA SERT
+			ft_export(list->next, shell, env_list);
 		return (1);
 	}
 	if (ft_strchr(list->next->str, '='))
-	{	printf("montruc\n");
+	{
 		new_variable = find_a(ft_strdupto_n(list->next->str, '='), env_list);
 		if (new_variable)
 			new_variable->str = list->next->str;
 		else
 			add_arg(&env_list, list->next->str, 0);
-		// v_envtr = ft_sdupto_n(list->next->str, '=');
-		// if (!v_env)
-		// 	return (1);
-		// value = ft_strdup_from(list->next->str, '=');
-		// if (!value)
-		// 	return (1);
-		// printf("v_env :%s\tvalue :%s\n", v_env, value);
-		// result_change_env = change_env_exp(env_list, v_env, value);
-		// if (result_change_env == 0)
-		// 	ft_more_export(shell, v_env, value);
-		// else if (result_change_env == 1)
-		// {
-		// 	add_env(env_list, list->next->str);
-		// 	ft_more_export(shell, v_env, value);
-		// }
-		// else
-		// {	
-			// printf("UTIL OR NOT\n");
-			// return (1);
-		// }
 	}
-	// if (list->next->next != NULL)
-	// 	ft_export(list->next, shell, env_list);
+	if (list->next->next != NULL)
+		ft_export(list->next, shell, env_list);
 	set_error_nb(0, YES);
 	return (0);
 }
@@ -116,7 +93,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
  * Gere export sans args
  * Affiche: declare -x VE env
 */
-int	export_out_args(t_args **env_list, t_shell *shell)
+int	export_out_args(t_args **env_list)
 {
 	char	*bfore;
 	char	*after;
@@ -140,9 +117,6 @@ int	export_out_args(t_args **env_list, t_shell *shell)
 	i = 0;
 	set_error_nb(0, YES);
 	return (0);
-	///////awena//////////
-	if (!change_error(env_list, shell, 0))
-		return (1);
 }
 
 /* 
