@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:49:11 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:30:11 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
  * :WARNING:
  * Cet ensemble de fonctions ne gere pas encore les "str" et 'str'
+ * attention a bien rajouter les withespaces dans le dernier elsif
 */
 size_t	delimit_to_token(char *str, t_args **list, const char **input)
 {
@@ -22,7 +23,7 @@ size_t	delimit_to_token(char *str, t_args **list, const char **input)
 		return (is_quotes(str, list, *input, 1));
 	else if (ft_strcmp(str, "\"") == 0)
 		return (is_quotes(str, list, *input, 2));
-	else if (ft_strcmp(str, " ") != 0 && *str != '\t')//whitespaces
+	else if (ft_strcmp(str, " ") != 0 && *str != '\t')
 		add_arg(list, str, 0);
 	return (0);
 }

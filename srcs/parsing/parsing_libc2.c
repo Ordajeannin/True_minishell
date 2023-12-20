@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/26 13:36:50 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 06:33:17 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,3 @@ char	*word_dup(char *str, int start, int finish)
 	word[i] = '\0';
 	return (word);
 }
-

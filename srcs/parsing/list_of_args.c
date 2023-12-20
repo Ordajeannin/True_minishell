@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/20 03:51:38 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 08:15:01 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 */
 void	clear_args_list(t_args **list)
 {
- 	*list = NULL;
+	*list = NULL;
 }
 
 /*
@@ -35,42 +35,41 @@ t_args	*create_arg(char *str, int token)
 	new_arg->str = str;
 	new_arg->token = token;
 	new_arg->next = NULL;
-//	printf("contenu : %s\n", new_arg->str);
 	return (new_arg);
 }
 
 /*
  * Permets de copier un liste d'args
 */
-t_args *copy_list(t_args *source)
+t_args	*copy_list(t_args *source)
 {
-    t_args* new_head;
-    t_args* current;
-    t_args* tail;
+	t_args	*new_head;
+	t_args	*current;
+	t_args	*tail;
 
 	new_head = NULL;
 	tail = NULL;
 	current = source;
-    while (current != NULL)
+	while (current != NULL)
 	{
-        if (new_head == NULL)
+		if (new_head == NULL)
 		{
-            new_head = ft_calloc(1, sizeof(t_args));
-            new_head->str = current->str;
+			new_head = ft_calloc(1, sizeof(t_args));
+			new_head->str = current->str;
 			new_head->token = current->token;
-            new_head->next = NULL;
-            tail = new_head;
-        }
+			new_head->next = NULL;
+			tail = new_head;
+		}
 		else
 		{
-            tail->next = ft_calloc(1, sizeof(t_args));
-            tail = tail->next;
-            tail->str = current->str;
+			tail->next = ft_calloc(1, sizeof(t_args));
+			tail = tail->next;
+			tail->str = current->str;
 			tail->token = current->token;
-        }
-        current = current->next;
-    }
-    return (new_head);
+		}
+		current = current->next;
+	}
+	return (new_head);
 }
 
 /*
@@ -133,17 +132,14 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, shell);
 	if (update_args(&(shell->list)) == 1)
-		return 1;
+		return (1);
 	if (is_correct_format(&(shell->list)) == -1)
 		return (2);
 	fitloa_ret = handle_heredoc(&(shell->list));
 	if (fitloa_ret)
 		return (fitloa_ret);
-//	printf("----------------- BEFORE QUOTES --------------------\n");
-//	print_args_list(&(shell->list));
 	if (handle_quotes(&(shell->list), e_list) == 1)
-		return (1); //AVANT help_fitloa
-//	printf("-----------------  AFTER QUOTES --------------------\n");
+		return (1);
 	was_unclosed_quotes(&(shell->list));
 	return (0);
 }
@@ -152,6 +148,7 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
  * PROTECTION DE MALLOC!
  * Adaptation de list pour execve
  * Boucle qui remplit shell->input
+ * protection ft_strdup?
 */
 int	loop_args(t_shell *shell, t_args **list)
 {
@@ -168,7 +165,6 @@ int	loop_args(t_shell *shell, t_args **list)
 	while (current)
 	{
 		shell->input[i] = ft_strdup(current->str);
-		// protection ici, quand meme? if ! alors return 1
 		current = current->next;
 		i ++;
 	}

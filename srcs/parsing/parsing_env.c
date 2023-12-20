@@ -6,18 +6,18 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:54:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 13:16:00 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:35:02 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
+/*
  * Check si getenv est NULL
  * Si oui, renvoit une chaine vide
  * Renvoit un char * de la valeur de la ve enregistree
 */
-static char *get_env_var(const char *name)
+static char	*get_env_var(const char *name)
 {
 	char	*env_var;
 
@@ -27,7 +27,7 @@ static char *get_env_var(const char *name)
 	return (ft_strdup(env_var));
 }
 
-/* 
+/*
  * Creer les maillons shell->str en fonction de getenv
  * Check cas d'erreurs
 */
@@ -65,7 +65,7 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	char	*command;
 
 	command = NULL;
-	while (paths && *paths)//j'ai enlever "shell->path" 
+	while (paths && *paths)
 	{
 		temp = ft_strjoin(*paths, "/");
 		if (! temp)
@@ -80,7 +80,6 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 	ft_printf("%s : Command not found\n", cmd);
 	set_error_nb(127, YES);
 	return (NULL);
-	////////////////awena///////////
 	change_error(env_list, shell, 127);
 	return (NULL);
 }
@@ -88,7 +87,17 @@ static char	*extract_cmd_path(char **paths, char *cmd, t_shell *shell,
 /*Deux possibilites:
 	-> Soit cmd est un path (avec des /) et on teste directement le path
 	-> Soit cmd n'est pas un path mais juste une commande, on boucle sur
-	tous les paths possibles et on regarde si l'executable existe ou non. 
+	tous les paths possibles et on regarde si l'executable existe ou non.
+	else if (access(cmd, X_OK | F_OK) == 0)
+	{
+		// if (cmd[ft_strlen(cmd) - 1] == 'v' &&
+		// 	cmd[ft_strlen(cmd) - 2] == 'n' &&
+		// 	cmd[ft_strlen(cmd) - 3] == 'e')
+		// 	return ("It's env");
+		return (cmd);
+	}
+	return (cmd);
+}
 */
 
 char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
@@ -102,12 +111,6 @@ char	*is_path_or_cmd(char **paths, char *cmd, t_shell *shell,
 		return (command);
 	}
 	else if (access(cmd, X_OK | F_OK) == 0)
-	{
-		// if (cmd[ft_strlen(cmd) - 1] == 'v' && 
-		// 	cmd[ft_strlen(cmd) - 2] == 'n' && 
-		// 	cmd[ft_strlen(cmd) - 3] == 'e')
-		// 	return ("It's env");
 		return (cmd);
-	}
 	return (cmd);
 }
