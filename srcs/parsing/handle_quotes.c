@@ -6,12 +6,16 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:26:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 19:29:36 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 04:50:23 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ * Permet de join les node->str de la sublist.
+ * Si erreur pour l'un des node, le node final en heritera
+*/
 static t_args	*join_nodes(t_args **sublist)
 {
 	t_args	*current;
@@ -33,6 +37,9 @@ static t_args	*join_nodes(t_args **sublist)
 	return (create_arg(str, token));
 }
 
+/*
+ * Permet d'avoir un flag gerant ouverture/fermeture/valeurs des quotes
+*/
 int	is_quote(char c, char *flag)
 {
 	static int quotes = 0;
@@ -66,6 +73,9 @@ int	is_quote(char c, char *flag)
 	return (quotes);
 }
 
+/*
+ * Renvoie une portion de chaine, from index i to n
+*/
 char* substring(char* str, int i, int n)
 {
 	int len;
@@ -88,6 +98,19 @@ char* substring(char* str, int i, int n)
     return (result);
 }
 
+/*
+ * Permet de creer une sublist a partir d'un unique maillon
+ * Ne rentre dans la boucle que si >= un quote a ete trouve dans current->str
+ *
+ * On parcourt la chaine jusqu'a une s/d quote, X
+ * si quote && progression :
+ * creation d'un arg pour le contenu precedant la quote
+ *
+ * Puis, on parcourt la chaine jusqu'a un 2eme X ou fin (ignorant l'autre quote)
+ * creation d'un arg, indiquant si la quote a pu etre fermee
+ *
+ * On reset notre flag pour les s/d quotes, puis on boucle
+*/
 static void	split_str_if_quotes(t_args *current, t_args **sublist)
 {
 	int i;
@@ -138,13 +161,28 @@ static void	split_str_if_quotes(t_args *current, t_args **sublist)
 //	print_args_list(sublist);
 }
 
+/*
+ * Au Final, tout se gere la :
+ *
+ * 1) Recoit un maillon en input
+ * 2) Va creer une sublist chainee a partir de ce maillon,
+ *    en fonction des quotes
+ * 3) va gerer les substitutions des VE pour chacun de ces maillons
+ *    independemment
+ * 4) retourne un unique maillon, un join des str de la sublist
+ *
+ * Exemple :
+ * Input   :   '$USER'"$USER"
+ * sublist :   $USER  ->  $USER
+ * V.E     :   $USER  ->  ajeannin
+ * Return  :   $USERajeannin
+*/
 static t_args	*looking_for_quotes(t_args *current, t_args **e_list)
 {
 	t_args *sublist;
 
 	sublist = NULL;
 	split_str_if_quotes(current, &sublist);
-//	printf("it's okay buddy...\n");
 	if (update_args2(&sublist, e_list) == 1)
 		return (NULL);
 //	printf("---Sublist---\n");
@@ -153,6 +191,22 @@ static t_args	*looking_for_quotes(t_args *current, t_args **e_list)
 	return (join_nodes(&sublist));
 }
 
+/*
+ * Permet de gerer les maillons contenant des simples/doubles quotes,
+ * et la substitution des variables d'environnement.
+ * Va creer une liste chainee secondaire, avec les maillons updated.
+ * liste pointera vers elle.
+ *
+ * 1) is_quote(RESET) est une protection, la fonction est appelee plus tot et sa
+ *    reintialisation est ... chiante, dans certain cas
+ * 2) parcours la liste chainee pour effectuer looking_for_quotes
+ *    sur chaque maillon
+ * 3) ajoute le maillon updated a la nouvelle liste
+ * 4) redirection du pointeur
+ *    *list = stock
+ * 5) un peu de clean ne fait pas de mal (en cas de "" par exemple)
+ *    delete_null_nodes
+*/
 int handle_quotes(t_args **list, t_args **e_list)
 {
 	t_args *stock;
@@ -185,5 +239,3 @@ int handle_quotes(t_args **list, t_args **e_list)
 	printf("_____________________________________\n\n");
 	return (0);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/20 03:24:55 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 03:33:30 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,24 @@ static void	tempfile(char *str)
 	int	temp_fd;
 
 	temp_fd = open("tempfile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-//	printf("hi! i'm here\n");
 	if (temp_fd == -1)
 	{
 		perror("open");
-//		printf("here 1\n");
 		return ;
 	}
-//	printf("... shit\n%s\n", str);
-	if (str == NULL)
-		printf("yep, issue here\n");
-	else if (write(temp_fd, str, ft_strlen(str)) == -1)
+	if (str != NULL)
 	{
-		perror("write");
-		close(temp_fd);
-//		printf("here 2\n");
-		return ;
+		if (write(temp_fd, str, ft_strlen(str)) == -1)
+		{
+			perror("write");
+			close(temp_fd);
+			return ;
+		}
 	}
 	close(temp_fd);
 	if (dup2(open("tempfile.txt", O_RDONLY), STDIN_FILENO) == -1)
 	{
 		perror("dup2");
-//		printf("here 3\n");
 		return ;
 	}
 }
@@ -103,7 +99,7 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
  * redirection <<
  * Interagit avec l'utilisateur
  * et recupere son input sous forme de str\nstr\nstr\n
- * jusqu au dernier delim 
+ * jusqu au dernier delim
  * -> stockage dans un fichier temporaire pour en faire l entree par defaut
 */
 void	plus_de_nouvelle(const char *str)
@@ -126,8 +122,7 @@ void	plus_de_nouvelle(const char *str)
 		if (result == NULL)
 			return ;
 	}
-//	if (result)
-		return (tempfile(result));
+	return (tempfile(result));
 }
 
 /*
@@ -135,7 +130,7 @@ void	plus_de_nouvelle(const char *str)
  * Laisse la main a l utilisateur tant que les eof sont definis
  * Si un EOF n'est pas defini,
  * erreur quand c est a son tour d etre pris en compte
- * Si on arrive au dernier EOF, alors stockage de l'input + concatenation, 
+ * Si on arrive au dernier EOF, alors stockage de l'input + concatenation,
  * into fichier temporaire qui sera la nouvelle entree par defaut
 */
 int handle_mult_heredoc(t_args **stock)

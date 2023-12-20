@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/20 03:16:48 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 03:51:38 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	clear_args_list(t_args **list)
 }
 
 /*
- * Fonction utilitaire, cree un maillon 
+ * Fonction utilitaire, cree un maillon
  * a partir du contenu de l'argument et du token attribue
 */
 t_args	*create_arg(char *str, int token)
@@ -39,7 +39,7 @@ t_args	*create_arg(char *str, int token)
 	return (new_arg);
 }
 
-/* 
+/*
  * Permets de copier un liste d'args
 */
 t_args *copy_list(t_args *source)
@@ -97,51 +97,22 @@ void	add_arg(t_args **list, char *str, int token)
 }
 
 /*
- * Permet de norme from_input_to_list_of_args
-*/
-/*
-int	help_fitloa(t_args **list, t_args **e_list)
-{
-	int	hdl_heredoc_rt;
-	
-	if (update_args(list) == 1)
-		return (1);
-	hdl_heredoc_rt = handle_heredoc(list);
-	if (hdl_heredoc_rt)//si positif (erreur)
-		return (hdl_heredoc_rt);//renvoi erreur
-	if (update_args2(list, e_list) == 1)
-		return (1);
-	return (0);
-}
-*/
-//static void handle_quotes(t_args **list)
-//{
-	//va devoir parcourir chaque maillon
-	//et verifier a chaque fois si il contient des quotes
-	//si oui, et si %2 == 0, (:warning: si " str ' str " ca doit marcher)
-	//alors va devoir decouper la string et en faire plusieurs maillon,
-	//a rattacher a la liste principale.
-	//
-	//enfaite, il va meme falloir par defaut creer une sublist,
-	//creer les maillons (si necessaire)
-	//subsituer les VE
-	//et ENSUITE reconstruire la liste principale
-//}
-/*
-static int check_if_heredocok(t_args **list)
-{
-	t_args *current;
-
-	current = *list;
-	while (current)
-	{
-		if (curent->token == DELIM)
-			if (current->next->token == DELIM
-				|| current->next->token
-*/
-/*
- * Permet d'extraire les tokens de input sur base des delimitateurs
- * Puis identifie ces tokens
+ * La fonction commence a etre complexe, on va faire un point :
+ * 1) Creation de la liste avec le parsing principal, en fonction des delims
+ *    -> ft_strtok
+ * 2) Mise a jour des tokens (la fonction semble outdated, vraiment necessaire?)
+ *    -> update_args
+ * 3) Verifie les arguments suivants les redirections/heredocs
+ *    on ne veut (en gros) que des alphanum
+ *    -> is_correct_format
+ * 4) Gestion des heredocs, assez early pour une histoire de VE (cat << $USER)
+ *    -> handle_heredoc
+ * 5) Mise a jour de la liste, pour gerer les s/d quotes + substitution VE
+ *    l'idee etant de passer de : str"hello'world'"$USER'$USER'
+ *    a : strhello'world'ajeannin$USER
+ *    (ouais, a peine chiant)
+ *    -> handle_quotes
+ * 6) Verifie la presence ou non de quotes non-fermee (auquel cas, msg d'erreur)
 */
 int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 {
@@ -158,19 +129,11 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	delim[6] = "||";
 	delim[7] = "|";
 	delim[8] = NULL;
-//	delim[8] = "\'";
-//	delim[9] = "\"";
-//	delim[10] = NULL;
 	token = ft_strtok(input, delim, shell);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, shell);
-//	if (help_fitloa(&(shell->list), e_list) == 1)
-//		return (1);
 	if (update_args(&(shell->list)) == 1)
 		return 1;
-//	printf("heyyyyyyyyyyyyyyyyyyyyy bitch\n");
-//	print_args_list(&(shell->list));
-//	printf("hooooooooooooooooooooooooooooooo\n");
 	if (is_correct_format(&(shell->list)) == -1)
 		return (2);
 	fitloa_ret = handle_heredoc(&(shell->list));
@@ -185,8 +148,8 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	return (0);
 }
 
-/* 
- * PROTECTION DE MALLOC! 
+/*
+ * PROTECTION DE MALLOC!
  * Adaptation de list pour execve
  * Boucle qui remplit shell->input
 */
