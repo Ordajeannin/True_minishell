@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 16:49:57 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 03:16:48 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,18 @@ int	help_fitloa(t_args **list, t_args **e_list)
 	//subsituer les VE
 	//et ENSUITE reconstruire la liste principale
 //}
+/*
+static int check_if_heredocok(t_args **list)
+{
+	t_args *current;
 
+	current = *list;
+	while (current)
+	{
+		if (curent->token == DELIM)
+			if (current->next->token == DELIM
+				|| current->next->token
+*/
 /*
  * Permet d'extraire les tokens de input sur base des delimitateurs
  * Puis identifie ces tokens
@@ -157,6 +168,11 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 //		return (1);
 	if (update_args(&(shell->list)) == 1)
 		return 1;
+//	printf("heyyyyyyyyyyyyyyyyyyyyy bitch\n");
+//	print_args_list(&(shell->list));
+//	printf("hooooooooooooooooooooooooooooooo\n");
+	if (is_correct_format(&(shell->list)) == -1)
+		return (2);
 	fitloa_ret = handle_heredoc(&(shell->list));
 	if (fitloa_ret)
 		return (fitloa_ret);

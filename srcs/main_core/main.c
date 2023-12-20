@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 16:46:31 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 02:56:38 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ static int	main_bis(char *input, t_args *env_list, \
 //	print_args_list(&(shell->list));
 //	printf("___________________________________\n");
 	fitloa_ret = from_input_to_list_of_args(input, shell, &env_list);
-	if (fitloa_ret)
+//	if (fitloa_ret == 2)
+//		return (0);
+	if (fitloa_ret == 1)
 		return (fitloa_ret);
 	// if (from_input_to_list_of_args(input, &list, &env_list) == 1)
 	// 	return (1);
 	// print_args_list(&list);
-	if (shell->list)
+	if (shell->list && fitloa_ret != 2)
 	{
 		if (is_correct_format(&(shell->list)) == 0)
 			create_sublists(shell->list, shell, &env_list);

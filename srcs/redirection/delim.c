@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 15:18:05 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 03:24:55 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,28 @@ static void	tempfile(char *str)
 	int	temp_fd;
 
 	temp_fd = open("tempfile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+//	printf("hi! i'm here\n");
 	if (temp_fd == -1)
 	{
 		perror("open");
+//		printf("here 1\n");
 		return ;
 	}
-	if (write(temp_fd, str, ft_strlen(str)) == -1)
+//	printf("... shit\n%s\n", str);
+	if (str == NULL)
+		printf("yep, issue here\n");
+	else if (write(temp_fd, str, ft_strlen(str)) == -1)
 	{
 		perror("write");
 		close(temp_fd);
+//		printf("here 2\n");
 		return ;
 	}
 	close(temp_fd);
 	if (dup2(open("tempfile.txt", O_RDONLY), STDIN_FILENO) == -1)
 	{
 		perror("dup2");
+//		printf("here 3\n");
 		return ;
 	}
 }
@@ -119,7 +126,7 @@ void	plus_de_nouvelle(const char *str)
 		if (result == NULL)
 			return ;
 	}
-	if (result)
+//	if (result)
 		return (tempfile(result));
 }
 
@@ -171,6 +178,72 @@ int	handle_heredoc(t_args **input)
 	t_args	*prev;
 	t_args	*next;
 	t_args	*stock;
+
+	current = *input;
+	prev = NULL;
+	next = NULL;
+	stock = NULL;
+	if (input == NULL || *input == NULL)
+		return (0);
+	while (current != NULL)
+	{
+		if (current->token == TOKEN_DELIM)
+		{
+			if (current->next != NULL)
+			{
+				add_arg(&stock, current->next->str, TOKEN_DELIM);
+				next = current->next;
+				if (prev == NULL)
+					*input = next;
+				else
+					prev->next = next->next;
+				if (next != NULL)
+					current = next->next;
+				else
+				{
+					current = NULL;
+					if (prev != NULL)
+						prev->next = NULL;
+				}
+			}
+			else
+			{
+				add_arg(&stock, NULL, -66);
+				if (prev != NULL)
+					prev->next = NULL;
+				else
+					*input = NULL;
+				break ;
+			}
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+//	printf("----------------- RESULTAT HEREDOC --------------------\n");
+//	if (stock != NULL)
+//		print_args_list(&stock);
+//	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
+//	if (input != NULL)
+//		print_args_list(input);
+	if (handle_mult_heredoc(&stock) == 1)
+	{
+		perror("syntax error near unexpected token\n");
+		return (2);
+	}
+	return (0);
+}
+
+/////////////////// PAUL /////////////////////////////////
+/*
+int	handle_heredoc(t_args **input)
+{
+	t_args	*current;
+	t_args	*prev;
+	t_args	*next;
+	t_args	*stock;
 	pid_t	pid;
 	int		status;
 
@@ -180,7 +253,7 @@ int	handle_heredoc(t_args **input)
 	stock = NULL;
 	if (input == NULL || *input == NULL)
 		return (0);
-	
+
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -246,3 +319,4 @@ int	handle_heredoc(t_args **input)
 	}
 	return (0);
 }
+*/
