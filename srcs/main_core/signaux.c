@@ -6,12 +6,25 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 17:13:52 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:04:03 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+void	close_pipefd(int *pipes_fd, int action)
+{
+	static int *pipes;
+
+	if (action == CLOSE)
+	{
+		close (pipes[1]);
+		pipes = NULL;
+		return ;
+	}
+	pipes = pipes_fd;
+}
 
 /*
  *gestionnaire de signal pou le heredoc
@@ -21,6 +34,7 @@ void	signal_heredoc(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	close_pipefd(NULL, CLOSE);
 	exit (130);
 }
 
@@ -30,8 +44,6 @@ void	signal_heredoc(int sig)
  */
 void	signal_handler(int sig)
 {
-	// ft_printf("je suis la\n");
-	// ft_printf("sig vaut : %d\n", sig);
 	if (rl_done && g_error == 2)
 	{
 		ft_printf("\n");

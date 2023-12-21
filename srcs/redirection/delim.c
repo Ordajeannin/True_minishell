@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/19 17:59:32 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:01:43 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
  * jusqu au dernier delim 
  * -> stockage dans un fichier temporaire pour en faire l entree par defaut
 */
-void	plus_de_nouvelle(const char *str)
+void	plus_de_nouvelle(const char *str, int *pipes)
 {
 	char	*result;
 	char	*line;
@@ -110,8 +110,6 @@ void	plus_de_nouvelle(const char *str)
 	input_size = 0;
 	while (1)
 	{
-		if (set_error_nb(0, NO) == 130)
-			return ;
 		line = readline("> ");
 		if (line == NULL || ft_strcmp(line, str) == 0)
 			break ;
@@ -119,8 +117,9 @@ void	plus_de_nouvelle(const char *str)
 		if (result == NULL)
 			return ;
 	}
-	if (result)
-		return (tempfile(result));
+	write(pipes[1], result, ft_strlen(result));
+	// if (result)
+	// 	return (tempfile(result));
 }
 
 /*
@@ -131,7 +130,7 @@ void	plus_de_nouvelle(const char *str)
  * Si on arrive au dernier EOF, alors stockage de l'input + concatenation, 
  * into fichier temporaire qui sera la nouvelle entree par defaut
 */
-int handle_mult_heredoc(t_args **stock)
+int handle_mult_heredoc(t_args **stock, int *pipes)
 {
 	t_args	*current;
 	char	*line;
@@ -152,8 +151,30 @@ int handle_mult_heredoc(t_args **stock)
 	}
 	if (current->str == NULL)
 		return (1);
-	plus_de_nouvelle(current->str);
+	plus_de_nouvelle(current->str, pipes);
+	close(pipes[1]);
 	return (0);
+}
+
+/*
+ *recupere le char* de l'enfant
+ *
+*/
+char	*get_result(int *pipes)
+{
+	char	*result;
+	char	*tmp;
+	
+	tmp = ft_strdup("");
+	result = ft_strdup("");
+	while(tmp)
+	{
+		tmp = get_next_line(pipes[0]);
+		if (tmp)
+			result = ft_strjoin(result, tmp);
+	}
+	printf("result :%s\n", result);
+	return (result);
 }
 
 /*
@@ -173,6 +194,7 @@ int	handle_heredoc(t_args **input)
 	t_args	*stock;
 	pid_t	pid;
 	int		status;
+	int		pipes[2];
 
 	current = *input;
 	prev = NULL;
@@ -180,7 +202,7 @@ int	handle_heredoc(t_args **input)
 	stock = NULL;
 	if (input == NULL || *input == NULL)
 		return (0);
-	
+
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -224,25 +246,33 @@ int	handle_heredoc(t_args **input)
 //	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
 //	if (input != NULL)
 //		print_args_list(input);
+	pipe(pipes);
 	pid = fork();
 	if (pid == 0)
 	{
+		close(pipes[0]);
+		close_pipefd(pipes, 0);
 		signal(SIGINT, &signal_heredoc);
-		if (handle_mult_heredoc(&stock) == 1)
+		if (handle_mult_heredoc(&stock, pipes) == 1)
 		{
 			perror("syntax error near unexpected token");
 			exit (2);
 		}
-		exit (0);
+		exit(0);
 	}
 	else
 	{
+		close(pipes[1]);
 		waitpid(pid, &status, 0);
 		if (WEXITSTATUS(status) == 2 || WEXITSTATUS(status) == 130)
 		{
+			close(pipes[0]);
 			set_error_nb(WEXITSTATUS(status), YES);
 			return (2);
 		}
+		if (stock != NULL)
+			tempfile(get_result(pipes));
+		close(pipes[0]);
 	}
 	return (0);
 }

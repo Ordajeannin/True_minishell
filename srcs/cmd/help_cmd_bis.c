@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 08:42:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 17:38:16 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:12:31 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	update_last_ve(t_args *list, t_args **env_list)
 		}
 		list = list->next;
 	}
+	printf("_ MODIFIED !!\n");
 	if (change_env_exp(env_list, "_", last_arg) == 2)
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/19 17:47:11 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:07:03 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 # define TOKEN_TEMP_VAR	666
 # define ABORT_MISSION	42
 
+# define CLOSE			1
 # define YES			1
 # define NO				0
 
@@ -123,7 +124,7 @@ size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
 int			process_not_s_quotes(t_args *node, t_args **env_list);
 void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
-void		plus_de_nouvelle(const char *str);
+void		plus_de_nouvelle(const char *str, int *pipes);
 int			is_correct_format(t_args **list);
 void		free_sublists(t_args_list *stock);
 int			update_args2(t_args **list, t_args **env_list);
@@ -261,5 +262,6 @@ int		help_fitloa(t_args **list, t_args **e_list);
 t_args *create_arg(char *str, int token);
 void	delete_null_nodes(t_args **list);
 int		is_quote(char c, char *flag);
+void	close_pipefd(int *pipes_fd, int action);
 
 #endif

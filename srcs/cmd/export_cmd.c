@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/18 17:50:45 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:21:42 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	export_errors(t_args *list, t_args **env_list)
 		export_out_args(env_list);
 		return (1);
 	}
-	if (list->next->str[0] == '\0')
+	if (list->next && list->next->str[0] == '\0')
 	{
 		ft_printf("export : \"\": invalid identifier\n");
 		set_error_nb(1, YES);
@@ -71,8 +71,10 @@ int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 
 	if (export_errors(list, &env_list) == 1)
 	{
-		if (list->next != NULL) //SAIS PAS A QUOI CA SERT
+		if (list->next->next != NULL) //SAIS PAS A QUOI CA SERT
+		{
 			ft_export(list->next, shell, env_list);
+		}
 		return (1);
 	}
 	if (ft_strchr(list->next->str, '='))
@@ -129,8 +131,7 @@ int	parse_export(t_args *list)
 	int	i;
 
 	i = 0;
-	if (!(list->str[0] >= 'A' && list->str[0] <= 'Z') && !(list->str[0] >= 'a'
-			&& list->str[0] <= 'z'))
+	if (!ft_isalpha(list->str[0]) && list->str[0] != '_')
 		return (1);
 	while (list->str[i] && list->str[i] != '=')
 	{
