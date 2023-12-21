@@ -146,7 +146,7 @@ ft_toupper	src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
 ft_uitoa	src/ft_print_unsigned.c	/^char	*ft_uitoa(unsigned int n)$/;"	f	typeref:typename:char *
 ft_update_stash	src/get_next_line_bonus.c	/^char	*ft_update_stash(char *stash)$/;"	f	typeref:typename:char *
 get_next_line	src/get_next_line_bonus.c	/^char	*get_next_line(int fd)$/;"	f	typeref:typename:char *
-helpsplit	src/ft_split.c	/^static	char	**helpsplit(int index, char const *s, char c)$/;"	f	typeref:typename:char **	file:
+helpsplit	src/ft_split.c	/^static	char	**helpsplit(int index, char const *s, char c, int len)$/;"	f	typeref:typename:char **	file:
 ignoreFailures	src/.vscode/launch.json	/^          "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
 includePath	src/.vscode/c_cpp_properties.json	/^      "includePath": [$/;"	a	object:configurations.0
 intelliSenseMode	src/.vscode/c_cpp_properties.json	/^      "intelliSenseMode": "linux-gcc-x64",$/;"	s	object:configurations.0
