@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/11 19:06:03 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 19:05:41 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
  * Cas ou cd.., suite de la commande cd principale
  * Fonction normee, conservation du code commente au cas ou
 */
-static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
+static char	*is_two_points(t_shell *shell, t_args *list)
 {
 	DIR		*dir;
 	char	*temp;
@@ -69,7 +69,7 @@ static char	*is_two_points(t_shell *shell, t_args *list, t_args *env_list)
 		return (NULL);
 	dir = opendir(temp);
 	if (dir == NULL)
-		return (help_itp1(env_list, &shell, &dir));
+		return (help_itp1(&dir));
 	buf = ft_strdup(list->next->str);
 	if (! buf)
 		help_itp2(&dir);
@@ -130,7 +130,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (cod == 2)
 		buf = ft_strdup(find_a("HOME", env_list)->str + 5);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
-		buf = is_two_points(shell, list, env_list);
+		buf = is_two_points(shell, list);
 	else
 		buf = ft_strdup(list->next->str);
 	if (!buf)

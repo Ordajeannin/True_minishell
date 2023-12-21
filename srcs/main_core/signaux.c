@@ -6,12 +6,11 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 17:13:52 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:29:47 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*
  *gestionnaire de signal pou le heredoc
@@ -30,13 +29,10 @@ void	signal_heredoc(int sig)
  */
 void	signal_handler(int sig)
 {
-	// ft_printf("je suis la\n");
-	// ft_printf("sig vaut : %d\n", sig);
 	if (rl_done && g_error == 2)
 	{
 		ft_printf("\n");
 		set_error_nb(130, YES);
-		// code_error(130);
 	}
 	if (!rl_done)
 	{
@@ -45,13 +41,11 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		// code_error(130);
 	}
 	else if (sig == 3)
 	{
 		ft_printf("Quit (core dumped)\n");
 		set_error_nb(131, YES);
-		// code_error(131);
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 13:11:08 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:59:40 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,9 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 	current = *stock;
 	prev_pipe[0] = -1;
 	prev_pipe[1] = -1;
-	status = 0x0;
+	status = 0;
 	while (current != NULL)
 	{
-		if (ft_atoi(find_a("SHLVL", *env_list)->str + 6) > 1)//sert a quoi ?
-		{	printf("SERT A QQ CHOSE !\n");
-			g_error = 2;
-			signal(SIGQUIT, signal_handler);
-			//Probleme signaux: SIGQUIT est ignore dans execve avant qu'il soit ignore ici
-		}
 		if (pipe(pipe_fds) == -1)
 		{
 			perror("pipe");
@@ -82,11 +76,7 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 	{
 		signal(SIGQUIT, SIG_IGN);
 		if (WIFEXITED(status) != 0 && WEXITSTATUS(status) != 0)
-		{
 			set_error_nb(WEXITSTATUS(status), YES);
-			// change_error(env_list, shell, WEXITSTATUS(status));
-			// shell->error = WEXITSTATUS(status);
-		}
 	}
 	if (g_error == 2)
 		g_error = 0;
@@ -155,8 +145,8 @@ static char	*combine_input_with_new_one(char *input, int lenght)
 	if (!combined)
 	{
 		perror("malloc");
-	 	return (NULL);
-	 }
+		return (NULL);
+	}
 	ft_strcpy(combined, input);
 	ft_strcat(combined, " ");
 	ft_strcat(combined, new_input);
@@ -180,6 +170,7 @@ static int	check_multiple_pipe(char *input)
 	}
 	return (0);
 }
+
 /*
  * Permet de verifier si l'input ne se termine pas par un pipe
  * (sans prendre en compte les espaces)

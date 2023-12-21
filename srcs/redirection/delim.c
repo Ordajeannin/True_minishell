@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/20 03:33:30 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/21 19:17:48 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	plus_de_nouvelle(const char *str)
  * Si on arrive au dernier EOF, alors stockage de l'input + concatenation,
  * into fichier temporaire qui sera la nouvelle entree par defaut
 */
-int handle_mult_heredoc(t_args **stock)
+int	handle_mult_heredoc(t_args **stock)
 {
 	t_args	*current;
 	char	*line;
@@ -217,12 +217,6 @@ int	handle_heredoc(t_args **input)
 			current = current->next;
 		}
 	}
-//	printf("----------------- RESULTAT HEREDOC --------------------\n");
-//	if (stock != NULL)
-//		print_args_list(&stock);
-//	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
-//	if (input != NULL)
-//		print_args_list(input);
 	if (handle_mult_heredoc(&stock) == 1)
 	{
 		perror("syntax error near unexpected token\n");
