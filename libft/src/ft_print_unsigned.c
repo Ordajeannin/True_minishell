@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:33:45 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:33:40 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:39:51 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	ft_print_unsigned(unsigned int n)
 	{
 		nbr = ft_uitoa(n);
 		print_length += ft_print_str(nbr);
-		// free(nbr);
 	}
 	return (print_length);
 }

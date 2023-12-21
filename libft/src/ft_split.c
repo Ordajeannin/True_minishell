@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 00:59:01 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/09/29 11:50:43 by asalic           ###   ########.fr       */
+/*   Updated: 2023/12/21 17:39:31 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,10 @@ static	char	*word_dup(const char *str, int start, int finish)
 	return (word);
 }
 
-static	char	**helpsplit(int index, char const *s, char c)
+static	char	**helpsplit(int index, char const *s, char c, int len)
 {
 	size_t	i;
 	size_t	j;
-	int		len;
 	char	**new;
 
 	i = 0;
@@ -83,9 +82,11 @@ static	char	**helpsplit(int index, char const *s, char c)
 char	**ft_split(char const *s, char c)
 {
 	int	index;
+	int	len;
 
 	index = -1;
+	len = 0;
 	if (!s || s[0] == '\0')
 		return (NULL);
-	return (helpsplit(index, s, c));
+	return (helpsplit(index, s, c, len));
 }
