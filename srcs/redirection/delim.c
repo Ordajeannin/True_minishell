@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/19 17:59:32 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:14:46 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ static void	tempfile(char *str)
 		perror("open");
 		return ;
 	}
-	if (write(temp_fd, str, ft_strlen(str)) == -1)
+	if (str != NULL)
 	{
-		perror("write");
-		close(temp_fd);
-		return ;
+		if (write(temp_fd, str, ft_strlen(str)) == -1)
+		{
+			perror("write");
+			close(temp_fd);
+			return ;
+		}
 	}
 	close(temp_fd);
 	if (dup2(open("tempfile.txt", O_RDONLY), STDIN_FILENO) == -1)
@@ -96,7 +99,7 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
  * redirection <<
  * Interagit avec l'utilisateur
  * et recupere son input sous forme de str\nstr\nstr\n
- * jusqu au dernier delim 
+ * jusqu au dernier delim
  * -> stockage dans un fichier temporaire pour en faire l entree par defaut
 */
 void	plus_de_nouvelle(const char *str)
@@ -119,8 +122,7 @@ void	plus_de_nouvelle(const char *str)
 		if (result == NULL)
 			return ;
 	}
-	if (result)
-		return (tempfile(result));
+	return (tempfile(result));
 }
 
 /*
@@ -128,7 +130,7 @@ void	plus_de_nouvelle(const char *str)
  * Laisse la main a l utilisateur tant que les eof sont definis
  * Si un EOF n'est pas defini,
  * erreur quand c est a son tour d etre pris en compte
- * Si on arrive au dernier EOF, alors stockage de l'input + concatenation, 
+ * Si on arrive au dernier EOF, alors stockage de l'input + concatenation,
  * into fichier temporaire qui sera la nouvelle entree par defaut
 */
 int handle_mult_heredoc(t_args **stock)
@@ -171,6 +173,72 @@ int	handle_heredoc(t_args **input)
 	t_args	*prev;
 	t_args	*next;
 	t_args	*stock;
+
+	current = *input;
+	prev = NULL;
+	next = NULL;
+	stock = NULL;
+	if (input == NULL || *input == NULL)
+		return (0);
+	while (current != NULL)
+	{
+		if (current->token == TOKEN_DELIM)
+		{
+			if (current->next != NULL)
+			{
+				add_arg(&stock, current->next->str, TOKEN_DELIM);
+				next = current->next;
+				if (prev == NULL)
+					*input = next;
+				else
+					prev->next = next->next;
+				if (next != NULL)
+					current = next->next;
+				else
+				{
+					current = NULL;
+					if (prev != NULL)
+						prev->next = NULL;
+				}
+			}
+			else
+			{
+				add_arg(&stock, NULL, -66);
+				if (prev != NULL)
+					prev->next = NULL;
+				else
+					*input = NULL;
+				break ;
+			}
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+//	printf("----------------- RESULTAT HEREDOC --------------------\n");
+//	if (stock != NULL)
+//		print_args_list(&stock);
+//	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
+//	if (input != NULL)
+//		print_args_list(input);
+	if (handle_mult_heredoc(&stock) == 1)
+	{
+		perror("syntax error near unexpected token\n");
+		return (2);
+	}
+	return (0);
+}
+
+/////////////////// PAUL /////////////////////////////////
+/*
+int	handle_heredoc(t_args **input)
+{
+	t_args	*current;
+	t_args	*prev;
+	t_args	*next;
+	t_args	*stock;
 	pid_t	pid;
 	int		status;
 
@@ -180,7 +248,7 @@ int	handle_heredoc(t_args **input)
 	stock = NULL;
 	if (input == NULL || *input == NULL)
 		return (0);
-	
+
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -246,3 +314,4 @@ int	handle_heredoc(t_args **input)
 	}
 	return (0);
 }
+*/

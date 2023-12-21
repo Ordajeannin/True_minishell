@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 12:45:18 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 18:34:02 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:37:12 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ char	*ft_update_stash(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
-	{
-		// free(stash);
 		return (NULL);
-	}
 	str = ft_malloc(sizeof(char) * (ft_strlen2(stash) - i + 1), ALLOC);
 	if (!str)
 		return (NULL);
@@ -34,7 +31,6 @@ char	*ft_update_stash(char *stash)
 	while (stash[i])
 		str[j++] = stash[i++];
 	str[j] = '\0';
-	// free(stash);
 	return (str);
 }
 
@@ -79,14 +75,10 @@ char	*ft_read(int fd, char *stash)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
-		{
-			// free(buffer);
 			return (NULL);
-		}
 		buffer[i] = '\0';
 		stash = ft_strjoin2(stash, buffer);
 	}
-	// free(buffer);
 	return (stash);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 18:29:25 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/15 19:20:52 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 06:31:54 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int	step2split(t_split *s, char *str)
 /*
  * Permet d'initialiser la structure, et de traiter la premiere sous chaine
  * jusqu'a la rencontre d'un '$'
+ * protection au niveau du word_dup?
 */
 static int	init_split(t_split *s, char *str, int step)
 {
@@ -103,7 +104,6 @@ static int	init_split(t_split *s, char *str, int step)
 	if (s->i != 0)
 	{
 		s->result[s->j++] = word_dup(str, s->start, s->i);
-		//protection?
 		s->start = s->i;
 	}
 	return (0);
@@ -113,6 +113,7 @@ static int	init_split(t_split *s, char *str, int step)
  * Main fonction
  * retourne un tableau de tableau contenant chaque sous-chaine
  * devant etre traitee par is_env_var
+ * protection au niveau des word_dup?
 */
 char	**ft_split_arg(char *str)
 {
@@ -126,13 +127,11 @@ char	**ft_split_arg(char *str)
 				|| is_alphanum(str[s.i]) == -1))
 		{
 			s.result[s.j++] = word_dup(str, s.start, s.i);
-			//protection?
 			update_split(&s, 1);
 		}
 		if (str[s.i] == '$' && str[s.i + 1] == '$')
 		{
 			s.result[s.j++] = word_dup(str, s.i, s.i + 2);
-			//protection?
 			update_split(&s, 2);
 		}
 		else if (str[s.i] == '$' && s.flag == 0)

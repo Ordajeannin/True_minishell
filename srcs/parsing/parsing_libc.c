@@ -6,7 +6,7 @@
 /*   By: asalic <asalic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:05:21 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:28:18 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,27 @@ char	*ft_strpbrk(const char *s, const char *charset)
 		s++;
 	}
 	return (NULL);
+}
+
+/*
+ * Implementation de realloc
+ * //plus utile
+ * inscrit au niveau de la protection de new_size, why?
+*/
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+
+	if (ptr == NULL)
+		return (ft_malloc(new_size, ALLOC));
+	if (new_size == 0)
+		return (NULL);
+	new_ptr = ft_malloc(new_size, ALLOC);
+	if (new_ptr == NULL)
+		return (NULL);
+	if (old_size < new_size)
+		ft_memcpy(new_ptr, ptr, old_size);
+	else
+		ft_memcpy(new_ptr, ptr, new_size);
+	return (new_ptr);
 }

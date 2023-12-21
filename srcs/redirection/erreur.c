@@ -6,7 +6,7 @@
 /*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:58:53 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/06 17:10:18 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:20:33 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_correct_format(t_args **list)
 	t_args	*current;
 
 	current = *list;
-	if (current->token == 4)
+	if (current != NULL && current->token == 4)
 	{
 		perror("syntax error near unexpected token\n");
 		return (-1);

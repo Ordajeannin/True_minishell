@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:37:34 by pkorsako          #+#    #+#             */
-/*   Updated: 2023/12/18 19:43:08 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:15:25 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	free_garbage(t_garbage *alloc_elements)
 {
-	t_garbage *index;
+	t_garbage	*index;
 
 	alloc_elements = alloc_elements->next;
 	index = alloc_elements;
-	while(alloc_elements)
+	while (alloc_elements)
 	{
 		index = alloc_elements;
 		free(alloc_elements->element);
@@ -27,16 +27,19 @@ void	free_garbage(t_garbage *alloc_elements)
 	}
 }
 
+/*
+ * ATTENTION VALUE EXIT
+*/
 void	upgrade_list(t_garbage *alloc_elements, void *allocated_element)
 {
 	t_garbage	*new_struct;
 	t_garbage	*index;
 
 	new_struct = malloc(sizeof(t_garbage));
-	if(!new_struct)
+	if (!new_struct)
 	{
 		ft_malloc(0, FREE);
-		exit(1);//attention au chifre
+		exit(1);
 	}
 	index = alloc_elements;
 	while (index->next)
@@ -63,4 +66,3 @@ void	*ft_malloc(size_t byte_size, int action)
 	}
 	return (NULL);
 }
-

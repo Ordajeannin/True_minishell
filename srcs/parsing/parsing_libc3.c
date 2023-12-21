@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/18 19:32:02 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:27:48 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /*
  * Permet de... gagner de la place pour ft_strcspn
 */
-static void	ft_help2(char **r, t_shell *shell, size_t *count, const char **input)
+static void	ft_help2(char **r, t_shell *shell, size_t *count,
+		const char **input)
 {
-//	printf("heyyyy i m the best ok\n");
 	if (ft_strcmp("\"", *r) != 0)
 		(*count) += delimit_to_token(*r, &(shell->list), input);
 	if (ft_strcmp(">>", *r) == 0 || ft_strcmp("<<", *r) == 0)
@@ -29,11 +29,11 @@ static void	ft_help2(char **r, t_shell *shell, size_t *count, const char **input
 /*
  * Permet de... gagner de la place pour ft_strspn
 */
-static void	ft_help1(char **a, t_shell *shell, size_t *count, const char **input)
+static void	ft_help1(char **a, t_shell *shell, size_t *count,
+		const char **input)
 {
 	size_t	i;
 
-//	printf("hey, spn here\n");
 	i = delimit_to_token(*a, &(shell->list), input);
 	if (ft_strcmp(">>", *a) == 0 || ft_strcmp("<<", *a) == 0)
 	{
@@ -81,12 +81,53 @@ size_t	ft_strspn(const char *input, char **accept, t_shell *shell)
 	return (count);
 }
 
+static int	process_while_loop(const char *input, char **reject,
+						t_shell *shell, size_t *count)
+{
+	char	**r;
+	int		rejected;
 
+	r = reject;
+	rejected = 0;
+	while (*r != NULL && is_quote(0, "VALUE") == 0)
+	{
+		if (ft_strncmp(input, *r, ft_strlen(*r)) == 0)
+		{
+			ft_help2(r, shell, count, &input);
+			rejected = 1;
+			break ;
+		}
+		r++;
+	}
+	return (rejected);
+}
+
+size_t	ft_strcspn(const char *input, char **reject, t_shell *shell)
+{
+	size_t	count;
+	int		rejected;
+
+	count = 0;
+	rejected = 0;
+	is_quote(0, "RESET");
+	while (*input)
+	{
+		if (is_quote(*input, "SEARCH") > 20)
+			is_quote(0, "RESET");
+		rejected = process_while_loop(input, reject, shell, &count);
+		if (rejected)
+			return (count);
+		count++;
+		input++;
+	}
+	return (count);
+}
 
 /*
  * A l'inverse, renvoie la longueur de la partie de input qui ne contient
  * aucun delimitateur
 */
+/*
 size_t	ft_strcspn(const char *input, char **reject, t_shell *shell)
 {
 	char		**r;
@@ -118,26 +159,4 @@ size_t	ft_strcspn(const char *input, char **reject, t_shell *shell)
 	}
 	return (count);
 }
-
-/*
- * Implementation de realloc
- * //plus utile
- * inscrit au niveau de la protection de new_size, why?
 */
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
-{
-	void	*new_ptr;
-
-	if (ptr == NULL)
-		return (ft_malloc(new_size, ALLOC));
-	if (new_size == 0)
-		return (NULL);
-	new_ptr = ft_malloc(new_size, ALLOC);
-	if (new_ptr == NULL)
-		return (NULL);
-	if (old_size < new_size)
-		ft_memcpy(new_ptr, ptr, old_size);
-	else
-		ft_memcpy(new_ptr, ptr, new_size);
-	return (new_ptr);
-}
