@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:43:39 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 17:35:04 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:09:34 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,5 @@ void	args_handle(t_args *list, t_shell *shell, t_args **env_list)
 	else
 		shell->is_work = args_two(list, shell, env_list);
 	check_args(&list, shell, env_list);
-	// if (!(ft_strncmp(list->str, "env", ft_strlen(list->str))
-	// 		== 0 && ft_strlen(list->str) == 3))
-		update_last_ve(list, env_list);
+	update_last_ve(list, env_list);
 }

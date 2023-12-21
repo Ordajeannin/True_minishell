@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:14:46 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:31:25 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * le fichier sera l'entree par defaut des commandes
  * (fichier supprime a la fin de l'execution)
 */
-static void	tempfile(char *str)
+void	tempfile(char *str)
 {
 	int	temp_fd;
 
@@ -102,7 +102,7 @@ static char	*batterie_faible(const char *line, char *result, int *input_size)
  * jusqu au dernier delim
  * -> stockage dans un fichier temporaire pour en faire l entree par defaut
 */
-void	plus_de_nouvelle(const char *str)
+void	plus_de_nouvelle(const char *str, int *pipes)
 {
 	char	*result;
 	char	*line;
@@ -113,8 +113,6 @@ void	plus_de_nouvelle(const char *str)
 	input_size = 0;
 	while (1)
 	{
-		if (set_error_nb(0, NO) == 130)
-			return ;
 		line = readline("> ");
 		if (line == NULL || ft_strcmp(line, str) == 0)
 			break ;
@@ -122,7 +120,9 @@ void	plus_de_nouvelle(const char *str)
 		if (result == NULL)
 			return ;
 	}
-	return (tempfile(result));
+	write(pipes[1], result, ft_strlen(result));
+	// if (result)
+	// 	return (tempfile(result));
 }
 
 /*
@@ -133,7 +133,7 @@ void	plus_de_nouvelle(const char *str)
  * Si on arrive au dernier EOF, alors stockage de l'input + concatenation,
  * into fichier temporaire qui sera la nouvelle entree par defaut
 */
-int handle_mult_heredoc(t_args **stock)
+int handle_mult_heredoc(t_args **stock, int *pipes)
 {
 	t_args	*current;
 	char	*line;
@@ -154,8 +154,30 @@ int handle_mult_heredoc(t_args **stock)
 	}
 	if (current->str == NULL)
 		return (1);
-	plus_de_nouvelle(current->str);
+	plus_de_nouvelle(current->str, pipes);
+	close(pipes[1]);
 	return (0);
+}
+
+/*
+ *recupere le char* de l'enfant
+ *
+*/
+char	*get_result(int *pipes)
+{
+	char	*result;
+	char	*tmp;
+	
+	tmp = ft_strdup("");
+	result = ft_strdup("");
+	while(tmp)
+	{
+		tmp = get_next_line(pipes[0]);
+		if (tmp)
+			result = ft_strjoin(result, tmp);
+	}
+	printf("result :%s\n", result);
+	return (result);
 }
 
 /*
@@ -167,72 +189,72 @@ int handle_mult_heredoc(t_args **stock)
  * (valeur != en fonction de la presence ou non d'un EOF)
  * mise a jour du prev->next pour assurer la stabilite
 */
-int	handle_heredoc(t_args **input)
-{
-	t_args	*current;
-	t_args	*prev;
-	t_args	*next;
-	t_args	*stock;
+// int	handle_heredoc(t_args **input)
+// {
+// 	t_args	*current;
+// 	t_args	*prev;
+// 	t_args	*next;
+// 	t_args	*stock;
 
-	current = *input;
-	prev = NULL;
-	next = NULL;
-	stock = NULL;
-	if (input == NULL || *input == NULL)
-		return (0);
-	while (current != NULL)
-	{
-		if (current->token == TOKEN_DELIM)
-		{
-			if (current->next != NULL)
-			{
-				add_arg(&stock, current->next->str, TOKEN_DELIM);
-				next = current->next;
-				if (prev == NULL)
-					*input = next;
-				else
-					prev->next = next->next;
-				if (next != NULL)
-					current = next->next;
-				else
-				{
-					current = NULL;
-					if (prev != NULL)
-						prev->next = NULL;
-				}
-			}
-			else
-			{
-				add_arg(&stock, NULL, -66);
-				if (prev != NULL)
-					prev->next = NULL;
-				else
-					*input = NULL;
-				break ;
-			}
-		}
-		else
-		{
-			prev = current;
-			current = current->next;
-		}
-	}
-//	printf("----------------- RESULTAT HEREDOC --------------------\n");
-//	if (stock != NULL)
-//		print_args_list(&stock);
-//	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
-//	if (input != NULL)
-//		print_args_list(input);
-	if (handle_mult_heredoc(&stock) == 1)
-	{
-		perror("syntax error near unexpected token\n");
-		return (2);
-	}
-	return (0);
-}
+// 	current = *input;
+// 	prev = NULL;
+// 	next = NULL;
+// 	stock = NULL;
+// 	if (input == NULL || *input == NULL)
+// 		return (0);
+// 	while (current != NULL)
+// 	{
+// 		if (current->token == TOKEN_DELIM)
+// 		{
+// 			if (current->next != NULL)
+// 			{
+// 				add_arg(&stock, current->next->str, TOKEN_DELIM);
+// 				next = current->next;
+// 				if (prev == NULL)
+// 					*input = next;
+// 				else
+// 					prev->next = next->next;
+// 				if (next != NULL)
+// 					current = next->next;
+// 				else
+// 				{
+// 					current = NULL;
+// 					if (prev != NULL)
+// 						prev->next = NULL;
+// 				}
+// 			}
+// 			else
+// 			{
+// 				add_arg(&stock, NULL, -66);
+// 				if (prev != NULL)
+// 					prev->next = NULL;
+// 				else
+// 					*input = NULL;
+// 				break ;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			prev = current;
+// 			current = current->next;
+// 		}
+// 	}
+// //	printf("----------------- RESULTAT HEREDOC --------------------\n");
+// //	if (stock != NULL)
+// //		print_args_list(&stock);
+// //	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
+// //	if (input != NULL)
+// //		print_args_list(input);
+// 	if (handle_mult_heredoc(&stock, pipes) == 1)
+// 	{
+// 		perror("syntax error near unexpected token\n");
+// 		return (2);
+// 	}
+// 	return (0);
+// }
 
 /////////////////// PAUL /////////////////////////////////
-/*
+
 int	handle_heredoc(t_args **input)
 {
 	t_args	*current;
@@ -241,6 +263,7 @@ int	handle_heredoc(t_args **input)
 	t_args	*stock;
 	pid_t	pid;
 	int		status;
+	int		pipes[2];
 
 	current = *input;
 	prev = NULL;
@@ -292,26 +315,34 @@ int	handle_heredoc(t_args **input)
 //	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
 //	if (input != NULL)
 //		print_args_list(input);
+	pipe(pipes);
 	pid = fork();
 	if (pid == 0)
 	{
+		close(pipes[0]);
+		close_pipefd(pipes, 0);
 		signal(SIGINT, &signal_heredoc);
-		if (handle_mult_heredoc(&stock) == 1)
+		if (handle_mult_heredoc(&stock, pipes) == 1)
 		{
 			perror("syntax error near unexpected token");
 			exit (2);
 		}
-		exit (0);
+		exit(0);
 	}
 	else
 	{
+		close(pipes[1]);
 		waitpid(pid, &status, 0);
 		if (WEXITSTATUS(status) == 2 || WEXITSTATUS(status) == 130)
 		{
+			close(pipes[0]);
 			set_error_nb(WEXITSTATUS(status), YES);
 			return (2);
 		}
+		if (stock != NULL)
+			tempfile(get_result(pipes));
+		close(pipes[0]);
 	}
 	return (0);
 }
-*/
+
