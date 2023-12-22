@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 17:16:26 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:19:46 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list)
  * ou constitue d'espaces uniquement
  * (si c est le cas, repropose un prompt et ne cat pas)
 */
-static char	*call_readline(char *prompt)
+char	*call_readline(char *prompt)
 {
 	char	*input;
 	char	*ptr;
@@ -134,7 +134,7 @@ static char	*call_readline(char *prompt)
 /*
  * Permet de normer check_if_there_is_a_lost_pipe
 */
-static char	*combine_input_with_new_one(char *input, int lenght)
+char	*combine_input_with_new_one(char *input, int lenght)
 {
 	char	*new_input;
 	char	*combined;
@@ -154,7 +154,8 @@ static char	*combine_input_with_new_one(char *input, int lenght)
 	return (combined);
 }
 
-static int	check_multiple_pipe(char *input)
+/*
+int	check_multiple_pipe(char *input)
 {
 	int	flag;
 
@@ -171,7 +172,7 @@ static int	check_multiple_pipe(char *input)
 	}
 	return (0);
 }
-
+*/
 /*
  * Permet de verifier si l'input ne se termine pas par un pipe
  * (sans prendre en compte les espaces)
@@ -179,6 +180,7 @@ static int	check_multiple_pipe(char *input)
  * A concatener avec le precedent
  * Boucle tant que les inputs se terminent par un pipe
 */
+/*
 char	*check_if_there_is_a_lost_pipe(char *input)
 {
 	int		lenght;
@@ -218,7 +220,6 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 		}
 		write(pipes[1], input2, ft_strlen(input2));
 		close(pipes[1]);
-		// ft_malloc(0, FREE);
 		exit(1);
 	}
 	waitpid(pid, &status, 0);
@@ -227,3 +228,4 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 	close(pipes[0]);
 	return (input2);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 19:09:28 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:19:18 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
 void		upgrade_shlvl(t_args *env);
+char		*call_readline(char *prompt);
+char		*combine_input_with_new_one(char *input, int lenght);
 int			main_bis(char *input, t_args *env_list, t_shell *shell);
 int			handle_env(char **env, t_shell *envcpy);
 void		args_handle(t_args *list, t_shell *shell, t_args **env_list);
