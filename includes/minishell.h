@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 20:35:18 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:55:44 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@
 # define CLOSE			1
 # define YES			1
 # define NO				0
-
 
 /* * * * * Structures * * * * */
 struct s_test

@@ -6,12 +6,11 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 20:31:05 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:50:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	set_error_nb(int error, int update)
 {
@@ -23,7 +22,7 @@ int	set_error_nb(int error, int update)
 	return (-1);
 }
 
-/* 
+/*
  * Gestionnaire d'erreurs
 */
 int	handle_error(int code_err)

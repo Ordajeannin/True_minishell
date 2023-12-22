@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 20:31:24 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:55:27 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	(void)shell;
 	waitpid(pid_child, &status, 0);
 	signal(SIGQUIT, SIG_IGN);
-
 	if (WEXITSTATUS(status) != 0)
 		return (help_next_execution(status, 1));
 	else if (WTERMSIG(status) == SIGSEGV)

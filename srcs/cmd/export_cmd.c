@@ -6,13 +6,13 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 18:46:36 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:54:35 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
+/*
  * Check les erreurs de export
  * check si l'argument est NULL ou s'il existe mais qu'il est vide
  * ATTENTION: voir cas speciaux et faire mini parsing des args avant d'export.
@@ -22,7 +22,6 @@ int	export_errors(t_args *list, t_args **env_list)
 	if (ft_strlen(list->str) == 6 && ft_strcmp(list->str, "export") == 0
 		&& !list->next)
 	{
-		ft_printf("que pasa\n");
 		export_out_args(env_list);
 		return (1);
 	}
@@ -43,20 +42,11 @@ int	export_errors(t_args *list, t_args **env_list)
 	return (0);
 }
 
-/* 
- * Gere les boucles de export pour changer les VE et sinon les creer
-*/
-// static void	ft_more_export(t_shell *shell, char *v_env, char *value)
-// {
-// 	if (ft_strcmp(v_env, "SHLVL") == 0 && ft_strlen(v_env) == 5
-// 		&& ft_atoi(value) < 0)
-// 		value = "0";
-// 	shell_change(shell, v_env, value);
-// 	if (ft_strncmp(v_env, "PWD", ft_strlen(v_env)) == 0)
-// 		shell->is_pwd = ft_strdup(value);
-// 	else if (ft_strncmp(v_env, "OLDPWD", ft_strlen(v_env)) == 0)
-// 		shell->is_oldpwd = ft_strdup(value);
-// }
+int	dont_segfault_please(t_args *env_list)
+{
+	export_out_args(&env_list);
+	return (0);
+}
 
 /* Fonction export.
  * Cherche d'abord si la VE existe deja.
@@ -70,10 +60,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 	t_args	*new_variable;
 
 	if (!list->next)
-	{
-		export_out_args(&env_list);
-		return(0);
-	}
+		return (dont_segfault_please(env_list));
 	if (export_errors(list, &env_list) == 1)
 	{
 		if (list->next->next != NULL)
