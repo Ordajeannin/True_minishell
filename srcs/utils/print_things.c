@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/21 21:18:53 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:45:59 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ char	*prompt_cmd(t_shell *shell)
 {
 	(void)shell;
 	return (ft_strjoin(ft_strjoin("Minishell:",
-				ft_getcwd2(ft_getcwd())), ">"));
+				ft_getcwd2(shell->secret_pwd)), ">"));
 }

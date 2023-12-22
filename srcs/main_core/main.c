@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 17:16:05 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:32:51 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	try_to_init_shell(int ac, char **av, t_shell *shell)
 {
 	(void)ac;
 	(void)av;
-	g_error = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	shell->list = NULL;
@@ -146,6 +145,7 @@ int	is_minishell(t_shell *shell)
 		if (input == NULL)
 			ft_exit(shell->list, shell->env_list, shell);
 		input = check_if_there_is_a_lost_pipe(input);
+		
 		if (input != NULL)
 		{
 			if (!(ft_strcmp(shell->input_bis, input) == 0 \

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 17:16:01 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:31:24 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ static char	*bfore_execution(t_args *arg, t_shell *shell, t_args **list,
 	if (loop_args(shell, list) == 1)
 		return (NULL);
 	if (ft_strcmp("./minishell", command) != 0)
-	{
 		signal(SIGQUIT, signal_handler);
-		g_error = 2;
-	}
 	return (command);
 }
 
@@ -69,10 +66,7 @@ static int	help_next_execution(int status, int flag)
 	if (flag == 1)
 	{
 		errno = WEXITSTATUS(status);
-		if (g_error != 0)
-			set_error_nb(g_error, YES);
-		else
-			set_error_nb(handle_error(errno), YES);
+		set_error_nb(handle_error(errno), YES);
 		return (1);
 	}
 	if (flag == 2)
@@ -98,21 +92,12 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 	(void)shell;
 	waitpid(pid_child, &status, 0);
 	signal(SIGQUIT, SIG_IGN);
-	if (g_error == 2)
-		g_error = 0;
+
 	if (WEXITSTATUS(status) != 0)
 		return (help_next_execution(status, 1));
 	else if (WTERMSIG(status) == SIGSEGV)
 		return (help_next_execution(status, 2));
-	else
-	{
-		if (g_error != 0)
-		{
-			set_error_nb(g_error, YES);
-			return (1);
-		}
-	}
-	set_error_nb(0, YES);
+	set_error_nb(WEXITSTATUS(status), YES);
 	return (0);
 }
 
