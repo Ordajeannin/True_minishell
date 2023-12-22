@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 17:22:19 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:31:26 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,36 +149,4 @@ void	upgrade_shlvl(t_args *env)
 	}
 	else
 		add_env(&env, "SHLVL=1");
-}
-
-//cree l'env (liste chainée) a partir de envp (char **)
-//impossible de lancer le programme depuis un sous-repertoire qui n'existe plus
-t_args	*create_env(t_shell *data, char **envp)
-{
-	size_t	index;
-	t_args	*first;
-	t_args	*new;
-
-	data->secret_pwd = ft_getcwd();//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
-	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
-	data->env_list->next = NULL;
-	if (*envp == NULL)
-	{
-		data->env_list->str = ft_strdup("");
-		return (data->env_list);
-	}
-	first = data->env_list;
-	data->env_list->str = ft_strdup(envp[0]);
-	index = 1;
-	while (envp[index])
-	{
-		new = ft_malloc(sizeof(t_args), ALLOC);
-		new->str = ft_strdup(envp[index]);
-		data->env_list->next = new;
-		data->env_list = new;
-		index ++;
-	}
-	data->env_list->next = NULL;
-	upgrade_shlvl(first);
-	return (first);
 }

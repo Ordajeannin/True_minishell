@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 17:16:05 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:32:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ char	*ft_readline(char *prompt, int add)
 	return (new_line->str);
 }
 
-
 /*
  * Boucle principale minishell
  * Affiche le prompt
@@ -114,14 +113,11 @@ char	*ft_readline(char *prompt, int add)
 int	is_minishell(t_shell *shell)
 {
 	char	*input;
-	// char	*prompt_char;
 	char	buf[1024];
 
 	input = NULL;
-	// prompt_char = NULL;
 	if (1 == 1)
 	{
-		// prompt_char = prompt_cmd(shell);
 		input = ft_readline(prompt_cmd(shell), YES);
 		if (input == NULL)
 			ft_exit(shell->list, shell->env_list, shell);
@@ -141,7 +137,6 @@ int	is_minishell(t_shell *shell)
 	}
 	while (1)
 	{
-		// prompt_char = prompt_cmd(shell);
 		input = ft_readline(prompt_cmd(shell), YES);
 		if (input == NULL)
 			ft_exit(shell->list, shell->env_list, shell);
