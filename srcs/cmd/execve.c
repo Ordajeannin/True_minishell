@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 14:52:24 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:16:01 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ int	all_cmd(t_args *arg, t_shell *shell, t_args **list, t_args **env_list)
 	if (pid_child == -1)
 	{
 		perror("fork");
-		ft_malloc(0, FREE);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid_child == 0)

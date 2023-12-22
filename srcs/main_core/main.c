@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 14:43:54 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:16:05 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,41 @@ int	main(int ac, char **av, char **env)
 	try_to_init_shell(ac, av, &shell);
 	shell.env_list = create_env(&shell, env);
 	is_minishell(&shell);
+	ft_readline(NULL, NO);
 	ft_malloc(0, FREE);
 	return (0);
 }
+
+void	free_readline(t_args *read_ret)
+{
+	while (read_ret)
+	{
+		free(read_ret->str);
+		read_ret = read_ret->next;
+	}
+}
+
+char	*ft_readline(char *prompt, int add)
+{
+	static t_args	read_ret;
+	t_args			*index;
+	t_args			*new_line;
+
+	if (!add)
+	{
+		free_readline(&read_ret);
+		return (NULL);
+	}
+	index = &read_ret;
+	new_line = ft_malloc(sizeof(t_args), ALLOC);
+	new_line->str = readline(prompt);
+	new_line->next = NULL;
+	while (index->next)
+		index = index->next;
+	index->next = new_line;
+	return (new_line->str);
+}
+
 
 /*
  * Boucle principale minishell
@@ -82,15 +114,15 @@ int	main(int ac, char **av, char **env)
 int	is_minishell(t_shell *shell)
 {
 	char	*input;
-	char	*prompt_char;
+	// char	*prompt_char;
 	char	buf[1024];
 
 	input = NULL;
-	prompt_char = NULL;
+	// prompt_char = NULL;
 	if (1 == 1)
 	{
-		prompt_char = prompt_cmd(shell);
-		input = readline(prompt_char);
+		// prompt_char = prompt_cmd(shell);
+		input = ft_readline(prompt_cmd(shell), YES);
 		if (input == NULL)
 			ft_exit(shell->list, shell->env_list, shell);
 		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
@@ -106,12 +138,11 @@ int	is_minishell(t_shell *shell)
 				return (1);
 			shell->list = NULL;
 		}
-		free(input);
 	}
 	while (1)
 	{
-		prompt_char = prompt_cmd(shell);
-		input = readline(prompt_char);
+		// prompt_char = prompt_cmd(shell);
+		input = ft_readline(prompt_cmd(shell), YES);
 		if (input == NULL)
 			ft_exit(shell->list, shell->env_list, shell);
 		input = check_if_there_is_a_lost_pipe(input);
@@ -127,7 +158,6 @@ int	is_minishell(t_shell *shell)
 				return (1);
 			shell->list = NULL;
 		}
-		free(input);
 	}
 	return (1);
 }

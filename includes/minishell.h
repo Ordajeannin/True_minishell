@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 15:02:56 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:21:25 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,5 +259,7 @@ void		tempfile(char *str);
 void		split_str_if_quotes(t_args *current, t_args **sublist);
 char		*substring(char *str, int i, int n);
 int			help_all_cmd(t_shell *shell, char *command, t_args **env_list);
+char		*get_result(int *pipes);
+char		*ft_readline(char *prompt, int add);
 
 #endif

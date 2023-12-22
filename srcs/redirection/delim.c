@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 12:36:59 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:16:19 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ char	*get_result(int *pipes)
 		if (tmp)
 			result = ft_strjoin(result, tmp);
 	}
-	printf("result :%s\n", result);
 	return (result);
 }
 

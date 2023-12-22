@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 12:30:47 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:22:19 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,12 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	if (!result)
 		return (2);
 	current = *env_list;
-	while (current && current->next != NULL)
+	while (current)
 	{
 		if (help_cee(&current_name, &current) == 2)
-		{
-			printf("going here\n");
 			return (2);
-		}
 		if (help_cee2(&current_name, &current, &result, &name_env) == 0)
-		{
-			printf("HERE ?\n");
 			return (0);
-		}
 	}
 	return (1);
 }
@@ -165,7 +159,7 @@ t_args	*create_env(t_shell *data, char **envp)
 	t_args	*first;
 	t_args	*new;
 
-	data->secret_pwd = getcwd(NULL, 0);
+	data->secret_pwd = ft_getcwd();//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
 	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
 	data->env_list->next = NULL;
 	if (*envp == NULL)

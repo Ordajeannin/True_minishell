@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 09:31:12 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/21 21:23:08 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:16:44 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,27 @@
  * Compte le nombre de directory qui n'existe plus depuis rm -rf.
  * Ignore les /..
 */
-int	count_dir(t_shell *shell)
-{
-	int		len;
-	char	*temp;
-	DIR		*dir;
+// int	count_dir(t_shell *shell)
+// {
+// 	int		len;
+// 	char	*temp;
+// 	DIR		*dir;
 
-	len = 0;
-	temp = shell->is_pwd;
-	dir = opendir(temp);
-	while (!dir)
-	{
-		if (temp[ft_strlen(temp) - 1] != '.' && temp[ft_strlen(temp) - 2] \
-			!= '.' && temp[ft_strlen(temp) - 3] != '/')
-			len ++;
-		temp = from_end_to_char(temp, '/');
-		closedir(dir);
-		dir = opendir(temp);
-	}
-	closedir(dir);
-	return (len -1);
-}
+// 	len = 0;
+// 	temp = shell->is_pwd;
+// 	dir = opendir(temp);
+// 	while (!dir)
+// 	{
+// 		if (temp[ft_strlen(temp) - 1] != '.' && temp[ft_strlen(temp) - 2] 
+// 			!= '.' && temp[ft_strlen(temp) - 3] != '/')
+// 			len ++;
+// 		temp = from_end_to_char(temp, '/');
+// 		closedir(dir);
+// 		dir = opendir(temp);
+// 	}
+// 	closedir(dir);
+// 	return (len -1);
+// }
 
 /*
  * Compte le nombre de /.. apres les directory.
