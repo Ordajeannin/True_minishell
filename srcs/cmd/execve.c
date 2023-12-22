@@ -6,62 +6,11 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:18:10 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 15:50:57 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:52:24 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * Permet de normer change_error
-*/
-// static int	help_change_error(t_shell **shell, int value, int flag)
-// {
-// 	(*shell)->error = value;
-// 	return (flag);
-// }
-
-// /*
-//  * Permet de normer change_error
-// */
-// static int	help_change_error2(t_args **current, char **result,
-// 		t_shell **shell, int value)
-// {
-// 	(*current)->str = ft_strdup(*result);
-// 	(*shell)->error = value;
-// 	return (1);
-// }
-
-// /*
-//  * Change env pour $?.
-//  * Mets a jour les cas d'erreurs de $?
-// */
-// int	change_error(t_args **env_list, t_shell *shell, int value)
-// {
-// 	t_args	*current;
-// 	char	*current_name;
-// 	char	*result;
-// 	char	*nb_char;
-
-// 	nb_char = ft_itoa(value);
-// 	if (!nb_char)
-// 		return (2);
-// 	result = ft_strjoin("?=", nb_char);
-// 	if (!result)
-// 		return (help_change_error(&shell, value, 2));
-// 	current = *env_list;
-// 	while (current)
-// 	{
-// 		current_name = ft_strdupto_n(current->str, '=');
-// 		if (!current_name)
-// 			return (help_change_error(&shell, value, 2));
-// 		if (ft_strcmp(current_name, "?") == 0 && ft_strlen(current_name) == 1)
-// 			return (help_change_error2(&current, &result, &shell, value));
-// 		current = current->next;
-// 	}
-// 	printf("change erro return 0\n");
-// 	return (help_change_error(&shell, value, 0));
-// }
 
 /*
  * Debut de all_cmd.
@@ -164,20 +113,6 @@ static int	next_execution(pid_t pid_child, t_args **env_list, t_shell *shell)
 		}
 	}
 	set_error_nb(0, YES);
-	return (0);
-}
-
-int	help_all_cmd(t_shell *shell, char *command, t_args **env_list)
-{
-	char	**env_tab;
-
-	env_tab = NULL;
-	env_tab = dup_double_string(env_list);
-	if (!env_tab)
-		return (1);
-	execve(command, shell->input, env_tab);
-	printf("%s : %s\n", shell->input[0], strerror(errno));
-	shell->error = handle_error(errno);
 	return (0);
 }
 

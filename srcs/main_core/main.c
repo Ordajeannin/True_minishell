@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:27:25 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:43:54 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int	main_bis(char *input, t_args *env_list, \
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
 	shell->list = NULL;
-	//clear_args_list(&(shell->list));
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		perror("Failed to restore standard input\n");
 	if (access("tempfile.txt", F_OK != -1))
@@ -105,7 +104,6 @@ int	is_minishell(t_shell *shell)
 				return (1);
 			if (main_bis(input, shell->env_list, shell) == 1)
 				return (1);
-			//clear_args_list(&(shell->list));
 			shell->list = NULL;
 		}
 		free(input);
@@ -127,7 +125,6 @@ int	is_minishell(t_shell *shell)
 				return (1);
 			if (main_bis(input, shell->env_list, shell) == 1)
 				return (1);
-			//clear_args_list(&(shell->list));
 			shell->list = NULL;
 		}
 		free(input);

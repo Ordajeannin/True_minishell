@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/04 17:22:28 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:44:17 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	was_unclosed_quotes(t_args **list)
 	}
 	if (flag == 1)
 	{
-		//clear_args_list(list);
 		*list = NULL;
 		ft_putstr_fd("ERROR : quotes wasn't closed\n", STDOUT_FILENO);
 	}
