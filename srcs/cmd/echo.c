@@ -53,18 +53,13 @@ static int	iter_echo(t_args *list)
 	return (flag);
 }
 
-static void	echo_loop(t_args *list, t_shell *shell)
+static void	echo_loop(t_args *list)
 {
-	if (ft_strcmp("$?", list->str) == 0 && ft_strlen(list->str) == 2)
-		ft_printf("%d", shell->error);
-	else
+	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 	{
-		while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
-		{
-			if (iter_echo(list) == 0)
-				write (1, " ", 1);
-			list = list->next;
-		}
+		if (iter_echo(list) == 0)
+			write (1, " ", 1);
+		list = list->next;
 	}
 }
 
@@ -78,6 +73,7 @@ int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 	int	bools;
 
 	(void)env_list;
+	(void)shell;
 	bools = 0;
 	if (list == NULL)
 	{
@@ -92,7 +88,7 @@ int	ft_echo(t_args *list, t_args **env_list, t_shell *shell)
 		list = list->next;
 		bools = 1;
 	}
-	echo_loop(list, shell);
+	echo_loop(list);
 	if (bools == 0)
 		write (1, "\n", 1);
 	set_error_nb(0, YES);

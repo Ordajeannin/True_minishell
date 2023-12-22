@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:19:59 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/20 07:30:11 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 21:05:36 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ size_t	delimit_to_token(char *str, t_args **list, const char **input)
 		return (is_quotes(str, list, *input, 1));
 	else if (ft_strcmp(str, "\"") == 0)
 		return (is_quotes(str, list, *input, 2));
-	else if (ft_strcmp(str, " ") != 0 && *str != '\t')
+	else if (ft_strcmp(str, " ") != 0 && *str != '\t' && *str != '\n'
+		&& *str != '\r' && *str != '\f' && *str != '\v')
 		add_arg(list, str, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:58:53 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:52:15 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 21:16:19 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	is_correct_format(t_args **list)
 				|| (current->next != NULL
 					&& is_alphanum(current->next->str[0]) != 0))
 			{
+				set_error_nb(2, YES);
 				printf("syntax error near unexpected token\n");
 				return (-1);
 			}

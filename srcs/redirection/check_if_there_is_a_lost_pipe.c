@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 19:35:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 20:20:31 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 21:27:31 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*help_help(int i, int lenght, char *input2)
 			{
 				add_history(input2);
 				printf("syntax error near unexpected token\n");
-				return (NULL);
+				exit(2);
 			}
 		}
 		else
@@ -70,7 +70,7 @@ char	*help_sctialp(char *input, int *pipes, char *input2)
 		return (NULL);
 	write(pipes[1], input2, ft_strlen(input2));
 	close(pipes[1]);
-	exit(1);
+	exit(0);
 }
 
 static void	exit_lost_pipe(char *str)
@@ -99,6 +99,11 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 			return (NULL);
 	}
 	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) == 2)
+	{
+		set_error_nb(WEXITSTATUS(status), YES);
+		return (NULL);
+	}
 	close(pipes[1]);
 	input2 = get_result(pipes);
 	close(pipes[0]);
