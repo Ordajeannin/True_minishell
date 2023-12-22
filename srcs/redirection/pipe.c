@@ -224,7 +224,6 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 	waitpid(pid, &status, 0);
 	close(pipes[1]);
 	input2 = get_result(pipes);
-	printf("NANI ?:%s\n", input2);
 	close(pipes[0]);
 	return (input2);
 }
