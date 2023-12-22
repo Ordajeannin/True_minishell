@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 17:21:14 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:09:28 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int			is_minishell(t_shell *shell);
 void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
+void		upgrade_shlvl(t_args *env);
+int			main_bis(char *input, t_args *env_list, t_shell *shell);
 int			handle_env(char **env, t_shell *envcpy);
 void		args_handle(t_args *list, t_shell *shell, t_args **env_list);
 void		was_unclosed_quotes(t_args **list);

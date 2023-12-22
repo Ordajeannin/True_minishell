@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 18:32:58 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:07:14 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * on a du se dire qu'elle ne servait plus a rien, mais elle set qd meme
  * list a NULL, conservons la.
 */
-static int	main_bis(char *input, t_args *env_list, \
+int	main_bis(char *input, t_args *env_list, \
 	t_shell *shell)
 {
 	int		saved_stdout;
@@ -101,58 +101,4 @@ char	*ft_readline(char *prompt, int add)
 		index = index->next;
 	index->next = new_line;
 	return (new_line->str);
-}
-
-/*
- * Boucle principale minishell
- * Affiche le prompt
- * Ajoute la cmd a l'historique		args_handle(list, shell, env_list, input);
- si besoin
- * Exit si CTRL-D
-*/
-int	is_minishell(t_shell *shell)
-{
-	char	*input;
-	char	buf[1024];
-
-	input = NULL;
-	if (1 == 1)
-	{
-		input = ft_readline(prompt_cmd(shell), YES);
-		if (input == NULL)
-			ft_exit(shell->list, shell->env_list, shell);
-		shell->is_pwd = ft_strdup(getcwd(buf, sizeof(buf)));
-		shell->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
-		input = check_if_there_is_a_lost_pipe(input);
-		if (input != NULL)
-		{
-			add_history(input);
-			shell->input_bis = ft_strdup(input);
-			if (!shell->input_bis)
-				return (1);
-			if (main_bis(input, shell->env_list, shell) == 1)
-				return (1);
-			shell->list = NULL;
-		}
-	}
-	while (1)
-	{
-		input = ft_readline(prompt_cmd(shell), YES);
-		if (input == NULL)
-			ft_exit(shell->list, shell->env_list, shell);
-		input = check_if_there_is_a_lost_pipe(input);
-		if (input != NULL)
-		{
-			if (!(ft_strcmp(shell->input_bis, input) == 0 \
-				&& ft_strlen(shell->input_bis) == ft_strlen(input)))
-				add_history(input);
-			shell->input_bis = ft_strdup(input);
-			if (!shell->input_bis)
-				return (1);
-			if (main_bis(input, shell->env_list, shell) == 1)
-				return (1);
-			shell->list = NULL;
-		}
-	}
-	return (1);
 }
