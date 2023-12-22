@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 16:28:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/15 19:50:48 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 21:18:53 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,58 +47,37 @@ void	print_args_list(t_args **list)
  * -> modify "n" in the last while condition, and in the next if
  * include first '/' or not? ft_strjoin in the return
 */
-static char *ft_getcwd2(char *src)
+static char	*ft_getcwd2(char *src)
 {
-    char *result;
-    int i;
-    int n;
-    int flag;
+	char	*result;
+	int		i;
+	int		n;
+	int		flag;
 
-    result = src;
-    i = -1;
-    n = 0;
-    flag = 0;
-    if (src == NULL)
-        return (NULL);
-    while (src[++i])
-        if (src[i] == '/')
-            n++;
-    while (*result && n > 2)
-    {
-        if (*result == '/')
-            n--;
-        result++;
-        flag = 1;
-    }
-    if (n == 2 && flag == 1)
-        return (ft_strjoin("/", ft_strdup(result)));
-    return (ft_strdup(result));
+	result = src;
+	i = -1;
+	n = 0;
+	flag = 0;
+	if (src == NULL)
+		return (NULL);
+	while (src[++i])
+		if (src[i] == '/')
+			n++;
+	while (*result && n > 2)
+	{
+		if (*result == '/')
+			n--;
+		result++;
+		flag = 1;
+	}
+	if (n == 2 && flag == 1)
+		return (ft_strjoin("/", ft_strdup(result)));
+	return (ft_strdup(result));
 }
 
-char    *prompt_cmd(t_shell *shell)
+char	*prompt_cmd(t_shell *shell)
 {
-    (void)shell;
-
-    return (ft_strjoin(ft_strjoin("Minishell:",
-                ft_getcwd2(ft_getcwd())), ">"));
-	// (void)shell;
-	
-	// return (ft_strjoin(ft_strjoin("minishell :", shell->secret_pwd), ":>"));
+	(void)shell;
+	return (ft_strjoin(ft_strjoin("Minishell:",
+				ft_getcwd2(ft_getcwd())), ">"));
 }
-
-// static void	print_member(const char *name, const void *member, int type)
-// {
-// 	if (type == 's')
-// 		printf("This is the %s : %s\n", name, (char *)member);
-// 	else if (type == 'i')
-// 		printf("This is the %s : %i \n", name, *(int *)member);
-// 	else if (type == 'a')
-// 		printf("This is the %s : %p \n", name, member);
-// }
-
-// void print_shell(t_shell *shell)
-// {
-// 	print_member("home", shell->home, 's');
-// 	print_member("path", shell->path, 's');
-// 	print_member("cmd_paths", shell->cmd_paths, 'a');
-// }

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:29:38 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 21:27:49 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@
 # define YES			1
 # define NO				0
 
-
 /* * * * * Variable Globale * * * * */
 extern int	g_error;
 
@@ -90,8 +89,8 @@ typedef struct s_shell
 	char	*input_bis;
 	int		error;
 	char	*secret_pwd;
-	t_args  *env_list;
-	t_args  *list;
+	t_args	*env_list;
+	t_args	*list;
 }	t_shell;
 
 typedef struct s_args_list
@@ -116,8 +115,6 @@ void		ft_gain_place(char **av, t_args **list, \
 			t_args **env_list);
 int			msg(char *msg);
 int			handle_env(char **env, t_shell *envcpy);
-void		init_shell(t_shell *shell);
-int			parsing_input(char **input);
 void		args_handle(t_args *list, t_shell *shell, t_args **env_list);
 void		was_unclosed_quotes(t_args **list);
 size_t		is_quotes(char *str, t_args **list, const char *input, int flag);
@@ -126,7 +123,6 @@ void		is_there_a_redirection(t_args **list);
 void		c_est_ma_direction(int token, t_args **list);
 void		plus_de_nouvelle(const char *str, int *pipes);
 int			is_correct_format(t_args **list);
-void		free_sublists(t_args_list *stock);
 int			update_args2(t_args **list, t_args **env_list);
 int			handle_heredoc(t_args **input);
 int			handle_multi_heredoc(t_args **stock);
@@ -213,7 +209,7 @@ int			set_error_nb(int error, int update);
 t_args		*create_env(t_shell *data, char **envp);
 t_args		*find_a(char *var, t_args *env);
 void		update_pwd(t_args *env_list, t_shell *shell);
-char		*ft_getcwd();
+char		*ft_getcwd(void);
 int			keep_tmp_fd(int tmp_fd, int update);
 
 //Helpful function
@@ -230,9 +226,8 @@ int			count_back(char	*str);
 int			count_dir(t_shell *shell);
 char		**dup_double_string(t_args **e_list);
 int			is_numeric(char *str);
-t_args		*copy_list(t_args* source);
+t_args		*copy_list(t_args *source);
 char		**ft_sort(t_args **env_list);
-
 
 //Print Things
 void		shell_style(t_shell *shell);
@@ -241,21 +236,19 @@ char		*get_username(t_args **env_list, t_shell *shell);
 char		*get_pwd(void);
 int			set_empty_env(t_shell *shell, t_args **env_list);
 char		*prompt_cmd(t_shell *shell);
-
 void		print_shell(t_shell *shell);
 
-
 //Norme
-char		*help_itp1(t_args *env_list, t_shell **shell, DIR **dir);
+char		*help_itp1(DIR **dir);
 char		*help_itp2(DIR **dir);
 int			help_cee(char **current_name, t_args **current);
 int			help_cee2(char **current_name, t_args **current, char **result,
-			char **name_env);
-int			help_s_e(t_args **temp, t_args **current, t_args **env_list);
+				char **name_env);
+int			help_s_e(t_args **temp, t_args **current);
 int			help_set_env(t_args **env_list, char **env, int *i,
-			char **identifier);
+				char **identifier);
 int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
-			int *i);
+				int *i);
 
 int		handle_quotes(t_args **list, t_args **e_list);
 int		help_fitloa(t_args **list, t_args **e_list);

@@ -54,7 +54,7 @@ int	searchin_env(t_args **env_list, t_args *list, t_shell *shell)
 		if (ft_strcmp(list->next->str, name_env) == 0)
 		{
 			printf("VAR found\n");
-			return (help_s_e(&temp, &current, env_list));
+			return (help_s_e(&temp, &current));
 		}
 		current = current->next;
 	}

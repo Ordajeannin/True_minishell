@@ -15,10 +15,8 @@
 /*
  * Permet de normer is_two_point
 */
-char	*help_itp1(t_args *env_list, t_shell **shell, DIR **dir)
+char	*help_itp1(DIR **dir)
 {
-	(void)env_list;
-	(void)shell;
 	ft_printf("cd : No such file of directory\n");
 	set_error_nb(0, YES);
 	closedir(*dir);

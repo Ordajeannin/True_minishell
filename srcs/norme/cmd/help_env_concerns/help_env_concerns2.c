@@ -15,10 +15,8 @@
 /*
  * Permet de norme searchin_env
 */
-int	help_s_e(t_args **temp, t_args **current, t_args **env_list)
+int	help_s_e(t_args **temp, t_args **current)
 {
-	// if (ft_strcmp(current->str))
-	(void)env_list;
 	*temp = (*current)->next->next;
 	(*current)->next = *temp;
 	return (0);

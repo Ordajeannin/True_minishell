@@ -25,27 +25,11 @@ static int	main_bis(char *input, t_args *env_list, \
 	int		saved_stdin;
 	int		fitloa_ret;
 
-	// if (g_error != 0)//sert a quoi ?
-	// {
-	// 	if (!change_error(&env_list, shell, g_error))
-	// 		return (1);
-	// 	g_error = 0;
-	// }
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	// if (from_input_to_list_of_args(input, shell, &env_list) == 1)
-	// 	return (1);
-//	printf("____________ MAIN LIST ____________\n");
-//	print_args_list(&(shell->list));
-//	printf("___________________________________\n");
 	fitloa_ret = from_input_to_list_of_args(input, shell, &env_list);
-//	if (fitloa_ret == 2)
-//		return (0);
 	if (fitloa_ret == 1)
 		return (fitloa_ret);
-	// if (from_input_to_list_of_args(input, &list, &env_list) == 1)
-	// 	return (1);
-	// print_args_list(&list);
 	if (shell->list && fitloa_ret != 2)
 	{
 		if (is_correct_format(&(shell->list)) == 0)
@@ -62,7 +46,7 @@ static int	main_bis(char *input, t_args *env_list, \
 	return (0);
 }
 
-static void try_to_init_shell(int ac, char **av, t_shell *shell)
+static void	try_to_init_shell(int ac, char **av, t_shell *shell)
 {
 	(void)ac;
 	(void)av;
@@ -83,8 +67,6 @@ int	main(int ac, char **av, char **env)
 	ft_bzero(&shell, sizeof shell);
 	try_to_init_shell(ac, av, &shell);
 	shell.env_list = create_env(&shell, env);
-	// if (set_env(&(shell.env_list), env, &shell) == -1)
-	// 	return (-1);
 	is_minishell(&shell);
 	ft_malloc(0, FREE);
 	return (0);
@@ -102,7 +84,6 @@ int	is_minishell(t_shell *shell)
 	char	*input;
 	char	*prompt_char;
 	char	buf[1024];
-	// int		mb_ret;
 
 	input = NULL;
 	prompt_char = NULL;

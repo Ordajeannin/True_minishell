@@ -6,10 +6,9 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 18:25:23 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/07 15:22:59 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 21:24:51 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -27,7 +26,7 @@
 # endif
 
 # define ALLOC			1
-# define FREE			0 
+# define FREE			0
 
 typedef struct s_list
 {

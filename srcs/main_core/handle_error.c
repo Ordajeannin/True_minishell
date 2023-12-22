@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:26:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/11 15:20:06 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:33:32 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_error;
 
-int	set_error_nb(int error, int update)//set et stocke la derniere erreur, appeller avec yes pour update et no pour recuperer l'erreur
+int	set_error_nb(int error, int update)
 {
 	static int	error_nb;
 

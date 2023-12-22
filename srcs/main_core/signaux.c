@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 void	close_pipefd(int *pipes_fd, int action)
 {
 	static int *pipes;
@@ -48,7 +47,6 @@ void	signal_handler(int sig)
 	{
 		ft_printf("\n");
 		set_error_nb(130, YES);
-		// code_error(130);
 	}
 	if (!rl_done)
 	{
@@ -57,13 +55,11 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		// code_error(130);
 	}
 	else if (sig == 3)
 	{
 		ft_printf("Quit (core dumped)\n");
 		set_error_nb(131, YES);
-		// code_error(131);
 	}
 	return ;
 }
