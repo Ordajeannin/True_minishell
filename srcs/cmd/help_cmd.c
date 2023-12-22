@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/06 16:30:59 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:31:45 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	add_env(t_args **env_list, char *str)
 	t_args	*new_var;
 	t_args	*current;
 
-	new_var = ft_calloc(1, sizeof *new_var);
+	new_var = ft_calloc(1, sizeof(new_var));
 	if (! new_var)
 		return ;
 	new_var->str = ft_strdup(str);
 	if (! new_var->str)
-	 	return ;
+		return ;
 	new_var->token = 0;
 	new_var->next = NULL;
 	if (*env_list)

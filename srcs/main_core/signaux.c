@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:04:03 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:33:32 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	close_pipefd(int *pipes_fd, int action)
 {
-	static int *pipes;
+	static int	*pipes;
 
 	if (action == CLOSE)
 	{

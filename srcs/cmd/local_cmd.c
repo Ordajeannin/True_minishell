@@ -6,14 +6,14 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 13:13:22 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 17:41:15 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:27:25 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
- * Affiche le repertoire courrant 
+/*
+ * Affiche le repertoire courrant
  * Fonction a l'image de 'pwd'
 */
 int	ft_pwd(t_shell *shell)
@@ -29,7 +29,7 @@ int	ft_pwd(t_shell *shell)
 	return (1);
 }
 
-/* 
+/*
  * Boucle principale d'unset.
  * Cherche une VE et la supprime s'il la trouve.
 */
@@ -45,7 +45,7 @@ int	searchin_env(t_args **env_list, t_args *list, t_shell *shell)
 		shell->env_list = (*env_list)->next;
 		*env_list = (*env_list)->next;
 		return (1);
-	}		
+	}
 	while (current && current->next)
 	{
 		name_env = ft_strdupto_n(current->next->str, '=');
@@ -62,7 +62,7 @@ int	searchin_env(t_args **env_list, t_args *list, t_shell *shell)
 	return (1);
 }
 
-/* 
+/*
  * Fonction unset.
  * Supprime une variable d'environnement appelee.
  * Change aussi les VE saved dans struct t_shell a NULL.
@@ -73,8 +73,6 @@ int	ft_unset(t_args *list, t_shell *shell, t_args *env_list)
 	if (!list->next)
 		return (1);
 	searchin_env(&env_list, list, shell);
-	// if (searchin_env(&env_list, list, shell))
-		// shell_change(shell, list->next->str, NULL);
 	if (list->next->next != NULL)
 		ft_unset(list->next, shell, env_list);
 	set_error_nb(0, YES);

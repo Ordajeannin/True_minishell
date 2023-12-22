@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 19:34:55 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:30:47 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	while (current && current->next != NULL)
 	{
 		if (help_cee(&current_name, &current) == 2)
-		{	printf("going here\n");
+		{
+			printf("going here\n");
 			return (2);
 		}
 		if (help_cee2(&current_name, &current, &result, &name_env) == 0)
-		{	printf("HERE ?\n");
+		{
+			printf("HERE ?\n");
 			return (0);
 		}
 	}
@@ -76,7 +78,7 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	return (1);
 }
 
-/* 
+/*
  * Fonction a l'image de 'env'
  * Affiche l'environnement du shell en entier
  * (Attention : env -i ./minishell doit afficher PWD, SHLVL et _)
@@ -154,16 +156,18 @@ void	upgrade_shlvl(t_args *env)
 		shlvl->str = ft_strjoin("SHLVL=", new_shlvl);
 	}
 	else
-		add_env(&env, "SHLVL=1");	
+		add_env(&env, "SHLVL=1");
 }
 
-t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a partir de envp (char **)
+//cree l'env (liste chainée) a partir de envp (char **)
+//impossible de lancer le programme depuis un sous-repertoire qui n'existe plus
+t_args	*create_env(t_shell *data, char **envp)
 {
 	size_t	index;
 	t_args	*first;
 	t_args	*new;
 
-	data->secret_pwd = getcwd(NULL, 0);//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
+	data->secret_pwd = getcwd(NULL, 0);
 	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
 	data->env_list->next = NULL;
 	if (*envp == NULL)

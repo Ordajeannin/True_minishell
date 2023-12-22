@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 19:21:42 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:26:35 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	export_errors(t_args *list, t_args **env_list)
  * Si oui, la modifie, dans env_list et dans shell.
  * Si non, la creee dans env_list seulement.
  * Gere le cas ou il y a plusieurs creation/remplacement de VE
-
+ * le deuxieme if, je cite : "Je ne sais pas a quoi ca sert!!"
 */
 int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 {
@@ -71,7 +71,7 @@ int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 
 	if (export_errors(list, &env_list) == 1)
 	{
-		if (list->next->next != NULL) //SAIS PAS A QUOI CA SERT
+		if (list->next->next != NULL)
 		{
 			ft_export(list->next, shell, env_list);
 		}

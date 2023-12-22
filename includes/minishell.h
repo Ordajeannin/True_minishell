@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 21:27:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:38:49 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int			update_args2(t_args **list, t_args **env_list);
 int			handle_heredoc(t_args **input);
 int			handle_multi_heredoc(t_args **stock);
 void		signal_heredoc(int sig);
-
 
 //Pipe
 void		create_sublists(t_args *list, t_shell *shell, t_args **env_list);
@@ -250,12 +249,12 @@ int			help_set_env(t_args **env_list, char **env, int *i,
 int			help_set_env2(t_args **env_list, t_shell **shell, char **identifier,
 				int *i);
 
-int		handle_quotes(t_args **list, t_args **e_list);
-int		help_fitloa(t_args **list, t_args **e_list);
-t_args *create_arg(char *str, int token);
-void	delete_null_nodes(t_args **list);
-int		is_quote(char c, char *flag);
-void	close_pipefd(int *pipes_fd, int action);
-void	tempfile(char *str);
+int			handle_quotes(t_args **list, t_args **e_list);
+int			help_fitloa(t_args **list, t_args **e_list);
+t_args		*create_arg(char *str, int token);
+void		delete_null_nodes(t_args **list);
+int			is_quote(char c, char *flag);
+void		close_pipefd(int *pipes_fd, int action);
+void		tempfile(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/21 19:05:41 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:32:56 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ static char	*is_two_points(t_shell *shell, t_args *list)
 /*
  * Check les arguments de cd
  * Gere cas d'erreurs premiers
+	// if (list->next != NULL && list->next->str[0] == '\0')
+	// 	return (1);
 */
 int	check_cd(t_args *list, t_args *env_list)
 {
-	// if (list->next != NULL && list->next->str[0] == '\0')
-	// 	return (1);
 	if (list->next == NULL || !list->next->str || ft_strncmp(list->next->str,
 			"~", ft_strlen(list->next->str)) == 0)
 	{

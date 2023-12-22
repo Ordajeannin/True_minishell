@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:42:36 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:31:25 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:36:59 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ void	plus_de_nouvelle(const char *str, int *pipes)
 			return ;
 	}
 	write(pipes[1], result, ft_strlen(result));
-	// if (result)
-	// 	return (tempfile(result));
 }
 
 /*
@@ -133,14 +131,13 @@ void	plus_de_nouvelle(const char *str, int *pipes)
  * Si on arrive au dernier EOF, alors stockage de l'input + concatenation,
  * into fichier temporaire qui sera la nouvelle entree par defaut
 */
-int handle_mult_heredoc(t_args **stock, int *pipes)
+int	handle_mult_heredoc(t_args **stock, int *pipes)
 {
 	t_args	*current;
 	char	*line;
 
 	if (*stock == NULL)
 		return (0);
-	// print_args_list(stock);
 	current = *stock;
 	while (current->next != NULL)
 	{
@@ -167,10 +164,10 @@ char	*get_result(int *pipes)
 {
 	char	*result;
 	char	*tmp;
-	
+
 	tmp = ft_strdup("");
 	result = ft_strdup("");
-	while(tmp)
+	while (tmp)
 	{
 		tmp = get_next_line(pipes[0]);
 		if (tmp)
@@ -189,72 +186,6 @@ char	*get_result(int *pipes)
  * (valeur != en fonction de la presence ou non d'un EOF)
  * mise a jour du prev->next pour assurer la stabilite
 */
-// int	handle_heredoc(t_args **input)
-// {
-// 	t_args	*current;
-// 	t_args	*prev;
-// 	t_args	*next;
-// 	t_args	*stock;
-
-// 	current = *input;
-// 	prev = NULL;
-// 	next = NULL;
-// 	stock = NULL;
-// 	if (input == NULL || *input == NULL)
-// 		return (0);
-// 	while (current != NULL)
-// 	{
-// 		if (current->token == TOKEN_DELIM)
-// 		{
-// 			if (current->next != NULL)
-// 			{
-// 				add_arg(&stock, current->next->str, TOKEN_DELIM);
-// 				next = current->next;
-// 				if (prev == NULL)
-// 					*input = next;
-// 				else
-// 					prev->next = next->next;
-// 				if (next != NULL)
-// 					current = next->next;
-// 				else
-// 				{
-// 					current = NULL;
-// 					if (prev != NULL)
-// 						prev->next = NULL;
-// 				}
-// 			}
-// 			else
-// 			{
-// 				add_arg(&stock, NULL, -66);
-// 				if (prev != NULL)
-// 					prev->next = NULL;
-// 				else
-// 					*input = NULL;
-// 				break ;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			prev = current;
-// 			current = current->next;
-// 		}
-// 	}
-// //	printf("----------------- RESULTAT HEREDOC --------------------\n");
-// //	if (stock != NULL)
-// //		print_args_list(&stock);
-// //	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
-// //	if (input != NULL)
-// //		print_args_list(input);
-// 	if (handle_mult_heredoc(&stock, pipes) == 1)
-// 	{
-// 		perror("syntax error near unexpected token\n");
-// 		return (2);
-// 	}
-// 	return (0);
-// }
-
-/////////////////// PAUL /////////////////////////////////
-
 int	handle_heredoc(t_args **input)
 {
 	t_args	*current;
@@ -271,7 +202,6 @@ int	handle_heredoc(t_args **input)
 	stock = NULL;
 	if (input == NULL || *input == NULL)
 		return (0);
-
 	while (current != NULL)
 	{
 		if (current->token == TOKEN_DELIM)
@@ -309,12 +239,6 @@ int	handle_heredoc(t_args **input)
 			current = current->next;
 		}
 	}
-//	printf("----------------- RESULTAT HEREDOC --------------------\n");
-//	if (stock != NULL)
-//		print_args_list(&stock);
-//	printf("--------------- INPUT APRES HEREDOC -------------------------\n");
-//	if (input != NULL)
-//		print_args_list(input);
 	pipe(pipes);
 	pid = fork();
 	if (pid == 0)
@@ -345,4 +269,3 @@ int	handle_heredoc(t_args **input)
 	}
 	return (0);
 }
-
