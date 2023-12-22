@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 15:41:13 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:34:16 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 		set_error_nb(handle_error(errno -1), YES);
 		return (1);
 	}
+	// if (shell->secret_pwd)
+	// 	free(shell->secret_pwd);
 	shell->secret_pwd = ft_getcwd();
+	printf("secret pwd :%s\n", shell->secret_pwd);
 	update_pwd(env_list, shell);
 	return (0);
 }

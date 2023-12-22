@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:59:01 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 19:34:55 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 15:34:01 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,13 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	if (!result)
 		return (2);
 	current = *env_list;
-	printf("current str:%s\tname enc :%s\n", current->str, name_env);
-	while (current && current->next != NULL)
+	while (current)
 	{
 		if (help_cee(&current_name, &current) == 2)
-		{	printf("going here\n");
 			return (2);
-		}
 		if (help_cee2(&current_name, &current, &result, &name_env) == 0)
-		{	printf("HERE ?\n");
 			return (0);
-		}
 	}
-	printf("MODIEFIER !!\n");
 	return (1);
 }
 
@@ -163,7 +157,7 @@ t_args	*create_env(t_shell *data, char **envp)//cree l'env (liste chainée) a pa
 	t_args	*first;
 	t_args	*new;
 
-	data->secret_pwd = getcwd(NULL, 0);//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
+	data->secret_pwd = ft_getcwd();//impossible de lance le programme depuis un sous-repertoire qui n'existe plus
 	data->env_list = ft_malloc(sizeof(t_args), ALLOC);
 	data->env_list->next = NULL;
 	if (*envp == NULL)

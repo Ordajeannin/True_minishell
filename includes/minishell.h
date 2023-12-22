@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:29:38 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:00:25 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,5 +264,7 @@ void	delete_null_nodes(t_args **list);
 int		is_quote(char c, char *flag);
 void	close_pipefd(int *pipes_fd, int action);
 void	tempfile(char *str);
+char	*get_result(int *pipes);
+char	*ft_readline(char *prompt, int add);
 
 #endif

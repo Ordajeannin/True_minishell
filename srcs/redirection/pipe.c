@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:16:42 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/12 13:11:08 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:03:41 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		if (pipe(pipe_fds) == -1)
 		{
 			perror("pipe");
+			ft_readline(NULL, NO);
 			ft_malloc(0, FREE);
 			exit(EXIT_FAILURE);
 		}
@@ -50,6 +51,7 @@ static void	execute_command(t_args_list **stock, t_shell *shell, \
 		if (pid == -1)
 		{
 			perror("fork");
+			ft_readline(NULL, NO);
 			ft_malloc(0, FREE);
 			exit(EXIT_FAILURE);
 		}
@@ -192,27 +194,47 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 	int		lenght;
 	int		i;
 	char	*input2;
+	pid_t	pid;
+	int		status;
+	int		pipes[2];
 
 	input2 = input;
-	while (1)
+	pipe(pipes);
+	pid = fork();
+	if (pid == 0)
 	{
-		lenght = ft_strlen(input2);
-		i = lenght - 1;
-		while (i >= 0 && input2[i] == ' ')
-			i--;
-		if (i >= 0 && input2[i] == '|')
+		signal(SIGINT, &signal_heredoc);
+		close (pipes[0]);
+		close_pipefd(pipes, 0);
+		while (1)
 		{
-			if (check_multiple_pipe(input2) == 0)
-				input2 = combine_input_with_new_one(input2, lenght);
-			else
+			lenght = ft_strlen(input2);
+			i = lenght - 1;
+			while (i >= 0 && input2[i] == ' ')
+				i--;
+			if (i >= 0 && input2[i] == '|')
 			{
-				add_history(input2);
-				perror("syntax error near unexpected token");
-				return (NULL);
+				if (check_multiple_pipe(input2) == 0)
+					input2 = combine_input_with_new_one(input2, lenght);
+				else
+				{
+					add_history(input2);
+					printf("syntax error near unexpected token\n");
+					return (NULL);
+				}
 			}
+			else
+				break ;
 		}
-		else
-			break ;
+		write(pipes[1], input2, ft_strlen(input2));
+		close(pipes[1]);
+		// ft_malloc(0, FREE);
+		exit(1);
 	}
+	waitpid(pid, &status, 0);
+	close(pipes[1]);
+	input2 = get_result(pipes);
+	printf("NANI ?:%s\n", input2);
+	close(pipes[0]);
 	return (input2);
 }

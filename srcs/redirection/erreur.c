@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   erreur.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <ajeannin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 19:58:53 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 17:20:33 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/21 20:52:15 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_correct_format(t_args **list)
 	current = *list;
 	if (current != NULL && current->token == 4)
 	{
-		perror("syntax error near unexpected token\n");
+		printf("syntax error near unexpected token\n");
 		return (-1);
 	}
 	while (current != NULL)
@@ -35,7 +35,7 @@ int	is_correct_format(t_args **list)
 				|| (current->next != NULL
 					&& is_alphanum(current->next->str[0]) != 0))
 			{
-				perror("syntax error near unexpected token\n");
+				printf("syntax error near unexpected token\n");
 				return (-1);
 			}
 		}

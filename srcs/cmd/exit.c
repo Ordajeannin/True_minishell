@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/18 19:04:36 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:00:55 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int	ft_exit(t_args *list, t_args *env_list, t_shell *shell)
 		code_err = g_error;
 	else
 		code_err = shell->error;
+	ft_readline(NULL, FREE);
 	ft_malloc(0, FREE);
+	// free(shell->secret_pwd);
 	rl_clear_history();
 	exit(code_err);
 }
