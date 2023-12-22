@@ -92,7 +92,6 @@ void	create_sublists(t_args *list, t_shell *shell, t_args **env_list)
 	t_args_list	*stock;
 
 	stock = stock_sublist(&list);
-	print_sublists(stock);
 	if (stock->next != NULL)
 		execute_command(&stock, shell, env_list);
 	else

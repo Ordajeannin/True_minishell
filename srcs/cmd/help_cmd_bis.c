@@ -96,7 +96,6 @@ int	update_last_ve(t_args *list, t_args **env_list)
 		}
 		list = list->next;
 	}
-	printf("_ MODIFIED !!\n");
 	if (change_env_exp(env_list, "_", last_arg) == 2)
 		return (1);
 	return (0);

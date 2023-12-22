@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:26:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:16:11 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:10:39 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,42 +38,6 @@ static t_args	*join_nodes(t_args **sublist)
 }
 
 /*
- * Permet d'avoir un flag gerant ouverture/fermeture/valeurs des quotes
-*/
-int	is_quote(char c, char *flag)
-{
-	static int	quotes = 0;
-
-	if (ft_strcmp(flag, "RESET") == 0)
-	{
-		quotes = 0;
-		return (quotes);
-	}
-	if (ft_strcmp(flag, "VALUE") == 0)
-	{
-		if (quotes > 20 || quotes == 0)
-			return (quotes);
-		else
-			return (ABORT_MISSION);
-	}
-	if (quotes == 0)
-	{
-		if (c == '\'')
-			quotes = 1;
-		if (c == '\"')
-			quotes = 2;
-	}
-	else
-	{
-		if (c == '\'' && quotes == 1)
-			quotes = TOKEN_S_QUOTES;
-		if (c == '\"' && quotes == 2)
-			quotes = TOKEN_D_QUOTES;
-	}
-	return (quotes);
-}
-
-/*
  * Renvoie une portion de chaine, from index i to n
 */
 char	*substring(char *str, int i, int n)
@@ -97,68 +61,6 @@ char	*substring(char *str, int i, int n)
 	result[sub_len] = '\0';
 	return (result);
 }
-
-/*
- * Permet de creer une sublist a partir d'un unique maillon
- * Ne rentre dans la boucle que si >= un quote a ete trouve dans current->str
- *
- * On parcourt la chaine jusqu'a une s/d quote, X
- * si quote && progression :
- * creation d'un arg pour le contenu precedant la quote
- *
- * Puis, on parcourt la chaine jusqu'a un 2eme X ou fin (ignorant l'autre quote)
- * creation d'un arg, indiquant si la quote a pu etre fermee
- *
- * On reset notre flag pour les s/d quotes, puis on boucle
-*/
-static void	split_str_if_quotes(t_args *current, t_args **sublist)
-{
-	int		i;
-	int		prev;
-	char	*str;
-
-	i = 0;
-	prev = 0;
-	str = ft_strdup(current->str);
-	if (ft_strchr(current->str, 39) == NULL
-		&& ft_strchr(current->str, 34) == NULL)
-		return (add_arg(sublist, current->str, current->token));
-	while (str[i])
-	{
-		while (is_quote(str[i], "SEARCH") == 0 && str[i])
-			i++;
-		if (i > 0)
-			add_arg(sublist, substring(str, prev, i - 1), 12910);
-		if (i == 0 && !str[i + 1])
-		{
-			is_quote(0, "RESET");
-			add_arg(sublist, "NULL\0", 42);
-			break ;
-		}
-		prev = i + 1;
-		i++;
-		while (is_quote(str[i], "SEARCH") < 20 && str[i])
-			i++;
-		if (i > prev)
-			add_arg(sublist, substring(str, prev, i - 1), is_quote(0, "VALUE"));
-		prev = i + 1;
-		i++;
-		if (is_quote(0, "VALUE") == 42)
-		{
-			is_quote(0, "RESET");
-			add_arg(sublist, "NULL\0", 42);
-			break ;
-		}
-		is_quote(0, "RESET");
-	}
-}
-//----------------------------------PAUL------------------------------------
-
-// void Psplit_str_if_quotes(t_args *current, t_args **sublist)
-// {
-// 	char	str;
-// 	int		i;
-// }
 
 /*
  * Au Final, tout se gere la :
@@ -212,12 +114,6 @@ int	handle_quotes(t_args **list, t_args **e_list)
 	stock = NULL;
 	current = *list;
 	is_quote(0, "RESET");
-	printf("---------------------------------------------------------------\n");
-	printf("_____________________________________\n");
-	printf("_____________ MAIN LIST _____________\n");
-	printf("_____________________________________\n");
-	print_args_list(list);
-	printf("_____________________________________\n");
 	while (current)
 	{
 		next = current->next;
@@ -227,11 +123,5 @@ int	handle_quotes(t_args **list, t_args **e_list)
 	}
 	*list = stock;
 	delete_null_nodes(list);
-	printf("_____________ NEW LIST ______________\n");
-	printf("_____________________________________\n");
-	print_args_list(list);
-	printf("_____________________________________\n");
-	printf("_____________ EXECUTION _____________\n");
-	printf("_____________________________________\n\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:12:28 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 12:31:45 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:30:41 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	add_env(t_args **env_list, char *str)
 		current = *env_list;
 		while (current->next != NULL)
 			current = current->next;
-		current->next = copy_list(new_var);
+		current->next = new_var;
 	}
 	else
-		*env_list = copy_list(new_var);
+		*env_list = new_var;
 }
 
 /* Compte nombre de maillon dans une liste */

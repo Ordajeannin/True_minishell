@@ -37,7 +37,8 @@ static int	main_bis(char *input, t_args *env_list, \
 	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 		perror("Failed to restore standard output\n");
-	clear_args_list(&(shell->list));
+	shell->list = NULL;
+	//clear_args_list(&(shell->list));
 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
 		perror("Failed to restore standard input\n");
 	if (access("tempfile.txt", F_OK != -1))
@@ -104,7 +105,8 @@ int	is_minishell(t_shell *shell)
 				return (1);
 			if (main_bis(input, shell->env_list, shell) == 1)
 				return (1);
-			clear_args_list(&(shell->list));
+			//clear_args_list(&(shell->list));
+			shell->list = NULL;
 		}
 		free(input);
 	}
@@ -125,7 +127,8 @@ int	is_minishell(t_shell *shell)
 				return (1);
 			if (main_bis(input, shell->env_list, shell) == 1)
 				return (1);
-			clear_args_list(&(shell->list));
+			//clear_args_list(&(shell->list));
+			shell->list = NULL;
 		}
 		free(input);
 	}

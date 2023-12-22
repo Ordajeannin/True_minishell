@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 17:55:04 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/21 20:16:23 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:35:58 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,25 @@
  * Fonction utilitaire, libere chaque maillon de la chaine d'arguments
  * conserve *liste et le reset a NULL
 */
+/*
 void	clear_args_list(t_args **list)
 {
 	*list = NULL;
+}
+*/
+
+static void	set_delim(char **delim)
+{
+	delim[0] = " ";
+	delim[1] = "\t";
+	delim[2] = "<<";
+	delim[3] = "<";
+	delim[4] = ">>";
+	delim[5] = ">";
+	delim[6] = "||";
+	delim[7] = "|";
+	delim[8] = NULL;
+	return ;
 }
 
 /*
@@ -39,40 +55,6 @@ t_args	*create_arg(char *str, int token)
 }
 
 /*
- * Permets de copier un liste d'args
-*/
-t_args	*copy_list(t_args *source)
-{
-	t_args	*new_head;
-	t_args	*current;
-	t_args	*tail;
-
-	new_head = NULL;
-	tail = NULL;
-	current = source;
-	while (current != NULL)
-	{
-		if (new_head == NULL)
-		{
-			new_head = ft_calloc(1, sizeof(t_args));
-			new_head->str = current->str;
-			new_head->token = current->token;
-			new_head->next = NULL;
-			tail = new_head;
-		}
-		else
-		{
-			tail->next = ft_calloc(1, sizeof(t_args));
-			tail = tail->next;
-			tail->str = current->str;
-			tail->token = current->token;
-		}
-		current = current->next;
-	}
-	return (new_head);
-}
-
-/*
  * Fonction utilitaire, ajoute un maillon a la fin de la chaine
  * appel a create_arg pour creer le maillon
 */
@@ -85,13 +67,13 @@ void	add_arg(t_args **list, char *str, int token)
 	if (!new_arg)
 		return ;
 	if (*list == NULL)
-		*list = copy_list(new_arg);
+		*list = new_arg;
 	else
 	{
 		current = *list;
 		while (current->next != NULL)
 			current = current->next;
-		current->next = copy_list(new_arg);
+		current->next = new_arg;
 	}
 }
 
@@ -119,15 +101,7 @@ int	from_input_to_list_of_args(char *input, t_shell *shell, t_args **e_list)
 	char	*token;
 	int		fitloa_ret;
 
-	delim[0] = " ";
-	delim[1] = "\t";
-	delim[2] = "<<";
-	delim[3] = "<";
-	delim[4] = ">>";
-	delim[5] = ">";
-	delim[6] = "||";
-	delim[7] = "|";
-	delim[8] = NULL;
+	set_delim(delim);
 	token = ft_strtok(input, delim, shell);
 	while (token != NULL)
 		token = ft_strtok(NULL, delim, shell);

@@ -60,7 +60,6 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 	if (!result)
 		return (2);
 	current = *env_list;
-	printf("current str:%s\tname enc :%s\n", current->str, name_env);
 	while (current && current->next != NULL)
 	{
 		if (help_cee(&current_name, &current) == 2)
@@ -74,7 +73,6 @@ int	change_env_exp(t_args **env_list, char *name_env, char *value)
 			return (0);
 		}
 	}
-	printf("MODIEFIER !!\n");
 	return (1);
 }
 

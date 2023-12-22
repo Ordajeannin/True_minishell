@@ -31,7 +31,8 @@ void	was_unclosed_quotes(t_args **list)
 	}
 	if (flag == 1)
 	{
-		clear_args_list(list);
+		//clear_args_list(list);
+		*list = NULL;
 		ft_putstr_fd("ERROR : quotes wasn't closed\n", STDOUT_FILENO);
 	}
 }

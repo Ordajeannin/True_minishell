@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 12:38:49 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 13:51:27 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,5 +256,7 @@ void		delete_null_nodes(t_args **list);
 int			is_quote(char c, char *flag);
 void		close_pipefd(int *pipes_fd, int action);
 void		tempfile(char *str);
+void		split_str_if_quotes(t_args *current, t_args **sublist);
+char		*substring(char *str, int i, int n);
 
 #endif
