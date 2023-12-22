@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:09:51 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 20:19:18 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:35:18 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@
 # define YES			1
 # define NO				0
 
-/* * * * * Variable Globale * * * * */
-extern int	g_error;
 
 /* * * * * Structures * * * * */
 struct s_test
@@ -266,5 +264,6 @@ int			help_all_cmd(t_shell *shell, char *command, t_args **env_list);
 char		*get_result(int *pipes);
 char		*ft_readline(char *prompt, int add);
 int			handle_heredoc_part2(t_args **stock);
+void		execute_command(t_args_list **stock, t_shell *shell);
 
 #endif

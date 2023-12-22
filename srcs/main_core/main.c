@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:36:50 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 19:07:14 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:38:18 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	try_to_init_shell(int ac, char **av, t_shell *shell)
 {
 	(void)ac;
 	(void)av;
-	g_error = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	shell->list = NULL;

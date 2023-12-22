@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 14:48:40 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 14:49:14 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:00:19 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	help_all_cmd(t_shell *shell, char *command, t_args **env_list)
 		return (1);
 	execve(command, shell->input, env_tab);
 	printf("%s : %s\n", shell->input[0], strerror(errno));
-	shell->error = handle_error(errno);
+	set_error_nb(handle_error(errno), YES);
+	// shell->error = handle_error(errno);
 	return (0);
 }

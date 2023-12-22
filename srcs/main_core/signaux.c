@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 17:16:12 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/22 20:31:40 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	signal_heredoc(int sig)
  */
 void	signal_handler(int sig)
 {
-	if (rl_done && g_error == 2)
+	if (rl_done)
 	{
 		ft_printf("\n");
 		set_error_nb(130, YES);

@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 09:54:56 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 12:26:35 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:46:36 by pkorsako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ int	ft_export(t_args *list, t_shell *shell, t_args *env_list)
 {
 	t_args	*new_variable;
 
+	if (!list->next)
+	{
+		export_out_args(&env_list);
+		return(0);
+	}
 	if (export_errors(list, &env_list) == 1)
 	{
 		if (list->next->next != NULL)
