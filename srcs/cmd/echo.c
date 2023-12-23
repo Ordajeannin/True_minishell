@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 12:37:52 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/19 15:51:21 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/23 14:10:20 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	echo_loop(t_args *list)
 {
 	while (list && list->token != TOKEN_AND && list->token != TOKEN_OR)
 	{
-		if (iter_echo(list) == 0)
+		if (iter_echo(list) == 0 && list->next)
 			write (1, " ", 1);
 		list = list->next;
 	}

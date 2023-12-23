@@ -22,7 +22,7 @@ int	ft_pwd(t_shell *shell)
 		printf("%s\n", shell->secret_pwd);
 	else
 	{
-		printf("pwd: error retrieving current directory:");
+		printf("pwd: error retrieving current directory\n");
 		set_error_nb(1, YES);
 	}
 	set_error_nb(0, YES);
@@ -52,13 +52,9 @@ int	searchin_env(t_args **env_list, t_args *list, t_shell *shell)
 		if (!name_env)
 			return (1);
 		if (ft_strcmp(list->next->str, name_env) == 0)
-		{
-			printf("VAR found\n");
 			return (help_s_e(&temp, &current));
-		}
 		current = current->next;
 	}
-	printf("VAR didn't found\n");
 	return (1);
 }
 

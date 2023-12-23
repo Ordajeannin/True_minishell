@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 19:35:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 21:27:31 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:00:11 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,23 @@ char	*help_sctialp(char *input, int *pipes, char *input2)
 	exit(0);
 }
 
-static void	exit_lost_pipe(char *str)
+static int	exit_lost_pipe(char *str, char *flag, int status)
 {
-	perror(str);
-	ft_malloc(0, FREE);
-	exit(EXIT_FAILURE);
+	if (ft_strcmp(flag, "EXIT") == 0)
+	{
+		perror(str);
+		ft_malloc(0, FREE);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		if (WEXITSTATUS(status) == 2)
+		{
+			set_error_nb(WEXITSTATUS(status), YES);
+			return (1);
+		}
+		return (0);
+	}
 }
 
 char	*check_if_there_is_a_lost_pipe(char *input)
@@ -89,21 +101,18 @@ char	*check_if_there_is_a_lost_pipe(char *input)
 
 	input2 = input;
 	if (pipe(pipes) == -1)
-		exit_lost_pipe("pipe");
+		exit_lost_pipe("pipe", "EXIT", status);
 	pid = fork();
 	if (pid == -1)
-		exit_lost_pipe("fork");
+		exit_lost_pipe("fork", "EXIT", status);
 	if (pid == 0)
 	{
 		if (help_sctialp(input, pipes, input2) == NULL)
 			return (NULL);
 	}
 	waitpid(pid, &status, 0);
-	if (WEXITSTATUS(status) == 2)
-	{
-		set_error_nb(WEXITSTATUS(status), YES);
+	if (exit_lost_pipe("str", "ERROR", status) == 1)
 		return (NULL);
-	}
 	close(pipes[1]);
 	input2 = get_result(pipes);
 	close(pipes[0]);

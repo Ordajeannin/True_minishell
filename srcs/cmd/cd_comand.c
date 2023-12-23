@@ -43,7 +43,6 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
 		return (1);
 	}
 	shell->secret_pwd = ft_getcwd();
-	printf("secret pwd :%s\n", shell->secret_pwd);
 	update_pwd(env_list, shell);
 	return (0);
 }
