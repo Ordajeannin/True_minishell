@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 18:37:22 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 19:10:02 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:19:29 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	is_minishell_part2(t_shell *shell)
 	input = ft_readline(prompt_cmd(shell), YES);
 	if (input == NULL)
 		ft_exit(shell->list, shell->env_list, shell);
+	if (!(ft_strcmp(shell->input_bis, input) == 0
+			&& ft_strlen(shell->input_bis) == ft_strlen(input)))
+		add_history(input);
 	input = check_if_there_is_a_lost_pipe(input);
 	if (input != NULL)
 	{
-		if (!(ft_strcmp(shell->input_bis, input) == 0 \
-			&& ft_strlen(shell->input_bis) == ft_strlen(input)))
-			add_history(input);
 		shell->input_bis = ft_strdup(input);
 		if (!shell->input_bis)
 			return (1);
@@ -44,10 +44,10 @@ int	is_minishell_part1(t_shell *shell)
 	input = ft_readline(prompt_cmd(shell), YES);
 	if (input == NULL)
 		ft_exit(shell->list, shell->env_list, shell);
+	add_history(input);
 	input = check_if_there_is_a_lost_pipe(input);
 	if (input != NULL)
 	{
-		add_history(input);
 		shell->input_bis = ft_strdup(input);
 		if (!shell->input_bis)
 			return (1);

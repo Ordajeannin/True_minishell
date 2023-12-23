@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:32:05 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/22 20:31:40 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:13:29 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	signal_heredoc(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	close_pipefd(NULL, CLOSE);
-	printf("ctrc in signal heredoc received\n");
 	exit (130);
 }
 

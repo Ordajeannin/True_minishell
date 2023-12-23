@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:09:25 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 20:35:58 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:36:38 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_exit(t_args *list, t_args *env_list, t_shell *shell)
 	else if (list && list->next)
 		code_err = ft_atoi(list->next->str) % 256;
 	else
-		code_err = shell->error;
+		code_err = set_error_nb(0, NO);
 	ft_readline(NULL, FREE);
 	ft_malloc(0, FREE);
 	rl_clear_history();

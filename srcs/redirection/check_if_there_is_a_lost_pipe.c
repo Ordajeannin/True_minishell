@@ -6,7 +6,7 @@
 /*   By: ajeannin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 19:35:02 by ajeannin          #+#    #+#             */
-/*   Updated: 2023/12/23 15:00:11 by ajeannin         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:13:10 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*help_help(int i, int lenght, char *input2)
 		else
 			break ;
 	}
-	return ("pas null");
+	return (input2);
 }
 
 char	*help_sctialp(char *input, int *pipes, char *input2)
@@ -66,8 +66,7 @@ char	*help_sctialp(char *input, int *pipes, char *input2)
 	signal(SIGINT, &signal_heredoc);
 	close(pipes[0]);
 	close_pipefd(pipes, 0);
-	if (help_help(i, lenght, input2) == NULL)
-		return (NULL);
+	input2 = help_help(i, lenght, input2);
 	write(pipes[1], input2, ft_strlen(input2));
 	close(pipes[1]);
 	exit(0);
