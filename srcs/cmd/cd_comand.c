@@ -6,7 +6,7 @@
 /*   By: pkorsako <pkorsako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 11:34:51 by asalic            #+#    #+#             */
-/*   Updated: 2023/12/22 20:35:49 by pkorsako         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:20:31 by ajeannin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	cd_real_version(char *buf, t_shell *shell, t_args *env_list, t_args *list)
  * Cas ou cd.., suite de la commande cd principale
  * Fonction normee, conservation du code commente au cas ou
 */
+/*
 static char	*is_two_points(t_shell *shell, t_args *list)
 {
 	DIR		*dir;
@@ -69,6 +70,7 @@ static char	*is_two_points(t_shell *shell, t_args *list)
 	help_itp2(&dir);
 	return (buf);
 }
+*/
 
 /*
  * Check les arguments de cd
@@ -116,7 +118,7 @@ int	ft_cd(t_args *list, t_shell *shell, t_args *env_list)
 	if (cod == 2)
 		buf = ft_strdup(find_a("HOME", env_list)->str + 5);
 	else if (ft_strncmp(list->next->str, "..", ft_strlen(list->next->str)) == 0)
-		buf = is_two_points(shell, list);
+		buf = ft_strdup("..");
 	else
 		buf = ft_strdup(list->next->str);
 	if (!buf)
